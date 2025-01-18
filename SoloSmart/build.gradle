@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'fit.iuh'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.11.0'
+}
+
+sourceCompatibility = '20'
+targetCompatibility = '20'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation('org.hibernate:hibernate-core:7.0.0.Beta1')
+    implementation('org.glassfish.jaxb:jaxb-runtime:4.0.5')
+    // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.3.0.jre20-preview'
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor('org.projectlombok:lombok:1.18.36')
+    // https://mvnrepository.com/artifact/net.datafaker/datafaker
+    implementation 'net.datafaker:datafaker:2.4.2'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
