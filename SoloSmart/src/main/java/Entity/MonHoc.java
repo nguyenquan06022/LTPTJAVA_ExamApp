@@ -24,7 +24,6 @@ public class MonHoc {
     @OneToMany(mappedBy = "monHoc")
     private Set<LopHoc> lopHoc;
 
-    @OneToOne
-    @JoinColumn(name = "maNganHang", unique = true)
+    @OneToOne(mappedBy = "monHoc")
     private NganHangDeThi nganHangDeThi;
 }

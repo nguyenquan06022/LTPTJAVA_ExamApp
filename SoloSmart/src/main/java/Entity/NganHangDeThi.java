@@ -18,7 +18,8 @@ public class NganHangDeThi {
     private String tenNganHang;
     private boolean loaiNganHang;
 
-    @OneToOne(mappedBy = "nganHangDeThi")
+    @OneToOne
+    @JoinColumn(name = "maMonHoc")
     private MonHoc monHoc;
 
     @OneToMany(mappedBy = "nganHangDeThi")

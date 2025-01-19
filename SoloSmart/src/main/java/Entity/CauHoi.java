@@ -28,10 +28,6 @@ public class CauHoi {
     private String trangThai;
 
     @ManyToOne
-    @JoinColumn(name = "maNganHang")
-    private NganHangDeThi nganHangDeThi;
-
-    @ManyToOne
     @JoinColumn(name = "maDeThi")
     private DeThi deThi;
 }
