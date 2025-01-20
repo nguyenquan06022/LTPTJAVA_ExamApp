@@ -2,33 +2,36 @@ package Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "KetQuaHocTaps")
 public class KetQuaHocTap {
 
     @Id
+    @NonNull
     private float diemThuongKy;
     @Id
+    @NonNull
     private float diemGiuaKy;
     @Id
+    @NonNull
     private float diemCuoiKy;
+    @NonNull
     private float GPA;
 
     @Id
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "maTaiKhoan")
     private TaiKhoan taiKhoan;
 
     @Id
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "maLop")
     private LopHoc lopHoc;
 
@@ -56,5 +59,4 @@ public class KetQuaHocTap {
     public float tinhGPA() {
         return 0;
     }
-
 }

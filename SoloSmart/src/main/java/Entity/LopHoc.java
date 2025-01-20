@@ -9,15 +9,21 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "LopHocs")
 public class LopHoc {
     @Id
+    @NonNull
     private String maLop;
 
+    @Column(columnDefinition = "nvarchar(255)")
+    @NonNull
     private String tenLop;
+    @NonNull
     private int siSo;
+    @NonNull
     private String namHoc;
+    @NonNull
     private String trangThai;
 
     @OneToMany(mappedBy = "lopHoc")
@@ -27,6 +33,11 @@ public class LopHoc {
     private Set<BaiKiemTra> baiKiemTra;
 
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "maMonHoc")
     private MonHoc monHoc;
+
+    public LopHoc(String maLop) {
+        this.maLop = maLop;
+    }
 }

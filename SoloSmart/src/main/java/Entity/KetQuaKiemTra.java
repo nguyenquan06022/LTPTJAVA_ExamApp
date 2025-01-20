@@ -10,30 +10,35 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "KetQuaKiemTras")
 public class KetQuaKiemTra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Nếu muốn tự động tạo id duy nhất
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NonNull// Nếu muốn tự động tạo id duy nhất
     private Long maKetQuaKiemTra;
-
+    @NonNull
     private float diemSo;
+    @NonNull
     private int thoiGianLamBai;
+    @NonNull
     private int lanThu;
 
     @ElementCollection
     @CollectionTable(name = "dsCauTraLoi", joinColumns = @JoinColumn(name = "maKetQuaKiemTra"))
-    @Column(name = "cauTraLoi", nullable = false)
+    @Column(name = "cauTraLoi", nullable = false, columnDefinition = "nvarchar(255)")
     private Set<String> dsCauTraLoi;
-
+    @NonNull
     private boolean diemCaoNhat;
 
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "maBaiKiemTra", nullable = false)
     private BaiKiemTra baiKiemTra;
 
     @ManyToOne
+    @NonNull
     @JoinColumn(name = "maTaiKhoan", nullable = false)
     private TaiKhoan taiKhoan;
 

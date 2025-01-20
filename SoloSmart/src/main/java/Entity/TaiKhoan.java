@@ -2,21 +2,25 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "TaiKhoans")
 public class TaiKhoan {
     @Id
+    @NonNull
     private String maTaiKhoan;
-
+    @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String tenTaiKhoan;
+    @NonNull
     private String matKhau;
+    @NonNull
     private String vaiTro;
+    @NonNull
     private String trangThai;
 
     @OneToMany(mappedBy = "taiKhoan")
@@ -27,4 +31,8 @@ public class TaiKhoan {
 
     @OneToMany(mappedBy = "taiKhoan")
     private Set<DeThi> deThi;
+
+    public TaiKhoan(String maTaiKhoan) {
+        this.maTaiKhoan = maTaiKhoan;
+    }
 }
