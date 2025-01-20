@@ -97,15 +97,14 @@ public class LopHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "UPDATE LopHocs SET maLop = ?, namHoc = ?, siSo = ?, tenLop = ?, trangThai = ?, maMonHoc = ? WHERE maLop = ?";
+            String sql = "UPDATE LopHocs SET namHoc = ?, siSo = ?, tenLop = ?, trangThai = ?, maMonHoc = ? WHERE maLop = ?";
             int updatedRows = em.createNativeQuery(sql)
-                    .setParameter(1,lopHoc.getMaLop())
-                    .setParameter(2,lopHoc.getNamHoc())
-                    .setParameter(3,lopHoc.getSiSo())
-                    .setParameter(4,lopHoc.getTenLop())
-                    .setParameter(5,lopHoc.getTrangThai())
-                    .setParameter(6,lopHoc.getMonHoc().getMaMonHoc())
-                    .setParameter(7,lopHoc.getMaLop())
+                    .setParameter(1,lopHoc.getNamHoc())
+                    .setParameter(2,lopHoc.getSiSo())
+                    .setParameter(3,lopHoc.getTenLop())
+                    .setParameter(4,lopHoc.getTrangThai())
+                    .setParameter(5,lopHoc.getMonHoc().getMaMonHoc())
+                    .setParameter(6,lopHoc.getMaLop())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
