@@ -9,9 +9,9 @@ public class Runner {
     public static void main(String[] args) {
         try {
             em = CreateDB.createDB();
-            dsLuaChon_DAO = new DsLuaChon_DAO(em);
-            boolean check = dsLuaChon_DAO.themLuaChon("123","A.1");
-            System.out.println(check);
+//            dsLuaChon_DAO = new DsLuaChon_DAO(em);
+//            boolean check = dsLuaChon_DAO.themLuaChon("123","A.1");
+//            System.out.println(check);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
