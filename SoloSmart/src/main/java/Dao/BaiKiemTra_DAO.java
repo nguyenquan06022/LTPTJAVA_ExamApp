@@ -1,11 +1,12 @@
 package Dao;
 
 import Entity.BaiKiemTra;
-import Entity.DeThi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaiKiemTra_DAO {
     private EntityManager em;
@@ -51,7 +52,8 @@ public class BaiKiemTra_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT * FROM BaiKiemTras WHERE maBaiKiemTra = :maBaiKiemTra";
+            String sql = "SELECT * FROM BaiKiemTras " +
+                    "WHERE maBaiKiemTra = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter("maBaiKiemTra", id)
                     .getSingleResult();
@@ -70,7 +72,8 @@ public class BaiKiemTra_DAO {
                 baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
                 baiKiemTra.setThoiGianLamBai((Integer) result[10]);
                 baiKiemTra.setTrangThai((String) result[11]);
-                baiKiemTra.setDeThi(new DeThi());
+                baiKiemTra.getDeThi().setMaDeThi((String) result[12]);
+                baiKiemTra.getLopHoc().setMaLop((String) result[13]);
             }
             tr.commit();
         } catch (Exception e) {
@@ -81,6 +84,147 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
+
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTra() {
+        ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "SELECT * FROM BaiKiemTras " +
+                    "where trangThai = 'usable'";
+            List<Object[]> results = em.createNativeQuery(sql).getResultList();
+
+            for (Object[] result : results) {
+                BaiKiemTra baiKiemTra = new BaiKiemTra();
+                baiKiemTra.setMaBaiKiemTra((String) result[0]);
+                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+                baiKiemTra.setHeSo((Float) result[3]);
+                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+                baiKiemTra.setMaBaiKiemTra((String) result[5]);
+                baiKiemTra.setSoLanLamBai((Integer) result[6]);
+                baiKiemTra.setThangDiem((Integer) result[7]);
+                baiKiemTra.setThoiGianBatDau((LocalDateTime) result[8]);
+                baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
+                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+                baiKiemTra.setTrangThai((String) result[11]);
+                baiKiemTra.getDeThi().setMaDeThi((String) result[12]);
+                baiKiemTra.getLopHoc().setMaLop((String) result[13]);
+                danhSachBaiKiemTra.add(baiKiemTra);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachBaiKiemTra;
+    }
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraTheoLop(String maLop) {
+        ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "SELECT * FROM BaiKiemTras " +
+                    "where trangThai = 'usable' and maLop= ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,maLop)
+                    .getResultList();
+
+            for (Object[] result : results) {
+                BaiKiemTra baiKiemTra = new BaiKiemTra();
+                baiKiemTra.setMaBaiKiemTra((String) result[0]);
+                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+                baiKiemTra.setHeSo((Float) result[3]);
+                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+                baiKiemTra.setMaBaiKiemTra((String) result[5]);
+                baiKiemTra.setSoLanLamBai((Integer) result[6]);
+                baiKiemTra.setThangDiem((Integer) result[7]);
+                baiKiemTra.setThoiGianBatDau((LocalDateTime) result[8]);
+                baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
+                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+                baiKiemTra.setTrangThai((String) result[11]);
+                danhSachBaiKiemTra.add(baiKiemTra);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachBaiKiemTra;
+    }
+    public boolean updateBaiKiemTra(BaiKiemTra baiKiemTra) {
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "UPDATE BaiKiemTras " +
+                    "SET choPhepXemDiem = ?, " +
+                    "    choPhepXemLai = ?, " +
+                    "    heSo = ?, " +
+                    "    hienThiDapAn = ?, " +
+                    "    soLanLamBai = ?, " +
+                    "    thangDiem = ?, " +
+                    "    thoiGianBatDau = ?, " +
+                    "    thoiGianKetThuc = ?, " +
+                    "    thoiGianLamBai = ?, " +
+                    "    trangThai = ? " +
+                    "WHERE maBaiKiemTra = ?";
+
+            int updatedRows = em.createNativeQuery(sql)
+                    .setParameter(1, baiKiemTra.isChoPhepXemDiem())
+                    .setParameter(2, baiKiemTra.isChoPhepXemLai())
+                    .setParameter(3, baiKiemTra.getHeSo())
+                    .setParameter(4, baiKiemTra.isHienThiDapAn())
+                    .setParameter(5, baiKiemTra.getSoLanLamBai())
+                    .setParameter(6, baiKiemTra.getThangDiem())
+                    .setParameter(7, baiKiemTra.getThoiGianBatDau())
+                    .setParameter(8, baiKiemTra.getThoiGianKetThuc())
+                    .setParameter(9, baiKiemTra.getThoiGianLamBai())
+                    .setParameter(10, baiKiemTra.getTrangThai())
+                    .setParameter(11, baiKiemTra.getMaBaiKiemTra())
+                    .executeUpdate();
+
+            tr.commit();
+
+            return updatedRows > 0;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi cập nhật bài kiểm tra: " + baiKiemTra.getMaBaiKiemTra(), e);
+        }
+    }
+
+    public boolean deleteBaiKiemTra(String id) {
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "UPDATE BaiKiemTras SET trangThai = 'disable' WHERE mabaikiemtra = ?";
+
+            int updatedRows = em.createNativeQuery(sql)
+                    .setParameter(1, id)
+                    .executeUpdate();
+            tr.commit();
+
+            return updatedRows > 0;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }
