@@ -1,11 +1,6 @@
 import DB.CreateDB;
-import Dao.DsLuaChon_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
-import Dao.TaiKhoan_DAO;
-import Entity.LopHoc;
-import Entity.MonHoc;
-import Entity.TaiKhoan;
+import Dao.*;
+import Entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -15,7 +10,7 @@ public class Runner {
     public static void main(String[] args) {
         try {
             em = CreateDB.createDB();
-            LopHoc_DAO lopHoc_DAO = new LopHoc_DAO(em);
+            CauHoi_DAO cauHoi_DAO = new CauHoi_DAO(em);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

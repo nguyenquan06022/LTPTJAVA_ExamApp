@@ -15,6 +15,7 @@ public class CauHoi {
     @NonNull
     private String maCauHoi;
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String mucDo;
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")

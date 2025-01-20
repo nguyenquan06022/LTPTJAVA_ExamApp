@@ -88,14 +88,13 @@ public class MonHoc_DAO {
         try {
             tr.begin();
             String sql = "UPDATE MonHocs " +
-                    "SET maMonHoc = ?, tenMonHoc = ?, trangThai = ? " +
+                    "SET tenMonHoc = ?, trangThai = ? " +
                     "WHERE maMonHoc = ?";
 
             int updatedRows = em.createNativeQuery(sql)
-                    .setParameter(1, monHoc.getMaMonHoc())
-                    .setParameter(2,monHoc.getTenMonHoc())
-                    .setParameter(3,monHoc.getTrangThai())
-                    .setParameter(4, monHoc.getMaMonHoc())
+                    .setParameter(1,monHoc.getTenMonHoc())
+                    .setParameter(2,monHoc.getTrangThai())
+                    .setParameter(3, monHoc.getMaMonHoc())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
