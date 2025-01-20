@@ -9,14 +9,20 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "DeThis")
 public class DeThi {
+    @NonNull
     @Id
     private String maDeThi;
+    @NonNull
     private int soLuongCauHoi;
+    @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String monHoc;
+    @NonNull
     private String linkFile;
+    @NonNull
     private String trangThai;
 
     @OneToMany(mappedBy = "deThi")
@@ -25,12 +31,18 @@ public class DeThi {
     @OneToMany(mappedBy = "deThi")
     private Set<CauHoi> cauHoi;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "maTaiKhoan")
     private TaiKhoan taiKhoan;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "maNganHang")
     private NganHangDeThi nganHangDeThi;
+
+    public DeThi(String maDeThi) {
+        this.maDeThi = maDeThi;
+    }
 }
 

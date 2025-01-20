@@ -9,13 +9,16 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "MonHocs")
 public class MonHoc {
     @Id
+    @NonNull
     private String maMonHoc;
-
+    @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String tenMonHoc;
+    @NonNull
     private String trangThai;
 
     @OneToMany(mappedBy = "monHoc")
@@ -26,4 +29,8 @@ public class MonHoc {
 
     @OneToOne(mappedBy = "monHoc")
     private NganHangDeThi nganHangDeThi;
+
+    public MonHoc(String maMonHoc) {
+        this.maMonHoc = maMonHoc;
+    }
 }

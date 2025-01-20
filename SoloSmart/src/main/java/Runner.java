@@ -1,5 +1,11 @@
 import DB.CreateDB;
 import Dao.DsLuaChon_DAO;
+import Dao.LopHoc_DAO;
+import Dao.MonHoc_DAO;
+import Dao.TaiKhoan_DAO;
+import Entity.LopHoc;
+import Entity.MonHoc;
+import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -9,9 +15,7 @@ public class Runner {
     public static void main(String[] args) {
         try {
             em = CreateDB.createDB();
-            dsLuaChon_DAO = new DsLuaChon_DAO(em);
-            boolean check = dsLuaChon_DAO.themLuaChon("123","A.1");
-            System.out.println(check);
+            LopHoc_DAO lopHoc_DAO = new LopHoc_DAO(em);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
