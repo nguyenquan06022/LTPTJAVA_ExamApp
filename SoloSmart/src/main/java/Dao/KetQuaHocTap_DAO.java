@@ -14,6 +14,7 @@ public class KetQuaHocTap_DAO {
         this.em = em;
     }
 
+    // Thêm kết quả học tập
     public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
         EntityTransaction tr = em.getTransaction();
         try {
@@ -28,15 +29,18 @@ public class KetQuaHocTap_DAO {
             throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
         }
     }
+
+    // Lấy kết quả học tập dựa trên mã tài khoản và mã lớp
     public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) {
         EntityTransaction tr = em.getTransaction();
         KetQuaHocTap ketQuaHocTap = null;
         try {
             tr.begin();
-            String jpql = "SELECT * FROM KetQuaHocTaps  WHERE maTaiKhoan = ? AND maLop = ?";
+            String jpql = "SELECT k FROM KetQuaHocTap k " +
+                    "WHERE k.taiKhoan.maTaiKhoan = :maTaiKhoan AND k.lopHoc.maLop = :maLop";
             ketQuaHocTap = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter(1, maTaiKhoan)
-                    .setParameter(2, maLop)
+                    .setParameter("maTaiKhoan", maTaiKhoan)
+                    .setParameter("maLop", maLop)
                     .getSingleResult();
             tr.commit();
         } catch (Exception e) {
@@ -47,6 +51,8 @@ public class KetQuaHocTap_DAO {
         }
         return ketQuaHocTap;
     }
+
+    // Cập nhật kết quả học tập
     public boolean capNhatKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
         EntityTransaction tr = em.getTransaction();
         try {
@@ -62,14 +68,16 @@ public class KetQuaHocTap_DAO {
         }
     }
 
+    // Lấy danh sách kết quả học tập dựa trên mã lớp
     public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaHocTap> danhSachKetQua = new ArrayList<>();
         try {
             tr.begin();
-            String jpql = "SELECT * FROM KetQuaHocTaps  WHERE maLop = ?";
+            // Sử dụng cú pháp JPQL
+            String jpql = "SELECT k FROM KetQuaHocTap k WHERE k.lopHoc.maLop = :maLop";
             List<KetQuaHocTap> results = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter(1, maLop)
+                    .setParameter("maLop", maLop)
                     .getResultList();
             danhSachKetQua.addAll(results);
             tr.commit();
@@ -81,5 +89,4 @@ public class KetQuaHocTap_DAO {
         }
         return danhSachKetQua;
     }
-
 }
