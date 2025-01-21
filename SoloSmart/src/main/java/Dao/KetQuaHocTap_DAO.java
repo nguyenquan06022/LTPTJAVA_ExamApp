@@ -33,10 +33,10 @@ public class KetQuaHocTap_DAO {
         KetQuaHocTap ketQuaHocTap = null;
         try {
             tr.begin();
-            String jpql = "SELECT k FROM KetQuaHocTap k WHERE k.taiKhoan.maTaiKhoan = :maTaiKhoan AND k.lopHoc.maLop = :maLop";
+            String jpql = "SELECT * FROM KetQuaHocTaps  WHERE maTaiKhoan = ? AND maLop = ?";
             ketQuaHocTap = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter("maTaiKhoan", maTaiKhoan)
-                    .setParameter("maLop", maLop)
+                    .setParameter(1, maTaiKhoan)
+                    .setParameter(2, maLop)
                     .getSingleResult();
             tr.commit();
         } catch (Exception e) {
@@ -61,34 +61,17 @@ public class KetQuaHocTap_DAO {
             throw new RuntimeException("Lỗi khi cập nhật kết quả học tập", e);
         }
     }
-    public boolean xoaKetQuaHocTap(String maTaiKhoan, String maLop) {
-        EntityTransaction tr = em.getTransaction();
-        try {
-            tr.begin();
-            String jpql = "UPDATE KetQuaHocTap k SET k.GPA = -1 WHERE k.taiKhoan.maTaiKhoan = :maTaiKhoan AND k.lopHoc.maLop = :maLop";
-            int rowsAffected = em.createQuery(jpql)
-                    .setParameter("maTaiKhoan", maTaiKhoan)
-                    .setParameter("maLop", maLop)
-                    .executeUpdate();
-            tr.commit();
-            return rowsAffected > 0;
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi xóa kết quả học tập", e);
-        }
-    }
+
     public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaHocTap> danhSachKetQua = new ArrayList<>();
         try {
             tr.begin();
-            String jpql = "SELECT k FROM KetQuaHocTap k WHERE k.lopHoc.maLop = :maLop";
+            String jpql = "SELECT * FROM KetQuaHocTaps  WHERE maLop = ?";
             List<KetQuaHocTap> results = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter("maLop", maLop)
+                    .setParameter(1, maLop)
                     .getResultList();
-            danhSachKetQua.addAll(results); // Chuyển từ List sang ArrayList
+            danhSachKetQua.addAll(results);
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {

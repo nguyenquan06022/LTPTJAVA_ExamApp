@@ -1,9 +1,12 @@
 package Dao;
 
 import Entity.BaiKiemTra;
+import Entity.DeThi;
+import Entity.LopHoc;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +23,7 @@ public class BaiKiemTra_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO BaiKiemTras values (mabaikiemtra,chophepxemdiem, chophepxemlai,heso,hienthidapan" +
-                    "matkhaubaikiemtra,solanlambai,thangdiem,thoigianbatdau,thoigianketthuc,thoigianlambai,trangthai,madethi,malop)";
+            String sql = "INSERT INTO BaiKiemTras values (?,?, ?,?,? ,?,?,?,?,?,?,?,?,?)";
             em.createNativeQuery(sql)
                     .setParameter(1,bkt.getMaBaiKiemTra() )
                     .setParameter(2,bkt.isChoPhepXemDiem() )
@@ -52,12 +54,16 @@ public class BaiKiemTra_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT * FROM BaiKiemTras " +
-                    "WHERE maBaiKiemTra = ?";
+            String sql = "SELECT mabaikiemtra, chophepxemdiem, chophepxemlai, heso, hienthidapan, matkhaubaikiemtra, " +
+                    "solanlambai, thangdiem, thoigianbatdau, thoigianketthuc, thoigianlambai, trangthai, madethi, malop " +
+                    "FROM BaiKiemTras WHERE maBaiKiemTra = :id";
+
+            // Lấy kết quả truy vấn dưới dạng Object[]
             Object[] result = (Object[]) em.createNativeQuery(sql)
-                    .setParameter("maBaiKiemTra", id)
+                    .setParameter("id", id)
                     .getSingleResult();
 
+            // Tạo đối tượng BaiKiemTra và set giá trị
             if (result != null) {
                 baiKiemTra = new BaiKiemTra();
                 baiKiemTra.setMaBaiKiemTra((String) result[0]);
@@ -65,16 +71,24 @@ public class BaiKiemTra_DAO {
                 baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
                 baiKiemTra.setHeSo((Float) result[3]);
                 baiKiemTra.setHienThiDapAn((Boolean) result[4]);
-                baiKiemTra.setMaBaiKiemTra((String) result[5]);
+                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
                 baiKiemTra.setSoLanLamBai((Integer) result[6]);
                 baiKiemTra.setThangDiem((Integer) result[7]);
-                baiKiemTra.setThoiGianBatDau((LocalDateTime) result[8]);
-                baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
+                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
                 baiKiemTra.setThoiGianLamBai((Integer) result[10]);
                 baiKiemTra.setTrangThai((String) result[11]);
-                baiKiemTra.getDeThi().setMaDeThi((String) result[12]);
-                baiKiemTra.getLopHoc().setMaLop((String) result[13]);
+
+                // Set các đối tượng liên kết
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) result[12]);
+                baiKiemTra.setDeThi(deThi);
+
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) result[13]);
+                baiKiemTra.setLopHoc(lopHoc);
             }
+
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {
@@ -84,6 +98,8 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
+
+
 
     public ArrayList<BaiKiemTra> getDanhSachBaiKiemTra() {
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
@@ -97,20 +113,27 @@ public class BaiKiemTra_DAO {
 
             for (Object[] result : results) {
                 BaiKiemTra baiKiemTra = new BaiKiemTra();
+                baiKiemTra = new BaiKiemTra();
                 baiKiemTra.setMaBaiKiemTra((String) result[0]);
                 baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
                 baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
                 baiKiemTra.setHeSo((Float) result[3]);
                 baiKiemTra.setHienThiDapAn((Boolean) result[4]);
-                baiKiemTra.setMaBaiKiemTra((String) result[5]);
+                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
                 baiKiemTra.setSoLanLamBai((Integer) result[6]);
                 baiKiemTra.setThangDiem((Integer) result[7]);
-                baiKiemTra.setThoiGianBatDau((LocalDateTime) result[8]);
-                baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
+                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
                 baiKiemTra.setThoiGianLamBai((Integer) result[10]);
                 baiKiemTra.setTrangThai((String) result[11]);
-                baiKiemTra.getDeThi().setMaDeThi((String) result[12]);
-                baiKiemTra.getLopHoc().setMaLop((String) result[13]);
+
+                // Set các đối tượng liên kết
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) result[12]);
+                baiKiemTra.setDeThi(deThi);
+
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) result[13]);
                 danhSachBaiKiemTra.add(baiKiemTra);
             }
 
@@ -176,7 +199,8 @@ public class BaiKiemTra_DAO {
                     "    thoiGianBatDau = ?, " +
                     "    thoiGianKetThuc = ?, " +
                     "    thoiGianLamBai = ?, " +
-                    "    trangThai = ? " +
+                    "    trangThai = ? ," +
+                    "    matkhaubaikiemtra = ? " +
                     "WHERE maBaiKiemTra = ?";
 
             int updatedRows = em.createNativeQuery(sql)
@@ -190,7 +214,8 @@ public class BaiKiemTra_DAO {
                     .setParameter(8, baiKiemTra.getThoiGianKetThuc())
                     .setParameter(9, baiKiemTra.getThoiGianLamBai())
                     .setParameter(10, baiKiemTra.getTrangThai())
-                    .setParameter(11, baiKiemTra.getMaBaiKiemTra())
+                    .setParameter(11, baiKiemTra.getMatKhauBaiKiemTra())
+                    .setParameter(12, baiKiemTra.getMaBaiKiemTra())
                     .executeUpdate();
 
             tr.commit();

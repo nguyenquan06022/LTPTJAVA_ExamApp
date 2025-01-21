@@ -5,6 +5,7 @@ import jakarta.persistence.EntityTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DsLuaChon_DAO {
 
@@ -19,10 +20,10 @@ public class DsLuaChon_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO dsLuaChon values (:maCauHoi, :luaChon)";
+            String sql = "INSERT INTO dsLuaChon values (?, ?)";
             em.createNativeQuery(sql)
-                    .setParameter("maCauHoi", maCauHoi)
-                    .setParameter("luaChon", luaChon)
+                    .setParameter(1, maCauHoi)
+                    .setParameter(2, luaChon)
                     .executeUpdate();
 
             tr.commit();
@@ -39,11 +40,11 @@ public class DsLuaChon_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "UPDATE dsLuaChon SET luaChon = :luaChonMoi WHERE maCauHoi = :maCauHoi AND luaChon = :luaChonCu";
+            String sql = "UPDATE dsLuaChon SET luaChon = ? WHERE maCauHoi = ? AND luaChon = ?";
             int result = em.createNativeQuery(sql)
-                    .setParameter("luaChonMoi", luaChonMoi)
-                    .setParameter("maCauHoi", maCauHoi)
-                    .setParameter("luaChonCu", luaChonCu)
+                    .setParameter(1, luaChonMoi)
+                    .setParameter(2, maCauHoi)
+                    .setParameter(3, luaChonCu)
                     .executeUpdate();
 
             tr.commit();
@@ -59,10 +60,10 @@ public class DsLuaChon_DAO {
         String ketQua = null;
         try {
             tr.begin();
-            String sql = "SELECT luaChon FROM dsLuaChon WHERE maCauHoi = :maCauHoi AND luaChon = :luaChon";
+            String sql = "SELECT luaChon FROM dsLuaChon WHERE maCauHoi = ? AND luaChon = ?";
             ketQua = (String) em.createNativeQuery(sql)
-                    .setParameter("maCauHoi", maCauHoi)
-                    .setParameter("luaChon", luaChon)
+                    .setParameter(1, maCauHoi)
+                    .setParameter(2, luaChon)
                     .getSingleResult();
             tr.commit();
         } catch (Exception e) {
@@ -78,11 +79,14 @@ public class DsLuaChon_DAO {
         ArrayList<String> dsLuaChon = new ArrayList<>();
         try {
             tr.begin();
-            String sql = "SELECT luaChon FROM dsLuaChon WHERE maCauHoi = :maCauHoi";
-            List<String> rs= em.createNativeQuery(sql)
-                    .setParameter("maCauHoi", maCauHoi)
+            String sql = "SELECT luaChon FROM dsLuaChon WHERE maCauHoi = ?";
+            // Sử dụng NativeQuery trả về danh sách các đối tượng
+            List<String> rs = em.createNativeQuery(sql)
+                    .setParameter(1, maCauHoi)
                     .getResultList();
-            dsLuaChon=new ArrayList<>(rs);
+            dsLuaChon = new ArrayList<>(rs);
+
+
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {
@@ -91,6 +95,28 @@ public class DsLuaChon_DAO {
             throw new RuntimeException("Lỗi khi lấy danh sách lựa chọn", e);
         }
         return dsLuaChon;
+    }
+
+
+    public boolean xoaLuaChon(String maCauHoi, String luaChon) {
+        EntityTransaction tr = em.getTransaction();
+        boolean isSuccess = false;
+        try {
+            tr.begin();
+            String sql = "DELETE FROM dsLuaChon WHERE maCauHoi = ? AND luaChon = ?";
+            int result = em.createNativeQuery(sql)
+                    .setParameter(1, maCauHoi)
+                    .setParameter(2, luaChon)
+                    .executeUpdate();
+            tr.commit();
+            isSuccess = result > 0; // Kiểm tra xem có bản ghi nào bị xóa không
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi xóa lựa chọn", e);
+        }
+        return isSuccess;
     }
 
 

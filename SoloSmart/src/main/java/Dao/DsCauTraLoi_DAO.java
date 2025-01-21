@@ -8,15 +8,15 @@ import java.util.List;
 
 public class DsCauTraLoi_DAO {
     private EntityManager em;
-    public DsCauTraLoi_DAO() {
+    public DsCauTraLoi_DAO(EntityManager em) {
         this.em = em;
     }
-    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi){
+    public boolean themCauTraLoi(Long maketquakiemtra, String cauTraLoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO dsCauTraLoi values (maketquakiemtra, cautraloi)";
+            String sql = "INSERT INTO dsCauTraLoi values (?, ?)";
             em.createNativeQuery(sql)
                     .setParameter(1, maketquakiemtra)
                     .setParameter(2, cauTraLoi)
@@ -30,32 +30,34 @@ public class DsCauTraLoi_DAO {
         }
         return isSuccess;
     }
-    public String getCauTraLoi(String maKetQuaKiemTra, String cauTraLoi) {
+    public boolean updateCauTraLoi(Long maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
         EntityTransaction tr = em.getTransaction();
-        String ketQua = null;
+        boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "SELECT luaChon FROM dsLuaChon WHERE maketquakiemtra = ? AND cautraloi = ?";
-            ketQua = (String) em.createNativeQuery(sql)
-                    .setParameter(1, maKetQuaKiemTra) // Sử dụng vị trí thay vì tên tham số
+            String sql = "update dsCauTraLoi set cautraloi = ? where cauTraLoi = ? and maketquakiemtra = ?";
+            em.createNativeQuery(sql)
+                    .setParameter(1, cauTraLoiMoi)
                     .setParameter(2, cauTraLoi)
-                    .getSingleResult();
+                    .setParameter(3, maketquakiemtra)
+                    .executeUpdate();
+
             tr.commit();
+            isSuccess = true;
         } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi lấy lựa chọn", e);
+            tr.rollback();
+            isSuccess = false;
         }
-        return ketQua;
+        return isSuccess;
     }
 
-    public ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) {
+
+    public ArrayList<String> getDSCauTraLoi(Long maKetQuaKiemTra) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<String> dsLuaChon = new ArrayList<>();
         try {
             tr.begin();
-            String sql = "SELECT luaChon FROM dsLuaChon WHERE maketquakiemtra = ?";
+            String sql = "SELECT cauTraLoi FROM dsCauTraLoi WHERE maketquakiemtra = ?";
             List<String> results = em.createNativeQuery(sql)
                     .setParameter(1, maKetQuaKiemTra) // Sử dụng tham số vị trí
                     .getResultList();
