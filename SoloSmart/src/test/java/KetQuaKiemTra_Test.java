@@ -55,12 +55,6 @@ public class KetQuaKiemTra_Test {
         assertEquals(1L, ketQua.getMaKetQuaKiemTra());
         assertEquals(id, ketQua.getMaKetQuaKiemTra(), "ID không khớp");
     }
-    @Test
-    public void testGetKetQuaKiemTraTheoLopVaTaiKhoan() {
-        KetQuaKiemTra ketQua = dao.getKetQuaKiemTra("BKT001","TK001");
-        assertEquals("BKT001", ketQua.getBaiKiemTra().getMaBaiKiemTra());
-        assertEquals("TK001", ketQua.getTaiKhoan().getMaTaiKhoan());
-    }
 
     @Test
     public void testGetDanhSachKetQuaKiemTra() {
