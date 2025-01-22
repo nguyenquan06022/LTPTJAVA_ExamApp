@@ -5,11 +5,23 @@ import Entity.MonHoc;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LopHoc_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "LH" + df.format(now);
+    }
+
+    public LopHoc_DAO() {
+    }
+
     public LopHoc_DAO(EntityManager em) {
         this.em = em;
     }

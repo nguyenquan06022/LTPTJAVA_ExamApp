@@ -4,11 +4,23 @@ import Entity.KetQuaHocTap;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class KetQuaHocTap_DAO {
     private EntityManager em;
+
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "KQHT" + df.format(now);
+    }
+
+    public KetQuaHocTap_DAO() {
+    }
 
     public KetQuaHocTap_DAO(EntityManager em) {
         this.em = em;

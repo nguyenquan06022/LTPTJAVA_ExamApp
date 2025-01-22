@@ -6,12 +6,22 @@ import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class KetQuaKiemTra_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "KQKT" + df.format(now);
+    }
+
+    public KetQuaKiemTra_DAO() {
+    }
 
     public KetQuaKiemTra_DAO(EntityManager em) {
         this.em = em;

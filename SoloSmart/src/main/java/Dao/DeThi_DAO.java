@@ -6,11 +6,23 @@ import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DeThi_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "DT" + df.format(now);
+    }
+
+    public DeThi_DAO() {
+    }
+
     public DeThi_DAO(EntityManager em) {
         this.em = em;
     }

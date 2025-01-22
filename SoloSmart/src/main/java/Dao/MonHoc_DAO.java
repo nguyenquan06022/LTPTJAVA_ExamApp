@@ -4,11 +4,23 @@ import Entity.MonHoc;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonHoc_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "MH" + df.format(now);
+    }
+
+    public MonHoc_DAO() {
+    }
+
     public MonHoc_DAO(EntityManager em) {
         this.em = em;
     }

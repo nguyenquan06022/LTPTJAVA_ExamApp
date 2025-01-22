@@ -11,6 +11,10 @@ public class DsCauTraLoi_DAO {
     public DsCauTraLoi_DAO(EntityManager em) {
         this.em = em;
     }
+
+    public DsCauTraLoi_DAO() {
+    }
+
     public boolean themCauTraLoi(Long maketquakiemtra, String cauTraLoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;

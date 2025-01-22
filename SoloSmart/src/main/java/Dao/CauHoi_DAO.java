@@ -5,11 +5,23 @@ import Entity.DeThi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CauHoi_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
+
+    public String generateMa() {
+        LocalDateTime now = LocalDateTime.now();
+        return "CH" + df.format(now);
+    }
+
+    public CauHoi_DAO() {
+    }
+
     public CauHoi_DAO(EntityManager em) {
         this.em = em;
     }

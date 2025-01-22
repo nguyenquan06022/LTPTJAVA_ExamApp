@@ -15,9 +15,8 @@ import java.util.Set;
 public class KetQuaKiemTra {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NonNull// Nếu muốn tự động tạo id duy nhất
-    private Long maKetQuaKiemTra;
+    private String maKetQuaKiemTra;
     @NonNull
     private float diemSo;
     @NonNull

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class DsLuaChon_DAO {
-
     private EntityManager em;
+
+    public DsLuaChon_DAO() {
+    }
 
     public DsLuaChon_DAO(EntityManager em) {
         this.em = em;
