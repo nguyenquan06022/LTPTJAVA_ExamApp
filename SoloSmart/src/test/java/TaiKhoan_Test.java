@@ -37,7 +37,7 @@ public class TaiKhoan_Test {
         taiKhoan.setMatKhau("123456");
         taiKhoan.setTenTaiKhoan("Nguyen Van A");
         taiKhoan.setTrangThai("enable");
-        taiKhoan.setVaiTro("SinhVien");
+        taiKhoan.setVaiTro("SV");
 
         boolean result = taiKhoanDAO.addTaiKhoan(taiKhoan);
         assertTrue(result, "Thêm tài khoản không thành công!");
@@ -59,7 +59,7 @@ public class TaiKhoan_Test {
         tk1.setMatKhau("123456");
         tk1.setTenTaiKhoan("Nguyen Van B");
         tk1.setTrangThai("enable");
-        tk1.setVaiTro("SinhVien");
+        tk1.setVaiTro("SV");
         danhSachTaiKhoan.add(tk1);
 
         TaiKhoan tk2 = new TaiKhoan();
@@ -67,7 +67,7 @@ public class TaiKhoan_Test {
         tk2.setMatKhau("123456");
         tk2.setTenTaiKhoan("Nguyen Van C");
         tk2.setTrangThai("enable");
-        tk2.setVaiTro("SinhVien");
+        tk2.setVaiTro("SV");
         danhSachTaiKhoan.add(tk2);
 
         TaiKhoan tk3 = new TaiKhoan();
@@ -75,7 +75,7 @@ public class TaiKhoan_Test {
         tk3.setMatKhau("123456");
         tk3.setTenTaiKhoan("Le Thi D");
         tk3.setTrangThai("enable");
-        tk3.setVaiTro("GiangVien");
+        tk3.setVaiTro("GV");
         danhSachTaiKhoan.add(tk3);
 
         for (TaiKhoan tk : danhSachTaiKhoan) {

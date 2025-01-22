@@ -27,18 +27,21 @@ public class KetQuaKiemTra_Test {
 
     @AfterAll
     public void teardown() {
-        if (em != null) em.close();
-        if (emf != null) emf.close();
+        if (em != null)
+            em.close();
+        if (emf != null)
+            emf.close();
     }
 
     @Test
     public void testThemKetQuaKiemTra() {
         KetQuaKiemTra ketQua = new KetQuaKiemTra();
+        ketQua.setMaKetQuaKiemTra(dao.generateMa());
         ketQua.setDiemCaoNhat(true);
         ketQua.setDiemSo((float) 9.5);
         TaiKhoan taikhoan = new TaiKhoan();
         taikhoan.setMaTaiKhoan("TK001");
-        BaiKiemTra bkt= new BaiKiemTra();
+        BaiKiemTra bkt = new BaiKiemTra();
         bkt.setMaBaiKiemTra("BKT001");
         ketQua.setBaiKiemTra(bkt);
         ketQua.setTaiKhoan(taikhoan);
@@ -46,19 +49,6 @@ public class KetQuaKiemTra_Test {
         boolean result = dao.themKetQuaKiemTra(ketQua);
         assertTrue(result, "Thêm kết quả kiểm tra thất bại");
     }
-
-    @Test
-    public void testGetKetQuaKiemTra() {
-        Long id = 1L;
-        KetQuaKiemTra ketQua = dao.getKetQuaKiemTra(id);
-        assertNotNull(ketQua, "Không tìm thấy kết quả kiểm tra với ID: " + id);
-        assertEquals(1L, ketQua.getMaKetQuaKiemTra());
-        assertEquals(id, ketQua.getMaKetQuaKiemTra(), "ID không khớp");
-    }
-<<<<<<< HEAD
-
-=======
->>>>>>> 01274ce6eefcd49b1764405dd6e280389d8c8d69
 
     @Test
     public void testGetDanhSachKetQuaKiemTra() {
@@ -69,18 +59,18 @@ public class KetQuaKiemTra_Test {
         assertEquals("BKT001", danhSach.get(0).getBaiKiemTra().getMaBaiKiemTra());
     }
 
-
     @Test
     public void testUpdateKetQuaKiemTra() {
-        Long id = 1L;
-        KetQuaKiemTra ketQua = dao.getKetQuaKiemTra(id);
-        assertNotNull(ketQua, "Không tìm thấy kết quả kiểm tra với ID: " + id);
+        ArrayList<KetQuaKiemTra> danhSach = dao.getDanhSachKetQuaKiemTra("TK001", "BKT001");
+        KetQuaKiemTra ketQua = danhSach.get(0);
+        assertNotNull(ketQua, "Không tìm thấy kết quả kiểm tra với ID: ");
+        ;
 
         ketQua.setDiemSo(5F);
         boolean result = dao.updateKetQuaKiemTra(ketQua);
         assertTrue(result, "Cập nhật kết quả kiểm tra thất bại");
-
-        KetQuaKiemTra updatedKetQua = dao.getKetQuaKiemTra(id);
+        danhSach = dao.getDanhSachKetQuaKiemTra("TK001", "BKT001");
+        KetQuaKiemTra updatedKetQua = danhSach.get(0);
         assertEquals(5, updatedKetQua.getDiemSo(), "Điểm số không được cập nhật đúng");
     }
 }

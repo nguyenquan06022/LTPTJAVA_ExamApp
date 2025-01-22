@@ -1,5 +1,7 @@
+import Dao.BaiKiemTra_DAO;
 import Dao.DsCauTraLoi_DAO;
 import Dao.KetQuaKiemTra_DAO;
+import Entity.BaiKiemTra;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -13,7 +15,7 @@ public class DSCauTraLoi_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
     private DsCauTraLoi_DAO dao;
-
+    private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO();
     @BeforeAll
     public void setup() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
@@ -30,7 +32,7 @@ public class DSCauTraLoi_Test {
     @Test
     @Order(1)
     void testThemCauTraLoi() {
-        Long maKetQuaKiemTra = 1L;
+        String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
         String cauTraLoi = "A";
 
         boolean result = dao.themCauTraLoi(maKetQuaKiemTra, cauTraLoi);
@@ -52,7 +54,8 @@ public class DSCauTraLoi_Test {
     @Test
     @Order(3)
     void testGetDSCauTraLoi() {
-        Long maKetQuaKiemTra = 1L;
+        String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
+
 
         ArrayList<String> dsCauTraLoi = dao.getDSCauTraLoi(maKetQuaKiemTra);
         assertNotNull(dsCauTraLoi, "Danh sách câu trả lời không được null.");

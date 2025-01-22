@@ -109,6 +109,35 @@ public class DeThi_DAO {
 
         return danhSachDeThi;
     }
+    public ArrayList<DeThi> getDanhSachDeThiTheoMon(String mon) {
+        ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select maDeThi,linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan from DeThis where trangThai = 'enable' and monhoc like ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,mon).getResultList();
+            for (Object[] row : results) {
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) row[0]);
+                deThi.setLinkFile((String) row[1]);
+                deThi.setMonHoc((String) row[2]);
+                deThi.setSoLuongCauHoi((int) row[3]);
+                deThi.setTrangThai((String) row[4]);
+                deThi.setNganHangDeThi(new NganHangDeThi((String) row[5]));
+                deThi.setTaiKhoan(new TaiKhoan((String) row[6]));
+                danhSachDeThi.add(deThi);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachDeThi;
+    }
 
     public boolean updatDeThi(DeThi deThi) {
         EntityTransaction tr = em.getTransaction();

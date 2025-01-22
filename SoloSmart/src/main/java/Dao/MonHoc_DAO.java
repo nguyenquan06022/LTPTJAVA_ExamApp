@@ -75,7 +75,7 @@ public class MonHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maMonHoc,tenMonHoc,trangThai from MonHocs where trangThai = 'unable'";
+            String sql = "select maMonHoc,tenMonHoc,trangThai from MonHocs where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
             for (Object[] row : results) {
                 MonHoc monHoc = new MonHoc();
