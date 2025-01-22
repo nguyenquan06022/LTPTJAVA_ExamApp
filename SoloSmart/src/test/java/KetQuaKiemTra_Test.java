@@ -55,7 +55,10 @@ public class KetQuaKiemTra_Test {
         assertEquals(1L, ketQua.getMaKetQuaKiemTra());
         assertEquals(id, ketQua.getMaKetQuaKiemTra(), "ID không khớp");
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01274ce6eefcd49b1764405dd6e280389d8c8d69
 
     @Test
     public void testGetDanhSachKetQuaKiemTra() {

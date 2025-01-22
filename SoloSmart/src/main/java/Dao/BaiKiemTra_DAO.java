@@ -62,11 +62,11 @@ public class BaiKiemTra_DAO {
             tr.begin();
             String sql = "SELECT mabaikiemtra, chophepxemdiem, chophepxemlai, heso, hienthidapan, matkhaubaikiemtra, " +
                     "solanlambai, thangdiem, thoigianbatdau, thoigianketthuc, thoigianlambai, trangthai, madethi, malop " +
-                    "FROM BaiKiemTras WHERE maBaiKiemTra = :id";
+                    "FROM BaiKiemTras WHERE maBaiKiemTra = ?";
 
             // Lấy kết quả truy vấn dưới dạng Object[]
             Object[] result = (Object[]) em.createNativeQuery(sql)
-                    .setParameter("id", id)
+                    .setParameter(1, id)
                     .getSingleResult();
 
             // Tạo đối tượng BaiKiemTra và set giá trị
