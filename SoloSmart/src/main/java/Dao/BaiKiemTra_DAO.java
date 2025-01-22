@@ -8,11 +8,13 @@ import jakarta.persistence.EntityTransaction;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BaiKiemTra_DAO {
     private EntityManager em;
+    private static DateTimeFormatter df= DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
     public BaiKiemTra_DAO(EntityManager em) {
         this.em = em;
@@ -47,6 +49,10 @@ public class BaiKiemTra_DAO {
             isSuccess = false;
         }
         return isSuccess;
+    }
+    public String generateMa(){
+        LocalDateTime now = LocalDateTime.now();
+        return "BKT"+df.format(now);
     }
 
     public BaiKiemTra getBaiKiemTra(String id) {

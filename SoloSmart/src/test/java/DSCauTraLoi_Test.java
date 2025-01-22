@@ -28,6 +28,7 @@ public class DSCauTraLoi_Test {
     }
 
     @Test
+    @Order(1)
     void testThemCauTraLoi() {
         Long maKetQuaKiemTra = 1L;
         String cauTraLoi = "A";
@@ -37,6 +38,7 @@ public class DSCauTraLoi_Test {
     }
 
     @Test
+    @Order(2)
     void testUpdateCauTraLoi() {
         Long maKetQuaKiemTra = 1L;
         String cauTraLoi = "A";
@@ -48,6 +50,7 @@ public class DSCauTraLoi_Test {
 
 
     @Test
+    @Order(3)
     void testGetDSCauTraLoi() {
         Long maKetQuaKiemTra = 1L;
 
