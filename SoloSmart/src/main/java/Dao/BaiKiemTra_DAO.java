@@ -116,35 +116,12 @@ public class BaiKiemTra_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT * FROM BaiKiemTras " +
-                    "where trangThai = 'enable'";
-            List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
-            for (Object[] result : results) {
-                BaiKiemTra baiKiemTra = new BaiKiemTra();
-                baiKiemTra = new BaiKiemTra();
-                baiKiemTra.setMaBaiKiemTra((String) result[0]);
-                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
-                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
-                baiKiemTra.setHeSo((Float) result[3]);
-                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
-                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
-                baiKiemTra.setSoLanLamBai((Integer) result[6]);
-                baiKiemTra.setThangDiem((Integer) result[7]);
-                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
-                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
-                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
-                baiKiemTra.setTrangThai((String) result[11]);
-
-                // Set các đối tượng liên kết
-                DeThi deThi = new DeThi();
-                deThi.setMaDeThi((String) result[12]);
-                baiKiemTra.setDeThi(deThi);
-
-                LopHoc lopHoc = new LopHoc();
-                lopHoc.setMaLop((String) result[13]);
-                danhSachBaiKiemTra.add(baiKiemTra);
-            }
+            // JPQL query
+            String jpql = "SELECT b FROM BaiKiemTra b " +
+                    "WHERE b.trangThai = 'enable'";
+            danhSachBaiKiemTra = new ArrayList<>(em.createQuery(jpql, BaiKiemTra.class)
+                    .getResultList());
 
             tr.commit();
         } catch (Exception e) {
@@ -161,28 +138,12 @@ public class BaiKiemTra_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT * FROM BaiKiemTras " +
-                    "where trangThai = 'enable' and maLop= ?";
-            List<Object[]> results = em.createNativeQuery(sql)
-                    .setParameter(1,maLop)
-                    .getResultList();
-
-            for (Object[] result : results) {
-                BaiKiemTra baiKiemTra = new BaiKiemTra();
-                baiKiemTra.setMaBaiKiemTra((String) result[0]);
-                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
-                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
-                baiKiemTra.setHeSo((Float) result[3]);
-                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
-                baiKiemTra.setMaBaiKiemTra((String) result[5]);
-                baiKiemTra.setSoLanLamBai((Integer) result[6]);
-                baiKiemTra.setThangDiem((Integer) result[7]);
-                baiKiemTra.setThoiGianBatDau((LocalDateTime) result[8]);
-                baiKiemTra.setThoiGianKetThuc((LocalDateTime) result[9]);
-                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
-                baiKiemTra.setTrangThai((String) result[11]);
-                danhSachBaiKiemTra.add(baiKiemTra);
-            }
+            // JPQL query
+            String jpql = "SELECT b FROM BaiKiemTra b " +
+                    "WHERE b.trangThai = 'enable' AND b.lopHoc.maLop = :maLop";
+            danhSachBaiKiemTra = new ArrayList<>(em.createQuery(jpql, BaiKiemTra.class)
+                    .setParameter("maLop", maLop)
+                    .getResultList());
 
             tr.commit();
         } catch (Exception e) {
@@ -193,6 +154,7 @@ public class BaiKiemTra_DAO {
         }
         return danhSachBaiKiemTra;
     }
+
     public boolean updateBaiKiemTra(BaiKiemTra baiKiemTra) {
         EntityTransaction tr = em.getTransaction();
         try {

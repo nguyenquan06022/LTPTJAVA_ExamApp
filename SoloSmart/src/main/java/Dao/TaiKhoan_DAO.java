@@ -107,7 +107,64 @@ public class TaiKhoan_DAO {
 
         return danhSachTaiKhoan;
     }
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanGV() {
+        ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
 
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro FROM TaiKhoans where trangThai = 'enable' and vaitro='GV'";
+            List<Object[]> results = em.createNativeQuery(sql).getResultList();
+
+            for (Object[] row : results) {
+                TaiKhoan taiKhoan = new TaiKhoan();
+                taiKhoan.setMaTaiKhoan((String) row[0]);
+                taiKhoan.setMatKhau((String) row[1]);
+                taiKhoan.setTenTaiKhoan((String) row[2]);
+                taiKhoan.setTrangThai((String) row[3]);
+                taiKhoan.setVaiTro((String) row[4]);
+                danhSachTaiKhoan.add(taiKhoan);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachTaiKhoan;
+    }
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanSV() {
+        ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'";
+            List<Object[]> results = em.createNativeQuery(sql).getResultList();
+
+            for (Object[] row : results) {
+                TaiKhoan taiKhoan = new TaiKhoan();
+                taiKhoan.setMaTaiKhoan((String) row[0]);
+                taiKhoan.setMatKhau((String) row[1]);
+                taiKhoan.setTenTaiKhoan((String) row[2]);
+                taiKhoan.setTrangThai((String) row[3]);
+                taiKhoan.setVaiTro((String) row[4]);
+                danhSachTaiKhoan.add(taiKhoan);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachTaiKhoan;
+    }
     public boolean updateTaiKhoan(TaiKhoan taiKhoan) {
         EntityTransaction tr = em.getTransaction();
         try {

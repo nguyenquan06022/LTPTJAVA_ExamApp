@@ -39,7 +39,7 @@ public class TestCRUD {
             System.out.println("7. dsLuaChon");
             System.out.println("8. BaiKiemTra");
             System.out.println("9. KetQuaKiemTra");
-            System.out.println("10. dsCauTraLoi");
+            System.out.println("10. DsCauTraLoi");
             System.out.println("11. KetQuaHocTap");
             System.out.println("0. Thoat");
             choice = Integer.parseInt(sc.nextLine());
@@ -718,7 +718,7 @@ public class TestCRUD {
                 }
                 break;
             }
-            case "DsCauTraLoi": {
+            case "dsCauTraLoi": {
                 switch (choice) {
                     case 1: {
                         System.out.println("Nhap ma ket qua kiem tra");

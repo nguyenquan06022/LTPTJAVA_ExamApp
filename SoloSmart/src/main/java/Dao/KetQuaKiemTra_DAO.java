@@ -32,8 +32,8 @@ public class KetQuaKiemTra_DAO {
         try {
             tr.begin();
             // Câu lệnh SQL chèn dữ liệu
-            String sql = "INSERT INTO KetQuaKiemTras (diemSo, thoiGianLamBai, lanThu, diemCaoNhat, maBaiKiemTra, maTaiKhoan) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO KetQuaKiemTras (diemSo, thoiGianLamBai, lanThu, diemCaoNhat, maBaiKiemTra, maTaiKhoan,maKetQuaKiemTra) " +
+                    "VALUES (?, ?, ?, ?, ?, ?,?)";
 
             em.createNativeQuery(sql)
                     .setParameter(1, ketQua.getDiemSo()) // float: điểm số
@@ -42,6 +42,7 @@ public class KetQuaKiemTra_DAO {
                     .setParameter(4, ketQua.isDiemCaoNhat()) // boolean: điểm cao nhất
                     .setParameter(5, ketQua.getBaiKiemTra().getMaBaiKiemTra()) // Long: mã bài kiểm tra (FK)
                     .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan()) // Long: mã tài khoản (FK)
+                    .setParameter(7,ketQua.getMaKetQuaKiemTra())
                     .executeUpdate();
 
             tr.commit();
