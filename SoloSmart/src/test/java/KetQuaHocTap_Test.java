@@ -37,9 +37,9 @@ public class KetQuaHocTap_Test {
         ketQuaHocTap.setDiemGiuaKy(9);
         ketQuaHocTap.setDiemCuoiKy((float)9.5);
         TaiKhoan tk= new TaiKhoan();
-        tk.setMaTaiKhoan("TK001");
+        tk.setMaTaiKhoan("TK23012025025419647");
         LopHoc lop= new LopHoc();
-        lop.setMaLop("DHKTMP18A");
+        lop.setMaLop("LH23012025025420273");
         ketQuaHocTap.setLopHoc(lop);
         ketQuaHocTap.setTaiKhoan(tk);
         boolean result = dao.themKetQuaHocTap(ketQuaHocTap);
@@ -77,7 +77,15 @@ public class KetQuaHocTap_Test {
         assertNotNull(danhSachKetQua, "Danh sách kết quả học tập không được null.");
         assertFalse(danhSachKetQua.isEmpty(), "Danh sách kết quả học tập bị rỗng.");
     }
-
+    @Test
+    void testUpdate(){
+        KetQuaHocTap kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
+        kq.setGPA(10);
+        boolean rs= dao.capNhatKetQuaHocTap(kq);
+        assertTrue(rs);
+        kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
+        assertEquals(10,kq.getGPA());
+    }
     @AfterAll
     void cleanup() {
         // Clean up test data if necessary

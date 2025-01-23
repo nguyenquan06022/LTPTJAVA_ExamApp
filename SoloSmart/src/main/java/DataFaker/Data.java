@@ -282,7 +282,7 @@ public class Data {
                }
             }
 
-            //kết quả học tập được thêm và cập nhật bằng trigger trong sql khi có 1 kết quả kiểm tra được thêm vào
+
 
 
             em.getTransaction().commit();

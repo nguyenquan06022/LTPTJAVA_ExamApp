@@ -34,7 +34,7 @@ public class DsCauTraLoi_DAO {
         }
         return isSuccess;
     }
-    public boolean updateCauTraLoi(Long maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
+    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {

@@ -42,7 +42,7 @@ public class DSCauTraLoi_Test {
     @Test
     @Order(2)
     void testUpdateCauTraLoi() {
-        Long maKetQuaKiemTra = 1L;
+        String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
         String cauTraLoi = "A";
         String cauTraLoiMoi = "1.A";
 
