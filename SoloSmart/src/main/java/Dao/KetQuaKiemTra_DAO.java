@@ -55,7 +55,7 @@ public class KetQuaKiemTra_DAO {
         return isSuccess;
     }
 
-    public KetQuaKiemTra getKetQuaKiemTra(Long id) {
+    public KetQuaKiemTra getKetQuaKiemTra(String id) {
         EntityTransaction tr = em.getTransaction();
         KetQuaKiemTra ketQuaKiemTra = null;
         try {

@@ -15,7 +15,7 @@ public class DsCauTraLoi_DAO {
     public DsCauTraLoi_DAO() {
     }
 
-    public boolean themCauTraLoi(Long maketquakiemtra, String cauTraLoi){
+    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -34,7 +34,7 @@ public class DsCauTraLoi_DAO {
         }
         return isSuccess;
     }
-    public boolean updateCauTraLoi(Long maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
+    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -56,7 +56,7 @@ public class DsCauTraLoi_DAO {
     }
 
 
-    public ArrayList<String> getDSCauTraLoi(Long maKetQuaKiemTra) {
+    public ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<String> dsLuaChon = new ArrayList<>();
         try {

@@ -82,7 +82,7 @@ public class LopHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc from LopHocs where trangThai = 'unable'";
+            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc from LopHocs where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
             for (Object[] row : results) {
                 LopHoc lopHoc = new LopHoc();

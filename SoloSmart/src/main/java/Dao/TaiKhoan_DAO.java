@@ -84,7 +84,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro FROM TaiKhoans where trangThai = 'unable'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro FROM TaiKhoans where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {

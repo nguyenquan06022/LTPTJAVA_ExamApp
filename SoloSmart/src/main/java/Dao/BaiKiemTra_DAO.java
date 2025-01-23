@@ -116,9 +116,8 @@ public class BaiKiemTra_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-
             String sql = "SELECT * FROM BaiKiemTras " +
-                    "where trangThai = 'usable'";
+                    "where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] result : results) {
@@ -163,7 +162,7 @@ public class BaiKiemTra_DAO {
             tr.begin();
 
             String sql = "SELECT * FROM BaiKiemTras " +
-                    "where trangThai = 'usable' and maLop= ?";
+                    "where trangThai = 'enable' and maLop= ?";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1,maLop)
                     .getResultList();

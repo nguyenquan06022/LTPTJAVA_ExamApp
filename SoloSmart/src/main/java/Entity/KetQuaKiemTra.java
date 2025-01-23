@@ -15,7 +15,7 @@ import java.util.Set;
 public class KetQuaKiemTra {
 
     @Id
-    @NonNull// Nếu muốn tự động tạo id duy nhất
+    @NonNull
     private String maKetQuaKiemTra;
     @NonNull
     private float diemSo;
@@ -33,12 +33,12 @@ public class KetQuaKiemTra {
 
     @ManyToOne
     @NonNull
-    @JoinColumn(name = "maBaiKiemTra", nullable = false)
+    @JoinColumn(name = "maBaiKiemTra")
     private BaiKiemTra baiKiemTra;
 
     @ManyToOne
     @NonNull
-    @JoinColumn(name = "maTaiKhoan", nullable = false)
+    @JoinColumn(name = "maTaiKhoan")
     private TaiKhoan taiKhoan;
 
     public void capNhatDiemCaoNhat() {
