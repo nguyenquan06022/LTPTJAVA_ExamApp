@@ -26,6 +26,7 @@ public class Data {
     private static BaiKiemTra_DAO baiKiemTraDao= new BaiKiemTra_DAO(em);
     private static KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
     private static NganHangDeThi_DAO nh_dao= new NganHangDeThi_DAO(em);
+    private  static KetQuaHocTap_DAO ketQuaHocTapDao=new KetQuaHocTap_DAO(em);
 
     public TaiKhoan TaiKhoanFaker() {
         TaiKhoan tk = new TaiKhoan();
@@ -221,7 +222,16 @@ public class Data {
             }
         }
     }
-
+    public KetQuaHocTap KetQuaHocTapFaker(TaiKhoan taiKhoan, LopHoc lopHoc){
+        KetQuaHocTap ketQua= new KetQuaHocTap();
+        ketQua.setLopHoc(lopHoc);
+        ketQua.setTaiKhoan(taiKhoan);
+        ketQua.setDiemThuongKy((float) faker.number().randomDouble(2, 0, 10));
+        ketQua.setDiemGiuaKy((float) faker.number().randomDouble(2, 0, 10));
+        ketQua.setDiemCuoiKy((float) faker.number().randomDouble(2, 0, 10));
+        ketQua.setGPA((float) faker.number().randomDouble(2, 0, 4));
+        return  ketQua;
+    }
 
     public static void main(String[] args) {
         Data data = new Data();
@@ -248,6 +258,7 @@ public class Data {
                 NganHangDeThi nhdt= data.NganHangDeThiFaker(dsMH.get(i));
                 nh_dao.addNganHangDeThi(nhdt);
             }
+
             //them dethi tra va danh sach lua chon
             for(int i=0;i<20;i++){
                 int num= data.faker.number().numberBetween(0,10);
@@ -269,6 +280,7 @@ public class Data {
                     baiKiemTraDao.themBaiKiemTra(baiKiemTra);
                }
             }
+
             //tao ketquakiemtra
             for(int i=0;i<30;i++){
                int num= data.faker.number().numberBetween(0,10);
@@ -282,6 +294,13 @@ public class Data {
                }
             }
 
+            //them ketquahoctap
+            for(int i=0;i<10;i++){
+                for (int j=0;j<80;j++){
+                    KetQuaHocTap ketQua= data.KetQuaHocTapFaker(dsSV.get(j),dsLopHoc.get(i));
+                    ketQuaHocTapDao.themKetQuaHocTap(ketQua);
+                }
+            }
 
 
 
