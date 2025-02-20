@@ -458,7 +458,7 @@ public class TestCRUD {
                         String trangThai = sc.nextLine();
                         System.out.println("Nhap ma de thi");
                         String maDeThi = sc.nextLine();
-                        boolean res = cauHoiDao.addCauHoi(new CauHoi(cauHoiDao.generateMa(),mucDo,cauHoi,kieuTraLoi,dapAnDung,loiGiai,trangThai,new DeThi(maDeThi)));
+                        boolean res = cauHoiDao.addCauHoi(new CauHoi(cauHoiDao.generateMa(),mucDo,cauHoi,kieuTraLoi,loiGiai,trangThai,new DeThi(maDeThi)));
                         if(res) System.out.println("Them cau hoi thanh cong");
                         else System.out.println("Them cau hoi that bai");
                         break;
@@ -493,7 +493,7 @@ public class TestCRUD {
                         String trangThai = sc.nextLine();
                         System.out.println("Nhap ma de thi");
                         String maDeThi = sc.nextLine();
-                        boolean res = cauHoiDao.updateCauHoi(new CauHoi(maCauHoi,mucDo,cauHoi,kieuTraLoi,dapAnDung,loiGiai,trangThai,new DeThi(maDeThi)));
+                        boolean res = cauHoiDao.updateCauHoi(new CauHoi(maCauHoi,mucDo,cauHoi,kieuTraLoi,loiGiai,trangThai,new DeThi(maDeThi)));
                         if(res) System.out.println("Sua cau hoi thanh cong");
                         else System.out.println("Sua cau hoi that bai");
                         break;

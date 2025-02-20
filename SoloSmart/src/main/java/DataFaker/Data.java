@@ -116,7 +116,6 @@ public class Data {
             // Lấy danh sách các đáp án và nối thành chuỗi
             dapAn = String.join(";", dsDapAnList.subList(0, num));
         };
-        cauHoi.setDapAnDung(dapAn);
         cauHoi.setLoiGiai(faker.lorem().sentence());
         cauHoi.setTrangThai("enable");
         cauHoi.setDeThi(deThi);

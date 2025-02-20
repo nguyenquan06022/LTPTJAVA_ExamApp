@@ -24,13 +24,12 @@ public class CauHoi {
     private int kieuTraLoi;
 
     @ElementCollection
-    @CollectionTable(name="dsLuaChon", joinColumns = @JoinColumn(name="maCauHoi"))
-    @Column(name="luaChon", nullable = false,columnDefinition = "nvarchar(255)")
-    private List<String> dsLuaChon;
+    @CollectionTable(name = "dsLuaChon", joinColumns = @JoinColumn(name = "maCauHoi"))
+    private List<LuaChons> dsLuaChon;
 
-    @NonNull
-    @Column(columnDefinition = "nvarchar(255)")
-    private String dapAnDung;
+    //    @NonNull
+//    @Column(columnDefinition = "nvarchar(255)")
+//    private String dapAnDung;
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")
     private String loiGiai;

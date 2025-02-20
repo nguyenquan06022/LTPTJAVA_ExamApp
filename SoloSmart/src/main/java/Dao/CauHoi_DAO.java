@@ -36,7 +36,6 @@ public class CauHoi_DAO {
             em.createNativeQuery(sql)
                     .setParameter(1, cauHoi.getMaCauHoi())
                     .setParameter(2, cauHoi.getCauHoi())
-                    .setParameter(3, cauHoi.getDapAnDung())
                     .setParameter(4, cauHoi.getKieuTraLoi())
                     .setParameter(5, cauHoi.getLoiGiai())
                     .setParameter(6, cauHoi.getMucDo())
@@ -57,7 +56,7 @@ public class CauHoi_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maCauHoi,cauHoi,dapAnDung,kieuTraLoi,loiGiai,mucDo,trangThai,maDeThi\n" +
+            String sql = "select maCauHoi,cauHoi,kieuTraLoi,loiGiai,mucDo,trangThai,maDeThi\n" +
                     "from CauHois where maCauHoi = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, id)
@@ -66,7 +65,6 @@ public class CauHoi_DAO {
                 cauHoi = new CauHoi();
                 cauHoi.setMaCauHoi((String) result[0]);
                 cauHoi.setCauHoi((String) result[1]);
-                cauHoi.setDapAnDung((String) result[2]);
                 cauHoi.setKieuTraLoi((int) result[3]);
                 cauHoi.setLoiGiai((String) result[4]);
                 cauHoi.setMucDo((String) result[5]);
@@ -90,14 +88,13 @@ public class CauHoi_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maCauHoi,cauHoi,dapAnDung,kieuTraLoi,loiGiai,mucDo,trangThai,maDeThi from CauHois where trangThai = 'enable'";
+            String sql = "select maCauHoi,cauHoi,kieuTraLoi,loiGiai,mucDo,trangThai,maDeThi from CauHois where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
                 CauHoi cauHoi = new CauHoi();
                 cauHoi.setMaCauHoi((String) row[0]);
                 cauHoi.setCauHoi((String) row[1]);
-                cauHoi.setDapAnDung((String) row[2]);
                 cauHoi.setKieuTraLoi((int) row[3]);
                 cauHoi.setLoiGiai((String) row[4]);
                 cauHoi.setMucDo((String) row[5]);
@@ -121,10 +118,9 @@ public class CauHoi_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "UPDATE CauHois SET cauHoi = ?, dapAnDung = ?, kieuTraLoi = ?, loiGiai = ?, mucDo = ?, trangThai = ?, maDeThi = ? WHERE maCauHoi = ?";
+            String sql = "UPDATE CauHois SET cauHoi = ?,  kieuTraLoi = ?, loiGiai = ?, mucDo = ?, trangThai = ?, maDeThi = ? WHERE maCauHoi = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1, cauHoi.getCauHoi())
-                    .setParameter(2, cauHoi.getDapAnDung())
                     .setParameter(3, cauHoi.getKieuTraLoi())
                     .setParameter(4, cauHoi.getLoiGiai())
                     .setParameter(5, cauHoi.getMucDo())
