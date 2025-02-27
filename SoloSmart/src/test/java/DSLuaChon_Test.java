@@ -35,10 +35,10 @@ public class DSLuaChon_Test {
         String maCauHoi = "CH001";
 
         // Thêm 4 lựa chọn
-        boolean isAdded1 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 1");
-        boolean isAdded2 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 2");
-        boolean isAdded3 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 3");
-        boolean isAdded4 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 4");
+        boolean isAdded1 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 1", true);
+        boolean isAdded2 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 2", false);
+        boolean isAdded3 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 3", false);
+        boolean isAdded4 = dsLuaChonDAO.themLuaChon(maCauHoi, "Đáp án 4", false);
 
         assertTrue(isAdded1, "Không thêm được Đáp án 1!");
         assertTrue(isAdded2, "Không thêm được Đáp án 2!");

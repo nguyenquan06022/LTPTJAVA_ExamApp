@@ -60,13 +60,13 @@ public class KetQuaHocTap_Test {
     @Test
     void testCapNhatKetQuaHocTap() {
         KetQuaHocTap ketQuaHocTap = dao.getKetQuaHocTap("TK001","DHKTMP18A");
-        ketQuaHocTap.setGPA((float)4.0);
+        ketQuaHocTap.setDiemTBMon((float)4.0);
 
 
         boolean result = dao.capNhatKetQuaHocTap(ketQuaHocTap);
         assertTrue(result, "Cập nhật kết quả học tập không thành công.");
         KetQuaHocTap resultKQ = dao.getKetQuaHocTap("TK001","DHKTMP18A");
-        assertEquals(4.0,resultKQ.getGPA());
+        assertEquals(4.0,resultKQ.getDiemTBMon());
     }
 
     @Test
@@ -80,11 +80,11 @@ public class KetQuaHocTap_Test {
     @Test
     void testUpdate(){
         KetQuaHocTap kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
-        kq.setGPA(10);
+        kq.setDiemTBMon(10);
         boolean rs= dao.capNhatKetQuaHocTap(kq);
         assertTrue(rs);
         kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
-        assertEquals(10,kq.getGPA());
+        assertEquals(10,kq.getDiemTBMon());
     }
     @AfterAll
     void cleanup() {

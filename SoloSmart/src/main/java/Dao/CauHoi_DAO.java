@@ -31,22 +31,23 @@ public class CauHoi_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO CauHois (maCauHoi, cauHoi, dapAnDung, kieuTraLoi, loiGiai, mucDo, trangThai, maDeThi)\n" +
-                    "VALUES (?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO CauHois (maCauHoi, cauHoi,  kieuTraLoi, loiGiai, mucDo, trangThai, maDeThi)\n" +
+                    "VALUES (?,?,?,?,?,?,?)";
             em.createNativeQuery(sql)
                     .setParameter(1, cauHoi.getMaCauHoi())
                     .setParameter(2, cauHoi.getCauHoi())
-                    .setParameter(4, cauHoi.getKieuTraLoi())
-                    .setParameter(5, cauHoi.getLoiGiai())
-                    .setParameter(6, cauHoi.getMucDo())
-                    .setParameter(7, cauHoi.getTrangThai())
-                    .setParameter(8, cauHoi.getDeThi().getMaDeThi())
+                    .setParameter(3, cauHoi.getKieuTraLoi())
+                    .setParameter(4, cauHoi.getLoiGiai())
+                    .setParameter(5, cauHoi.getMucDo())
+                    .setParameter(6, cauHoi.getTrangThai())
+                    .setParameter(7, cauHoi.getDeThi().getMaDeThi())
                     .executeUpdate();
 
             tr.commit();
             isSuccess = true;
         } catch (Exception e) {
             tr.rollback();
+
         }
         return isSuccess;
     }

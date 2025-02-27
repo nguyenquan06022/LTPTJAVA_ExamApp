@@ -45,6 +45,9 @@ public class KetQuaKiemTra {
         diemCaoNhat = true;
     }
 
+
+
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,4 +59,6 @@ public class KetQuaKiemTra {
     public int hashCode() {
         return Objects.hash(maKetQuaKiemTra, baiKiemTra, taiKhoan);
     }
+
+
 }

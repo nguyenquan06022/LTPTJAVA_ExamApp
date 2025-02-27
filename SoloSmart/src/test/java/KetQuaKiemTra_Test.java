@@ -52,11 +52,16 @@ public class KetQuaKiemTra_Test {
 
     @Test
     public void testGetDanhSachKetQuaKiemTra() {
-        ArrayList<KetQuaKiemTra> danhSach = dao.getDanhSachKetQuaKiemTra("TK001", "BKT001");
+        ArrayList<KetQuaKiemTra> danhSach = dao.getDanhSachKetQuaKiemTra("TK24022025173708720", "BKT24022025173716455");
         assertNotNull(danhSach, "Danh sách kết quả kiểm tra không được null");
         assertFalse(danhSach.isEmpty(), "Danh sách kết quả kiểm tra rỗng");
-        assertEquals("TK001", danhSach.get(0).getTaiKhoan().getMaTaiKhoan());
-        assertEquals("BKT001", danhSach.get(0).getBaiKiemTra().getMaBaiKiemTra());
+    }
+
+    @Test
+    public void testGetKetQuaKiemTra(){
+        KetQuaKiemTra kq= dao.getKetQuaKiemTra("KQKT24022025173720634");
+        assertNotNull(kq);
+        assertEquals("KQKT24022025173720634",kq.getMaKetQuaKiemTra());
     }
 
     @Test

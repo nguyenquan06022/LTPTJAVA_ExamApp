@@ -17,21 +17,24 @@ public class DsLuaChon_DAO {
         this.em = em;
     }
 
-    public boolean themLuaChon(String maCauHoi, String luaChon) {
+    public boolean themLuaChon(String maCauHoi, String luaChon, boolean dapAnDung) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO dsLuaChon values (?, ?)";
+            String sql = "INSERT INTO dsLuaChon(macauhoi, dapandung, luachon) values (?, ?,?)";
             em.createNativeQuery(sql)
                     .setParameter(1, maCauHoi)
-                    .setParameter(2, luaChon)
+                    .setParameter(2, dapAnDung)
+                    .setParameter(3, luaChon)
+
                     .executeUpdate();
 
             tr.commit();
             isSuccess = true;
         } catch (Exception e) {
             tr.rollback();
+
             isSuccess = false;
         }
         return isSuccess;

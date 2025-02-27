@@ -446,8 +446,6 @@ public class TestCRUD {
                     case 1: {
                         System.out.println("Nhap cau hoi");
                         String cauHoi = sc.nextLine();
-                        System.out.println("Nhap dap an dung");
-                        String dapAnDung = sc.nextLine();
                         System.out.println("Nhap kieu tra loi (0,1)");
                         int kieuTraLoi = Integer.parseInt(sc.nextLine());
                         System.out.println("Nhap loi giai");
@@ -516,7 +514,9 @@ public class TestCRUD {
                         String luaChon = sc.nextLine();
                         System.out.println("Nhap ma cau hoi");
                         String maCauHoi = sc.nextLine();
-                        boolean res = dsLuaChonDao.themLuaChon(maCauHoi,luaChon);
+                        System.out.println("Co phai dap an dung? 1: phải/0: không");
+                        int dapAnDung= sc.nextInt();
+                        boolean res = dsLuaChonDao.themLuaChon(maCauHoi,luaChon, dapAnDung==1);
                         if(res) System.out.println("Them lua chon thanh cong");
                         else System.out.println("Them lua chon that bai");
                         break;

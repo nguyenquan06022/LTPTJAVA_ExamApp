@@ -42,7 +42,6 @@ public class CauHoi_Test {
         CauHoi cauHoi = new CauHoi();
         cauHoi.setMaCauHoi("CH001");
         cauHoi.setCauHoi("Câu hỏi thử nghiệm?");
-        cauHoi.setDapAnDung("Đáp án đúng");
         cauHoi.setKieuTraLoi(1); // Ví dụ kiểu trả lời là 1
         cauHoi.setLoiGiai("Giải thích cho câu hỏi");
         cauHoi.setMucDo("Thông hiểu");
@@ -94,7 +93,6 @@ public class CauHoi_Test {
 
         // Cập nhật thông tin
         cauHoi.setCauHoi("Câu hỏi đã được cập nhật?");
-        cauHoi.setDapAnDung("Đáp án đã được cập nhật");
         cauHoi.setKieuTraLoi(2);
 
         boolean result = cauHoiDAO.updateCauHoi(cauHoi);
@@ -104,7 +102,6 @@ public class CauHoi_Test {
         CauHoi updatedCauHoi = cauHoiDAO.getCauHoi("CH001");
         assertNotNull(updatedCauHoi, "Không tìm thấy câu hỏi sau khi cập nhật!");
         assertEquals("Câu hỏi đã được cập nhật?", updatedCauHoi.getCauHoi());
-        assertEquals("Đáp án đã được cập nhật", updatedCauHoi.getDapAnDung());
         assertEquals(2, updatedCauHoi.getKieuTraLoi());
     }
 

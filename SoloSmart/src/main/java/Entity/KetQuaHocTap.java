@@ -21,7 +21,7 @@ public class KetQuaHocTap {
     @NonNull
     private float diemCuoiKy;
     @NonNull
-    private float GPA;
+    private float diemTBMon;
 
     @Id
     @ManyToOne

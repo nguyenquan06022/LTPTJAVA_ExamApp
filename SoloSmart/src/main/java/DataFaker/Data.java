@@ -122,10 +122,10 @@ public class Data {
         return cauHoi;
     }
     public void DsLuaChonFaker(CauHoi cauHoi){
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 1");
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 2");
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 3");
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 4");
+        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 1", faker.random().nextBoolean());
+        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 2", faker.random().nextBoolean());
+        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 3", faker.random().nextBoolean());
+        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 4", faker.random().nextBoolean());
     }
     public Date toDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -228,7 +228,7 @@ public class Data {
         ketQua.setDiemThuongKy((float) faker.number().randomDouble(2, 0, 10));
         ketQua.setDiemGiuaKy((float) faker.number().randomDouble(2, 0, 10));
         ketQua.setDiemCuoiKy((float) faker.number().randomDouble(2, 0, 10));
-        ketQua.setGPA((float) faker.number().randomDouble(2, 0, 4));
+        ketQua.setDiemTBMon((float) faker.number().randomDouble(2, 0, 4));
         return  ketQua;
     }
 
@@ -263,7 +263,7 @@ public class Data {
                 int num= data.faker.number().numberBetween(0,10);
                 DeThi dethi= data.DeThiFaker(dsGV.get(num),new NganHangDeThi(),dsMH.get(num));
                 deThiDao.addDeThi(dethi);
-                for(int j=0;j<dethi.getSoLuongCauHoi()-1;j++){//thêm câu hỏi
+                for(int j=0;j<dethi.getSoLuongCauHoi();j++){//thêm câu hỏi
                     CauHoi cauHoi=data.CauHoiFaker(dethi);
                     cauHoiDao.addCauHoi(cauHoi);
                     data.DsLuaChonFaker(cauHoi);
@@ -294,18 +294,25 @@ public class Data {
             }
 
             //them ketquahoctap
-            for(int i=0;i<10;i++){
-                for (int j=0;j<80;j++){
-                    KetQuaHocTap ketQua= data.KetQuaHocTapFaker(dsSV.get(j),dsLopHoc.get(i));
-                    ketQuaHocTapDao.themKetQuaHocTap(ketQua);
+            try {
+                for(int i=0;i<10;i++){
+                    for (int j=0;j<80;j++){
+                        KetQuaHocTap ketQua= data.KetQuaHocTapFaker(dsSV.get(j),dsLopHoc.get(i));
+                        ketQuaHocTapDao.themKetQuaHocTap(ketQua);
+                    }
                 }
             }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
 
 
 
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Xảy ra lỗi: " + e.getMessage());
             em.getTransaction().rollback();
         } finally {
             em.close();
