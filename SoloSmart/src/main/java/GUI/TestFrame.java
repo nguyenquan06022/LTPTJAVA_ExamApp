@@ -4,6 +4,8 @@
  */
 package GUI;
 import Components.Model_Card;
+import Entity.TaiKhoan;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 /**
@@ -12,15 +14,29 @@ import javax.swing.JFrame;
  */
 public class TestFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form TestFrame
-     */
+
+    private static TaiKhoan tk = new TaiKhoan();
     public TestFrame() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
+    }
+    public TestFrame(TaiKhoan tk) {
+        initComponents();
+        this.tk= tk;
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
+        setIconImage(img.getImage());
+        setTitle("SoloSmart - Multiple Choice App");
+        String vaiTro= tk.getVaiTro()=="GV"? "Giao Vien":"Sinh Vien";
+        avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource("")),
+                vaiTro, tk.getTenTaiKhoan()));
+        if(tk.getGioiTinh()=="Nam"){
+            avatar2.setAvt(true);
+        }
+        else avatar2.setAvt(false);
     }
 
     /**

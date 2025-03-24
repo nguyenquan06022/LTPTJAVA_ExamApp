@@ -1,6 +1,8 @@
 package Components;
 
 import Components.Model_Card;
+
+import javax.swing.*;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -39,6 +41,15 @@ public class Avatar extends javax.swing.JPanel {
         lbIcon.setIcon(data.getIcon());
         lbTitle.setText(data.getTitle());
         lbValues.setText(data.getValues());
+
+    }
+    public void setAvt(Boolean avt) {
+        if(avt){
+            jLabel1.setIcon(new ImageIcon(getClass().getResource("/Image/avt-male.png")));
+        }
+        else{
+            jLabel1.setIcon(new ImageIcon(getClass().getResource("/Image/avt-female.png")));
+        }
     }
 
     @SuppressWarnings("unchecked")
