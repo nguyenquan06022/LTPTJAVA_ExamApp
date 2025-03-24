@@ -175,7 +175,11 @@ public class TestCRUD {
                         String trangThai = sc.nextLine();
                         System.out.println("Nhap vai tro (SV,GV,QTV)");
                         String vaiTro = sc.nextLine();
-                        boolean res = taiKhoanDao.addTaiKhoan(new TaiKhoan(taiKhoanDao.generateMa(),tenTaiKhoan,matKhau,vaiTro,trangThai));
+                        System.out.println("Nhap trang thai online (online,offline)");
+                        String dangOnline = sc.nextLine();
+                        System.out.println("Nhap gioi tinh(Nam,Nu)");
+                        String gioiTinh = sc.nextLine();
+                        boolean res = taiKhoanDao.addTaiKhoan(new TaiKhoan(taiKhoanDao.generateMa(),tenTaiKhoan,matKhau,vaiTro,trangThai,dangOnline,gioiTinh));
                         if(res) System.out.println("Them tai khoan thanh cong");
                         else System.out.println("Them tai khoan that bai");
                         break;
@@ -205,7 +209,11 @@ public class TestCRUD {
                         String trangThai = sc.nextLine();
                         System.out.println("Nhap vai tro (SV,GV,QTV)");
                         String vaiTro = sc.nextLine();
-                        boolean res = taiKhoanDao.updateTaiKhoan(new TaiKhoan(maTaiKhoan,tenTaiKhoan,matKhau,vaiTro,trangThai));
+                        System.out.println("Nhap trang thai online (online,offline)");
+                        String dangOnline = sc.nextLine();
+                        System.out.println("Nhap gioi tinh(Nam,Nu)");
+                        String gioiTinh = sc.nextLine();
+                        boolean res = taiKhoanDao.updateTaiKhoan(new TaiKhoan(maTaiKhoan,tenTaiKhoan,matKhau,vaiTro,trangThai,dangOnline,gioiTinh));
                         if(res) System.out.println("Cap nhat thanh cong");
                         else System.out.println("Cap nhat that bai");
                         break;

@@ -4,32 +4,32 @@
  */
 package GUI;
 
-import Components.MyTextField;
+import DB.CreateDB;
+import Dao.TaiKhoan_DAO;
+import jakarta.persistence.EntityManager;
+
 import java.awt.Color;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+
 
 /**
  *
  * @author THANH PHU
  */
-public class DangNhapGUI extends javax.swing.JFrame {
+public class DangNhapGUI extends javax.swing.JFrame{
 
-    /**
-     * Creates new form Test
-     */
     private boolean eyeClick=false;
     public DangNhapGUI() {
         initComponents();
         setLocationRelativeTo(null);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
-        
+
         ImageIcon eyeIcon=new ImageIcon(getClass().getResource("/Image/eye_closed.png"));
         jLabel5.setIcon(eyeIcon);
         jLabel5.addMouseListener(new MouseAdapter() {
@@ -42,12 +42,29 @@ public class DangNhapGUI extends javax.swing.JFrame {
               }
                 else{
                   jLabel5.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
-                  
+
                   myPasswordField1.setEchoChar('*');
                   eyeClick=false;
               }
            }
-            
+
+        });
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String userName = myTextField1.getText();
+                String password = new String(myPasswordField1.getPassword());
+
+                Object taiKhoan = taiKhoanDao.dangNhap(userName, password);
+
+                if (taiKhoan == null) {
+                    System.out.println("Đăng nhập thất bại");
+                    JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    System.out.println("Đăng nhập thành công");
+                    JOptionPane.showMessageDialog(null, "Đăng nhập thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
         });
     }
 
@@ -172,11 +189,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -193,10 +205,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DangNhapGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new DangNhapGUI().setVisible(true);
@@ -204,7 +212,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
     private Components.JCheckBoxCustom jCheckBoxCustom1;
     private javax.swing.JLabel jLabel1;
@@ -215,5 +222,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private Components.MyPasswordField myPasswordField1;
     private Components.MyTextField myTextField1;
-    // End of variables declaration//GEN-END:variables
+    private static EntityManager em = CreateDB.createDB();
+    private TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
 }

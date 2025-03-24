@@ -22,6 +22,10 @@ public class TaiKhoan {
     private String vaiTro;
     @NonNull
     private String trangThai;
+    @NonNull
+    private String dangOnline;
+    @NonNull
+    private String gioiTinh;
 
     @OneToMany(mappedBy = "taiKhoan")
     private Set<KetQuaHocTap> ketQuaHocTap;
