@@ -22,7 +22,7 @@ public class MenuCustom extends javax.swing.JPanel {
     /**
      * Creates new form MenuCustom
      */
-    private final String[] GV={"Home","Exams","Question Banks","Test","dm nguyen quan"};
+    private final String[] GV={"Home","Exam","Question Bank"};
     public MenuCustom() {
         initComponents();
         setOpaque(false);
@@ -40,7 +40,7 @@ public class MenuCustom extends javax.swing.JPanel {
     public void initMenu(String[] items){
         List<MenuItemCustom> listItems= new ArrayList<>();
         for(String item:items){
-            MenuItemCustom menuItem= new MenuItemCustom(item, "icons8-home-30");
+            MenuItemCustom menuItem= new MenuItemCustom(item, "icons8-"+item.toLowerCase()+"-30");
             listItems.add(menuItem);
             menuItem.addActionListener(x->handleClick(menuItem));
         }
