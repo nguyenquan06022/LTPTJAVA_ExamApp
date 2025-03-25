@@ -32,7 +32,7 @@ public class Card extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         color1 = Color.BLACK;
-        color2 = Color.WHITE;;
+        color2 = Color.WHITE;
     }
 
     public void setData(Model_Card data) {

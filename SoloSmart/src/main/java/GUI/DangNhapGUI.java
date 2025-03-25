@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 /**
  *
@@ -62,16 +63,45 @@ public class DangNhapGUI extends javax.swing.JFrame {
                    String userName = myTextField1.getText();
                     String password = new String(myPasswordField1.getPassword());
 
-                Object taiKhoan = taiKhoanDao.dangNhap(userName, password);
+                TaiKhoan taiKhoan = taiKhoanDao.dangNhap(userName, password);
                 if (taiKhoan == null) {
                     JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
 
                 }
                 else {
-                    TestFrame tf = new TestFrame((TaiKhoan) taiKhoan);
-                    tf.setVisible(true);
-                    dispose();
+//                    Main_GUI tf = new Main_GUI(taiKhoan);
+//                    tf.setVisible(true);
+//                    dispose();
+                Loading loading = new Loading(taiKhoan);
+	                dispose();
+	                loading.setVisible(true);
+	                loading.setLocationRelativeTo(null);
+
+	                SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+	                    @Override
+	                    protected Void doInBackground() throws Exception {
+	                        for (int i = 0; i <= 100; i++) {
+	                            Thread.sleep(10); 
+	                            publish(i); 
+	                        }
+	                        return null;
+	                    }
+
+	                    @Override
+	                    protected void process(java.util.List<Integer> chunks) {
+	                        int progressValue = chunks.get(chunks.size() - 1);
+	                        loading.updateProgress(progressValue, taiKhoan);
+	                    }
+
+	                    @Override
+	                    protected void done() {
+	                        loading.dispose();
+	                    }
+	                };
+
+	                worker.execute();
+//	                setVisible(false); 
                 }
 
             }
@@ -228,7 +258,7 @@ public class DangNhapGUI extends javax.swing.JFrame {
             }
         });
     }
-    private EntityManager em=CreateDB.createDB();
+    static EntityManager em=CreateDB.createDB();
     private TaiKhoan_DAO taiKhoanDao= new TaiKhoan_DAO(em);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -32,7 +32,7 @@ public class TaiKhoan_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO TaiKhoans (maTaiKhoan,matKhau,tenTaiKhoan,trangThai,vaiTro,dangOnline,gioiTinh) VALUES (?, ?, ?, ?, ?,?,?)";
+            String sql = "INSERT INTO TaiKhoans (maTaiKhoan,matKhau,tenTaiKhoan,trangThai,vaiTro,dangOnline,gioiTinh,ho,ten) VALUES (?, ?, ?, ?, ?,?,?,?,?)";
             em.createNativeQuery(sql)
                     .setParameter(1, taiKhoan.getMaTaiKhoan())
                     .setParameter(2, taiKhoan.getMatKhau())
@@ -41,6 +41,8 @@ public class TaiKhoan_DAO {
                     .setParameter(5, taiKhoan.getVaiTro())
                     .setParameter(6, taiKhoan.getDangOnline())
                     .setParameter(7,taiKhoan.getGioiTinh())
+                    .setParameter(8, taiKhoan.getHo())
+                    .setParameter(9,taiKhoan.getTen())
                     .executeUpdate();
             tr.commit();
             isSuccess = true;
@@ -55,7 +57,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline,gioiTinh FROM TaiKhoans WHERE maTaiKhoan = ?";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline,gioiTinh,ho,ten FROM TaiKhoans WHERE maTaiKhoan = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, id)
                     .getSingleResult();
@@ -68,6 +70,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setVaiTro((String) result[4]);
                 taiKhoan.setDangOnline((String) result[5]);
                 taiKhoan.setGioiTinh((String) result[6]);
+                taiKhoan.setHo((String) result[7]);
+                taiKhoan.setTen((String) result[8]);
             }
 
             tr.commit();
@@ -87,7 +91,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh FROM TaiKhoans where trangThai = 'enable'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -99,6 +103,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setVaiTro((String) row[4]);
                 taiKhoan.setDangOnline((String) row[5]);
                 taiKhoan.setGioiTinh((String) row[6]);
+                taiKhoan.setHo((String) row[7]);
+                taiKhoan.setTen((String) row[8]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
             tr.commit();
@@ -116,7 +122,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh FROM TaiKhoans where trangThai = 'enable' and vaitro='GV'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='GV'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -128,6 +134,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setVaiTro((String) row[4]);
                 taiKhoan.setDangOnline((String) row[5]);
                 taiKhoan.setGioiTinh((String) row[6]);
+                taiKhoan.setHo((String) row[7]);
+                taiKhoan.setTen((String) row[8]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
 
@@ -147,7 +155,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -159,6 +167,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setVaiTro((String) row[4]);
                 taiKhoan.setDangOnline((String) row[5]);
                 taiKhoan.setGioiTinh((String) row[6]);
+                taiKhoan.setHo((String) row[7]);
+                taiKhoan.setTen((String) row[8]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
 
@@ -176,7 +186,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "UPDATE TaiKhoans SET matKhau = ?, tenTaiKhoan = ?, trangThai = ?, vaiTro = ?, dangOnline = ?, gioiTinh = ? WHERE maTaiKhoan = ?";
+            String sql = "UPDATE TaiKhoans SET matKhau = ?, tenTaiKhoan = ?, trangThai = ?, vaiTro = ?, dangOnline = ?, gioiTinh = ?, ho = ?, ten = ? WHERE maTaiKhoan = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1, taiKhoan.getMatKhau())
                     .setParameter(2, taiKhoan.getTenTaiKhoan())
@@ -185,6 +195,8 @@ public class TaiKhoan_DAO {
                     .setParameter(5, taiKhoan.getMaTaiKhoan())
                     .setParameter(6, taiKhoan.getDangOnline())
                     .setParameter(7, taiKhoan.getGioiTinh())
+                    .setParameter(8, taiKhoan.getHo())
+                    .setParameter(9,taiKhoan.getTen())
                     .executeUpdate();
 
             tr.commit();
@@ -225,7 +237,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ?";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, userName)
                     .setParameter(2, password)
@@ -239,6 +251,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setVaiTro((String) result[4]);
                 taiKhoan.setDangOnline((String) result[5]);
                 taiKhoan.setGioiTinh((String) result[6]);
+                taiKhoan.setHo((String) result[7]);
+                taiKhoan.setTen((String) result[8]);
             }
             tr.commit();
         } catch (Exception e) {

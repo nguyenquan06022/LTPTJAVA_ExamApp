@@ -5,6 +5,7 @@
 package GUI;
 import Components.Model_Card;
 import Entity.TaiKhoan;
+import jakarta.persistence.EntityManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -12,31 +13,39 @@ import javax.swing.JFrame;
  *
  * @author THANH PHU
  */
-public class TestFrame extends javax.swing.JFrame {
+public class Main_GUI extends javax.swing.JFrame {
 
 
-    private static TaiKhoan tk = new TaiKhoan();
-    public TestFrame() {
+    public static TaiKhoan tk = new TaiKhoan();
+    
+    public static EntityManager em;
+    public Main_GUI() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
     }
-    public TestFrame(TaiKhoan tk) {
+    public Main_GUI(TaiKhoan tk) {
         initComponents();
+        this.em= DangNhapGUI.em;
         this.tk= tk;
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
-        String vaiTro= tk.getVaiTro()=="GV"? "Giao Vien":"Sinh Vien";
+        String vaiTro= tk.getVaiTro().equalsIgnoreCase("GV")? "Giao Vien":"Sinh Vien";
         avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource("")),
-                vaiTro, tk.getTenTaiKhoan()));
-        if(tk.getGioiTinh()=="Nam"){
+                vaiTro, tk.getHo()+" "+tk.getTen()));
+        if(tk.getGioiTinh().equalsIgnoreCase("nam")){
             avatar2.setAvt(true);
         }
-        else avatar2.setAvt(false);
+        else{
+            avatar2.setAvt(false);
+        }
+        if(tk.getVaiTro().equalsIgnoreCase("SV")){
+            main_panel.add(new SV_Main_GUI());
+        }
     }
 
     /**
@@ -50,7 +59,7 @@ public class TestFrame extends javax.swing.JFrame {
 
         menuCustom1 = new Components.MenuCustom("GV");
         avatar2 = new Components.Avatar();
-        card1 = new Components.Card();
+        main_panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(61, 141, 122));
@@ -61,7 +70,8 @@ public class TestFrame extends javax.swing.JFrame {
         avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource("")), "Giáo Viên",
             "Lâm Ngọc Thanh Phú"));
 
-    card1.setColor1(new java.awt.Color(255, 255, 255));
+    main_panel.setBackground(new java.awt.Color(255, 255, 255));
+    main_panel.setLayout(new java.awt.BorderLayout());
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -73,7 +83,7 @@ public class TestFrame extends javax.swing.JFrame {
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(avatar2, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
-                .addComponent(card1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(main_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -83,8 +93,8 @@ public class TestFrame extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(avatar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(card1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(main_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(menuCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
@@ -111,27 +121,27 @@ public class TestFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TestFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Main_GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TestFrame().setVisible(true);
+                new Main_GUI().setVisible(true);
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Avatar avatar2;
-    private Components.Card card1;
+    private javax.swing.JPanel main_panel;
     private Components.MenuCustom menuCustom1;
     // End of variables declaration//GEN-END:variables
 }

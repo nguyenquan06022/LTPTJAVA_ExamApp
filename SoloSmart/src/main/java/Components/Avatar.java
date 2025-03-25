@@ -44,6 +44,7 @@ public class Avatar extends javax.swing.JPanel {
 
     }
     public void setAvt(Boolean avt) {
+        System.out.println(avt);
         if(avt){
             jLabel1.setIcon(new ImageIcon(getClass().getResource("/Image/avt-male.png")));
         }
