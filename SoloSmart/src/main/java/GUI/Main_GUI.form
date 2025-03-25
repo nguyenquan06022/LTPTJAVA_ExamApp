@@ -33,7 +33,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="avatar2" pref="851" max="32767" attributes="0"/>
-                  <Component id="card1" max="32767" attributes="0"/>
+                  <Component id="main_panel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -46,8 +46,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Component id="avatar2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="card1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="main_panel" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -78,12 +78,14 @@
         <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource(&quot;&quot;)), &quot;Gi&#xe1;o Vi&#xea;n&quot;, &#xa;                    &quot;L&#xe2;m Ng&#x1ecd;c Thanh Ph&#xfa;&quot;));"/>
       </AuxValues>
     </Component>
-    <Component class="Components.Card" name="card1">
+    <Container class="javax.swing.JPanel" name="main_panel">
       <Properties>
-        <Property name="color1" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
-    </Component>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+    </Container>
   </SubComponents>
 </Form>

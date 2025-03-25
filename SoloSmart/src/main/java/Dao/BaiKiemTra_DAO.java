@@ -108,6 +108,66 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
+    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoan(String id) {
+    List<BaiKiemTra> list = new ArrayList<>();
+    EntityTransaction tr = em.getTransaction();
+
+    try {
+        tr.begin();
+        String sql = """
+            SELECT bkt.maBaiKiemTra, bkt.choPhepXemDiem, bkt.choPhepXemLai, bkt.heSo,
+                   bkt.hienThiDapAn, bkt.matKhauBaiKiemTra, bkt.soLanLamBai, bkt.thangDiem,
+                   bkt.thoiGianBatDau, bkt.thoiGianKetThuc, bkt.thoiGianLamBai, bkt.trangThai,
+                   bkt.maDeThi, bkt.maLop
+            FROM TaiKhoans tk 
+            INNER JOIN KetQuaHocTaps kqht ON kqht.maTaiKhoan = tk.maTaiKhoan
+            INNER JOIN LopHocs lh ON lh.maLop = kqht.maLop
+            INNER JOIN BaiKiemTras bkt ON bkt.maLop = lh.maLop
+            WHERE tk.maTaiKhoan = ?
+            AND bkt.thoiGianBatDau > GETDATE()
+            """;
+
+        List<Object[]> results = em.createNativeQuery(sql)
+                .setParameter(1, id)
+                .getResultList();
+
+        for (Object[] result : results) {
+            BaiKiemTra baiKiemTra = new BaiKiemTra();
+            baiKiemTra.setMaBaiKiemTra((String) result[0]);
+            baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+            baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+            baiKiemTra.setHeSo((Float) result[3]);
+            baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+            baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+            baiKiemTra.setSoLanLamBai((Integer) result[6]);
+            baiKiemTra.setThangDiem((Integer) result[7]);
+            baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+            baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+            baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+            baiKiemTra.setTrangThai((String) result[11]);
+
+            // Set quan hệ với DeThi
+            DeThi deThi = new DeThi();
+            deThi.setMaDeThi((String) result[12]);
+            baiKiemTra.setDeThi(deThi);
+
+            // Set quan hệ với LopHoc
+            LopHoc lopHoc = new LopHoc();
+            lopHoc.setMaLop((String) result[13]);
+            baiKiemTra.setLopHoc(lopHoc);
+
+            list.add(baiKiemTra);
+        }
+
+        tr.commit();
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
+        }
+        throw new RuntimeException(e);
+    }
+    return list;
+}
 
 
 

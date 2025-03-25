@@ -36,7 +36,18 @@ public class Data {
         } while (dsMa.contains(maTaiKhoan));
         dsMa.add(maTaiKhoan);
         tk.setMaTaiKhoan(maTaiKhoan);
-        tk.setTenTaiKhoan(faker.name().fullName());
+        tk.setTenTaiKhoan(faker.internet().username());
+        String ho;
+        do {
+            ho = faker.name().lastName();
+        } while (ho == null);
+        tk.setHo(ho);
+        
+        String ten;
+        do {
+            ten = faker.name().firstName();
+        } while (ten == null);
+        tk.setTen(ten);
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro(faker.options().option("SV", "GV", "QTV"));
         tk.setDangOnline("offline");
@@ -52,7 +63,18 @@ public class Data {
         } while (dsMa.contains(maTaiKhoan));
         dsMa.add(maTaiKhoan);
         tk.setMaTaiKhoan(maTaiKhoan);
-        tk.setTenTaiKhoan(faker.name().fullName());
+        tk.setTenTaiKhoan(faker.internet().username());
+        String ho;
+        do {
+            ho = faker.name().lastName();
+        } while (ho == null);
+        tk.setHo(ho);
+        
+        String ten;
+        do {
+            ten = faker.name().firstName();
+        } while (ten == null);
+        tk.setTen(ten);
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro("SV");
         tk.setDangOnline("offline");
@@ -68,7 +90,19 @@ public class Data {
         } while (dsMa.contains(maTaiKhoan));
         dsMa.add(maTaiKhoan);
         tk.setMaTaiKhoan(maTaiKhoan);
-        tk.setTenTaiKhoan(faker.name().fullName());
+        tk.setTenTaiKhoan(faker.internet().username());
+        
+        String ho;
+        do {
+            ho = faker.name().lastName();
+        } while (ho == null);
+        tk.setHo(ho);
+        
+        String ten;
+        do {
+            ten = faker.name().firstName();
+        } while (ten == null);
+        tk.setTen(ten);
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro("GV");
         tk.setDangOnline("offline");

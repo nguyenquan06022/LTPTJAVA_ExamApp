@@ -16,8 +16,13 @@ public class TaiKhoan {
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")
     private String tenTaiKhoan;
+    
     @NonNull
     private String matKhau;
+    @NonNull
+    private String Ho;
+    @NonNull
+    private String Ten;
     @NonNull
     private String vaiTro;
     @NonNull
