@@ -4,7 +4,10 @@
  */
 package GUI;
 
+import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
+import Components.TableActionEvent;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -17,7 +20,24 @@ public class QuanLyTaiKhoanGUI extends javax.swing.JPanel {
      */
     public QuanLyTaiKhoanGUI() {
         initComponents();
+        TableActionEvent event= new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onDelete(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onView(int row) {
+                System.out.println("view"); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
         table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
     }
 
     /**
@@ -54,7 +74,7 @@ public class QuanLyTaiKhoanGUI extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
