@@ -35,23 +35,35 @@ public class DanhSachLopGVGUI extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
-        groupCard2 = new Components.GroupCard();
-        groupCard1 = new Components.GroupCard();
-        groupCard3 = new Components.GroupCard();
+        groupCard5 = new Components.GroupCard();
+        groupCard4 = new Components.GroupCard();
 
         setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel1.setText("Lọc theo tên lớp");
         jPanel1.add(jLabel1);
 
-        myTextField1.setText("myTextField1");
+        myTextField1.setColumns(20);
         jPanel1.add(myTextField1);
 
-        button1.setText("button1");
+        button1.setBackground(new java.awt.Color(61, 141, 122));
+        button1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search.png"))); // NOI18N
         jPanel1.add(button1);
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        jLabel2.setText("Lọc theo năm học");
         jPanel1.add(jLabel2);
+
+        comboBoxSuggestion1.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "[2025-2026]" }));
+        comboBoxSuggestion1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSuggestion1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(comboBoxSuggestion1);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -61,9 +73,8 @@ public class DanhSachLopGVGUI extends javax.swing.JPanel {
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel3.setLayout(new java.awt.GridLayout(0, 1));
-        jPanel3.add(groupCard2);
-        jPanel3.add(groupCard1);
-        jPanel3.add(groupCard3);
+        jPanel3.add(groupCard5);
+        jPanel3.add(groupCard4);
 
         jScrollPane1.setViewportView(jPanel3);
 
@@ -72,13 +83,16 @@ public class DanhSachLopGVGUI extends javax.swing.JPanel {
         add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
     private Components.ComboBoxSuggestion comboBoxSuggestion1;
-    private Components.GroupCard groupCard1;
-    private Components.GroupCard groupCard2;
-    private Components.GroupCard groupCard3;
+    private Components.GroupCard groupCard4;
+    private Components.GroupCard groupCard5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

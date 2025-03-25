@@ -60,6 +60,7 @@ public class Main_GUI extends javax.swing.JFrame {
         menuCustom1 = new Components.MenuCustom("GV");
         avatar2 = new Components.Avatar();
         main_panel = new javax.swing.JPanel();
+        danhSachLopGVGUI1 = new GUI.DanhSachLopGVGUI();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(61, 141, 122));
@@ -72,6 +73,7 @@ public class Main_GUI extends javax.swing.JFrame {
 
     main_panel.setBackground(new java.awt.Color(255, 255, 255));
     main_panel.setLayout(new java.awt.BorderLayout());
+    main_panel.add(danhSachLopGVGUI1, java.awt.BorderLayout.CENTER);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -141,6 +143,7 @@ public class Main_GUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Avatar avatar2;
+    private GUI.DanhSachLopGVGUI danhSachLopGVGUI1;
     private javax.swing.JPanel main_panel;
     private Components.MenuCustom menuCustom1;
     // End of variables declaration//GEN-END:variables
