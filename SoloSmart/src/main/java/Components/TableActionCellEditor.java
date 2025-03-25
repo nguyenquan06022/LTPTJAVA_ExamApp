@@ -16,7 +16,6 @@ import javax.swing.JTable;
 
 public class TableActionCellEditor extends DefaultCellEditor {
     
-    
     private TableActionEvent event;
     private String loai="";
     public TableActionCellEditor(TableActionEvent event) {
