@@ -21,7 +21,14 @@ public class test {
         BaiKiemTra bkt= new BaiKiemTra();
         LocalDateTime time= LocalDateTime.of(2025,1,23,10,30);
         BaiKiemTra_DAO dao= new BaiKiemTra_DAO(em);
-        ArrayList<BaiKiemTra> dsMon= dao.getDanhSachBaiKiemTraTheoLop("LH23012025023615181");
-        dsMon.forEach(x->System.out.println(dsMon.size()));
+        System.out.println("EntityManager: " + dao);
+        
+        ArrayList<BaiKiemTra> dsMon= dao.getDanhSachBaiKiemTraTheoLop("LH25032025015344839");
+        for (BaiKiemTra bkt1 : dsMon) {
+    System.out.println("ID: " + bkt1.getMaBaiKiemTra()); // In thử ID
+    System.out.println("Tên bài kiểm tra: " + bkt1.getMatKhauBaiKiemTra()); // Thử in thuộc tính khác
+}
+
+//        if(dsMon!=null ) dsMon.forEach(x->System.out.println(x.toString()));
     }
 }

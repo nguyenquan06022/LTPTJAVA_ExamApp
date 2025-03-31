@@ -59,16 +59,20 @@ public class MenuCustom extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         menuItemList1 = new Components.MenuItemList();
+        button1 = new Components.Button();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/favicon_70.png"))); // NOI18N
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-logout-64.png"))); // NOI18N
+        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-logout-64.png"))); // NOI18N
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -77,13 +81,12 @@ public class MenuCustom extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(menuItemList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel2)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(menuItemList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -92,12 +95,16 @@ public class MenuCustom extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE, 465, Short.MAX_VALUE)
+                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addContainerGap())
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+            
+    }//GEN-LAST:event_button1ActionPerformed
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -112,8 +119,8 @@ public class MenuCustom extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Components.Button button1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private Components.MenuItemList menuItemList1;
     // End of variables declaration//GEN-END:variables
 }
