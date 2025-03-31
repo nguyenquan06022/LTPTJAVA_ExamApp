@@ -4,6 +4,8 @@
  */
 package Components;
 
+import java.awt.Color;
+
 /**
  *
  * @author Admin
@@ -15,6 +17,7 @@ public class GroupCard extends javax.swing.JPanel {
      */
     public GroupCard() {
         initComponents();
+        card1.setColor1(Color.decode("#ffffff"));
     }
 
     /**
@@ -53,6 +56,8 @@ public class GroupCard extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.GridLayout(2, 3, 10, 10));
         jPanel3.add(card3);
         jPanel3.add(card1);
+
+        card2.setColor1(new java.awt.Color(0, 153, 153));
         jPanel3.add(card2);
         jPanel3.add(card5);
         jPanel3.add(card4);

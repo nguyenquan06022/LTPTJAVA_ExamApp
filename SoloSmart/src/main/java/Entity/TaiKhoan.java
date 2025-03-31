@@ -41,6 +41,9 @@ public class TaiKhoan {
     @OneToMany(mappedBy = "taiKhoan")
     private Set<DeThi> deThi;
 
+    @OneToMany(mappedBy = "giaoVien")
+    private Set<LopHoc> lopHocs;
+
     public TaiKhoan(String maTaiKhoan) {
         this.maTaiKhoan = maTaiKhoan;
     }

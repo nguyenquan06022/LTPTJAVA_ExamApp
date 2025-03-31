@@ -76,6 +76,11 @@
         <Component class="Components.Card" name="card1">
         </Component>
         <Component class="Components.Card" name="card2">
+          <Properties>
+            <Property name="color1" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="0" type="rgb"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="Components.Card" name="card5">
         </Component>

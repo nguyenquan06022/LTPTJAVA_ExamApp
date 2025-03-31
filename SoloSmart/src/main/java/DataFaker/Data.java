@@ -27,6 +27,7 @@ public class Data {
     private static NganHangDeThi_DAO nh_dao= new NganHangDeThi_DAO(em);
     private  static KetQuaHocTap_DAO ketQuaHocTapDao=new KetQuaHocTap_DAO(em);
     private static ArrayList<String> dsMa = new ArrayList<>();
+    private static ArrayList<String> dsMaGiaoVien = new ArrayList<>();
 
     public TaiKhoan TaiKhoanFaker() {
         TaiKhoan tk = new TaiKhoan();
@@ -89,6 +90,7 @@ public class Data {
             maTaiKhoan = taiKhoanDao.generateMa();
         } while (dsMa.contains(maTaiKhoan));
         dsMa.add(maTaiKhoan);
+        dsMaGiaoVien.add(maTaiKhoan);
         tk.setMaTaiKhoan(maTaiKhoan);
         tk.setTenTaiKhoan(faker.internet().username());
         
@@ -136,6 +138,7 @@ public class Data {
         lopHoc.setNamHoc(String.format("%d-%d", faker.number().numberBetween(2000, 2025), faker.number().numberBetween(2001, 2026)));
         lopHoc.setTrangThai("enable");
         lopHoc.setMonHoc(mh);
+        lopHoc.setGiaoVien(new TaiKhoan(faker.options().nextElement(dsMaGiaoVien)));
         return lopHoc;
     }
 
@@ -269,6 +272,7 @@ public class Data {
             dao.themCauTraLoi(ketQuaKiemTra.getMaKetQuaKiemTra(),i+faker.options().option(dapan));
         }
     }
+
     public void GenerateGV(int i) {
         for (int count = 0; count < i; count++) {
             // Tạo tài khoản giáo viên bằng Faker
@@ -389,9 +393,6 @@ public class Data {
             catch (Exception e){
                 e.printStackTrace();
             }
-
-
-
 
             em.getTransaction().commit();
         } catch (Exception e) {

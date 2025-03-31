@@ -73,6 +73,7 @@ public class DanhSachLopGVGUI extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
 
         jPanel3.setLayout(new java.awt.GridLayout(0, 1));
         jPanel3.add(groupCard5);

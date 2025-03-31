@@ -2,6 +2,7 @@ package Dao;
 
 import Entity.LopHoc;
 import Entity.MonHoc;
+import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
@@ -31,7 +32,7 @@ public class LopHoc_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO LopHocs (maLop,namHoc,siSo,tenLop,trangThai,maMonHoc) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO LopHocs (maLop,namHoc,siSo,tenLop,trangThai,maMonHoc,maGiaoVien) VALUES (?, ?, ?, ?, ?, ?, ?)";
             em.createNativeQuery(sql)
                     .setParameter(1, lopHoc.getMaLop())
                     .setParameter(2, lopHoc.getNamHoc())
@@ -39,6 +40,7 @@ public class LopHoc_DAO {
                     .setParameter(4, lopHoc.getTenLop())
                     .setParameter(5, lopHoc.getTrangThai())
                     .setParameter(6, lopHoc.getMonHoc().getMaMonHoc())
+                    .setParameter(7, lopHoc.getGiaoVien().getMaTaiKhoan())
                     .executeUpdate();
             tr.commit();
             isSuccess = true;
@@ -53,7 +55,7 @@ public class LopHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc from LopHocs where maLop = ?";
+            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc,maGiaoVien from LopHocs where maLop = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, id)
                     .getSingleResult();
@@ -65,6 +67,7 @@ public class LopHoc_DAO {
                 lopHoc.setTenLop((String)result[3]);
                 lopHoc.setTrangThai((String)result[4]);
                 lopHoc.setMonHoc(new MonHoc((String) result[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) result[6]));
             }
             tr.commit();
         } catch (Exception e) {
@@ -82,7 +85,7 @@ public class LopHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc from LopHocs where trangThai = 'enable'";
+            String sql = "select maLop,namHoc,siSo,tenLop,trangThai,maMonHoc,maGiaoVien from LopHocs where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
             for (Object[] row : results) {
                 LopHoc lopHoc = new LopHoc();
@@ -92,6 +95,7 @@ public class LopHoc_DAO {
                 lopHoc.setTenLop((String)row[3]);
                 lopHoc.setTrangThai((String)row[4]);
                 lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
                 danhSachLopHoc.add(lopHoc);
             }
             tr.commit();
@@ -109,7 +113,7 @@ public class LopHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "UPDATE LopHocs SET namHoc = ?, siSo = ?, tenLop = ?, trangThai = ?, maMonHoc = ? WHERE maLop = ?";
+            String sql = "UPDATE LopHocs SET namHoc = ?, siSo = ?, tenLop = ?, trangThai = ?, maMonHoc = ?, maGiaoVien = ? WHERE maLop = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1,lopHoc.getNamHoc())
                     .setParameter(2,lopHoc.getSiSo())
@@ -117,6 +121,7 @@ public class LopHoc_DAO {
                     .setParameter(4,lopHoc.getTrangThai())
                     .setParameter(5,lopHoc.getMonHoc().getMaMonHoc())
                     .setParameter(6,lopHoc.getMaLop())
+                    .setParameter(7,lopHoc.getGiaoVien().getMaTaiKhoan())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;

@@ -263,4 +263,27 @@ public class TaiKhoan_DAO {
 
         return taiKhoan;
     }
+
+    public boolean updateTrangThaiOnline(TaiKhoan taiKhoan) {
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "UPDATE TaiKhoans\n" +
+                    "SET dangOnline = CASE \n" +
+                    "                    WHEN dangOnline = 'offline' THEN 'online' \n" +
+                    "                    ELSE 'offline' \n" +
+                    "                 END\n" +
+                    "WHERE maTaiKhoan = ?";
+            int updatedRows = em.createNativeQuery(sql)
+                    .setParameter(1, taiKhoan.getMaTaiKhoan())
+                    .executeUpdate();
+            tr.commit();
+            return updatedRows > 0;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -61,19 +61,19 @@ public class DangNhapGUI extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                    String userName = myTextField1.getText();
-                    String password = new String(myPasswordField1.getPassword());
+                   String password = new String(myPasswordField1.getPassword());
 
                 TaiKhoan taiKhoan = taiKhoanDao.dangNhap(userName, password);
                 if (taiKhoan == null) {
                     JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
-
                 }
                 else {
 //                    Main_GUI tf = new Main_GUI(taiKhoan);
 //                    tf.setVisible(true);
 //                    dispose();
-                Loading loading = new Loading(taiKhoan);
+                    Loading loading = new Loading(taiKhoan);
+                    taiKhoanDao.updateTrangThaiOnline(taiKhoan);
 	                dispose();
 	                loading.setVisible(true);
 	                loading.setLocationRelativeTo(null);

@@ -37,6 +37,11 @@ public class LopHoc {
     @JoinColumn(name = "maMonHoc")
     private MonHoc monHoc;
 
+    @ManyToOne
+    @JoinColumn(name = "maGiaoVien") // Khóa ngoại trỏ đến maTaiKhoan của giáo viên
+    private TaiKhoan giaoVien;
+
+
     public LopHoc(String maLop) {
         this.maLop = maLop;
     }
