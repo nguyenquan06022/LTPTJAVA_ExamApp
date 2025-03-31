@@ -38,6 +38,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
 
         card1 = new Components.Card();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
 
         card1.setColor1(new java.awt.Color(255, 255, 255));

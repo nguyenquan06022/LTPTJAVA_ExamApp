@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Components.ScrollBarCustom;
+
 /**
  *
  * @author Admin
@@ -77,6 +79,8 @@ public class DanhSachLopGVGUI extends javax.swing.JPanel {
         jPanel3.add(groupCard4);
 
         jScrollPane1.setViewportView(jPanel3);
+
+        jScrollPane1.setVerticalScrollBar(new ScrollBarCustom());
 
         jPanel2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 

@@ -32,7 +32,7 @@
               <Component id="menuCustom1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="avatar2" pref="851" max="32767" attributes="0"/>
+                  <Component id="avatar2" max="32767" attributes="0"/>
                   <Component id="main_panel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -51,7 +51,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="menuCustom1" pref="619" max="32767" attributes="0"/>
+                      <Component id="menuCustom1" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -86,15 +86,6 @@
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
-      <SubComponents>
-        <Component class="GUI.DanhSachLopGVGUI" name="danhSachLopGVGUI1">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-              <BorderConstraints direction="Center"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-      </SubComponents>
     </Container>
   </SubComponents>
 </Form>

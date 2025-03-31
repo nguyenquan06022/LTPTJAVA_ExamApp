@@ -4,7 +4,10 @@
  */
 package GUI;
 
+import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
+import Components.TableActionEvent;
+import javax.swing.table.TableCellEditor;
 
 /**
  *
@@ -17,9 +20,26 @@ public class QuanLyTaiKhoanGUI extends javax.swing.JPanel {
      */
     public QuanLyTaiKhoanGUI() {
         initComponents();
-        table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
-    }
+        TableActionEvent event= new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
 
+            @Override
+            public void onDelete(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void onView(int row) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        };
+        table.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
+        table.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

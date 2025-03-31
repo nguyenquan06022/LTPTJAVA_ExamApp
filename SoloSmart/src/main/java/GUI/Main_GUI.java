@@ -60,7 +60,6 @@ public class Main_GUI extends javax.swing.JFrame {
         menuCustom1 = new Components.MenuCustom("GV");
         avatar2 = new Components.Avatar();
         main_panel = new javax.swing.JPanel();
-        danhSachLopGVGUI1 = new GUI.DanhSachLopGVGUI();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(61, 141, 122));
@@ -73,7 +72,6 @@ public class Main_GUI extends javax.swing.JFrame {
 
     main_panel.setBackground(new java.awt.Color(255, 255, 255));
     main_panel.setLayout(new java.awt.BorderLayout());
-    main_panel.add(danhSachLopGVGUI1, java.awt.BorderLayout.CENTER);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -84,7 +82,7 @@ public class Main_GUI extends javax.swing.JFrame {
             .addComponent(menuCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(avatar2, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE)
+                .addComponent(avatar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(main_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addContainerGap())
     );
@@ -99,7 +97,7 @@ public class Main_GUI extends javax.swing.JFrame {
                     .addComponent(main_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap())
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(menuCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                    .addComponent(menuCustom1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGap(5, 5, 5))))
     );
 
@@ -143,7 +141,6 @@ public class Main_GUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Avatar avatar2;
-    private GUI.DanhSachLopGVGUI danhSachLopGVGUI1;
     private javax.swing.JPanel main_panel;
     private Components.MenuCustom menuCustom1;
     // End of variables declaration//GEN-END:variables
