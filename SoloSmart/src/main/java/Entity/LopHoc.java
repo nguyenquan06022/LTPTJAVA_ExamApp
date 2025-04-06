@@ -30,6 +30,7 @@ public class LopHoc {
     private List<KetQuaHocTap> ketQuaHocTap;
 
     @OneToMany(mappedBy = "lopHoc")
+    
     private Set<BaiKiemTra> baiKiemTra;
 
     @ManyToOne

@@ -24,11 +24,7 @@ public class test {
         System.out.println("EntityManager: " + dao);
         
         ArrayList<BaiKiemTra> dsMon= dao.getDanhSachBaiKiemTraTheoLop("LH25032025015344839");
-        for (BaiKiemTra bkt1 : dsMon) {
-    System.out.println("ID: " + bkt1.getMaBaiKiemTra()); // In thử ID
-    System.out.println("Tên bài kiểm tra: " + bkt1.getMatKhauBaiKiemTra()); // Thử in thuộc tính khác
-}
 
-//        if(dsMon!=null ) dsMon.forEach(x->System.out.println(x.toString()));
+        if(dsMon!=null ) dsMon.forEach(x->System.out.println(x));
     }
 }

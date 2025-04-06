@@ -94,6 +94,32 @@ public class MonHoc_DAO {
 
         return danhSachMonHoc;
     }
+    public String getTenMonHocTheoBaiKiemTra(String id) {
+    EntityTransaction tr = em.getTransaction();
+    try {
+        tr.begin();
+        String sql = "SELECT mh.tenMonHoc " +
+                     "FROM BaiKiemTras bkt " +
+                     "INNER JOIN LopHocs lh ON lh.maLop = bkt.maLop " +
+                     "INNER JOIN MonHocs mh ON mh.maMonHoc = lh.maMonHoc " +
+                     "WHERE bkt.maBaiKiemTra = :id";
+                     
+        Object result = em.createNativeQuery(sql)
+                          .setParameter("id", id) // Gán giá trị tham số
+                          .getSingleResult(); // Lấy kết quả duy nhất
+
+        tr.commit();
+
+        return result != null ? result.toString() : null; // Trả về kết quả dạng String
+
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
+        }
+        throw new RuntimeException(e);
+    }
+}
+
 
     public boolean updateMonHoc(MonHoc monHoc) {
         EntityTransaction tr = em.getTransaction();

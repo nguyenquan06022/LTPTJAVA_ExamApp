@@ -48,7 +48,11 @@ dependencies {
     implementation ("org.hibernate:hibernate-core:6.2.0.Final")
 
     // H2 Database
-    testImplementation ("com.h2database:h2:2.2.224")
+    implementation ("com.h2database:h2:2.2.224")
+
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout-swing
+    implementation("com.miglayout:miglayout-swing:5.0")
+
 
 }
 

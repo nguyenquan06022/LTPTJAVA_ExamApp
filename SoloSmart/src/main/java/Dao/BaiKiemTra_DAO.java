@@ -108,6 +108,54 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
+    public BaiKiemTra getBaiKiemTra() {
+        BaiKiemTra baiKiemTra = null;
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT top 1 mabaikiemtra, chophepxemdiem, chophepxemlai, heso, hienthidapan, matkhaubaikiemtra, " +
+                    "solanlambai, thangdiem, thoigianbatdau, thoigianketthuc, thoigianlambai, trangthai, madethi, malop " +
+                    "FROM BaiKiemTras WHERE maBaiKiemTra = ?";
+
+            // Lấy kết quả truy vấn dưới dạng Object[]
+            Object[] result = (Object[]) em.createNativeQuery(sql)
+                    .getSingleResult();
+
+            // Tạo đối tượng BaiKiemTra và set giá trị
+            if (result != null) {
+                baiKiemTra = new BaiKiemTra();
+                baiKiemTra.setMaBaiKiemTra((String) result[0]);
+                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+                baiKiemTra.setHeSo((Float) result[3]);
+                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+                baiKiemTra.setSoLanLamBai((Integer) result[6]);
+                baiKiemTra.setThangDiem((Integer) result[7]);
+                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+                baiKiemTra.setTrangThai((String) result[11]);
+
+                // Set các đối tượng liên kết
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) result[12]);
+                baiKiemTra.setDeThi(deThi);
+
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) result[13]);
+                baiKiemTra.setLopHoc(lopHoc);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return baiKiemTra;
+    }
     public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoan(String id) {
     List<BaiKiemTra> list = new ArrayList<>();
     EntityTransaction tr = em.getTransaction();
@@ -198,13 +246,38 @@ public class BaiKiemTra_DAO {
         try {
             tr.begin();
 
-            // JPQL query
-            String jpql = "SELECT b FROM BaiKiemTra b " +
-                    "WHERE b.trangThai = 'enable' AND b.lopHoc.maLop = :maLop";
-            danhSachBaiKiemTra = new ArrayList<>(em.createQuery(jpql, BaiKiemTra.class)
-                    .setParameter("maLop", maLop)
-                    .getResultList());
+            String sql = "SELECT * FROM BaiKiemTras \n" +
+            "WHERE trangThai = 'enable' AND  maLop=?";
+             List<Object[]> results = em.createNativeQuery(sql)
+                .setParameter(1, maLop)
+                .getResultList();
+             for (Object[] result : results) {
+            BaiKiemTra baiKiemTra = new BaiKiemTra();
+            baiKiemTra.setMaBaiKiemTra((String) result[0]);
+            baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+            baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+            baiKiemTra.setHeSo((Float) result[3]);
+            baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+            baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+            baiKiemTra.setSoLanLamBai((Integer) result[6]);
+            baiKiemTra.setThangDiem((Integer) result[7]);
+            baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+            baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+            baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+            baiKiemTra.setTrangThai((String) result[11]);
 
+            // Set quan hệ với DeThi
+            DeThi deThi = new DeThi();
+            deThi.setMaDeThi((String) result[12]);
+            baiKiemTra.setDeThi(deThi);
+
+            // Set quan hệ với LopHoc
+            LopHoc lopHoc = new LopHoc();
+            lopHoc.setMaLop((String) result[13]);
+            baiKiemTra.setLopHoc(lopHoc);
+
+            danhSachBaiKiemTra.add(baiKiemTra);
+        }
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {

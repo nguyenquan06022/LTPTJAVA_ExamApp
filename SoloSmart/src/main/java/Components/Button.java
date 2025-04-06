@@ -50,10 +50,21 @@ public class Button extends JButton {
         addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent e) {
-                if(SwingUtilities.isLeftMouseButton(e)){
-                    mousePressed=true;
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            mousePressed = true;
+            repaint();
+            
+            new Thread(() -> {
+                try {
+                    Thread.sleep(100); // Đợi 100ms rồi phục hồi
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
                 }
-            }
+                mousePressed = false;
+                repaint();
+            }).start();
+        }
+    }
 
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -65,21 +76,30 @@ public class Button extends JButton {
             
         });
     }
-
+    
     @Override
     protected void paintComponent(Graphics grphcs) {
         int width = getWidth();
         int height = getHeight();
+        
+        int shrinkSize = mousePressed ? 10 : 0; 
+        int newWidth = width - shrinkSize;
+        int newHeight = height - shrinkSize;
+        
+        int x = (width - newWidth) / 2;
+        int y = (height - newHeight) / 2;
+        
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if(mousePressed){
-            g2.setColor(getBackground().darker());
+            g2.setColor(getBackground().brighter());
+            
         }
         else{
             g2.setColor(getBackground());
         }
-        g2.fillRoundRect(0, 0, width, height, 5, 5);
+        g2.fillRoundRect(x, y, newWidth, newHeight, 5, 5);
         
         g2.dispose();
         grphcs.drawImage(img, 0, 0, null);
