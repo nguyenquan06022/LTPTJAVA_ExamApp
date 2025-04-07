@@ -1,6 +1,9 @@
 plugins {
     id 'java'
+    
 }
+
+
 
 group 'fit.iuh'
 version '1.0-SNAPSHOT'
@@ -25,6 +28,7 @@ dependencies {
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
     implementation('org.hibernate:hibernate-core:7.0.0.Beta1')
     implementation('org.glassfish.jaxb:jaxb-runtime:4.0.5')
+
     // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
     implementation ("com.microsoft.sqlserver:mssql-jdbc:12.3.0.jre20-preview")
     testImplementation ("junit:junit:4.13.1")

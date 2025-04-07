@@ -88,9 +88,11 @@ public class ListExam extends JPanel{
         setOpaque(false);
         
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
-        container.setOpaque(false);
-        
+        RoundedPanel container = new RoundedPanel(10);
+        container.setLayout(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
+//        container.setOpaque(false);
+        container.setBackground(Color.white);
+        container.setBorder(null);
         for (BaiKiemTra bkt : danhSachBaiKiemTra) {
              Subject subject = new Subject(bkt);
             int randomIndex = random.nextInt(gradients.length); // Chọn một cặp màu bất kỳ
@@ -106,6 +108,7 @@ public class ListExam extends JPanel{
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
         scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
         scrollPane.setOpaque(false);
+        scrollPane.setBorder(null);
 //        TitledBorder titledBorder = new TitledBorder(new LineBorder(Color.BLACK, 1), "Các bài kiểm tra sắp diễn ra",
 //        TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), Color.WHITE);
 //scrollPane.setBorder(titledBorder);

@@ -18,10 +18,10 @@ public class SV_Main_GUI extends javax.swing.JPanel {
      * Creates new form SV_Main_GUI
      */
     private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO(Main_GUI.em);
+    private List<BaiKiemTra> list;
     public SV_Main_GUI() {
+        list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
-        List<BaiKiemTra> list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
-        
     }
 
     /**
@@ -36,20 +36,21 @@ public class SV_Main_GUI extends javax.swing.JPanel {
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         circleBackgroundPanel2 = new Components.CircleBackgroundPanel();
         jLabel1 = new javax.swing.JLabel();
-        List<BaiKiemTra> list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         listExam1 = new Components.ListExam(list);
+        jLabel2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
 
-        circleBackgroundPanel1.setColor1(new java.awt.Color(204, 255, 204));
+        circleBackgroundPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        circleBackgroundPanel1.setColor1(new java.awt.Color(248, 250, 252));
 
         circleBackgroundPanel2.setColor1(new java.awt.Color(143, 135, 241));
         circleBackgroundPanel2.setColor2(new java.awt.Color(254, 210, 226));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Các bài kiểm tra sắp diễn ra");
+        jLabel1.setText("Bài tập, Đề Thi chưa làm");
 
         javax.swing.GroupLayout circleBackgroundPanel2Layout = new javax.swing.GroupLayout(circleBackgroundPanel2);
         circleBackgroundPanel2.setLayout(circleBackgroundPanel2Layout);
@@ -57,36 +58,42 @@ public class SV_Main_GUI extends javax.swing.JPanel {
             circleBackgroundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel2Layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
                 .addContainerGap())
         );
         circleBackgroundPanel2Layout.setVerticalGroup(
             circleBackgroundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel2Layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/welcome.png"))); // NOI18N
 
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
         circleBackgroundPanel1.setLayout(circleBackgroundPanel1Layout);
         circleBackgroundPanel1Layout.setHorizontalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel1Layout.createSequentialGroup()
-                .addContainerGap(589, Short.MAX_VALUE)
-                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(listExam1, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                    .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(690, Short.MAX_VALUE)
+                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(listExam1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel1Layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(listExam1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(listExam1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -97,7 +104,9 @@ public class SV_Main_GUI extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -106,6 +115,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private Components.CircleBackgroundPanel circleBackgroundPanel2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private Components.ListExam listExam1;
     // End of variables declaration//GEN-END:variables
 }
