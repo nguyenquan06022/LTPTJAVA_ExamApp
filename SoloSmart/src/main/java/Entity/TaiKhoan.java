@@ -12,16 +12,20 @@ import java.util.Set;
 public class TaiKhoan {
     @Id
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String maTaiKhoan;
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")
     private String tenTaiKhoan;
     
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String matKhau;
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String Ho;
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String Ten;
     @NonNull
     private String vaiTro;

@@ -14,6 +14,7 @@ import java.util.Set;
 public class LopHoc {
     @Id
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String maLop;
 
     @Column(columnDefinition = "nvarchar(255)")

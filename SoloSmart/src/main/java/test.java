@@ -1,6 +1,4 @@
-import Dao.BaiKiemTra_DAO;
-import Dao.DeThi_DAO;
-import Dao.MonHoc_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.MonHoc;
@@ -17,14 +15,20 @@ public class test {
     public static void main(String[] args) {
         LocalDateTime now = LocalDateTime.now();
         em=CreateDB.createDB();
-        System.out.println("DT"+df.format(now));
-        BaiKiemTra bkt= new BaiKiemTra();
-        LocalDateTime time= LocalDateTime.of(2025,1,23,10,30);
-        BaiKiemTra_DAO dao= new BaiKiemTra_DAO(em);
-        System.out.println("EntityManager: " + dao);
-        
-        ArrayList<BaiKiemTra> dsMon= dao.getDanhSachBaiKiemTraTheoLop("LH25032025015344839");
+//        System.out.println("DT"+df.format(now));
+//        BaiKiemTra bkt= new BaiKiemTra();
+//        LocalDateTime time= LocalDateTime.of(2025,1,23,10,30);
+//        BaiKiemTra_DAO dao= new BaiKiemTra_DAO(em);
+//        System.out.println("EntityManager: " + dao);
+//
+//        ArrayList<BaiKiemTra> dsMon= dao.getDanhSachBaiKiemTraTheoLop("LH25032025015344839");
+//
+//        if(dsMon!=null ) dsMon.forEach(x->System.out.println(x));
+        //TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
+        //System.out.println(taiKhoanDao.getTaiKhoan("TK07042025153354984"));
 
-        if(dsMon!=null ) dsMon.forEach(x->System.out.println(x));
+        //taiKhoanDao.importTaiKhoanFromExcel("C:\\Users\\Admin\\Desktop\\taikhoan.xlsx");
+//        KetQuaHocTap_DAO ketQuaHocTap_dao = new KetQuaHocTap_DAO(em);
+//        ketQuaHocTap_dao.importDanhSachTaiKhoanVaoLopHoc("C:\\Users\\Admin\\Desktop\\ds_tk_them_vao_lop.xlsx","LH07042025163902037");
     }
 }

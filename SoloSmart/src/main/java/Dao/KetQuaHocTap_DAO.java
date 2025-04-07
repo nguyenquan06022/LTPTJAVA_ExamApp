@@ -1,9 +1,17 @@
 package Dao;
 
 import Entity.KetQuaHocTap;
+import Entity.LopHoc;
+import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -100,5 +108,21 @@ public class KetQuaHocTap_DAO {
             throw new RuntimeException("Lỗi khi lấy danh sách kết quả học tập", e);
         }
         return danhSachKetQua;
+    }
+
+    //thêm sinh viên vào lớp học
+    public void importDanhSachTaiKhoanVaoLopHoc(String filePath,String maLop) {
+        try (FileInputStream fis = new FileInputStream(new File(filePath));
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Bỏ header
+                Row row = sheet.getRow(i);
+                String maTaiKhoan = row.getCell(0).getStringCellValue();
+                KetQuaHocTap ketQuaHocTap = new KetQuaHocTap(new LopHoc(maLop), new TaiKhoan(maTaiKhoan));
+                themKetQuaHocTap(ketQuaHocTap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
