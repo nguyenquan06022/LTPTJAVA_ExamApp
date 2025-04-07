@@ -217,8 +217,6 @@ public class BaiKiemTra_DAO {
     return list;
 }
 
-
-
     public ArrayList<BaiKiemTra> getDanhSachBaiKiemTra() {
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
@@ -354,6 +352,109 @@ public class BaiKiemTra_DAO {
         }
     }
 
+    // lấy ra danh sách bài kiểm tra của sinh viên theo lớp học
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaSinhVienTheoLop(String maTaiKhoan,String maLop) {
+        ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
 
+            String sql = "select maBaiKiemTra,choPhepXemDiem,choPhepXemLai,heSo,hienThiDapAn,matKhauBaiKiemTra,soLanLamBai,thangDiem,thoiGianBatDau,thoiGianKetThuc,thoiGianLamBai,bkt.trangThai,bkt.maDeThi,bkt.maLop from BaiKiemTras bkt \n" +
+                    "join LopHocs lh on lh.maLop = bkt.maLop\n" +
+                    "join KetQuaHocTaps kqht on kqht.maLop = lh.maLop\n" +
+                    "join TaiKhoans tk on tk.maTaiKhoan = kqht.maTaiKhoan\n" +
+                    "where tk.maTaiKhoan = ? and lh.maLop = ?\n" +
+                    "and bkt.trangThai = 'enable'";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .setParameter(2,maLop)
+                    .getResultList();
+            for (Object[] result : results) {
+                BaiKiemTra baiKiemTra = new BaiKiemTra();
+                baiKiemTra.setMaBaiKiemTra((String) result[0]);
+                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+                baiKiemTra.setHeSo((Float) result[3]);
+                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+                baiKiemTra.setSoLanLamBai((Integer) result[6]);
+                baiKiemTra.setThangDiem((Integer) result[7]);
+                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+                baiKiemTra.setTrangThai((String) result[11]);
 
+                // Set quan hệ với DeThi
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) result[12]);
+                baiKiemTra.setDeThi(deThi);
+
+                // Set quan hệ với LopHoc
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) result[13]);
+                baiKiemTra.setLopHoc(lopHoc);
+
+                danhSachBaiKiemTra.add(baiKiemTra);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachBaiKiemTra;
+    }
+
+    // lấy ra danh sách bài kiểm tra theo lớp học của giáo viên
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaGiaoVienTheoLop(String maTaiKhoan,String maLop) {
+        ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            String sql = "select maBaiKiemTra,choPhepXemDiem,choPhepXemLai,heSo,hienThiDapAn,matKhauBaiKiemTra,soLanLamBai,thangDiem,thoiGianBatDau,thoiGianKetThuc,thoiGianLamBai,bkt.trangThai,bkt.maDeThi,bkt.maLop from BaiKiemTras bkt join LopHocs lh on lh.maLop = bkt.maLop\n" +
+                    "join TaiKhoans tk on tk.maTaiKhoan = lh.maGiaoVien\n" +
+                    "where tk.maTaiKhoan = ? and lh.maLop = ?\n" +
+                    "and bkt.trangThai = 'enable'";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .setParameter(2,maLop)
+                    .getResultList();
+            for (Object[] result : results) {
+                BaiKiemTra baiKiemTra = new BaiKiemTra();
+                baiKiemTra.setMaBaiKiemTra((String) result[0]);
+                baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+                baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+                baiKiemTra.setHeSo((Float) result[3]);
+                baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+                baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+                baiKiemTra.setSoLanLamBai((Integer) result[6]);
+                baiKiemTra.setThangDiem((Integer) result[7]);
+                baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+                baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+                baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+                baiKiemTra.setTrangThai((String) result[11]);
+
+                // Set quan hệ với DeThi
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) result[12]);
+                baiKiemTra.setDeThi(deThi);
+
+                // Set quan hệ với LopHoc
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) result[13]);
+                baiKiemTra.setLopHoc(lopHoc);
+
+                danhSachBaiKiemTra.add(baiKiemTra);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachBaiKiemTra;
+    }
 }
