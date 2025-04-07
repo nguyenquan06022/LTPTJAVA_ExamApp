@@ -3,13 +3,20 @@ package Dao;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TaiKhoan_DAO {
     private EntityManager em;
@@ -284,6 +291,36 @@ public class TaiKhoan_DAO {
                 tr.rollback();
             }
             throw new RuntimeException(e);
+        }
+    }
+
+    // thêm danh sách tài khoản từ file Excel
+    public void importTaiKhoanFromExcel(String filePath) {
+        try (FileInputStream fis = new FileInputStream(new File(filePath));
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Bỏ header
+                Row row = sheet.getRow(i);
+                String ho = row.getCell(0).getStringCellValue();
+                String ten = row.getCell(1).getStringCellValue();
+                String gioiTinh = row.getCell(2).getStringCellValue();
+                String vaiTro = row.getCell(3).getStringCellValue();
+
+                TaiKhoan tk = new TaiKhoan();
+                tk.setMaTaiKhoan(generateMa());
+                tk.setHo(ho);
+                tk.setTen(ten);
+                tk.setGioiTinh(gioiTinh);
+                tk.setVaiTro(vaiTro);
+                tk.setTrangThai("enable");
+                tk.setDangOnline("offline");
+                tk.setTenTaiKhoan(ho + " " + ten);
+                tk.setMatKhau(UUID.randomUUID().toString().substring(0, 8)); // Mật khẩu ngẫu nhiên 8 ký tự
+
+                addTaiKhoan(tk); // Hàm bạn đã có
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

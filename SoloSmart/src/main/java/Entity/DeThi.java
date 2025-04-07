@@ -21,6 +21,7 @@ public class DeThi {
     @Column(columnDefinition = "nvarchar(255)")
     private String monHoc;
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String linkFile;
     @NonNull
     private String trangThai;

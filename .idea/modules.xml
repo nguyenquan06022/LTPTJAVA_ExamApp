@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/LTPTJAVA_ExamApp.iml" filepath="$PROJECT_DIR$/.idea/LTPTJAVA_ExamApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/SoloSmart.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SoloSmart.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fit.iuh.SoloSmart.main.iml" filepath="$PROJECT_DIR$/.idea/modules/fit.iuh.SoloSmart.main.iml" />
     </modules>
   </component>
 </project>

@@ -7,21 +7,27 @@ import java.util.Objects;
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "KetQuaHocTaps")
 public class KetQuaHocTap {
 
-    @Id
-    @NonNull
-    private float diemThuongKy;
-    @Id
-    @NonNull
-    private float diemGiuaKy;
-    @Id
-    @NonNull
-    private float diemCuoiKy;
-    @NonNull
-    private float diemTBMon;
+    private Float diemThuongKy;
+    private Float diemGiuaKy;
+    private Float diemCuoiKy;
+    private Float diemTBMon;
+
+    public KetQuaHocTap(float diemThuongKy, float diemGiuaKy, float diemCuoiKy, float diemTBMon, TaiKhoan taiKhoan, LopHoc lopHoc) {
+        this.diemThuongKy = diemThuongKy;
+        this.diemGiuaKy = diemGiuaKy;
+        this.diemCuoiKy = diemCuoiKy;
+        this.diemTBMon = diemTBMon;
+        this.taiKhoan = taiKhoan;
+        this.lopHoc = lopHoc;
+    }
+
+    public KetQuaHocTap(LopHoc lopHoc,TaiKhoan taiKhoan) {
+        this.lopHoc = lopHoc;
+        this.taiKhoan = taiKhoan;
+    }
 
     @Id
     @ManyToOne
