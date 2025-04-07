@@ -33,8 +33,8 @@ public class KetQuaHocTap_Test {
     @Test
     void testThemKetQuaHocTap() {
         KetQuaHocTap ketQuaHocTap = new KetQuaHocTap();
-        ketQuaHocTap.setDiemThuongKy(10);
-        ketQuaHocTap.setDiemGiuaKy(9);
+        ketQuaHocTap.setDiemThuongKy(10f);
+        ketQuaHocTap.setDiemGiuaKy(9f);
         ketQuaHocTap.setDiemCuoiKy((float)9.5);
         TaiKhoan tk= new TaiKhoan();
         tk.setMaTaiKhoan("TK23012025025419647");
@@ -66,7 +66,7 @@ public class KetQuaHocTap_Test {
         boolean result = dao.capNhatKetQuaHocTap(ketQuaHocTap);
         assertTrue(result, "Cập nhật kết quả học tập không thành công.");
         KetQuaHocTap resultKQ = dao.getKetQuaHocTap("TK001","DHKTMP18A");
-        assertEquals(4.0,resultKQ.getDiemTBMon());
+        assertEquals(4f,resultKQ.getDiemTBMon());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class KetQuaHocTap_Test {
     @Test
     void testUpdate(){
         KetQuaHocTap kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
-        kq.setDiemTBMon(10);
+        kq.setDiemTBMon(10f);
         boolean rs= dao.capNhatKetQuaHocTap(kq);
         assertTrue(rs);
         kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
