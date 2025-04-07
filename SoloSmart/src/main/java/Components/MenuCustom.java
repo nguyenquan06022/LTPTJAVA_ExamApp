@@ -4,6 +4,8 @@
  */
 package Components;
 
+import GUI.Main_GUI;
+import GUI.SV_Main_GUI;
 import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,16 +25,23 @@ public class MenuCustom extends javax.swing.JPanel {
      * Creates new form MenuCustom
      */
     private final String[] GV={"Home","Exam","Question Bank"};
+    private final String[] SV={"Home","Class"};
     public MenuCustom() {
         initComponents();
         setOpaque(false);
         repaint();
         revalidate();
     }
-    public MenuCustom(String role){
+    private String role;
+    public  MenuCustom(String role){
+        
         initComponents();
-        if(role=="GV")
-        initMenu(GV);
+        
+        this.role=role;
+        if(role.equalsIgnoreCase("GV"))
+            initMenu(GV);
+        else if(role.equalsIgnoreCase("SV"))
+            initMenu(SV);
         setOpaque(false);
         repaint();
         revalidate();
@@ -44,9 +53,18 @@ public class MenuCustom extends javax.swing.JPanel {
             listItems.add(menuItem);
             menuItem.addActionListener(x->handleClick(menuItem));
         }
+         if(role=="GV"){
+             
+         }
+        else if(role=="SV"){
+             SV_Main_GUI gui= new SV_Main_GUI();
+             Main_GUI.main_panel.removeAll();
+             Main_GUI.main_panel.add(gui);
+        }
         menuItemList1.updateMenu(listItems);
     }
     public void handleClick(MenuItemCustom item){
+        Avatar.updateTitle(item.getItemText());
         System.out.println(item.getItemText());
     }
     /**

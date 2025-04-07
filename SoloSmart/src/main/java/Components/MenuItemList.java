@@ -25,11 +25,13 @@ public class MenuItemList extends JPanel {
         
     }
     public void updateMenu(List<MenuItemCustom> menuItems){
+        
         init(menuItems);
     }
     
     public void init(List<MenuItemCustom> menuItems) {
     itemPanel.removeAll();
+    
     group.clearSelection();
     setLayout(new BorderLayout());
         setBackground(Color.white);

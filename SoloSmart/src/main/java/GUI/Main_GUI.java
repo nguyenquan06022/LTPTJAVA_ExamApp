@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 /**
  *
  * @author THANH PHU
@@ -27,9 +28,10 @@ public class Main_GUI extends javax.swing.JFrame {
         setTitle("SoloSmart - Multiple Choice App");
     }
     public Main_GUI(TaiKhoan tk) {
-        initComponents();
+        
         this.em= DangNhapGUI.em;
         this.tk= tk;
+        initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
@@ -57,7 +59,7 @@ public class Main_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        menuCustom1 = new Components.MenuCustom("GV");
+        menuCustom1 = new Components.MenuCustom(Main_GUI.tk.getVaiTro());
         avatar2 = new Components.Avatar();
         main_panel = new javax.swing.JPanel();
 
@@ -139,9 +141,12 @@ public class Main_GUI extends javax.swing.JFrame {
             }
         });
     }
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Avatar avatar2;
-    private javax.swing.JPanel main_panel;
+    public static javax.swing.JPanel main_panel;
     private Components.MenuCustom menuCustom1;
     // End of variables declaration//GEN-END:variables
 }

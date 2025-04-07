@@ -52,7 +52,9 @@ public class Avatar extends javax.swing.JPanel {
             jLabel1.setIcon(new ImageIcon(getClass().getResource("/Image/avt-female.png")));
         }
     }
-
+    public static void updateTitle(String newTitle){
+        title.setText(newTitle);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +63,7 @@ public class Avatar extends javax.swing.JPanel {
         lbTitle = new javax.swing.JLabel();
         lbValues = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
 
         lbTitle.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         lbTitle.setForeground(new java.awt.Color(255, 255, 255));
@@ -74,14 +77,21 @@ public class Avatar extends javax.swing.JPanel {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/avt-male.png"))); // NOI18N
 
+        title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        title.setForeground(new java.awt.Color(255, 255, 255));
+        title.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title.setText("Home");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbIcon)
-                .addGap(540, 540, 540)
+                .addGap(541, 541, 541)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(31, 31, 31)
@@ -102,14 +112,18 @@ public class Avatar extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbTitle)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbIcon)
-                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lbValues)
-                                .addContainerGap())))))
+                                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbIcon)
+                                .addGap(0, 0, Short.MAX_VALUE))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(title)
+                .addGap(22, 22, 22))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -131,5 +145,6 @@ public class Avatar extends javax.swing.JPanel {
     private javax.swing.JLabel lbIcon;
     private javax.swing.JLabel lbTitle;
     private javax.swing.JLabel lbValues;
+    private static javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 }

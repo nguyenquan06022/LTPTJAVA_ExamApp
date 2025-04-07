@@ -62,7 +62,7 @@
   <SubComponents>
     <Component class="Components.MenuCustom" name="menuCustom1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.MenuCustom(&quot;GV&quot;)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.MenuCustom(Main_GUI.tk.getVaiTro())"/>
       </AuxValues>
     </Component>
     <Component class="Components.Avatar" name="avatar2">
@@ -84,6 +84,9 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>

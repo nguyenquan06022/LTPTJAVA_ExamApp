@@ -16,6 +16,7 @@ import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,33 +48,13 @@ public class ListExam extends JPanel{
         {new Color(67, 206, 162), new Color(24, 90, 157)}  // Xanh lục - Xanh biển
     };
     
-    public ListExam(ArrayList<BaiKiemTra> danhSachBaiKiemTra) {
-        setOpaque(false);
+    public ListExam(List<BaiKiemTra> danhSachBaiKiemTra) {
+        init(danhSachBaiKiemTra);
         
-        setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
-        container.setOpaque(false);
-        
-        for (BaiKiemTra bkt : danhSachBaiKiemTra) {
-             Subject subject = new Subject(bkt);
-            int randomIndex = random.nextInt(gradients.length); // Chọn một cặp màu bất kỳ
-            subject.getRoundedGradientPanel1().setColor1(gradients[randomIndex][0]);
-            subject.getRoundedGradientPanel1().setColor2(gradients[randomIndex][1]);
-            container.add(subject, "growx, wrap");
-        }
-        
-        JScrollPane scrollPane = new JScrollPane(container);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setVerticalScrollBar(new ScrollBarCustom());
-        scrollPane.setPreferredSize(new Dimension(450, 500));
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
-        scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
-        scrollPane.setOpaque(false);
-        TitledBorder titledBorder = new TitledBorder(new LineBorder(Color.BLACK, 1), "Các bài kiểm tra sắp diễn ra",
-        TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), Color.WHITE);
-scrollPane.setBorder(titledBorder);
-        add(scrollPane, BorderLayout.CENTER);
-        
+    }
+    public void updateExam(ArrayList<BaiKiemTra> danhSachBaiKiemTra){
+        this.removeAll();
+        init(danhSachBaiKiemTra);
     }
     Random random = new Random();
     public ListExam() {
@@ -98,10 +79,36 @@ scrollPane.setBorder(titledBorder);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
         scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
         scrollPane.setOpaque(false);
-        TitledBorder titledBorder = new TitledBorder(new LineBorder(Color.BLACK, 2), "Các bài kiểm tra sắp diễn ra",
-        TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial", Font.BOLD, 18), Color.BLACK);
-scrollPane.setBorder(titledBorder);
+//        TitledBorder titledBorder = new TitledBorder(new LineBorder(Color.BLACK, 2), "Các bài kiểm tra sắp diễn ra",
+//        TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial", Font.BOLD, 18), Color.BLACK);
+//scrollPane.setBorder(titledBorder);
         add(scrollPane, BorderLayout.CENTER);
+    }
+    public void init(List<BaiKiemTra> danhSachBaiKiemTra){
+        setOpaque(false);
+        
+        setLayout(new BorderLayout());
+        JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
+        container.setOpaque(false);
+        
+        for (BaiKiemTra bkt : danhSachBaiKiemTra) {
+             Subject subject = new Subject(bkt);
+            int randomIndex = random.nextInt(gradients.length); // Chọn một cặp màu bất kỳ
+            subject.getRoundedGradientPanel1().setColor1(gradients[randomIndex][0]);
+            subject.getRoundedGradientPanel1().setColor2(gradients[randomIndex][1]);
+            container.add(subject, "growx, wrap");
+        }
+        
+        JScrollPane scrollPane = new JScrollPane(container);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBar(new ScrollBarCustom());
+        scrollPane.setPreferredSize(new Dimension(450, 500));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
+        scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
+        scrollPane.setOpaque(false);
+//        TitledBorder titledBorder = new TitledBorder(new LineBorder(Color.BLACK, 1), "Các bài kiểm tra sắp diễn ra",
+//        TitledBorder.LEADING, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), Color.WHITE);
+//scrollPane.setBorder(titledBorder);
         add(scrollPane, BorderLayout.CENTER);
     }
     
