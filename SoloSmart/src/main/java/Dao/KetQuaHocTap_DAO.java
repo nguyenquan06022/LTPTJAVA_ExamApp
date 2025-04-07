@@ -36,57 +36,92 @@ public class KetQuaHocTap_DAO {
 
     // Thêm kết quả học tập
     public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
-        EntityTransaction tr = em.getTransaction();
-        try {
-            tr.begin();
-            em.persist(ketQuaHocTap);
-            tr.commit();
-            return true;
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
+    EntityTransaction tr = em.getTransaction();
+    try {
+        tr.begin();
+        // Dùng native SQL để thêm kết quả học tập vào cơ sở dữ liệu
+        String sql = "INSERT INTO KetQuaHocTaps (diemCuoiKy, diemGiuaKy, diemTBMon, diemThuongKy, maTaiKhoan, maLop) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+        em.createNativeQuery(sql)
+          .setParameter(1, ketQuaHocTap.getDiemCuoiKy())
+          .setParameter(2, ketQuaHocTap.getDiemGiuaKy())
+          .setParameter(3, ketQuaHocTap.getDiemTBMon())
+          .setParameter(4, ketQuaHocTap.getDiemThuongKy())
+          .setParameter(5, ketQuaHocTap.getTaiKhoan().getMaTaiKhoan())
+          .setParameter(6, ketQuaHocTap.getLopHoc().getMaLop())
+          .executeUpdate();
+        tr.commit();
+        return true;
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
         }
+        throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
     }
+}
+
 
     // Lấy kết quả học tập dựa trên mã tài khoản và mã lớp
     public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) {
-        EntityTransaction tr = em.getTransaction();
-        KetQuaHocTap ketQuaHocTap = null;
-        try {
-            tr.begin();
-            String jpql = "SELECT k FROM KetQuaHocTap k " +
-                    "WHERE k.taiKhoan.maTaiKhoan = :maTaiKhoan AND k.lopHoc.maLop = :maLop";
-            ketQuaHocTap = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter("maTaiKhoan", maTaiKhoan)
-                    .setParameter("maLop", maLop)
-                    .getSingleResult();
-            tr.commit();
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi lấy kết quả học tập", e);
+    EntityTransaction tr = em.getTransaction();
+    KetQuaHocTap ketQuaHocTap = null;
+    try {
+        tr.begin();
+        // Dùng native SQL để lấy kết quả học tập
+        String sql = "SELECT * FROM KetQuaHocTaps WHERE maTaiKhoan = ? AND maLop = ?";
+        List<Object[]> results = em.createNativeQuery(sql)
+                                   .setParameter(1, maTaiKhoan)
+                                   .setParameter(2, maLop)
+                                   .getResultList();
+
+        if (!results.isEmpty()) {
+            Object[] result = results.get(0);  // Chỉ lấy kết quả đầu tiên (nếu có)
+            ketQuaHocTap = new KetQuaHocTap();
+            ketQuaHocTap.setDiemCuoiKy((Float) result[0]);
+            ketQuaHocTap.setDiemGiuaKy((Float) result[1]);
+            ketQuaHocTap.setDiemTBMon((Float) result[2]);
+            ketQuaHocTap.setDiemThuongKy((Float) result[3]);
+            ketQuaHocTap.setTaiKhoan(new TaiKhoan((String) result[4]));
+            ketQuaHocTap.setLopHoc(new LopHoc((String) result[5]));
         }
-        return ketQuaHocTap;
+
+        tr.commit();
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
+        }
+        throw new RuntimeException("Lỗi khi lấy kết quả học tập", e);
     }
+    return ketQuaHocTap;
+}
+
 
     // Cập nhật kết quả học tập
     public boolean capNhatKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
-        EntityTransaction tr = em.getTransaction();
-        try {
-            tr.begin();
-            em.merge(ketQuaHocTap);
-            tr.commit();
-            return true;
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi cập nhật kết quả học tập", e);
+    EntityTransaction tr = em.getTransaction();
+    try {
+        tr.begin();
+        // Dùng native SQL để cập nhật kết quả học tập
+        String sql = "UPDATE KetQuaHocTaps SET diemCuoiKy = ?, diemGiuaKy = ?, diemTBMon = ?, diemThuongKy = ? " +
+                     "WHERE maTaiKhoan = ? AND maLop = ?";
+        em.createNativeQuery(sql)
+          .setParameter(1, ketQuaHocTap.getDiemCuoiKy())
+          .setParameter(2, ketQuaHocTap.getDiemGiuaKy())
+          .setParameter(3, ketQuaHocTap.getDiemTBMon())
+          .setParameter(4, ketQuaHocTap.getDiemThuongKy())
+          .setParameter(5, ketQuaHocTap.getTaiKhoan().getMaTaiKhoan())
+          .setParameter(6, ketQuaHocTap.getLopHoc().getMaLop())
+          .executeUpdate();
+        tr.commit();
+        return true;
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
         }
+        throw new RuntimeException("Lỗi khi cập nhật kết quả học tập", e);
     }
+}
+
 
     // Lấy danh sách kết quả học tập dựa trên mã lớp
     public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) {
@@ -95,11 +130,22 @@ public class KetQuaHocTap_DAO {
         try {
             tr.begin();
             // Sử dụng cú pháp JPQL
-            String jpql = "SELECT k FROM KetQuaHocTap k WHERE k.lopHoc.maLop = :maLop";
-            List<KetQuaHocTap> results = em.createQuery(jpql, KetQuaHocTap.class)
-                    .setParameter("maLop", maLop)
-                    .getResultList();
-            danhSachKetQua.addAll(results);
+           String sql = "SELECT * FROM KetQuaHocTaps WHERE maLop = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                                       .setParameter(1, maLop)
+                                       .getResultList();
+            for(Object[] result: results){
+                KetQuaHocTap ketQuaHocTap= new KetQuaHocTap();
+                ketQuaHocTap.setDiemCuoiKy((Float)result[0]);
+                ketQuaHocTap.setDiemGiuaKy((Float)result[1]);
+                ketQuaHocTap.setDiemTBMon((Float)result[2]);
+                ketQuaHocTap.setDiemThuongKy((Float)result[3]);
+                ketQuaHocTap.setTaiKhoan(new TaiKhoan((String) result[4]));
+                ketQuaHocTap.setLopHoc(new LopHoc((String) result[5]));
+                
+                danhSachKetQua.add(ketQuaHocTap);
+            }
+            
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {

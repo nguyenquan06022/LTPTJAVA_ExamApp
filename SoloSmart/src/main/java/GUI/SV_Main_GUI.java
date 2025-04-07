@@ -22,6 +22,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
     public SV_Main_GUI() {
         list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
+        jLabel1.setText("Bài tập, Đề Thi chưa làm ( "+list.size()+" bài)");
     }
 
     /**
@@ -50,15 +51,16 @@ public class SV_Main_GUI extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Bài tập, Đề Thi chưa làm");
 
         javax.swing.GroupLayout circleBackgroundPanel2Layout = new javax.swing.GroupLayout(circleBackgroundPanel2);
         circleBackgroundPanel2.setLayout(circleBackgroundPanel2Layout);
         circleBackgroundPanel2Layout.setHorizontalGroup(
             circleBackgroundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(circleBackgroundPanel2Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                 .addContainerGap())
         );
         circleBackgroundPanel2Layout.setVerticalGroup(
