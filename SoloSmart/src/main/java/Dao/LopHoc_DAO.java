@@ -158,4 +158,87 @@ public class LopHoc_DAO {
             throw new RuntimeException(e);
         }
     }
+
+    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHocCuaSinhVien(String maTaiKhoan, String namHoc) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT lh.maLop, lh.namHoc, lh.siSo, lh.tenLop, lh.trangThai, lh.maMonHoc, lh.maGiaoVien " +
+                    "FROM LopHocs lh " +
+                    "JOIN KetQuaHocTaps kqht ON lh.maLop = kqht.maLop " +
+                    "JOIN TaiKhoans tk ON tk.maTaiKhoan = kqht.maTaiKhoan " +
+                    "WHERE lh.namHoc = ? " +
+                    "AND tk.maTaiKhoan = ? " +
+                    "AND lh.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, namHoc)
+                    .setParameter(2, maTaiKhoan)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
+
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLopHocCuaSinhVien(String maTaiKhoan, String tenLopHoc) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+
+            // Câu lệnh SQL với COLLATE Latin1_General_CI_AI để không phân biệt dấu
+            String sql = "SELECT lh.maLop, lh.namHoc, lh.siSo, lh.tenLop, lh.trangThai, lh.maGiaoVien, lh.maMonHoc " +
+                    "FROM LopHocs lh " +
+                    "JOIN KetQuaHocTaps kqht ON lh.maLop = kqht.maLop " +
+                    "JOIN TaiKhoans tk ON tk.maTaiKhoan = kqht.maTaiKhoan " +
+                    "WHERE lh.tenLop COLLATE Latin1_General_CI_AI LIKE '%' + ? + '%' " +
+                    "AND tk.maTaiKhoan = ? " +
+                    "AND lh.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, tenLopHoc)  // Set tenLopHoc vào tham số đầu tiên
+                    .setParameter(2, maTaiKhoan) // Set maTaiKhoan vào tham số thứ hai
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
+
 }

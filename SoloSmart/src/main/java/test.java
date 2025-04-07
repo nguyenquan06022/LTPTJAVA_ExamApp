@@ -30,5 +30,8 @@ public class test {
         //taiKhoanDao.importTaiKhoanFromExcel("C:\\Users\\Admin\\Desktop\\taikhoan.xlsx");
 //        KetQuaHocTap_DAO ketQuaHocTap_dao = new KetQuaHocTap_DAO(em);
 //        ketQuaHocTap_dao.importDanhSachTaiKhoanVaoLopHoc("C:\\Users\\Admin\\Desktop\\ds_tk_them_vao_lop.xlsx","LH07042025163902037");
+//        LopHoc_DAO lopHoc_dao = new LopHoc_DAO(em);
+//        System.out.println(lopHoc_dao.getDanhSachLopHocTheoTenLopHocCuaSinhVien("TK07042025163900406","Bachelor of Psychology"));
+
     }
 }
