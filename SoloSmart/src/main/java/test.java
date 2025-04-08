@@ -37,7 +37,13 @@ public class test {
                 // System.out.println(lopHoc_dao.getDanhSachLopHocTheoTenLopHocCuaSinhVien("TK07042025163900406","Bachelor
                 // of Psychology"));
 //                 System.out.println(ketQuaHocTap_dao.getDanhSachKetQuaHocTap("LH07042025222803640"));
-                 BaiKiemTra_DAO baiKiemTraDao = new BaiKiemTra_DAO(em);
-                 baiKiemTraDao.getDanhSachBaiKiemTraCuaGiaoVienTheoLop("TK07042025222803300", "LH07042025222803640").forEach(x->System.out.println(x));
+//                 BaiKiemTra_DAO baiKiemTraDao = new BaiKiemTra_DAO(em);
+//                 baiKiemTraDao.getDanhSachBaiKiemTraCuaGiaoVienTheoLop("TK07042025222803300", "LH07042025222803640").forEach(x->System.out.println(x));
+
+//            KetQuaHocTap_DAO ketQuaHocTap_dao = new KetQuaHocTap_DAO(em);
+//            ketQuaHocTap_dao.getDanhSachKetQuaHocTap("LH08042025002203983").forEach(x -> System.out.println(x));
+
+//            LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
+//            System.out.println(lopHocDao.getDanhSachLopHocTheoTenLop("Master of Com"));
         }
 }

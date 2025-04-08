@@ -66,7 +66,7 @@ public class BaiKiemTra_DAO {
             tr.begin();
             String sql = "SELECT mabaikiemtra, chophepxemdiem, chophepxemlai, heso, hienthidapan, matkhaubaikiemtra, " +
                     "solanlambai, thangdiem, thoigianbatdau, thoigianketthuc, thoigianlambai, trangthai, madethi, malop " +
-                    "FROM BaiKiemTras WHERE maBaiKiemTra = ?";
+                    "FROM BaiKiemTras WHERE maBaiKiemTra = ? and trangthai ='enable'";
 
             // Lấy kết quả truy vấn dưới dạng Object[]
             Object[] result = (Object[]) em.createNativeQuery(sql)
@@ -171,7 +171,7 @@ public class BaiKiemTra_DAO {
             INNER JOIN KetQuaHocTaps kqht ON kqht.maTaiKhoan = tk.maTaiKhoan
             INNER JOIN LopHocs lh ON lh.maLop = kqht.maLop
             INNER JOIN BaiKiemTras bkt ON bkt.maLop = lh.maLop
-            WHERE tk.maTaiKhoan = ?
+            WHERE tk.maTaiKhoan = ? AND bkt.trangThai = 'enable'
             AND bkt.thoiGianBatDau > GETDATE()
             """;
 
