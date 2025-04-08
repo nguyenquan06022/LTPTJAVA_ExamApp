@@ -335,6 +335,8 @@ public class Data {
             data.GenerateSV(80);
             data.GenerateGV(20);
             data.GenerateMonHoc(10);
+            TaiKhoan taiKhoanAdmin = new TaiKhoan(taiKhoanDao.generateMa(),"admin","admin","Nguyen Nhat","Quan","AD","enable","offline","Nam");
+            taiKhoanDao.addTaiKhoan(taiKhoanAdmin);
             ArrayList<TaiKhoan> dsGV= taiKhoanDao.getDanhSachTaiKhoanGV();
             ArrayList<TaiKhoan> dsSV= taiKhoanDao.getDanhSachTaiKhoanSV();
             ArrayList<MonHoc> dsMH= monHocDao.getDanhSachMonHoc();
