@@ -84,7 +84,7 @@ public class PanelAction extends javax.swing.JPanel {
 
         cmdEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/edit.png"))); // NOI18N
         
-        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/delete.png"))); // NOI18N
+        cmdDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/deleteTable.png"))); // NOI18N
 
         cmdView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/view.png"))); // NOI18N
 

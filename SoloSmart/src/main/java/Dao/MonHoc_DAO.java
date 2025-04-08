@@ -49,9 +49,9 @@ public class MonHoc_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maMonHoc,tenMonHoc,trangThai from MonHocs WHERE maMonHoc = ?";
+            String sql = "select maMonHoc,tenMonHoc,trangThai from MonHocs WHERE maMonHoc like ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
-                    .setParameter(1, id)
+                    .setParameter(1, "%"+id+"%")
                     .getSingleResult();
             if (result != null) {
                 monHoc = new MonHoc();
@@ -94,6 +94,34 @@ public class MonHoc_DAO {
 
         return danhSachMonHoc;
     }
+    public ArrayList<MonHoc> getDanhSachMonHocTheoTen(String ten) {
+        ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select maMonHoc,tenMonHoc,trangThai from MonHocs where (tenMonHoc like ? or mamonhoc like ?) and trangThai = 'enable'";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, "%"+ten+"%")
+                    .setParameter(2, "%"+ten+"%")
+                    .getResultList();
+            for (Object[] row : results) {
+                MonHoc monHoc = new MonHoc();
+                monHoc.setMaMonHoc((String) row[0]);
+                monHoc.setTenMonHoc((String) row[1]);
+                monHoc.setTrangThai((String) row[2]);
+                danhSachMonHoc.add(monHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachMonHoc;
+    }
+    
     public String getTenMonHocTheoBaiKiemTra(String id) {
     EntityTransaction tr = em.getTransaction();
     try {

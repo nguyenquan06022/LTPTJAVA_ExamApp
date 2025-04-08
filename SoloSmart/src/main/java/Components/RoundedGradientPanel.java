@@ -67,17 +67,5 @@ public class RoundedGradientPanel extends JPanel {
         g2d.dispose(); // Giải phóng tài nguyên đồ họa
     }
 
-    public static void main(String[] args) {
-        // Tạo JFrame chứa panel gradient bo góc
-        JFrame frame = new JFrame("Rounded Gradient Panel");
-        frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        // Tạo panel gradient bo góc
-        RoundedGradientPanel panel = new RoundedGradientPanel(Color.BLUE, Color.MAGENTA, 30);
-        frame.add(panel, BorderLayout.CENTER);
-
-        frame.setVisible(true);
-    }
+   
 }
