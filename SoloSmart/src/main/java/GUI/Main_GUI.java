@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
+import Components.Avatar;
 import Components.Model_Card;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
@@ -36,7 +37,7 @@ public class Main_GUI extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
-        String vaiTro= tk.getVaiTro().equalsIgnoreCase("GV")? "Giao Vien":"Sinh Vien";
+        String vaiTro= tk.getVaiTro().equalsIgnoreCase("GV")? "Giao Vien":tk.getVaiTro().equalsIgnoreCase("SV")?"Sinh Vien":"Admin";
         avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource("")),
                 vaiTro, tk.getHo()+" "+tk.getTen()));
         if(tk.getGioiTinh().equalsIgnoreCase("nam")){
@@ -47,6 +48,12 @@ public class Main_GUI extends javax.swing.JFrame {
         }
         if(tk.getVaiTro().equalsIgnoreCase("SV")){
             main_panel.add(new SV_Main_GUI());
+        }
+        else if(tk.getVaiTro().equalsIgnoreCase("GV")){
+            
+        }else{
+            main_panel.add(new Admin_Subject());
+            Avatar.updateTitle("Subject");
         }
     }
 

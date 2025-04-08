@@ -4,6 +4,7 @@
  */
 package Components;
 
+import GUI.Admin_Subject;
 import GUI.Main_GUI;
 import GUI.SV_Main_GUI;
 import com.sun.java.accessibility.util.AWTEventMonitor;
@@ -26,6 +27,7 @@ public class MenuCustom extends javax.swing.JPanel {
      */
     private final String[] GV={"Home","Exam","Question Bank"};
     private final String[] SV={"Home","Class"};
+    private final String[] AD={"Subject","Class","Account"};
     public MenuCustom() {
         initComponents();
         setOpaque(false);
@@ -42,6 +44,8 @@ public class MenuCustom extends javax.swing.JPanel {
             initMenu(GV);
         else if(role.equalsIgnoreCase("SV"))
             initMenu(SV);
+        else if(role.equalsIgnoreCase("AD"))
+            initMenu(AD);
         setOpaque(false);
         repaint();
         revalidate();
@@ -53,14 +57,19 @@ public class MenuCustom extends javax.swing.JPanel {
             listItems.add(menuItem);
             menuItem.addActionListener(x->handleClick(menuItem));
         }
-         if(role=="GV"){
-             
-         }
-        else if(role=="SV"){
-             SV_Main_GUI gui= new SV_Main_GUI();
-             Main_GUI.main_panel.removeAll();
-             Main_GUI.main_panel.add(gui);
-        }
+//         if(role.equalsIgnoreCase("GV")){
+//             
+//         }
+//        else if(role.equalsIgnoreCase("SV")){
+//             SV_Main_GUI gui= new SV_Main_GUI();
+//             Main_GUI.main_panel.removeAll();
+//             Main_GUI.main_panel.add(gui);
+//        }
+//        else if(role.equalsIgnoreCase("AD")){
+//             Admin_Subject gui= new Admin_Subject();
+//             Main_GUI.main_panel.removeAll();
+//             Main_GUI.main_panel.add(gui);
+//        }
         menuItemList1.updateMenu(listItems);
     }
     public void handleClick(MenuItemCustom item){

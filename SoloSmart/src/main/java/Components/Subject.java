@@ -40,7 +40,7 @@ public class Subject extends javax.swing.JPanel {
         MonHoc_DAO mh_dao= new MonHoc_DAO(em);
         initComponents();
         subject.setText(mh_dao.getTenMonHocTheoBaiKiemTra(bkt.getMaBaiKiemTra()));
-        time.setText(bkt.getThoiGianLamBai()+" minutes");
+        time.setText(bkt.getThoiGianLamBai()+" phút");
         date.setText(timeDF.format(bkt.getThoiGianBatDau())+" "+dateDF.format(bkt.getThoiGianBatDau()));
     }
              
