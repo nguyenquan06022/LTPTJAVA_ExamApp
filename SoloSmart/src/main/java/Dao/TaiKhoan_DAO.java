@@ -86,7 +86,7 @@ public class TaiKhoan_DAO {
             if (tr.isActive()) {
                 tr.rollback();
             }
-            throw new RuntimeException(e);
+            return null;
         }
 
         return taiKhoan;
@@ -322,5 +322,23 @@ public class TaiKhoan_DAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanFromExcel(String filePath) {
+        try (FileInputStream fis = new FileInputStream(new File(filePath));
+             Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            ArrayList<TaiKhoan> list= new ArrayList<>();
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Bỏ header
+                Row row = sheet.getRow(i);
+                String maTaiKhoan = row.getCell(0).getStringCellValue();
+
+                TaiKhoan tk = getTaiKhoan(maTaiKhoan);
+                list.add(tk); // Hàm bạn đã có
+            }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

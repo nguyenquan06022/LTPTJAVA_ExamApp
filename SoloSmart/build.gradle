@@ -61,7 +61,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.miglayout/miglayout-swing
     implementation("com.miglayout:miglayout-swing:5.0")
 
-
+    implementation(files("libs/swing-jnafilechooser.jar"));
+    implementation(files("libs/jna-5.5.0.jar"));
 }
 
 

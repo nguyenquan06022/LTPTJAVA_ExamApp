@@ -17,13 +17,19 @@ import javax.swing.JTable;
 public class TableActionCellEditor extends DefaultCellEditor {
     
     private TableActionEvent event;
+    private String type="";
     public TableActionCellEditor(TableActionEvent event) {
         super(new JCheckBox());
         this.event = event;
     }
+    public TableActionCellEditor(TableActionEvent event, String type) {
+        super(new JCheckBox());
+        this.event = event;
+        this.type=type;
+    }
     @Override
     public Component getTableCellEditorComponent(JTable jtable, Object o, boolean bln, int row, int column) {
-        PanelAction action = new PanelAction();
+        PanelAction action = new PanelAction(type);
         action.initEvent(event, row);
         action.setBackground(jtable.getSelectionBackground());
         return action;

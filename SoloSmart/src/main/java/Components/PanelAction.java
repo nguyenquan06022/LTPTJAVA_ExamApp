@@ -24,6 +24,13 @@ public class PanelAction extends javax.swing.JPanel {
     public PanelAction() {
         initComponents();
     }
+    public PanelAction(String type) {
+        initComponents();
+        if(type.equalsIgnoreCase("delete")){
+            cmdEdit.setVisible(false);
+            cmdView.setVisible(false);
+        }
+    }
     
     public void initEvent(TableActionEvent event, int row) {
         cmdEdit.addActionListener(new ActionListener() {
@@ -69,6 +76,7 @@ public class PanelAction extends javax.swing.JPanel {
     public void setCmdView(actionButton cmdView) {
         this.cmdView = cmdView;
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

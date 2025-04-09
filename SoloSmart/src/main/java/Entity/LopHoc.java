@@ -43,6 +43,17 @@ public class LopHoc {
     @JoinColumn(name = "maGiaoVien") // Khóa ngoại trỏ đến maTaiKhoan của giáo viên
     private TaiKhoan giaoVien;
 
+    public LopHoc(String maLop, String tenLop, int siSo, String namHoc, String trangThai, MonHoc monHoc, TaiKhoan giaoVien) {
+        this.maLop = maLop;
+        this.tenLop = tenLop;
+        this.siSo = siSo;
+        this.namHoc = namHoc;
+        this.trangThai = trangThai;
+        this.monHoc = monHoc;
+        this.giaoVien = giaoVien;
+    }
+    
+    
 
     public LopHoc(String maLop) {
         this.maLop = maLop;

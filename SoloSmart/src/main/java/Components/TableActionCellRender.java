@@ -11,11 +11,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 public class TableActionCellRender extends DefaultTableCellRenderer {
-    private String loai= "";
+    private String type= "";
     @Override
     public Component getTableCellRendererComponent(JTable jtable, Object o, boolean isSeleted, boolean bln1, int row, int column) {
        Component com = super.getTableCellRendererComponent(jtable, o, isSeleted, bln1, row, column);
-        PanelAction action = new PanelAction();
+        PanelAction action = new PanelAction(type);
         if (isSeleted == false && row % 2 == 0) {
             action.setBackground(Color.WHITE);
         } else {
@@ -26,9 +26,9 @@ public class TableActionCellRender extends DefaultTableCellRenderer {
     public TableActionCellRender(){
         
     }
-    public TableActionCellRender(String a){
-        this.loai=a;
+   
+    public TableActionCellRender(String type){
+        this.type=type;
     }
-    
     
 }

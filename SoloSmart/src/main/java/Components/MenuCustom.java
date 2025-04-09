@@ -4,6 +4,7 @@
  */
 package Components;
 
+import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
 import GUI.Main_GUI;
 import GUI.SV_Main_GUI;
@@ -74,7 +75,25 @@ public class MenuCustom extends javax.swing.JPanel {
     }
     public void handleClick(MenuItemCustom item){
         Avatar.updateTitle(item.getItemText());
-        System.out.println(item.getItemText());
+        System.out.println(item.getItemText()); 
+        
+        String role= Main_GUI.tk.getVaiTro();
+       
+        switch (item.getItemText()) {
+           
+            case "Class":
+                if(role.equalsIgnoreCase("AD")){
+                    Main_GUI.main_panel.removeAll();
+                    Main_GUI.main_panel.add(new Admin_Classrom());
+                }
+                break;
+            case "Subject":
+                Main_GUI.main_panel.removeAll();
+                Main_GUI.main_panel.add(new Admin_Subject());
+                break;
+            default:
+                System.out.println("defaut");;
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
