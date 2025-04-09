@@ -241,4 +241,107 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
 
+    // get danh sach lop hoc theo nam hoc cua admin Jcombobox
+    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHoc(String namHoc) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select * from LopHocs lh\n" +
+                    "where lh.namHoc = ? and lh.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, namHoc)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
+
+    // get danh sach lop hoc theo ten monHoc cua admin Jcombobox
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenMonHoc(String tenMonHoc) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select * from LopHocs lh \n" +
+                    "join MonHocs mh\n" +
+                    "on lh.maMonHoc = mh.maMonHoc\n" +
+                    "where mh.tenMonHoc = ? and lh.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, tenMonHoc)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
+
+    //lọc lớp học theo tên lớp của admin JtextField
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLop(String tenLop) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select * from LopHocs lh\n" +
+                    "where lh.tenLop like ? and lh.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, "%"+tenLop+"%")
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
 }
