@@ -167,5 +167,28 @@ public class KetQuaKiemTra_DAO {
         return isSuccess;
     }
 
+    public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) {
+        EntityTransaction tr = em.getTransaction();
+        ArrayList<Float> danhSachKetQua = new ArrayList<>();
+        try {
+            String sql = "SELECT diemSo FROM KetQuaKiemTras kqkt JOIN BaiKiemTras bkt\n" +
+                    "ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra JOIN LopHocs lh\n" +
+                    "ON lh.maLop = bkt.maLop\n" +
+                    "WHERE diemCaoNhat = 1 AND lh.maLop = ? AND bkt.maBaiKiemTra = ?";
 
+            List<Float> results = em.createNativeQuery(sql)
+                    .setParameter(1, maLop)
+                    .setParameter(2, maBaiKiemTra)
+                    .getResultList();
+            for (Float row : results) {
+                danhSachKetQua.add(row);
+            }
+        }  catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachKetQua;
+    }
 }

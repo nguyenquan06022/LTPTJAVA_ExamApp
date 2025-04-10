@@ -3,6 +3,7 @@ package Dao;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.LopHoc;
+import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
@@ -10,7 +11,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BaiKiemTra_DAO {
     private EntityManager em;
@@ -456,5 +459,42 @@ public class BaiKiemTra_DAO {
             throw new RuntimeException(e);
         }
         return danhSachBaiKiemTra;
+    }
+
+    // Lấy ra danh sách tài khoản đã tham gia kiểm tra và điểm số của tài khoản đó trong bài kiểm tra đó
+    public Map<TaiKhoan,Float> getDsTaiKhoanThamGiaKiemTraVaDiemSo(String maBaiKiemTra) {
+        Map<TaiKhoan,Float> res = new HashMap<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT tk.maTaiKhoan,Ho,Ten,dangOnline,gioiTinh,matKhau,tenTaiKhoan,tk.trangThai,vaiTro,kqkt.diemSo FROM KetQuaKiemTras kqkt JOIN BaiKiemTras bkt\n" +
+                    "ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra JOIN TaiKhoans tk\n" +
+                    "ON tk.maTaiKhoan = kqkt.maTaiKhoan\n" +
+                    "WHERE diemCaoNhat = 1 AND bkt.maBaiKiemTra = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maBaiKiemTra)
+                    .getResultList();
+            for (Object[] result : results) {
+                TaiKhoan taiKhoan = new TaiKhoan();
+                taiKhoan.setMaTaiKhoan((String) result[0]);
+                taiKhoan.setMatKhau((String) result[5]);
+                taiKhoan.setTenTaiKhoan((String) result[6]);
+                taiKhoan.setTrangThai((String) result[7]);
+                taiKhoan.setVaiTro((String) result[8]);
+                taiKhoan.setDangOnline((String) result[3]);
+                taiKhoan.setGioiTinh((String) result[4]);
+                taiKhoan.setHo((String) result[1]);
+                taiKhoan.setTen((String) result[2]);
+                float diemSo = (Float) result[9];
+                res.put(taiKhoan,diemSo);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return res;
     }
 }
