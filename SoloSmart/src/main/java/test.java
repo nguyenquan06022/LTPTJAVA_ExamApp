@@ -22,5 +22,11 @@ public class test {
 //                for (Map.Entry<TaiKhoan,Float> entry : baiKiemTraDao.getDsTaiKhoanThamGiaKiemTraVaDiemSo("BKT08042025145318159").entrySet()) {
 //                        System.out.println(entry.getKey() + " " + entry.getValue());
 //                }
+
+//                KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
+//                System.out.println(ketQuaKiemTraDao.tinhDiemChoSinhVien("TK10042025175716521","BKT10042025175726138"));
+
+                DsCauTraLoi_DAO dsCauTraLoiDao = new DsCauTraLoi_DAO(em);
+                System.out.println(dsCauTraLoiDao.getDsCauTraLoiCuaSinhVien("TK10042025175716521","BKT10042025175726138"));
         }
 }

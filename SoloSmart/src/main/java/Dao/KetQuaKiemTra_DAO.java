@@ -167,6 +167,7 @@ public class KetQuaKiemTra_DAO {
         return isSuccess;
     }
 
+    // thống kê điểm theo bài kiểm tra
     public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<Float> danhSachKetQua = new ArrayList<>();
@@ -190,5 +191,86 @@ public class KetQuaKiemTra_DAO {
             throw new RuntimeException(e);
         }
         return danhSachKetQua;
+    }
+
+    // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
+    public float tinhDiemChoSinhVien(String maSinhVien,String maBaiKiemTra) {
+        EntityTransaction tr = em.getTransaction();
+        try {
+            String sql = "WITH CauTraLoiSinhVien AS (\n" +
+                    "    SELECT \n" +
+                    "        ROW_NUMBER() OVER (ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)) AS stt,\n" +
+                    "        SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)) AS dapAn\n" +
+                    "    FROM TaiKhoans tk \n" +
+                    "    JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan \n" +
+                    "    JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra \n" +
+                    "    JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra\n" +
+                    "    WHERE tk.maTaiKhoan = ? \n" +
+                    "      AND bkt.maBaiKiemTra = ?\n" +
+                    "),\n" +
+                    "DapAnDung AS (\n" +
+                    "    SELECT \n" +
+                    "        ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,\n" +
+                    "        LEFT(dslc.luaChon, 1) AS dapAnDung\n" +
+                    "    FROM BaiKiemTras bkt \n" +
+                    "    JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi \n" +
+                    "    JOIN CauHois ch ON ch.maDeThi = dt.maDeThi \n" +
+                    "    JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi\n" +
+                    "    WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1\n" +
+                    ")\n" +
+                    "\n" +
+                    "SELECT \n" +
+                    "    COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem\n" +
+                    "FROM CauTraLoiSinhVien sv\n" +
+                    "JOIN DapAnDung da ON sv.stt = da.stt\n" +
+                    "WHERE sv.dapAn = da.dapAnDung";
+
+            float result = ((Number) em.createNativeQuery(sql)
+                    .setParameter(1, maSinhVien)
+                    .setParameter(2, maBaiKiemTra)
+                    .setParameter(3, maBaiKiemTra)
+                    .getSingleResult()).floatValue();
+            return result;
+
+        }  catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    //cập nhật điểm cao nhất
+    public boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan,String maBaiKiemTra) {
+        EntityTransaction tr = em.getTransaction();
+        boolean isSuccess = false;
+        try {
+            tr.begin();
+            String sql = "WITH TopDiem AS (\n" +
+                    "    SELECT *,\n" +
+                    "           MAX(diemSo) OVER(PARTITION BY maBaiKiemTra, maTaiKhoan) AS maxDiem\n" +
+                    "    FROM KetQuaKiemTras\n" +
+                    "    WHERE maBaiKiemTra = ?" +
+                    "      AND maTaiKhoan = ?" +
+                    ")\n" +
+                    "UPDATE TopDiem\n" +
+                    "SET diemCaoNhat = CASE \n" +
+                    "    WHEN diemSo = maxDiem THEN 1\n" +
+                    "    ELSE 0\n" +
+                    "END;";
+            em.createNativeQuery(sql)
+                    .setParameter(1, maBaiKiemTra)
+                    .setParameter(2, maTaiKhoan)
+                    .executeUpdate();
+
+            tr.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi thêm kết quả kiểm tra", e);
+        }
+        return isSuccess;
     }
 }

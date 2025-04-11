@@ -76,4 +76,28 @@ public class DsCauTraLoi_DAO {
         return dsLuaChon;
     }
 
+    // lấy ra danh sách cau trả lời cua sinh vien theo mataikhoan va mabaikiemtra
+    public List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan,String maBaiKiemTra) {
+        EntityTransaction tr = em.getTransaction();
+        List<String> dsLuaChon = new ArrayList<>();
+        try {
+            tr.begin();
+            String sql = "select cauTraLoi from dsCauTraLoi dsctl join KetQuaKiemTras kqkt\n" +
+                    "on dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra join TaiKhoans tk\n" +
+                    "on tk.maTaiKhoan = kqkt.maTaiKhoan\n" +
+                    "where maBaiKiemTra = ? and tk.maTaiKhoan = ?";
+            List<String> results = em.createNativeQuery(sql)
+                    .setParameter(1, maBaiKiemTra)
+                    .setParameter(2,maTaiKhoan)// Sử dụng tham số vị trí
+                    .getResultList();
+            dsLuaChon.addAll(results);
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return dsLuaChon;
+    }
 }
