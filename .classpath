@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="SoloSmart/src/main/java"/>
+	<classpathentry kind="src" path="SoloSmart/src/test/java"/>
+	<classpathentry kind="lib" path="SoloSmart/build/libs/SoloSmart-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="SoloSmart/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="SoloSmart/libs/jna-5.5.0.jar"/>
+	<classpathentry kind="lib" path="SoloSmart/libs/swing-jnafilechooser.jar"/>
+	<classpathentry kind="output" path="SoloSmart/bin/main"/>
+</classpath>

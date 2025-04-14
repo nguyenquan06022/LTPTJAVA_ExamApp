@@ -59,7 +59,27 @@ public class KetQuaHocTap_DAO {
         throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
     }
 }
-
+    
+    public boolean xoaKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
+    EntityTransaction tr = em.getTransaction();
+    try {
+        tr.begin();
+        // Dùng native SQL để thêm kết quả học tập vào cơ sở dữ liệu
+        String sql = "delete KetQuaHocTaps " +
+                     "where maLop= ? and maTaiKhoan=?";
+        em.createNativeQuery(sql)
+          .setParameter(1, ketQuaHocTap.getLopHoc().getMaLop())
+          .setParameter(2, ketQuaHocTap.getTaiKhoan().getMaTaiKhoan())
+          .executeUpdate();
+        tr.commit();
+        return true;
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
+        }
+        throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
+    }
+}
 
     // Lấy kết quả học tập dựa trên mã tài khoản và mã lớp
     public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) {

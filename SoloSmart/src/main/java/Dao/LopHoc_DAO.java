@@ -128,8 +128,8 @@ public class LopHoc_DAO {
                     .setParameter(3,lopHoc.getTenLop())
                     .setParameter(4,lopHoc.getTrangThai())
                     .setParameter(5,lopHoc.getMonHoc().getMaMonHoc())
-                    .setParameter(6,lopHoc.getMaLop())
-                    .setParameter(7,lopHoc.getGiaoVien().getMaTaiKhoan())
+                    .setParameter(7,lopHoc.getMaLop())
+                    .setParameter(6,lopHoc.getGiaoVien().getMaTaiKhoan())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
