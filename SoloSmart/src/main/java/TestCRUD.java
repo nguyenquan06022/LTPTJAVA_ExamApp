@@ -183,7 +183,11 @@ public class TestCRUD {
                         String dangOnline = sc.nextLine();
                         System.out.println("Nhap gioi tinh(Nam,Nu)");
                         String gioiTinh = sc.nextLine();
-                        boolean res = taiKhoanDao.addTaiKhoan(new TaiKhoan(taiKhoanDao.generateMa(),tenTaiKhoan,matKhau,ho,ten,vaiTro,trangThai,dangOnline,gioiTinh));
+                        System.out.println("Nhap so dien thoai");
+                        String soDienThoai = sc.nextLine();
+                        System.out.println("Nhap email");
+                        String email = sc.nextLine();
+                        boolean res = taiKhoanDao.addTaiKhoan(new TaiKhoan(taiKhoanDao.generateMa(),tenTaiKhoan,matKhau,ho,ten,vaiTro,trangThai,dangOnline,gioiTinh,soDienThoai,email));
                         if(res) System.out.println("Them tai khoan thanh cong");
                         else System.out.println("Them tai khoan that bai");
                         break;
@@ -221,7 +225,11 @@ public class TestCRUD {
                         String dangOnline = sc.nextLine();
                         System.out.println("Nhap gioi tinh(Nam,Nu)");
                         String gioiTinh = sc.nextLine();
-                        boolean res = taiKhoanDao.updateTaiKhoan(new TaiKhoan(maTaiKhoan,tenTaiKhoan,matKhau,ho,ten,vaiTro,trangThai,dangOnline,gioiTinh));
+                        System.out.println("Nhap so dien thoai");
+                        String soDienThoai = sc.nextLine();
+                        System.out.println("Nhap email");
+                        String email = sc.nextLine();
+                        boolean res = taiKhoanDao.updateTaiKhoan(new TaiKhoan(maTaiKhoan,tenTaiKhoan,matKhau,ho,ten,vaiTro,trangThai,dangOnline,gioiTinh,soDienThoai,email));
                         if(res) System.out.println("Cap nhat thanh cong");
                         else System.out.println("Cap nhat that bai");
                         break;
