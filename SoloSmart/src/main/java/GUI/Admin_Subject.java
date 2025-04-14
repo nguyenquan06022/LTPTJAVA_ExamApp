@@ -56,6 +56,7 @@ public class Admin_Subject extends javax.swing.JPanel {
                 for (int r : selectedRows) {
                     String maMonHoc = jTable1.getValueAt(r, 0).toString(); // giả sử cột 0 là mã môn học
                     monHoc_DAO.deleteMonHoc(maMonHoc);
+                    jTable1.getCellEditor().cancelCellEditing();
                 }
                 initTable();
             }

@@ -42,17 +42,20 @@ public class KetQuaHocTap {
     private LopHoc lopHoc;
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        KetQuaHocTap that = (KetQuaHocTap) o;
-        return Float.compare(diemThuongKy, that.diemThuongKy) == 0 && Float.compare(diemGiuaKy, that.diemGiuaKy) == 0 && Float.compare(diemCuoiKy, that.diemCuoiKy) == 0 && Objects.equals(taiKhoan, that.taiKhoan) && Objects.equals(lopHoc, that.lopHoc);
-    }
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    KetQuaHocTap that = (KetQuaHocTap) o;
+    return Objects.equals(taiKhoan.getMaTaiKhoan(), that.taiKhoan.getMaTaiKhoan()) &&
+           Objects.equals(lopHoc.getMaLop(), that.lopHoc.getMaLop());
+}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(diemThuongKy, diemGiuaKy, diemCuoiKy, taiKhoan, lopHoc);
-    }
+@Override
+public int hashCode() {
+    return Objects.hash(taiKhoan.getMaTaiKhoan(), lopHoc.getMaLop());
+}
 
+    
     public float tinhDiemThuongKy() {
         return 0;
     }
@@ -65,4 +68,6 @@ public class KetQuaHocTap {
     public float tinhGPA() {
         return 0;
     }
+    
+    
 }
