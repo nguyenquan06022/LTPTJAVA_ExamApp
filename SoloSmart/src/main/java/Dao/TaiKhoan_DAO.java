@@ -161,8 +161,8 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'\n" +
+                    "ORDER BY ten ASC";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -328,12 +328,11 @@ public class TaiKhoan_DAO {
              Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
             ArrayList<TaiKhoan> list= new ArrayList<>();
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Bỏ header
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 String maTaiKhoan = row.getCell(0).getStringCellValue();
-
                 TaiKhoan tk = getTaiKhoan(maTaiKhoan);
-                list.add(tk); // Hàm bạn đã có
+                list.add(tk);
             }
             return list;
         } catch (Exception e) {

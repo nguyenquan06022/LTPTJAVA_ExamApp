@@ -60,7 +60,6 @@ public class KetQuaHocTap_DAO {
     }
 }
 
-
     // Lấy kết quả học tập dựa trên mã tài khoản và mã lớp
     public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) {
     EntityTransaction tr = em.getTransaction();
@@ -95,7 +94,6 @@ public class KetQuaHocTap_DAO {
     return ketQuaHocTap;
 }
 
-
     // Cập nhật kết quả học tập
     public boolean capNhatKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
     EntityTransaction tr = em.getTransaction();
@@ -121,7 +119,6 @@ public class KetQuaHocTap_DAO {
         throw new RuntimeException("Lỗi khi cập nhật kết quả học tập", e);
     }
 }
-
 
     // Lấy danh sách kết quả học tập dựa trên mã lớp
     public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) {

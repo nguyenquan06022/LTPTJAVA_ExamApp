@@ -161,8 +161,9 @@ public class Data {
         String maDeThi;
         do {
             maDeThi = deThiDao.generateMa();
-        }while (dsMa.contains(maDeThi));
+        } while (dsMa.contains(maDeThi));
         dsMa.add(maDeThi);
+
         deThi.setMaDeThi(maDeThi);
         deThi.setSoLuongCauHoi(faker.number().numberBetween(10, 50));
         deThi.setMonHoc(mh.getTenMonHoc());
@@ -170,6 +171,14 @@ public class Data {
         deThi.setTrangThai("enable");
         deThi.setTaiKhoan(taiKhoan);
         deThi.setNganHangDeThi(nganHangDeThi);
+
+        String[] loaiDes = {"Đề kiểm tra 15 phút", "Đề kiểm tra 1 tiết", "Đề giữa kỳ", "Đề cuối kỳ"};
+        String loaiDe = loaiDes[faker.random().nextInt(loaiDes.length)];
+        int nam = faker.number().numberBetween(2022, 2025);
+
+        String tenDeThi = String.format("%s môn %s - Năm học %d-%d",
+                loaiDe, mh.getTenMonHoc(), nam, nam + 1);
+        deThi.setTenDeThi(tenDeThi);
         return deThi;
     }
 

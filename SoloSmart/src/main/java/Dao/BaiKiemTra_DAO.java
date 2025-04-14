@@ -470,7 +470,8 @@ public class BaiKiemTra_DAO {
             String sql = "SELECT tk.maTaiKhoan,Ho,Ten,dangOnline,gioiTinh,matKhau,tenTaiKhoan,tk.trangThai,vaiTro,kqkt.diemSo FROM KetQuaKiemTras kqkt JOIN BaiKiemTras bkt\n" +
                     "ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra JOIN TaiKhoans tk\n" +
                     "ON tk.maTaiKhoan = kqkt.maTaiKhoan\n" +
-                    "WHERE diemCaoNhat = 1 AND bkt.maBaiKiemTra = ?";
+                    "WHERE diemCaoNhat = 1 AND bkt.maBaiKiemTra = ?\n" +
+                    "ORDER BY tk.Ten ASC";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, maBaiKiemTra)
                     .getResultList();

@@ -34,6 +34,7 @@ public class DsCauTraLoi_DAO {
         }
         return isSuccess;
     }
+
     public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
@@ -55,7 +56,6 @@ public class DsCauTraLoi_DAO {
         return isSuccess;
     }
 
-
     public ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) {
         EntityTransaction tr = em.getTransaction();
         ArrayList<String> dsLuaChon = new ArrayList<>();
@@ -71,7 +71,7 @@ public class DsCauTraLoi_DAO {
             if (tr.isActive()) {
                 tr.rollback();
             }
-            throw new RuntimeException("Lỗi khi lấy danh sách lựa chọn", e);
+            throw new RuntimeException(e);
         }
         return dsLuaChon;
     }

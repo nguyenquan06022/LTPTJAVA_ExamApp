@@ -26,7 +26,7 @@ public class test {
 //                KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
 //                System.out.println(ketQuaKiemTraDao.tinhDiemChoSinhVien("TK10042025175716521","BKT10042025175726138"));
 
-                DsCauTraLoi_DAO dsCauTraLoiDao = new DsCauTraLoi_DAO(em);
-                System.out.println(dsCauTraLoiDao.getDsCauTraLoiCuaSinhVien("TK10042025175716521","BKT10042025175726138"));
+                DeThi_DAO deThiDao = new DeThi_DAO(em);
+                System.out.println(deThiDao.getDanhSachDeThiCuaGiaoVien("TK10042025175717692"));
         }
 }
