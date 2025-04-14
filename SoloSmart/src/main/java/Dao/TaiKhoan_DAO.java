@@ -49,7 +49,7 @@ public class TaiKhoan_DAO {
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "INSERT INTO TaiKhoans (maTaiKhoan,matKhau,tenTaiKhoan,trangThai,vaiTro,dangOnline,gioiTinh,ho,ten) VALUES (?, ?, ?, ?, ?,?,?,?,?)";
+            String sql = "INSERT INTO TaiKhoans (maTaiKhoan,matKhau,tenTaiKhoan,trangThai,vaiTro,dangOnline,gioiTinh,ho,ten,soDienThoai,email) VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?)";
             em.createNativeQuery(sql)
                     .setParameter(1, taiKhoan.getMaTaiKhoan())
                     .setParameter(2, taiKhoan.getMatKhau())
@@ -60,6 +60,8 @@ public class TaiKhoan_DAO {
                     .setParameter(7,taiKhoan.getGioiTinh())
                     .setParameter(8, taiKhoan.getHo())
                     .setParameter(9,taiKhoan.getTen())
+                    .setParameter(10,taiKhoan.getSoDienThoai())
+                    .setParameter(11,taiKhoan.getEmail())
                     .executeUpdate();
             tr.commit();
             isSuccess = true;
@@ -74,7 +76,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline,gioiTinh,ho,ten FROM TaiKhoans WHERE maTaiKhoan = ?";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline,gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans WHERE maTaiKhoan = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, id)
                     .getSingleResult();
@@ -89,6 +91,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setGioiTinh((String) result[6]);
                 taiKhoan.setHo((String) result[7]);
                 taiKhoan.setTen((String) result[8]);
+                taiKhoan.setSoDienThoai((String) result[9]);
+                taiKhoan.setEmail((String) (String) result[10]);
             }
 
             tr.commit();
@@ -108,7 +112,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans where trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -122,6 +126,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setGioiTinh((String) row[6]);
                 taiKhoan.setHo((String) row[7]);
                 taiKhoan.setTen((String) row[8]);
+                taiKhoan.setSoDienThoai((String) row[9]);
+                taiKhoan.setEmail((String) row[10]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
             tr.commit();
@@ -139,7 +145,7 @@ public class TaiKhoan_DAO {
         try {
             tr.begin();
 
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='GV'";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans where trangThai = 'enable' and vaitro='GV'";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
             for (Object[] row : results) {
@@ -153,6 +159,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setGioiTinh((String) row[6]);
                 taiKhoan.setHo((String) row[7]);
                 taiKhoan.setTen((String) row[8]);
+                taiKhoan.setSoDienThoai((String) row[9]);
+                taiKhoan.setEmail((String) row[10]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
 
@@ -171,7 +179,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'\n" +
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'\n" +
                     "ORDER BY ten ASC";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
@@ -186,6 +194,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setGioiTinh((String) row[6]);
                 taiKhoan.setHo((String) row[7]);
                 taiKhoan.setTen((String) row[8]);
+                taiKhoan.setSoDienThoai((String) row[9]);
+                taiKhoan.setEmail((String) row[10]);
                 danhSachTaiKhoan.add(taiKhoan);
             }
 
@@ -203,7 +213,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "UPDATE TaiKhoans SET matKhau = ?, tenTaiKhoan = ?, trangThai = ?, vaiTro = ?, dangOnline = ?, gioiTinh = ?, ho = ?, ten = ? WHERE maTaiKhoan = ?";
+            String sql = "UPDATE TaiKhoans SET matKhau = ?, tenTaiKhoan = ?, trangThai = ?, vaiTro = ?, dangOnline = ?, gioiTinh = ?, ho = ?, ten = ?,soDienThoai = ?,email = ? WHERE maTaiKhoan = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1, taiKhoan.getMatKhau())
                     .setParameter(2, taiKhoan.getTenTaiKhoan())
@@ -214,8 +224,9 @@ public class TaiKhoan_DAO {
                     .setParameter(7, taiKhoan.getGioiTinh())
                     .setParameter(8, taiKhoan.getHo())
                     .setParameter(9,taiKhoan.getTen())
+                    .setParameter(10,taiKhoan.getSoDienThoai())
+                    .setParameter(11,taiKhoan.getEmail())
                     .executeUpdate();
-
             tr.commit();
 
             return updatedRows > 0;
@@ -254,7 +265,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ?";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ?";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, userName)
                     .setParameter(2, password)
@@ -270,6 +281,8 @@ public class TaiKhoan_DAO {
                 taiKhoan.setGioiTinh((String) result[6]);
                 taiKhoan.setHo((String) result[7]);
                 taiKhoan.setTen((String) result[8]);
+                taiKhoan.setSoDienThoai((String) result[9]);
+                taiKhoan.setEmail((String) result[10]);
             }
             tr.commit();
         } catch (Exception e) {
@@ -315,6 +328,8 @@ public class TaiKhoan_DAO {
                 String ten = row.getCell(1).getStringCellValue();
                 String gioiTinh = row.getCell(2).getStringCellValue();
                 String vaiTro = row.getCell(3).getStringCellValue();
+                String soDienThoai = row.getCell(4).getStringCellValue();
+                String email = row.getCell(5).getStringCellValue();
 
                 TaiKhoan tk = new TaiKhoan();
                 tk.setMaTaiKhoan(generateMa());
@@ -326,13 +341,16 @@ public class TaiKhoan_DAO {
                 tk.setDangOnline("offline");
                 tk.setTenTaiKhoan(ho + " " + ten);
                 tk.setMatKhau(UUID.randomUUID().toString().substring(0, 8)); // Mật khẩu ngẫu nhiên 8 ký tự
+                tk.setSoDienThoai(soDienThoai);
+                tk.setEmail(email);
 
-                addTaiKhoan(tk); // Hàm bạn đã có
+                addTaiKhoan(tk);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public ArrayList<TaiKhoan> getDanhSachTaiKhoanFromExcel(String filePath) {
         try (FileInputStream fis = new FileInputStream(new File(filePath));
              Workbook workbook = new XSSFWorkbook(fis)) {

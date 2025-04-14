@@ -54,6 +54,8 @@ public class Data {
         tk.setDangOnline("offline");
         tk.setGioiTinh(faker.options().option("Nam","Nu"));
         tk.setTrangThai("enable");
+        tk.setEmail(faker.internet().emailAddress());
+        tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
     public TaiKhoan TaiKhoanSVFaker() {
@@ -81,6 +83,8 @@ public class Data {
         tk.setDangOnline("offline");
         tk.setGioiTinh(faker.options().option("Nam","Nu"));
         tk.setTrangThai("enable");
+        tk.setEmail(faker.internet().emailAddress());
+        tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
     public TaiKhoan TaiKhoanGVFaker() {
@@ -110,6 +114,8 @@ public class Data {
         tk.setDangOnline("offline");
         tk.setGioiTinh(faker.options().option("Nam","Nu"));
         tk.setTrangThai("enable");
+        tk.setEmail(faker.internet().emailAddress());
+        tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
     public MonHoc MonHocFaker() {
@@ -350,7 +356,7 @@ public class Data {
             data.GenerateSV(80);
             data.GenerateGV(20);
             data.GenerateMonHoc(10);
-            TaiKhoan taiKhoanAdmin = new TaiKhoan(taiKhoanDao.generateMa(),"admin","admin","Nguyen Nhat","Quan","AD","enable","offline","Nam");
+            TaiKhoan taiKhoanAdmin = new TaiKhoan(taiKhoanDao.generateMa(),"admin","admin","Nguyen Nhat","Quan","AD","enable","offline","Nam","0869192776","nguyenquan06022004@gmail.com");
             taiKhoanDao.addTaiKhoan(taiKhoanAdmin);
             ArrayList<TaiKhoan> dsGV= taiKhoanDao.getDanhSachTaiKhoanGV();
             ArrayList<TaiKhoan> dsSV= taiKhoanDao.getDanhSachTaiKhoanSV();

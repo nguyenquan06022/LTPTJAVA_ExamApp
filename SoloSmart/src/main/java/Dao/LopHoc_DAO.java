@@ -69,11 +69,11 @@ public class LopHoc_DAO {
                     .getSingleResult();
             if (result != null) {
                 lopHoc = new LopHoc();
-                lopHoc.setMaLop((String)result[0]);
-                lopHoc.setNamHoc((String)result[1]);
-                lopHoc.setSiSo((Integer)result[2]);
-                lopHoc.setTenLop((String)result[3]);
-                lopHoc.setTrangThai((String)result[4]);
+                lopHoc.setMaLop((String) result[0]);
+                lopHoc.setNamHoc((String) result[1]);
+                lopHoc.setSiSo((Integer) result[2]);
+                lopHoc.setTenLop((String) result[3]);
+                lopHoc.setTrangThai((String) result[4]);
                 lopHoc.setMonHoc(new MonHoc((String) result[5]));
                 lopHoc.setGiaoVien(new TaiKhoan((String) result[6]));
             }
@@ -97,11 +97,11 @@ public class LopHoc_DAO {
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
             for (Object[] row : results) {
                 LopHoc lopHoc = new LopHoc();
-                lopHoc.setMaLop((String)row[0]);
-                lopHoc.setNamHoc((String)row[1]);
-                lopHoc.setSiSo((Integer)row[2]);
-                lopHoc.setTenLop((String)row[3]);
-                lopHoc.setTrangThai((String)row[4]);
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
                 lopHoc.setMonHoc(new MonHoc((String) row[5]));
                 lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
                 danhSachLopHoc.add(lopHoc);
@@ -116,26 +116,27 @@ public class LopHoc_DAO {
 
         return danhSachLopHoc;
     }
+
     public ArrayList<LopHoc> getDanhSachLopHocByKey(String name) {
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
             String sql = "select maLop,namHoc,siSo,tenLop,lh.trangThai,lh.maMonHoc,lh.maGiaoVien from LopHocs lh "
-                    
+
                     + "where lh.trangThai = 'enable' "
                     + "and (malop like ? or tenlop like ? )";
             List<Object[]> results = em.createNativeQuery(sql)
-                    .setParameter(1, '%'+name+'%')
-                    .setParameter(2, '%'+name+'%')
+                    .setParameter(1, '%' + name + '%')
+                    .setParameter(2, '%' + name + '%')
                     .getResultList();
             for (Object[] row : results) {
                 LopHoc lopHoc = new LopHoc();
-                lopHoc.setMaLop((String)row[0]);
-                lopHoc.setNamHoc((String)row[1]);
-                lopHoc.setSiSo((Integer)row[2]);
-                lopHoc.setTenLop((String)row[3]);
-                lopHoc.setTrangThai((String)row[4]);
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
                 lopHoc.setMonHoc(new MonHoc((String) row[5]));
                 lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
                 danhSachLopHoc.add(lopHoc);
@@ -150,19 +151,20 @@ public class LopHoc_DAO {
 
         return danhSachLopHoc;
     }
+
     public boolean updateLopHoc(LopHoc lopHoc) {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
             String sql = "UPDATE LopHocs SET namHoc = ?, siSo = ?, tenLop = ?, trangThai = ?, maMonHoc = ?, maGiaoVien = ? WHERE maLop = ?";
             int updatedRows = em.createNativeQuery(sql)
-                    .setParameter(1,lopHoc.getNamHoc())
-                    .setParameter(2,lopHoc.getSiSo())
-                    .setParameter(3,lopHoc.getTenLop())
-                    .setParameter(4,lopHoc.getTrangThai())
-                    .setParameter(5,lopHoc.getMonHoc().getMaMonHoc())
-                    .setParameter(7,lopHoc.getMaLop())
-                    .setParameter(6,lopHoc.getGiaoVien().getMaTaiKhoan())
+                    .setParameter(1, lopHoc.getNamHoc())
+                    .setParameter(2, lopHoc.getSiSo())
+                    .setParameter(3, lopHoc.getTenLop())
+                    .setParameter(4, lopHoc.getTrangThai())
+                    .setParameter(5, lopHoc.getMonHoc().getMaMonHoc())
+                    .setParameter(7, lopHoc.getMaLop())
+                    .setParameter(6, lopHoc.getGiaoVien().getMaTaiKhoan())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
@@ -248,7 +250,7 @@ public class LopHoc_DAO {
                     "AND lh.trangThai = 'enable'";
 
             List<Object[]> results = em.createNativeQuery(sql)
-                    .setParameter(1, tenLopHoc)  // Set tenLopHoc vào tham số đầu tiên
+                    .setParameter(1, tenLopHoc) // Set tenLopHoc vào tham số đầu tiên
                     .setParameter(2, maTaiKhoan) // Set maTaiKhoan vào tham số thứ hai
                     .getResultList();
 
@@ -344,7 +346,7 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
 
-    //lọc lớp học theo tên lớp của admin JtextField
+    // lọc lớp học theo tên lớp của admin JtextField
     public ArrayList<LopHoc> getDanhSachLopHocTheoTenLop(String tenLop) {
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
@@ -354,7 +356,7 @@ public class LopHoc_DAO {
                     "where lh.tenLop like ? and lh.trangThai = 'enable'";
 
             List<Object[]> results = em.createNativeQuery(sql)
-                    .setParameter(1, "%"+tenLop+"%")
+                    .setParameter(1, "%" + tenLop + "%")
                     .getResultList();
 
             for (Object[] row : results) {
@@ -377,30 +379,45 @@ public class LopHoc_DAO {
         }
         return danhSachLopHoc;
     }
-    
-    public List<String> getNamHoc() {
-    List<String> list = new ArrayList<>();
-    EntityTransaction tr = em.getTransaction();
-    try {
-        tr.begin();
-        String sql =
-            "SELECT namHoc FROM (" +
-            "   SELECT DISTINCT namHoc " +
-            "   FROM LopHocs" +
-            ") AS sub " +
-            "ORDER BY CAST(LEFT(namHoc, 4) AS INT) DESC";
-        
-        List<String> results = em.createNativeQuery(sql).getResultList();
-        list.addAll(results);
-        
-        tr.commit();
-    } catch (Exception e) {
-        if (tr.isActive()) {
-            tr.rollback();
-        }
-        throw new RuntimeException(e);
-    }
-    return list;
-}
 
+    // filter lớp học của giáo viên
+    public ArrayList<LopHoc> filterLopHocCuaGiaoVien(String maLop, String tenLop, String tenMonHoc, String namHoc,
+            String maGiaoVien) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select lh.maLop, lh.namHoc, lh.siSo, lh.tenLop, lh.trangThai,lh.maMonHoc,lh.maGiaoVien from LopHocs lh join MonHocs mh\n"
+                    +
+                    "on lh.maMonHoc = mh.maMonHoc\n" +
+                    "where lh.maLop LIKE ? and lh.tenLop LIKE ? and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? and lh.trangThai = 'enable' and maGiaoVien = ?";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, "%" + maLop + "%")
+                    .setParameter(2, "%" + tenLop + "%")
+                    .setParameter(3, "%" + tenMonHoc + "%")
+                    .setParameter(4, "%" + namHoc + "%")
+                    .setParameter(5, maGiaoVien)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
 }
