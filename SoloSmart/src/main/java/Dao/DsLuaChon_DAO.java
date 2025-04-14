@@ -102,7 +102,6 @@ public class DsLuaChon_DAO {
         return dsLuaChon;
     }
 
-
     public boolean xoaLuaChon(String maCauHoi, String luaChon) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
@@ -123,6 +122,4 @@ public class DsLuaChon_DAO {
         }
         return isSuccess;
     }
-
-
 }

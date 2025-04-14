@@ -408,7 +408,9 @@ public class TestCRUD {
                         String maNganHang = sc.nextLine();
                         System.out.println("Nhap ma tai khoan");
                         String maTaiKhoan = sc.nextLine();
-                        boolean res = deThiDao.addDeThi(new DeThi(deThiDao.generateMa(),soLuongCauHoi,monHoc,linkFile,trangThai,new TaiKhoan(maTaiKhoan),new NganHangDeThi(maNganHang)));
+                        System.out.println("Nhap ten de thi");
+                        String tenDeThi = sc.nextLine();
+                        boolean res = deThiDao.addDeThi(new DeThi(deThiDao.generateMa(),soLuongCauHoi,monHoc,linkFile,trangThai,new TaiKhoan(maTaiKhoan),new NganHangDeThi(maNganHang),tenDeThi));
                         if(res) System.out.println("Them de thi thanh cong");
                         else System.out.println("Them de thi that bai");
                         break;
@@ -441,7 +443,9 @@ public class TestCRUD {
                         String maNganHang = sc.nextLine();
                         System.out.println("Nhap ma tai khoan");
                         String maTaiKhoan = sc.nextLine();
-                        boolean res = deThiDao.updatDeThi(new DeThi(maDeThi,soLuongCauHoi,monHoc,linkFile,trangThai,new TaiKhoan(maTaiKhoan),new NganHangDeThi(maNganHang)));
+                        System.out.println("Nhap ten de thi");
+                        String tenDeThi = sc.nextLine();
+                        boolean res = deThiDao.updatDeThi(new DeThi(maDeThi,soLuongCauHoi,monHoc,linkFile,trangThai,new TaiKhoan(maTaiKhoan),new NganHangDeThi(maNganHang),tenDeThi));
                         if(res) System.out.println("Sua de thi thanh cong");
                         else System.out.println("Sua de thi that bai");
                         break;

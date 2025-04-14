@@ -161,8 +161,9 @@ public class Data {
         String maDeThi;
         do {
             maDeThi = deThiDao.generateMa();
-        }while (dsMa.contains(maDeThi));
+        } while (dsMa.contains(maDeThi));
         dsMa.add(maDeThi);
+
         deThi.setMaDeThi(maDeThi);
         deThi.setSoLuongCauHoi(faker.number().numberBetween(10, 50));
         deThi.setMonHoc(mh.getTenMonHoc());
@@ -170,6 +171,14 @@ public class Data {
         deThi.setTrangThai("enable");
         deThi.setTaiKhoan(taiKhoan);
         deThi.setNganHangDeThi(nganHangDeThi);
+
+        String[] loaiDes = {"Đề kiểm tra 15 phút", "Đề kiểm tra 1 tiết", "Đề giữa kỳ", "Đề cuối kỳ"};
+        String loaiDe = loaiDes[faker.random().nextInt(loaiDes.length)];
+        int nam = faker.number().numberBetween(2022, 2025);
+
+        String tenDeThi = String.format("%s môn %s - Năm học %d-%d",
+                loaiDe, mh.getTenMonHoc(), nam, nam + 1);
+        deThi.setTenDeThi(tenDeThi);
         return deThi;
     }
 
@@ -187,7 +196,8 @@ public class Data {
         int kieuTraloi = faker.number().numberBetween(0, 2);
         cauHoi.setKieuTraLoi(kieuTraloi);
         String dapAn = null;
-        String[] dsDapAn={"Đáp án 1","Đáp án 2","Đáp án 3","Đáp án 4"};
+        // *
+        String[] dsDapAn={"A","B","C","D"};
         if(kieuTraloi == 1) {
             dapAn = faker.options().option(dsDapAn);
         }else {
@@ -202,12 +212,16 @@ public class Data {
         cauHoi.setDeThi(deThi);
         return cauHoi;
     }
-    public void DsLuaChonFaker(CauHoi cauHoi){
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 1", faker.random().nextBoolean());
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 2", faker.random().nextBoolean());
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 3", faker.random().nextBoolean());
-        dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(),"Đáp án 4", faker.random().nextBoolean());
+    public void DsLuaChonFaker(CauHoi cauHoi) {
+        List<String> dapAn = Arrays.asList("A", "B", "C", "D");
+        int viTriDung = faker.random().nextInt(0, 3); // 0 đến 3
+
+        for (int i = 0; i < dapAn.size(); i++) {
+            boolean isCorrect = (i == viTriDung);
+            dsLuaChonDao.themLuaChon(cauHoi.getMaCauHoi(), dapAn.get(i), isCorrect);
+        }
     }
+
     public Date toDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
@@ -267,9 +281,10 @@ public class Data {
         String maBKT= ketQuaKiemTra.getBaiKiemTra().getMaBaiKiemTra();
         BaiKiemTra bkt= baiKiemTraDao.getBaiKiemTra(maBKT);
         DeThi deThi=deThiDao.getDeThi(bkt.getDeThi().getMaDeThi());
-        String[] dapan={"Đáp án 1", "Đáp án 2", "Đáp án 3", "Đáp án 4"};
+        // *
+        String[] dapan={"A", "B", "C", "D"};
         for(int i=0;i<deThi.getSoLuongCauHoi();i++){
-            dao.themCauTraLoi(ketQuaKiemTra.getMaKetQuaKiemTra(),i+faker.options().option(dapan));
+            dao.themCauTraLoi(ketQuaKiemTra.getMaKetQuaKiemTra(),i+"."+faker.options().option(dapan));
         }
     }
 

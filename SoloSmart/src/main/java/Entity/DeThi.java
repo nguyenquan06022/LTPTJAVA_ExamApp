@@ -42,6 +42,10 @@ public class DeThi {
     @JoinColumn(name = "maNganHang")
     private NganHangDeThi nganHangDeThi;
 
+    @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
+    private String tenDeThi;
+
     public DeThi(String maDeThi) {
         this.maDeThi = maDeThi;
     }
