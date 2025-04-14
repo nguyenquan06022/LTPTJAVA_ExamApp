@@ -26,7 +26,17 @@ public class TaiKhoan_DAO {
         LocalDateTime now = LocalDateTime.now();
         return "TK" + df.format(now);
     }
-
+    public String generatePassword(String ten, String ho, int vaiTro){
+        
+        String[] hoParts = ho.trim().split("\\s+");
+        StringBuilder chuCaiDau = new StringBuilder();
+        for (String part : hoParts) {
+            if (!part.isEmpty()) {
+                chuCaiDau.append(Character.toUpperCase(part.charAt(0)));
+            }
+        }
+        return ten.toLowerCase() + chuCaiDau.toString().toUpperCase() + "@" + ((vaiTro==0)?"SV":(vaiTro==1)?"GV":"AD")+LocalDateTime.now().getYear();
+    }
     public TaiKhoan_DAO() {
     }
 
@@ -58,7 +68,7 @@ public class TaiKhoan_DAO {
         }
         return isSuccess;
     }
-
+    
     public TaiKhoan getTaiKhoan(String id) {
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
