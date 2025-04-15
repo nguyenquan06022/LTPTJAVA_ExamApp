@@ -83,7 +83,7 @@ public class ListLopHoc extends JPanel{
         JScrollPane scrollPane = new JScrollPane(container);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBar(new ScrollBarCustom());
-        scrollPane.setPreferredSize(new Dimension(800, 460));
+        scrollPane.setMinimumSize(new Dimension(800, 460));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
         scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
         scrollPane.setOpaque(false);
