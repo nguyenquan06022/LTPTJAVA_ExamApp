@@ -104,7 +104,7 @@ public class Admin_Account extends javax.swing.JPanel {
                 x.getHo()+" "+x.getTen(),
                 x.getGioiTinh(),
                 x.getVaiTro().equalsIgnoreCase("SV")?"Sinh viên":x.getVaiTro().equalsIgnoreCase("GV")?"Giảng viên":"Quản trị viên",
-                x.getTrangThai()
+                x.getDangOnline()
             });
         });
                 
@@ -113,6 +113,8 @@ public class Admin_Account extends javax.swing.JPanel {
         String ho= myTextField1.getText();
         String ten= myTextField13.getText();
         String tenTK= myTextField14.getText().trim();
+        String email = myTextField15.getText().trim();
+        String sdt = myTextField16.getText().trim();    
         if (ho.isEmpty() || ten.isEmpty() || tenTK.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Họ, tên, và tên tài khoản không được để trống.");
             return false;
@@ -130,7 +132,24 @@ public class Admin_Account extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Tên tài khoản phải có ít nhất 5 ký tự.");
             return false;
         }
-        return false;
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+            JOptionPane.showMessageDialog(null, "Email không hợp lệ.");
+            return false;
+        }
+        if (!sdt.matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.");
+            return false;
+        }
+        return true;
+    }
+    public void ClearAddDialog(){
+        myTextField1.setText("");
+        myTextField13.setText("");
+        myTextField14.setText("");
+        myTextField15.setText("");
+        myTextField16.setText("");
+        comboBoxSuggestion7.setSelectedIndex(0);
+        comboBoxSuggestion8.setSelectedIndex(0);
     }
     
     
@@ -159,6 +178,10 @@ public class Admin_Account extends javax.swing.JPanel {
         jLabel27 = new javax.swing.JLabel();
         comboBoxSuggestion8 = new Components.ComboBoxSuggestion();
         jLabel28 = new javax.swing.JLabel();
+        myTextField15 = new Components.MyTextField();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        myTextField16 = new Components.MyTextField();
         AddStudents = new javax.swing.JDialog();
         roundedPanel2 = new Components.RoundedPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -207,7 +230,7 @@ public class Admin_Account extends javax.swing.JPanel {
         button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //button3ActionPerformed(evt);
+                button3ActionPerformed(evt);
             }
         });
 
@@ -257,6 +280,16 @@ public class Admin_Account extends javax.swing.JPanel {
         jLabel28.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel28.setText("Vai trò:");
 
+        myTextField15.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
+        jLabel29.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel29.setText("Mail:");
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel30.setText("Số điện thoại:");
+
+        myTextField16.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
         javax.swing.GroupLayout roundedGradientPanel1Layout = new javax.swing.GroupLayout(roundedGradientPanel1);
         roundedGradientPanel1.setLayout(roundedGradientPanel1Layout);
         roundedGradientPanel1Layout.setHorizontalGroup(
@@ -272,30 +305,36 @@ public class Admin_Account extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(myTextField14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(68, 68, 68)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                            .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(myTextField15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myTextField16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         roundedGradientPanel1Layout.setVerticalGroup(
             roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGap(10, 10, 10))
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                         .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -305,11 +344,11 @@ public class Admin_Account extends javax.swing.JPanel {
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(myTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel26)
                         .addGap(7, 7, 7)
                         .addComponent(myTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel27)
@@ -319,10 +358,17 @@ public class Admin_Account extends javax.swing.JPanel {
                                 .addComponent(jLabel28)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(10, 10, 10))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel29)
+                        .addGap(7, 7, 7)
+                        .addComponent(myTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel30)
+                        .addGap(7, 7, 7)
+                        .addComponent(myTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
 
         javax.swing.GroupLayout AddDialogLayout = new javax.swing.GroupLayout(AddDialog.getContentPane());
@@ -719,20 +765,28 @@ public class Admin_Account extends javax.swing.JPanel {
         
     }//GEN-LAST:event_button8ActionPerformed
     
-//    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-//        if(validateAccount()){
-//            TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), myTextField14.getText().trim(),
-//                    tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()),
-//                    myTextField1.getText(), myTextField13.getText(),
-//                    comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion8.getSelectedIndex()==1?"GV":"AD",
-//                    "enable",
-//                    "offline", comboBoxSuggestion7.getSelectedItem().toString());
-//            if(tk_dao.addTaiKhoan(tk)){
-//
-//            }
-//        }
-//
-//    }//GEN-LAST:event_button3ActionPerformed
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        if(validateAccount()){
+            TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), myTextField14.getText().trim(), 
+                    tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()),
+                    myTextField1.getText(), myTextField13.getText(), 
+                    comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion8.getSelectedIndex()==1?"GV":"AD",
+                    "enable", 
+                    "offline", comboBoxSuggestion7.getSelectedItem().toString(),
+                    myTextField16.getText().trim(), myTextField15.getText().trim());
+            if(tk_dao.addTaiKhoan(tk)){
+                JOptionPane.showMessageDialog(null, "Thêm tài khoản thành công");
+                ClearAddDialog();
+                AddDialog.dispose();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Thêm tài khoản thất bại");
+            }
+        }else{
+            System.out.println("them that bai");
+        }
+        
+    }//GEN-LAST:event_button3ActionPerformed
 
     private void button14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button14ActionPerformed
         // TODO add your handling code here:
@@ -763,7 +817,9 @@ public class Admin_Account extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
@@ -775,6 +831,8 @@ public class Admin_Account extends javax.swing.JPanel {
     private Components.MyTextField myTextField1;
     private Components.MyTextField myTextField13;
     private Components.MyTextField myTextField14;
+    private Components.MyTextField myTextField15;
+    private Components.MyTextField myTextField16;
     private Components.MyTextField myTextField9;
     private Components.RoundedGradientPanel roundedGradientPanel1;
     private Components.RoundedGradientPanel roundedGradientPanel2;

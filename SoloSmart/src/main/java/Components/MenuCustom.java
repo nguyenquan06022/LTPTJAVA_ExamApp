@@ -5,6 +5,7 @@
 package Components;
 
 import GUI.Admin_Account;
+import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
 import GUI.Main_GUI;
@@ -28,67 +29,71 @@ public class MenuCustom extends javax.swing.JPanel {
     /**
      * Creates new form MenuCustom
      */
-    private final String[] GV={"Home","Exam","Question Bank"};
-    private final String[] SV={"Home","Class"};
-    private final String[] AD={"Subject","Class","Account"};
+    private final String[] GV = { "Home", "Exam", "Question Bank" };
+    private final String[] SV = { "Home", "Class" };
+    private final String[] AD = { "Subject", "Class", "Account" };
+
     public MenuCustom() {
         initComponents();
         setOpaque(false);
         repaint();
         revalidate();
     }
+
     private String role;
-    public  MenuCustom(String role){
-        
+
+    public MenuCustom(String role) {
+
         initComponents();
-        
-        this.role=role;
-        if(role.equalsIgnoreCase("GV"))
+
+        this.role = role;
+        if (role.equalsIgnoreCase("GV"))
             initMenu(GV);
-        else if(role.equalsIgnoreCase("SV"))
+        else if (role.equalsIgnoreCase("SV"))
             initMenu(SV);
-        else if(role.equalsIgnoreCase("AD"))
+        else if (role.equalsIgnoreCase("AD"))
             initMenu(AD);
         setOpaque(false);
         repaint();
         revalidate();
     }
-    public void initMenu(String[] items){
-        List<MenuItemCustom> listItems= new ArrayList<>();
-        for(String item:items){
-            MenuItemCustom menuItem= new MenuItemCustom(item, "icons8-"+item.toLowerCase()+"-30");
+
+    public void initMenu(String[] items) {
+        List<MenuItemCustom> listItems = new ArrayList<>();
+        for (String item : items) {
+            MenuItemCustom menuItem = new MenuItemCustom(item, "icons8-" + item.toLowerCase() + "-30");
             listItems.add(menuItem);
-            menuItem.addActionListener(x->handleClick(menuItem));
+            menuItem.addActionListener(x -> handleClick(menuItem));
         }
-//         if(role.equalsIgnoreCase("GV")){
-//             
-//         }
-//        else if(role.equalsIgnoreCase("SV")){
-//             SV_Main_GUI gui= new SV_Main_GUI();
-//             Main_GUI.main_panel.removeAll();
-//             Main_GUI.main_panel.add(gui);
-//        }
-//        else if(role.equalsIgnoreCase("AD")){
-//             Admin_Subject gui= new Admin_Subject();
-//             Main_GUI.main_panel.removeAll();
-//             Main_GUI.main_panel.add(gui);
-//        }
+        // if(role.equalsIgnoreCase("GV")){
+        //
+        // }
+        // else if(role.equalsIgnoreCase("SV")){
+        // SV_Main_GUI gui= new SV_Main_GUI();
+        // Main_GUI.main_panel.removeAll();
+        // Main_GUI.main_panel.add(gui);
+        // }
+        // else if(role.equalsIgnoreCase("AD")){
+        // Admin_Subject gui= new Admin_Subject();
+        // Main_GUI.main_panel.removeAll();
+        // Main_GUI.main_panel.add(gui);
+        // }
         menuItemList1.updateMenu(listItems);
     }
-    public void handleClick(MenuItemCustom item){
+
+    public void handleClick(MenuItemCustom item) {
         Avatar.updateTitle(item.getItemText());
-        System.out.println(item.getItemText()); 
-        
-        String role= Main_GUI.tk.getVaiTro();
-       
+        System.out.println(item.getItemText());
+
+        String role = Main_GUI.tk.getVaiTro();
+
         switch (item.getItemText()) {
-           
+
             case "Class":
-                if(role.equalsIgnoreCase("AD")){
+                if (role.equalsIgnoreCase("AD")) {
                     Main_GUI.main_panel.removeAll();
                     Main_GUI.main_panel.add(new Admin_Classrom());
-                }
-                else if(role.equalsIgnoreCase("SV")){
+                } else if (role.equalsIgnoreCase("SV")) {
                     Main_GUI.main_panel.removeAll();
                     Main_GUI.main_panel.add(new StudentClassroom());
                 }
@@ -101,22 +106,26 @@ public class MenuCustom extends javax.swing.JPanel {
                 Main_GUI.main_panel.removeAll();
                 Main_GUI.main_panel.add(new Admin_Account());
                 break;
-            case "Home": 
-                if(role.equals("SV")){
-                Main_GUI.main_panel.removeAll();
-                Main_GUI.main_panel.add(new SV_Main_GUI());
-                }break;
+            case "Home":
+                if (role.equals("SV")) {
+                    Main_GUI.main_panel.removeAll();
+                    Main_GUI.main_panel.add(new SV_Main_GUI());
+                }
+                break;
             default:
-                System.out.println("defaut");;
+                System.out.println("defaut");
+                ;
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
@@ -138,34 +147,41 @@ public class MenuCustom extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(menuItemList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel1)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGap(6, 6, 6)
+                                                .addGroup(layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(menuItemList1,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-            
-    }//GEN-LAST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
+
+    }// GEN-LAST:event_button1ActionPerformed
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
