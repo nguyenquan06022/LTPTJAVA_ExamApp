@@ -4,6 +4,7 @@
  */
 package Components;
 
+import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
 import GUI.Main_GUI;
@@ -90,6 +91,10 @@ public class MenuCustom extends javax.swing.JPanel {
             case "Subject":
                 Main_GUI.main_panel.removeAll();
                 Main_GUI.main_panel.add(new Admin_Subject());
+                break;
+            case "Account":
+                Main_GUI.main_panel.removeAll();
+                Main_GUI.main_panel.add(new Admin_Account());
                 break;
             default:
                 System.out.println("defaut");;

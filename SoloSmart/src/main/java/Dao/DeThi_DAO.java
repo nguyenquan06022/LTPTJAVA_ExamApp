@@ -192,7 +192,7 @@ public class DeThi_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT * FROM DeThis\n" +
+            String sql = "SELECT maDeThi, linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan,tenDeThi FROM DeThis\n" +
                     "WHERE maTaiKhoan = ? AND trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1,maTaiKhoan).getResultList();
@@ -205,7 +205,44 @@ public class DeThi_DAO {
                 deThi.setTrangThai((String) row[4]);
                 deThi.setNganHangDeThi(new NganHangDeThi((String) row[5]));
                 deThi.setTaiKhoan(new TaiKhoan((String) row[6]));
-                deThi.setMaDeThi((String) row[7]);
+                deThi.setTenDeThi((String) row[7]);
+                danhSachDeThi.add(deThi);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachDeThi;
+    }
+
+    // filter dethi của giáo viên
+    public ArrayList<DeThi> filterDeThiCuaGiaoVien(String maDeThi,String monHoc,String tenDeThi,String maTaiKhoan) {
+        ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select maDeThi, linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan,tenDeThi from DeThis\n" +
+                    "where maDeThi LIKE ? and monHoc LIKE ? and tenDeThi LIKE ? and trangThai = 'enable' and maTaiKhoan = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,'%'+maDeThi+'%')
+                    .setParameter(2,'%'+monHoc+'%')
+                    .setParameter(3,'%'+tenDeThi+'%')
+                    .setParameter(4,maTaiKhoan)
+                    .getResultList();
+            for (Object[] row : results) {
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) row[0]);
+                deThi.setLinkFile((String) row[1]);
+                deThi.setMonHoc((String) row[2]);
+                deThi.setSoLuongCauHoi((int) row[3]);
+                deThi.setTrangThai((String) row[4]);
+                deThi.setNganHangDeThi(new NganHangDeThi((String) row[5]));
+                deThi.setTaiKhoan(new TaiKhoan((String) row[6]));
+                deThi.setTenDeThi((String) row[7]);
                 danhSachDeThi.add(deThi);
             }
             tr.commit();

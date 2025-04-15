@@ -103,8 +103,8 @@ public class Admin_Classrom extends javax.swing.JPanel {
         initTable();
         
         searchTextField1.addActionListener(x->{
-            ArrayList<LopHoc> list= new ArrayList<>();
-            list= lh_dao.getDanhSachLopHoc();
+            ArrayList<LopHoc> list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
+            System.out.println(list.size());
             if(list.size()>0){
                 updateTable(list);
             }
@@ -285,7 +285,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         roundedGradientPanel1.setColor1(new java.awt.Color(255, 255, 255));
         roundedGradientPanel1.setColor2(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Exams-bro (1).png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Classroom-bro (1).png"))); // NOI18N
 
         myTextField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 
@@ -443,7 +443,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         roundedGradientPanel2.setColor1(new java.awt.Color(61, 141, 122));
         roundedGradientPanel2.setColor2(new java.awt.Color(116, 195, 174));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Exams-bro (1).png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Classroom-bro (1).png"))); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -704,7 +704,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         roundedGradientPanel3.setColor1(new java.awt.Color(255, 255, 255));
         roundedGradientPanel3.setColor2(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Exams-bro (1).png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Classroom-bro (1).png"))); // NOI18N
 
         myTextField10.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 

@@ -35,6 +35,11 @@ public class TaiKhoan {
     private String dangOnline;
     @NonNull
     private String gioiTinh;
+    @NonNull
+    private String soDienThoai;
+    @NonNull
+    private String email;
+
 
     @OneToMany(mappedBy = "taiKhoan")
     private Set<KetQuaHocTap> ketQuaHocTap;
@@ -51,4 +56,5 @@ public class TaiKhoan {
     public TaiKhoan(String maTaiKhoan) {
         this.maTaiKhoan = maTaiKhoan;
     }
+    
 }
