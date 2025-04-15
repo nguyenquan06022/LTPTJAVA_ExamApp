@@ -390,7 +390,7 @@ public class LopHoc_DAO {
             String sql = "select lh.maLop, lh.namHoc, lh.siSo, lh.tenLop, lh.trangThai,lh.maMonHoc,lh.maGiaoVien from LopHocs lh join MonHocs mh\n"
                     +
                     "on lh.maMonHoc = mh.maMonHoc\n" +
-                    "where lh.maLop LIKE ? and lh.tenLop LIKE ? and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? and lh.trangThai = 'enable' and maGiaoVien = ?";
+                    "where lh.maLop LIKE ? and lh.tenLop LIKE ? and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? and lh.trangThai = 'enable' and lh.maGiaoVien = ?";
 
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, "%" + maLop + "%")
@@ -429,9 +429,51 @@ public class LopHoc_DAO {
             String sql = "SELECT lh.maLop,lh.namHoc,lh.siSo,lh.tenLop,lh.trangThai,lh.maMonHoc, lh.maGiaoVien FROM LopHocs lh JOIN KetQuaHocTaps kqht \n" +
                     "ON kqht.maLop = lh.maLop JOIN TaiKhoans tk\n" +
                     "ON tk.maTaiKhoan = kqht.maTaiKhoan\n" +
-                    "WHERE lh.trangThai = 'enable' and tk.maTaiKhoan = ?";
+                    "WHERE lh.trangThai = 'enable' and kqht.maTaiKhoan = ?";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1,maTaiKhoan)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
+
+    // lọc lớp học theo tiêu chi của sinh viên
+    public ArrayList<LopHoc> filterLopHocCuaSinhVien(String maLop, String tenLop, String tenMonHoc, String namHoc, String maTaiKhoan) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT * FROM LopHocs lh JOIN KetQuaHocTaps kqht\n" +
+                    "ON lh.maLop = kqht.maLop JOIN TaiKhoans tk\n" +
+                    "ON tk.maTaiKhoan = kqht.maTaiKhoan JOIN MonHocs mh\n" +
+                    "ON mh.maMonHoc = lh.maMonHoc\n" +
+                    "WHERE lh.maLop LIKE ? and lh.tenLop LIKE ? \n" +
+                    "and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? \n" +
+                    "and lh.trangThai = 'enable' and kqht.maTaiKhoan = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,'%'+maLop+'%')
+                    .setParameter(2,'%'+tenLop+'%')
+                    .setParameter(3,'%'+tenMonHoc+'%')
+                    .setParameter(4, '%'+namHoc+'%')
+                    .setParameter(5,maTaiKhoan)
                     .getResultList();
 
             for (Object[] row : results) {

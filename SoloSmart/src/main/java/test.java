@@ -34,6 +34,6 @@ public class test {
 //
 //                taiKhoanDao.exportDsTaiKhoanVuaThemToExcel("C:\\Users\\Admin\\Desktop\\export.xlsx");
                 LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
-                System.out.println(lopHocDao.getDsLopHocCuaSinhVien("TK14042025233131460"));
+                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
         }
 }

@@ -27,7 +27,7 @@ public class StudentClassroom extends javax.swing.JPanel {
     public StudentClassroom() {
         dsLop=lopHoc_DAO.getDsLopHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
-        
+
         LoadMonHoc();
         LoadNamHoc();
     }
@@ -38,7 +38,7 @@ public class StudentClassroom extends javax.swing.JPanel {
             comboBoxSuggestion2.addItem(item.getTenMonHoc());
         });
     }
-    
+
     public void LoadNamHoc() {
         LocalDateTime now = LocalDateTime.now();
         for(int i=0;i<5;i++){
@@ -80,6 +80,12 @@ public class StudentClassroom extends javax.swing.JPanel {
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button2ActionPerformed(evt);
+            }
+        });
+
+        searchTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextField1ActionPerformed(evt);
             }
         });
 
@@ -161,12 +167,16 @@ public class StudentClassroom extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        
+
     }//GEN-LAST:event_button2ActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+
+    private void searchTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextField1ActionPerformed
+
+    }//GEN-LAST:event_searchTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
