@@ -9,6 +9,7 @@ import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
 import GUI.Main_GUI;
 import GUI.SV_Main_GUI;
+import GUI.StudentClassroom;
 import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -87,6 +88,10 @@ public class MenuCustom extends javax.swing.JPanel {
                     Main_GUI.main_panel.removeAll();
                     Main_GUI.main_panel.add(new Admin_Classrom());
                 }
+                else if(role.equalsIgnoreCase("SV")){
+                    Main_GUI.main_panel.removeAll();
+                    Main_GUI.main_panel.add(new StudentClassroom());
+                }
                 break;
             case "Subject":
                 Main_GUI.main_panel.removeAll();
@@ -96,6 +101,11 @@ public class MenuCustom extends javax.swing.JPanel {
                 Main_GUI.main_panel.removeAll();
                 Main_GUI.main_panel.add(new Admin_Account());
                 break;
+            case "Home": 
+                if(role.equals("SV")){
+                Main_GUI.main_panel.removeAll();
+                Main_GUI.main_panel.add(new SV_Main_GUI());
+                }break;
             default:
                 System.out.println("defaut");;
         }
