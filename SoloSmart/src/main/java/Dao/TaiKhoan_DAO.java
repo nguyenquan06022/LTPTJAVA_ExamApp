@@ -3,13 +3,13 @@ package Dao;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.Normalizer;
@@ -21,9 +21,10 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class TaiKhoan_DAO {
+    private ArrayList<TaiKhoan> dsTaiKhoanVuaThem;
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
-    
+
     public String removeVietnameseAccent(String input) {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
@@ -36,8 +37,9 @@ public class TaiKhoan_DAO {
         LocalDateTime now = LocalDateTime.now();
         return "TK" + df.format(now);
     }
-    public String generatePassword(String ten, String ho, int vaiTro){
-        
+
+    public String generatePassword(String ten, String ho, int vaiTro) {
+
         String[] hoParts = ho.trim().split("\\s+");
         StringBuilder chuCaiDau = new StringBuilder();
         for (String part : hoParts) {
@@ -45,8 +47,10 @@ public class TaiKhoan_DAO {
                 chuCaiDau.append(Character.toUpperCase(part.charAt(0)));
             }
         }
-        return removeVietnameseAccent(ten.toLowerCase()) + chuCaiDau.toString().toUpperCase() + "@" + ((vaiTro==0)?"SV":(vaiTro==1)?"GV":"AD")+LocalDateTime.now().getYear();
+        return removeVietnameseAccent(ten.toLowerCase()) + chuCaiDau.toString().toUpperCase() + "@"
+                + ((vaiTro == 0) ? "SV" : (vaiTro == 1) ? "GV" : "AD") + LocalDateTime.now().getYear();
     }
+
     public TaiKhoan_DAO() {
     }
 
@@ -67,11 +71,11 @@ public class TaiKhoan_DAO {
                     .setParameter(4, taiKhoan.getTrangThai())
                     .setParameter(5, taiKhoan.getVaiTro())
                     .setParameter(6, taiKhoan.getDangOnline())
-                    .setParameter(7,taiKhoan.getGioiTinh())
+                    .setParameter(7, taiKhoan.getGioiTinh())
                     .setParameter(8, taiKhoan.getHo())
-                    .setParameter(9,taiKhoan.getTen())
-                    .setParameter(10,taiKhoan.getSoDienThoai())
-                    .setParameter(11,taiKhoan.getEmail())
+                    .setParameter(9, taiKhoan.getTen())
+                    .setParameter(10, taiKhoan.getSoDienThoai())
+                    .setParameter(11, taiKhoan.getEmail())
                     .executeUpdate();
             tr.commit();
             isSuccess = true;
@@ -80,7 +84,7 @@ public class TaiKhoan_DAO {
         }
         return isSuccess;
     }
-    
+
     public TaiKhoan getTaiKhoan(String id) {
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
@@ -149,6 +153,7 @@ public class TaiKhoan_DAO {
         }
         return danhSachTaiKhoan;
     }
+
     public ArrayList<TaiKhoan> getDanhSachTaiKhoanGV() {
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
@@ -184,12 +189,14 @@ public class TaiKhoan_DAO {
 
         return danhSachTaiKhoan;
     }
+
     public ArrayList<TaiKhoan> getDanhSachTaiKhoanSV() {
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'\n" +
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro,dangOnline,gioiTinh,ho,ten,soDienThoai,email FROM TaiKhoans where trangThai = 'enable' and vaitro='SV'\n"
+                    +
                     "ORDER BY ten ASC";
             List<Object[]> results = em.createNativeQuery(sql).getResultList();
 
@@ -219,6 +226,7 @@ public class TaiKhoan_DAO {
 
         return danhSachTaiKhoan;
     }
+
     public boolean updateTaiKhoan(TaiKhoan taiKhoan) {
         EntityTransaction tr = em.getTransaction();
         try {
@@ -233,9 +241,9 @@ public class TaiKhoan_DAO {
                     .setParameter(6, taiKhoan.getDangOnline())
                     .setParameter(7, taiKhoan.getGioiTinh())
                     .setParameter(8, taiKhoan.getHo())
-                    .setParameter(9,taiKhoan.getTen())
-                    .setParameter(10,taiKhoan.getSoDienThoai())
-                    .setParameter(11,taiKhoan.getEmail())
+                    .setParameter(9, taiKhoan.getTen())
+                    .setParameter(10, taiKhoan.getSoDienThoai())
+                    .setParameter(11, taiKhoan.getEmail())
                     .executeUpdate();
             tr.commit();
 
@@ -270,7 +278,7 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public TaiKhoan dangNhap(String userName,String password) {
+    public TaiKhoan dangNhap(String userName, String password) {
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -330,16 +338,27 @@ public class TaiKhoan_DAO {
     // thêm danh sách tài khoản từ file Excel
     public void importTaiKhoanFromExcel(String filePath) {
         try (FileInputStream fis = new FileInputStream(new File(filePath));
-             Workbook workbook = new XSSFWorkbook(fis)) {
+                Workbook workbook = new XSSFWorkbook(fis)) {
+
             Sheet sheet = workbook.getSheetAt(0);
+            DataFormatter formatter = new DataFormatter();
+
+            if (dsTaiKhoanVuaThem == null)
+                dsTaiKhoanVuaThem = new ArrayList<>();
+            else
+                dsTaiKhoanVuaThem.clear();
+
             for (int i = 1; i <= sheet.getLastRowNum(); i++) { // Bỏ header
                 Row row = sheet.getRow(i);
-                String ho = row.getCell(0).getStringCellValue();
-                String ten = row.getCell(1).getStringCellValue();
-                String gioiTinh = row.getCell(2).getStringCellValue();
-                String vaiTro = row.getCell(3).getStringCellValue();
-                String soDienThoai = row.getCell(4).getStringCellValue();
-                String email = row.getCell(5).getStringCellValue();
+                if (row == null)
+                    continue;
+
+                String ho = formatter.formatCellValue(row.getCell(0));
+                String ten = formatter.formatCellValue(row.getCell(1));
+                String gioiTinh = formatter.formatCellValue(row.getCell(2));
+                String vaiTro = formatter.formatCellValue(row.getCell(3));
+                String soDienThoai = formatter.formatCellValue(row.getCell(4));
+                String email = formatter.formatCellValue(row.getCell(5));
 
                 TaiKhoan tk = new TaiKhoan();
                 tk.setMaTaiKhoan(generateMa());
@@ -350,11 +369,13 @@ public class TaiKhoan_DAO {
                 tk.setTrangThai("enable");
                 tk.setDangOnline("offline");
                 tk.setTenTaiKhoan(ho + " " + ten);
-                tk.setMatKhau(UUID.randomUUID().toString().substring(0, 8)); // Mật khẩu ngẫu nhiên 8 ký tự
+                tk.setMatKhau(UUID.randomUUID().toString().substring(0, 8)); // mật khẩu ngẫu nhiên
                 tk.setSoDienThoai(soDienThoai);
                 tk.setEmail(email);
 
-                addTaiKhoan(tk);
+                boolean res = addTaiKhoan(tk);
+                if (res)
+                    dsTaiKhoanVuaThem.add(tk);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -363,9 +384,9 @@ public class TaiKhoan_DAO {
 
     public ArrayList<TaiKhoan> getDanhSachTaiKhoanFromExcel(String filePath) {
         try (FileInputStream fis = new FileInputStream(new File(filePath));
-             Workbook workbook = new XSSFWorkbook(fis)) {
+                Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
-            ArrayList<TaiKhoan> list= new ArrayList<>();
+            ArrayList<TaiKhoan> list = new ArrayList<>();
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 String maTaiKhoan = row.getCell(0).getStringCellValue();
@@ -377,5 +398,51 @@ public class TaiKhoan_DAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // export file excel danh sách tài khoản vua them
+    public void exportDsTaiKhoanVuaThemToExcel(String filePath) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("TaiKhoanVuaThem");
+
+        // Tạo header
+        Row headerRow = sheet.createRow(0);
+        String[] columns = { "Họ", "Tên", "Giới Tính", "Vai Trò", "Tên Tài Khoản", "Mật Khẩu" };
+
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+        }
+
+        // Ghi dữ liệu
+        int rowNum = 1;
+        for (TaiKhoan tk : dsTaiKhoanVuaThem) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(tk.getHo());
+            row.createCell(1).setCellValue(tk.getTen());
+            row.createCell(2).setCellValue(tk.getGioiTinh());
+            row.createCell(3).setCellValue(tk.getVaiTro());
+            row.createCell(4).setCellValue(tk.getTenTaiKhoan());
+            row.createCell(5).setCellValue(tk.getMatKhau());
+        }
+
+        for (int i = 0; i < columns.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // Ghi vào file
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+            System.out.println("Xuất file Excel thành công tại: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Lỗi khi ghi file Excel!");
+        } finally {
+            try {
+                workbook.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

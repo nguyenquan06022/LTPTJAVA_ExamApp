@@ -34,125 +34,127 @@ import jnafilechooser.api.JnaFileChooser;
  * @author THANH PHU
  */
 public class Admin_Account extends javax.swing.JPanel {
+    public class Admin_Account extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Admin_Subject
-     */
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
-    private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
-    private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
-    private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
-    private ArrayList<KetQuaHocTap> dsKQHT= new ArrayList<>();
-    public Admin_Account() {
-        initComponents();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-        TableActionEvent event = new TableActionEvent() {
-            @Override
-            public void onEdit(int row) {
-               
-                    
-                
-                
-            }
+        /**
+         * Creates new form Admin_Subject
+         */
+        private MonHoc_DAO mh_dao = new MonHoc_DAO(Main_GUI.em);
+        private LopHoc_DAO lh_dao = new LopHoc_DAO(Main_GUI.em);
+        private TaiKhoan_DAO tk_dao = new TaiKhoan_DAO(Main_GUI.em);
+        private KetQuaHocTap_DAO kqht_dao = new KetQuaHocTap_DAO(Main_GUI.em);
+        private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
+        private ArrayList<TaiKhoan> listAddStudent = new ArrayList<>();
+        private ArrayList<TaiKhoan> listUpdateStudent = new ArrayList<>();
+        private ArrayList<KetQuaHocTap> dsKQHT = new ArrayList<>();
 
-            @Override
-            public void onDelete(int row) {
-                
-                
-                
-            }
+        public Admin_Account() {
+            initComponents();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            @Override
-            public void onView(int row) {
-                
-                                            // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        };
-        jTable1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
-        jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
-        initTable();
-        
-        searchTextField1.addActionListener(x->{
-            ArrayList<LopHoc> list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
-            System.out.println(list.size());
-            if(list.size()>0){
-//                updateTable(list);
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"khong tim thay");
-            }
-            
-        });
-    }
-    public void initTable(){
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        ArrayList<TaiKhoan> list= tk_dao.getDanhSachTaiKhoan();
-        updateTable(list);
-                
-    }
-    public void updateTable(ArrayList<TaiKhoan> list){
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        list.forEach(x->{
-            model.addRow(new Object[]{
-                x.getMaTaiKhoan(),
-                x.getHo()+" "+x.getTen(),
-                x.getGioiTinh(),
-                x.getVaiTro().equalsIgnoreCase("SV")?"Sinh viên":x.getVaiTro().equalsIgnoreCase("GV")?"Giảng viên":"Quản trị viên",
-                x.getDangOnline()
+            TableActionEvent event = new TableActionEvent() {
+                @Override
+                public void onEdit(int row) {
+
+                }
+
+                @Override
+                public void onDelete(int row) {
+
+                }
+
+                @Override
+                public void onView(int row) {
+
+                    // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+            };
+            jTable1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
+            jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
+            initTable();
+
+            searchTextField1.addActionListener(x -> {
+                ArrayList<LopHoc> list = lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
+                System.out.println(list.size());
+                if (list.size() > 0) {
+                    // updateTable(list);
+                } else {
+                    JOptionPane.showMessageDialog(null, "khong tim thay");
+                }
+
             });
-        });
-                
-    }
-    public boolean validateAccount(){
-        String ho= myTextField1.getText();
-        String ten= myTextField13.getText();
-        String tenTK= myTextField14.getText().trim();
-        String email = myTextField15.getText().trim();
-        String sdt = myTextField16.getText().trim();    
-        if (ho.isEmpty() || ten.isEmpty() || tenTK.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Họ, tên, và tên tài khoản không được để trống.");
-            return false;
         }
-        if(!(ho.matches("^[\\p{L} ]+$")||ten.matches("^[\\p{L} ]+$"))){
-            JOptionPane.showMessageDialog(null, "Họ, tên phải là ký tự chữ, không chứa các ký tự đặc biệt.");
-            return false;
+
+        public void initTable() {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            ArrayList<TaiKhoan> list = tk_dao.getDanhSachTaiKhoan();
+            updateTable(list);
+
         }
-        if (tenTK.contains(" ")) {
-            JOptionPane.showMessageDialog(null, "Tên tài khoản không được chứa khoảng trắng.");
+
+        public void updateTable(ArrayList<TaiKhoan> list) {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            list.forEach(x -> {
+                model.addRow(new Object[] {
+                        x.getMaTaiKhoan(),
+                        x.getHo() + " " + x.getTen(),
+                        x.getGioiTinh(),
+                        x.getVaiTro().equalsIgnoreCase("SV") ? "Sinh viên"
+                                : x.getVaiTro().equalsIgnoreCase("GV") ? "Giảng viên" : "Quản trị viên",
+                        x.getDangOnline()
+                });
+            });
+
+        }
+
+        public void initEdit(LopHoc lophoc) {
+            if (lophoc != null) {
+                myTextField10.setText(lophoc.getTenLop());
+                ArrayList<TaiKhoan> tkGV = tk_dao.getDanhSachTaiKhoanGV();
+                tkGV.forEach(x -> {
+                    comboBoxSuggestion6.addItem(x.getHo() + " " + x.getTen());
+                });
+                TaiKhoan gv = tk_dao.getTaiKhoan(lophoc.getGiaoVien().getMaTaiKhoan());
+                comboBoxSuggestion6.setSelectedItem(gv.getHo() + " " + gv.getTen());
+                ArrayList<MonHoc> listMH = mh_dao.getDanhSachMonHoc();
+                listMH.forEach(x -> {
+                    comboBoxSuggestion4.addItem(x.getTenMonHoc());
+                });
+                MonHoc mh = mh_dao.getMonHoc(lophoc.getMonHoc().getMaMonHoc());
+                comboBoxSuggestion4.setSelectedItem(mh.getTenMonHoc());
+
+                for (int i = 0; i < 10; i++) {
+                    LocalDateTime now = LocalDateTime.now().plusYears(i);
+                    LocalDateTime nextYear = now.plusYears(1);
+                    String date = now.getYear() + "-" + nextYear.getYear();
+                    comboBoxSuggestion5.addItem(date);
+
+                }
+                comboBoxSuggestion5.setSelectedItem(lophoc.getNamHoc());
+
+                ArrayList<KetQuaHocTap> kqht = kqht_dao.getDanhSachKetQuaHocTap(lophoc.getMaLop());
+                dsKQHT = new ArrayList<>(kqht);
+                myTextField11.setText(kqht.size() + "");
+                EditDialog.pack();
+                EditDialog.setIconImage(icon.getImage());
+                EditDialog.setLocationRelativeTo(null);
+                EditDialog.setModal(true);
+                EditDialog.setVisible(true);
+
+            }
+        }
+
+        public boolean isExitTable(JTable table, String ma) {
+            for (int i = 0; i < table.getRowCount(); i++) {
+                if (table.getValueAt(i, 0).toString().equalsIgnoreCase(ma)) {
+                    return true;
+                }
+            }
             return false;
         }
 
-        if (tenTK.length() < 5) {
-            JOptionPane.showMessageDialog(null, "Tên tài khoản phải có ít nhất 5 ký tự.");
-            return false;
-        }
-        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
-            JOptionPane.showMessageDialog(null, "Email không hợp lệ.");
-            return false;
-        }
-        if (!sdt.matches("^0\\d{9}$")) {
-            JOptionPane.showMessageDialog(null, "Số điện thoại phải gồm 10 chữ số và bắt đầu bằng số 0.");
-            return false;
-        }
-        return true;
-    }
-    public void ClearAddDialog(){
-        myTextField1.setText("");
-        myTextField13.setText("");
-        myTextField14.setText("");
-        myTextField15.setText("");
-        myTextField16.setText("");
-        comboBoxSuggestion7.setSelectedIndex(0);
-        comboBoxSuggestion8.setSelectedIndex(0);
-    }
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -300,7 +302,9 @@ public class Admin_Account extends javax.swing.JPanel {
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(myTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(myTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(myTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -340,6 +344,9 @@ public class Admin_Account extends javax.swing.JPanel {
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jLabel25))
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel25))
                         .addGap(7, 7, 7)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,6 +358,7 @@ public class Admin_Account extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel27)
                                 .addComponent(jLabel27)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -636,24 +644,18 @@ public class Admin_Account extends javax.swing.JPanel {
                 false, false, false, false, false, true
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable1.setGridColor(new java.awt.Color(61, 141, 122));
-        jTable1.setRowHeight(40);
-        jTable1.getTableHeader().setResizingAllowed(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return canEdit[columnIndex];
+        }
+    });jTable1.setGridColor(new java.awt.Color(61,141,122));jTable1.setRowHeight(40);jTable1.getTableHeader().setResizingAllowed(false);jTable1.getTableHeader().setReorderingAllowed(false);jScrollPane1.setViewportView(jTable1);
 
-        circleBackgroundPanel1.setColor1(new java.awt.Color(61, 141, 122));
+    circleBackgroundPanel1.setColor1(new java.awt.Color(61,141,122));
 
-        button2.setBorder(null);
-        button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
-        button2.setText("Làm mới");
-        button2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        button2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+    button2.setBorder(null);button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
+    button2.setText("Làm mới");button2.setFont(new java.awt.Font("Segoe UI",1,12)); // NOI18N
+    button2.addActionListener(new java.awt.event.ActionListener(){
+
+    public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button2ActionPerformed(evt);
             }
         });
@@ -740,58 +742,205 @@ public class Admin_Account extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button2ActionPerformed
         updateTable(tk_dao.getDanhSachTaiKhoan());
-    }//GEN-LAST:event_button2ActionPerformed
+    }// GEN-LAST:event_button2ActionPerformed
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
+
         AddDialog.pack();
         AddDialog.setLocationRelativeTo(null);
         AddDialog.setModal(true);
         AddDialog.setIconImage(icon.getImage());
         AddDialog.setVisible(true);
-    }//GEN-LAST:event_button1ActionPerformed
-    
-    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
-       
-    }//GEN-LAST:event_button6ActionPerformed
+    }// GEN-LAST:event_button1ActionPerformed
 
-    private void button7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button7ActionPerformed
-        
-    }//GEN-LAST:event_button7ActionPerformed
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button6ActionPerformed
 
-    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button8ActionPerformed
-        
-    }//GEN-LAST:event_button8ActionPerformed
-    
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        if(validateAccount()){
-            TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), myTextField14.getText().trim(), 
-                    tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()),
-                    myTextField1.getText(), myTextField13.getText(), 
-                    comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion8.getSelectedIndex()==1?"GV":"AD",
-                    "enable", 
-                    "offline", comboBoxSuggestion7.getSelectedItem().toString(),
-                    myTextField16.getText().trim(), myTextField15.getText().trim());
-            if(tk_dao.addTaiKhoan(tk)){
-                JOptionPane.showMessageDialog(null, "Thêm tài khoản thành công");
-                ClearAddDialog();
-                AddDialog.dispose();
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Thêm tài khoản thất bại");
-            }
-        }else{
-            System.out.println("them that bai");
+    }// GEN-LAST:event_button6ActionPerformed
+
+    private void button7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button7ActionPerformed
+
+    }// GEN-LAST:event_button7ActionPerformed
+
+    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button8ActionPerformed
+
+    }// GEN-LAST:event_button8ActionPerformed
+
+    public void clearAddDialog() {
+        myTextField1.setText("");
+        comboBoxSuggestion2.setSelectedIndex(0);
+        myTextField8.setText("0");
+        comboBoxSuggestion1.setSelectedIndex(0);
+        comboBoxSuggestion3.setSelectedIndex(0);
+    }
+
+    public boolean validateAdd() {
+        if (myTextField1.getText().trim().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(null, "Tên lớp không được rỗng");
+            return false;
         }
-        
-    }//GEN-LAST:event_button3ActionPerformed
 
-    private void button14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button14ActionPerformed
+        return true;
+    }
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button3ActionPerformed
+        String ma = lh_dao.generateMa();
+        String tenLopHoc = myTextField1.getText();
+        String namHoc = comboBoxSuggestion2.getSelectedItem().toString();
+        int siSo = Integer.parseInt(myTextField8.getText().toString());
+        ArrayList<MonHoc> listMH = mh_dao.getDanhSachMonHoc();
+        MonHoc monHoc = listMH.get(comboBoxSuggestion1.getSelectedIndex());
+        ArrayList<TaiKhoan> tkGV = tk_dao.getDanhSachTaiKhoanGV();
+        TaiKhoan gv = tkGV.get(comboBoxSuggestion3.getSelectedIndex());
+
+        LopHoc newLop = new LopHoc(ma, tenLopHoc, siSo, namHoc, "enable", monHoc, gv);
+        if (validateAdd()) {
+
+            if (lh_dao.addLopHoc(newLop)) {
+                listAddStudent.forEach(x -> {
+                    KetQuaHocTap kq = new KetQuaHocTap(newLop, x);
+                    if (!kqht_dao.themKetQuaHocTap(kq))
+                        System.out.println("Them khong thanh cong");
+                });
+                listAddStudent.clear();
+                initTable();
+                AddDialog.dispose();
+                clearAddDialog();
+                jTable1.getCellEditor().cancelCellEditing();
+            } else {
+                JOptionPane.showMessageDialog(null, "Thêm lớp học thất bại");
+            }
+        }
+
+    }// GEN-LAST:event_button3ActionPerformed
+     // public boolean KQHTContain(){
+     //
+     // }
+
+    private void button9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button9ActionPerformed
+        ArrayList<MonHoc> listMH = mh_dao.getDanhSachMonHoc();
+        ArrayList<TaiKhoan> tkGV = tk_dao.getDanhSachTaiKhoanGV();
+        LopHoc lophoc = new LopHoc(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(),
+                myTextField10.getText(), Integer.parseInt(myTextField11.getText()),
+                comboBoxSuggestion5.getSelectedItem().toString(), "enable",
+                listMH.get(comboBoxSuggestion4.getSelectedIndex()),
+                tkGV.get(comboBoxSuggestion6.getSelectedIndex()));
+        if (lh_dao.updateLopHoc(lophoc)) {
+            ArrayList<KetQuaHocTap> dsKetQuaBefore = kqht_dao
+                    .getDanhSachKetQuaHocTap(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            // kiem tra xem ket qua hoc tap co trong db chua, neu chua se them vao
+            dsKQHT.forEach(x -> {
+                System.out.println("Sau update");
+                System.out.println(kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop()));
+                if (kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop()) == null) {
+                    kqht_dao.themKetQuaHocTap(x);
+                } else {
+                    System.out.println("khong duoc");
+                }
+            });
+
+            // kiem tra xem ket qua trong ds ban dau co trong ds sau khi update khong, neu
+            // khong thi xoa
+            dsKetQuaBefore.forEach(x -> {
+                if (!dsKQHT.contains(x)) {
+                    kqht_dao.xoaKetQuaHocTap(x);
+
+                }
+            });
+        } else {
+            System.out.println("khong duoc");
+        }
+        initTable();
+        EditDialog.dispose();
+        jTable1.getCellEditor().cancelCellEditing();
+    }// GEN-LAST:event_button9ActionPerformed
+
+    private void button10ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button10ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+
+        dsKQHT.forEach(x -> {
+            TaiKhoan sv = tk_dao.getTaiKhoan(x.getTaiKhoan().getMaTaiKhoan());
+            model.addRow(new Object[] {
+                    sv.getMaTaiKhoan(),
+                    sv.getHo() + " " + sv.getTen(),
+                    sv.getGioiTinh()
+            });
+        });
+
+        TableActionEvent event3 = new TableActionEvent() {
+            @Override
+            public void onEdit(int row) {
+
+            }
+
+            @Override
+            public void onDelete(int row) {
+
+                model.removeRow(row);
+                jTable3.getCellEditor().cancelCellEditing();
+            }
+
+            @Override
+            public void onView(int row) {
+
+            }
+        };
+
+        jTable3.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender("delete"));
+        jTable3.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event3, "delete"));
+
+        UpdateStudent.pack();
+        UpdateStudent.setLocationRelativeTo(null);
+        UpdateStudent.setIconImage(icon.getImage());
+        UpdateStudent.setModal(true);
+        UpdateStudent.setVisible(true);
+    }// GEN-LAST:event_button10ActionPerformed
+
+    private void button11ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button11ActionPerformed
+        JnaFileChooser fileChooser = new JnaFileChooser();
+        // Đảm bảo hiện trên cùng nếu cần
+
+        if (fileChooser.showOpenDialog(null)) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+
+            ArrayList<TaiKhoan> listTemp = tk_dao.getDanhSachTaiKhoanFromExcel(filePath);
+            if (!listTemp.isEmpty()) {
+                DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+
+                for (TaiKhoan tk : listTemp) {
+                    if (!isExitTable(jTable3, tk.getMaTaiKhoan())) {
+                        model.addRow(new Object[] {
+                                tk.getMaTaiKhoan(),
+                                tk.getHo() + " " + tk.getTen(),
+                                tk.getGioiTinh()
+                        });
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Không có dữ liệu tài khoản trong file.");
+            }
+        }
+    }// GEN-LAST:event_button11ActionPerformed
+
+    private void button12ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button12ActionPerformed
+        String ma = myTextField12.getText().trim();
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        TaiKhoan sv = tk_dao.getTaiKhoan(ma);
+        if (sv != null && !isExitTable(jTable3, ma)) {
+            model.addRow(new Object[] {
+                    sv.getMaTaiKhoan(),
+                    sv.getHo() + " " + sv.getTen(),
+                    sv.getGioiTinh()
+            });
+        }
+    }// GEN-LAST:event_button12ActionPerformed
+
+    private void button14ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button14ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_button14ActionPerformed
-
+    }// GEN-LAST:event_button14ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog AddDialog;

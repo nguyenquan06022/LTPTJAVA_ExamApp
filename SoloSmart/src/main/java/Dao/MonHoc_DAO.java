@@ -190,4 +190,35 @@ public class MonHoc_DAO {
             throw new RuntimeException(e);
         }
     }
+    
+    public ArrayList<MonHoc> getDanhSachMonHocCuaSinhVien(String maTaiKhoan) {
+        ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT mh.* FROM MonHocs mh JOIN LopHocs lh\n" +
+"ON mh.maMonHoc = lh.maMonHoc JOIN KetQuaHocTaps kqht\n" +
+"ON kqht.maLop = lh.maLop JOIN TaiKhoans tk\n" +
+"ON tk.maTaiKhoan = kqht.maTaiKhoan\n" +
+"WHERE mh.trangThai = 'enable' AND TK.maTaiKhoan = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .getResultList();
+            for (Object[] row : results) {
+                MonHoc monHoc = new MonHoc();
+                monHoc.setMaMonHoc((String) row[0]);
+                monHoc.setTenMonHoc((String) row[1]);
+                monHoc.setTrangThai((String) row[2]);
+                danhSachMonHoc.add(monHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachMonHoc;
+    }
 }

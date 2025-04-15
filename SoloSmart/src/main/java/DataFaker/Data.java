@@ -138,10 +138,11 @@ public class Data {
             maLopHoc = lopHocDao.generateMa();
         } while (dsMa.contains(maLopHoc));
         dsMa.add(maLopHoc);
+        int namBatDau = faker.number().numberBetween(2000, 2025);
         lopHoc.setMaLop(maLopHoc);
         lopHoc.setTenLop(faker.educator().course());
         lopHoc.setSiSo(faker.number().numberBetween(20, 50));
-        lopHoc.setNamHoc(String.format("%d-%d", faker.number().numberBetween(2000, 2025), faker.number().numberBetween(2001, 2026)));
+        lopHoc.setNamHoc(String.format("%d-%d", namBatDau, namBatDau+1));
         lopHoc.setTrangThai("enable");
         lopHoc.setMonHoc(mh);
         lopHoc.setGiaoVien(new TaiKhoan(faker.options().nextElement(dsMaGiaoVien)));
