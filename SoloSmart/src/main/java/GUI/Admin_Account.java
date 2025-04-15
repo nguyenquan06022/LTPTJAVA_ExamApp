@@ -207,7 +207,7 @@ public class Admin_Account extends javax.swing.JPanel {
         button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button3ActionPerformed(evt);
+                //button3ActionPerformed(evt);
             }
         });
 
@@ -719,20 +719,20 @@ public class Admin_Account extends javax.swing.JPanel {
         
     }//GEN-LAST:event_button8ActionPerformed
     
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        if(validateAccount()){
-            TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), myTextField14.getText().trim(), 
-                    tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()),
-                    myTextField1.getText(), myTextField13.getText(), 
-                    comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion8.getSelectedIndex()==1?"GV":"AD",
-                    "enable", 
-                    "offline", comboBoxSuggestion7.getSelectedItem().toString());
-            if(tk_dao.addTaiKhoan(tk)){
-                
-            }
-        }
-        
-    }//GEN-LAST:event_button3ActionPerformed
+//    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+//        if(validateAccount()){
+//            TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), myTextField14.getText().trim(),
+//                    tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()),
+//                    myTextField1.getText(), myTextField13.getText(),
+//                    comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion8.getSelectedIndex()==1?"GV":"AD",
+//                    "enable",
+//                    "offline", comboBoxSuggestion7.getSelectedItem().toString());
+//            if(tk_dao.addTaiKhoan(tk)){
+//
+//            }
+//        }
+//
+//    }//GEN-LAST:event_button3ActionPerformed
 
     private void button14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button14ActionPerformed
         // TODO add your handling code here:

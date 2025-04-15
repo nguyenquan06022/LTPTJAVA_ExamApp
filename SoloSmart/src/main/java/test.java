@@ -28,5 +28,10 @@ public class test {
 
 //                DeThi_DAO deThiDao = new DeThi_DAO(em);
 //                System.out.println(deThiDao.filterDeThiCuaGiaoVien("","","","TK14042025101852237"));
+
+                TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
+                taiKhoanDao.importTaiKhoanFromExcel("C:\\Users\\Admin\\Desktop\\taikhoan.xlsx");
+
+                taiKhoanDao.exportDsTaiKhoanVuaThemToExcel("C:\\Users\\Admin\\Desktop\\export.xlsx");
         }
 }
