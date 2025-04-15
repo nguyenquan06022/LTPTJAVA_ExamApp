@@ -86,29 +86,29 @@ public class MenuCustom extends javax.swing.JPanel {
         System.out.println(item.getItemText());
 
         String role = Main_GUI.tk.getVaiTro();
-
+        Main_GUI.main_panel.removeAll();
         switch (item.getItemText()) {
 
             case "Class":
                 if (role.equalsIgnoreCase("AD")) {
-                    Main_GUI.main_panel.removeAll();
+                    
                     Main_GUI.main_panel.add(new Admin_Classrom());
                 } else if (role.equalsIgnoreCase("SV")) {
-                    Main_GUI.main_panel.removeAll();
+                  
                     Main_GUI.main_panel.add(new StudentClassroom());
                 }
                 break;
             case "Subject":
-                Main_GUI.main_panel.removeAll();
+               
                 Main_GUI.main_panel.add(new Admin_Subject());
                 break;
             case "Account":
-                Main_GUI.main_panel.removeAll();
+               
                 Main_GUI.main_panel.add(new Admin_Account());
                 break;
             case "Home":
                 if (role.equals("SV")) {
-                    Main_GUI.main_panel.removeAll();
+                    
                     Main_GUI.main_panel.add(new SV_Main_GUI());
                 }
                 break;
@@ -116,6 +116,8 @@ public class MenuCustom extends javax.swing.JPanel {
                 System.out.println("defaut");
                 ;
         }
+        Main_GUI.main_panel.revalidate();   // Cập nhật lại layout
+        Main_GUI.main_panel.repaint();
     }
 
     /**

@@ -7,6 +7,7 @@ package Components;
 import Dao.MonHoc_DAO;
 import Entity.LopHoc;
 import GUI.Main_GUI;
+import GUI.StudentDetailClassroom;
 
 /**
  *
@@ -20,15 +21,25 @@ public class LopHocCard extends javax.swing.JPanel {
     public LopHocCard() {
         initComponents();
     }
+    private LopHoc lophoc;
     private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
     public LopHocCard(LopHoc lh) {
         initComponents();
+        this.lophoc=lh;
         jLabel2.setText(lh.getTenLop());
-        jLabel3.setText(lh.getSiSo()+"");
+        jLabel3.setText(lh.getSiSo()+" sinh viên");
         jLabel1.setText(mh_dao.getMonHoc(lh.getMonHoc().getMaMonHoc()).getTenMonHoc());
     }
     public CircleBackgroundPanel getCircleBackgroundPanel2() {
         return circleBackgroundPanel2;
+    }
+
+    public LopHoc getLophoc() {
+        return lophoc;
+    }
+
+    public void setLophoc(LopHoc lophoc) {
+        this.lophoc = lophoc;
     }
     
     /**
@@ -63,6 +74,11 @@ public class LopHocCard extends javax.swing.JPanel {
         button1.setForeground(new java.awt.Color(255, 255, 255));
         button1.setText("Vào Lớp");
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -118,6 +134,13 @@ public class LopHocCard extends javax.swing.JPanel {
             .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        Main_GUI.main_panel.removeAll();
+        Main_GUI.main_panel.add(new StudentDetailClassroom());
+        Main_GUI.main_panel.revalidate();   // Cập nhật lại layout
+        Main_GUI.main_panel.repaint();
+    }//GEN-LAST:event_button1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

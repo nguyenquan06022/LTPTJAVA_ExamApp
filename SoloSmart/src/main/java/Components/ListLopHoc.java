@@ -78,6 +78,8 @@ public class ListLopHoc extends JPanel{
             lopHocCard.getCircleBackgroundPanel2().setColor1(gradients[randomIndex][0]);
             lopHocCard.getCircleBackgroundPanel2().setColor2(gradients[randomIndex][1]);
             container.add(lopHocCard, "growx");
+            
+            
         });
         
         JScrollPane scrollPane = new JScrollPane(container);
