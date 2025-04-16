@@ -52,7 +52,7 @@ public class Data {
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro(faker.options().option("SV", "GV", "QTV"));
         tk.setDangOnline("offline");
-        tk.setGioiTinh(faker.options().option("Nam","Nu"));
+        tk.setGioiTinh(faker.options().option("Nam","Nữ"));
         tk.setTrangThai("enable");
         tk.setEmail(faker.internet().emailAddress());
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());
@@ -81,7 +81,7 @@ public class Data {
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro("SV");
         tk.setDangOnline("offline");
-        tk.setGioiTinh(faker.options().option("Nam","Nu"));
+        tk.setGioiTinh(faker.options().option("Nam","Nữ"));
         tk.setTrangThai("enable");
         tk.setEmail(faker.internet().emailAddress());
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());
@@ -112,7 +112,7 @@ public class Data {
         tk.setMatKhau(faker.internet().password(8, 16));
         tk.setVaiTro("GV");
         tk.setDangOnline("offline");
-        tk.setGioiTinh(faker.options().option("Nam","Nu"));
+        tk.setGioiTinh(faker.options().option("Nam","Nữ"));
         tk.setTrangThai("enable");
         tk.setEmail(faker.internet().emailAddress());
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());

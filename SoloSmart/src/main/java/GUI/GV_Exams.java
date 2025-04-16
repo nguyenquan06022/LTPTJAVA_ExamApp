@@ -23,8 +23,7 @@ public class GV_Exams extends javax.swing.JPanel {
     public GV_Exams() {
         initComponents();
         ArrayList<DeThi> dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("")),
-                "Số lượng đề thi: ", dsDeThi.size()+" Đề thi"," "));
+        
     }
 
     /**
@@ -37,34 +36,24 @@ public class GV_Exams extends javax.swing.JPanel {
     private void initComponents() {
 
         roundedPanel1 = new Components.RoundedPanel();
-        card1 = new Components.Card();
-        card2 = new Components.Card();
+        listDeThi1 = new Components.ListDeThi();
 
         setOpaque(false);
 
-        roundedPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        card1.setColor1(new java.awt.Color(58, 138, 125));
+        roundedPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
         roundedPanel1.setLayout(roundedPanel1Layout);
         roundedPanel1Layout.setHorizontalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(173, Short.MAX_VALUE))
+            .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, 1080, Short.MAX_VALUE)
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(card2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(card1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(436, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
+                .addGap(97, 97, 97)
+                .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -85,8 +74,7 @@ public class GV_Exams extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Components.Card card1;
-    private Components.Card card2;
+    private Components.ListDeThi listDeThi1;
     private Components.RoundedPanel roundedPanel1;
     // End of variables declaration//GEN-END:variables
 }

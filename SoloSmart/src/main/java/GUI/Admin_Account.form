@@ -1542,6 +1542,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxSuggestion1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="Components.ComboBoxSuggestion" name="comboBoxSuggestion2">
               <Properties>
@@ -1555,6 +1558,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxSuggestion2ActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

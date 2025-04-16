@@ -117,7 +117,8 @@ public class DeThi_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maDeThi,linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan,tenDeThi from DeThis where trangThai = 'enable' and monhoc like ?";
+            String sql = "select maDeThi,linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan,tenDeThi from DeThis where trangThai = 'enable' and monhoc like ?\n" +
+"order by monHoc asc";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1,mon).getResultList();
             for (Object[] row : results) {

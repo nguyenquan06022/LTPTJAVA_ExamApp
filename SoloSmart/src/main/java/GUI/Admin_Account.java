@@ -42,6 +42,7 @@ public class Admin_Account extends javax.swing.JPanel {
     private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
     private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
     private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
+    private TaiKhoan_DAO taiKhoan_DAO = new TaiKhoan_DAO(Main_GUI.em);
     private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
@@ -116,15 +117,7 @@ public class Admin_Account extends javax.swing.JPanel {
         
         //search
         searchTextField1.addActionListener(x->{
-            ArrayList<TaiKhoan> list= tk_dao.getDanhSachTaiKhoan();
-            System.out.println(list.size());
-            if(list.size()>0){
-//                updateTable(list);
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"khong tim thay");
-            }
-            
+            filterTaiKhoan();
         });
     }
     public void initTable(){
@@ -142,12 +135,47 @@ public class Admin_Account extends javax.swing.JPanel {
                 x.getMaTaiKhoan(),
                 x.getHo()+" "+x.getTen(),
                 x.getGioiTinh(),
-                x.getVaiTro().equalsIgnoreCase("SV")?"Sinh viên":x.getVaiTro().equalsIgnoreCase("GV")?"Giảng viên":"Quản trị viên",
+                x.getVaiTro().equalsIgnoreCase("SV")?"Sinh viên":x.getVaiTro().equalsIgnoreCase("AD")?"Quản trị viên":"Giảng viên",
                 x.getDangOnline()
             });
         });
                 
     }
+    
+    public void filterTaiKhoan() {
+        int slgioiTinh = comboBoxSuggestion1.getSelectedIndex();
+            int slvaiTro = comboBoxSuggestion2.getSelectedIndex();
+            String key = searchTextField1.getText();
+            String vaiTro = "";
+            String gioiTinh = "";
+            
+            if(slgioiTinh==0) {
+                gioiTinh = "";
+            }else if(slgioiTinh==1){
+                gioiTinh = "Nam";
+            }else if(slgioiTinh==2) {
+                gioiTinh = "Nữ";
+            }
+            
+            if(slvaiTro==0) {
+                vaiTro = "";
+            }else if(slvaiTro==1) {
+                vaiTro = "SV";
+            }else if(slvaiTro==2) {
+                vaiTro = "GV";
+            }else if(slvaiTro == 3){
+                vaiTro = "AD";
+            }
+            
+            ArrayList<TaiKhoan> list= tk_dao.filterTaiKhoan(gioiTinh,vaiTro,key);
+            if(list.size()>0){
+                updateTable(list);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"khong tim thay");
+            }
+    }
+    
     public boolean validateAccount(){
         String ho= myTextField5.getText();
         String ten= myTextField14.getText();
@@ -1072,8 +1100,18 @@ public class Admin_Account extends javax.swing.JPanel {
         });
 
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Giới tính", "Nam", "Nữ" }));
+        comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSuggestion1ActionPerformed(evt);
+            }
+        });
 
         comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Vai trò", "Sinh viên", "Giảng viên", "Quản trị viên", "" }));
+        comboBoxSuggestion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSuggestion2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
         circleBackgroundPanel1.setLayout(circleBackgroundPanel1Layout);
@@ -1242,6 +1280,14 @@ public class Admin_Account extends javax.swing.JPanel {
             eyeClick=false;
         }
     }//GEN-LAST:event_jLabel22MouseClicked
+
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+        filterTaiKhoan();
+    }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+
+    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
+        filterTaiKhoan();
+    }//GEN-LAST:event_comboBoxSuggestion2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
