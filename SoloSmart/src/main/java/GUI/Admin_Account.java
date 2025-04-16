@@ -114,6 +114,7 @@ public class Admin_Account extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
         initTable();
         
+        //search
         searchTextField1.addActionListener(x->{
             ArrayList<TaiKhoan> list= tk_dao.getDanhSachTaiKhoan();
             System.out.println(list.size());
@@ -312,6 +313,8 @@ public class Admin_Account extends javax.swing.JPanel {
         button1 = new Components.Button();
         searchTextField1 = new Components.SearchTextField();
         button14 = new Components.Button();
+        comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
+        comboBoxSuggestion2 = new Components.ComboBoxSuggestion();
 
         EditDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         EditDialog.setTitle("Cập nhật tài khoản");
@@ -478,9 +481,10 @@ public class Admin_Account extends javax.swing.JPanel {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel36)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
@@ -657,7 +661,6 @@ public class Admin_Account extends javax.swing.JPanel {
 
         ViewDialog.setTitle("Chi tiết tài khoản");
         ViewDialog.setModal(true);
-        ViewDialog.setPreferredSize(new java.awt.Dimension(800, 646));
         ViewDialog.setResizable(false);
 
         roundedPanel3.setBackground(new java.awt.Color(58, 138, 125));
@@ -1068,6 +1071,10 @@ public class Admin_Account extends javax.swing.JPanel {
             }
         });
 
+        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Giới tính", "Nam", "Nữ" }));
+
+        comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Vai trò", "Sinh viên", "Giảng viên", "Quản trị viên", "" }));
+
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
         circleBackgroundPanel1.setLayout(circleBackgroundPanel1Layout);
         circleBackgroundPanel1Layout.setHorizontalGroup(
@@ -1075,7 +1082,11 @@ public class Admin_Account extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 360, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(button14, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1090,7 +1101,9 @@ public class Admin_Account extends javax.swing.JPanel {
                 .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
@@ -1247,7 +1260,9 @@ public class Admin_Account extends javax.swing.JPanel {
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private Components.CircleBackgroundPanel circleBackgroundPanel2;
     private Components.CircleBackgroundPanel circleBackgroundPanel3;
+    private Components.ComboBoxSuggestion comboBoxSuggestion1;
     private Components.ComboBoxSuggestion comboBoxSuggestion10;
+    private Components.ComboBoxSuggestion comboBoxSuggestion2;
     private Components.ComboBoxSuggestion comboBoxSuggestion7;
     private Components.ComboBoxSuggestion comboBoxSuggestion8;
     private Components.ComboBoxSuggestion comboBoxSuggestion9;
