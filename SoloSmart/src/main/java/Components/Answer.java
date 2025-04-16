@@ -24,12 +24,16 @@ public class Answer extends javax.swing.JPanel {
     public void setMyTextField1(MyTextField myTextField1) {
         this.myTextField1 = myTextField1;
     }
-    public String getTextRect(){
-        return roundedRectPanel1.getText();
+
+    public RoundedRectPanel getRoundedRectPanel1() {
+        return roundedRectPanel1;
     }
-    public void setTextRect(String text){
-        roundedRectPanel1.setText(text);
+
+    public void setRoundedRectPanel1(RoundedRectPanel roundedRectPanel1) {
+        this.roundedRectPanel1 = roundedRectPanel1;
     }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
