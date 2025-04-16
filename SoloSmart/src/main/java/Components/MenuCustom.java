@@ -8,6 +8,7 @@ import GUI.Admin_Account;
 import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
+import GUI.GV_Exams;
 import GUI.Main_GUI;
 import GUI.SV_Main_GUI;
 import GUI.StudentClassroom;
@@ -111,6 +112,9 @@ public class MenuCustom extends javax.swing.JPanel {
                     
                     Main_GUI.main_panel.add(new SV_Main_GUI());
                 }
+                break;
+            case "Exam":
+                    Main_GUI.main_panel.add(new GV_Exams());
                 break;
             default:
                 System.out.println("defaut");
