@@ -536,7 +536,7 @@ public class TaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "select maTaiKhoan,Ho,Ten,dangOnline,email,gioiTinh,matKhau,soDienThoai,tenTaiKhoan,trangThai,vaiTro \n" +
+            String sql = "select maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email \n" +
             "from TaiKhoans where Ten like ? and maTaiKhoan like ? and trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, '%'+ten+'%')
@@ -568,19 +568,19 @@ public class TaiKhoan_DAO {
         return danhSachTaiKhoan;
     }
     
-    public ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String maTaiKhoan,String tenTaiKhoan) {
+    public ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String key) {
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "Select maTaiKhoan,Ho,Ten,dangOnline,email,gioiTinh,matKhau,soDienThoai,tenTaiKhoan,trangThai,vaiTro from TaiKhoans\n" +
-            "where maTaiKhoan like ? and Ten like ? and gioiTinh like ? and vaiTro like ?\n" +
+            String sql = "Select maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email from TaiKhoans\n" +
+            "where (maTaiKhoan like ? or Ten like ?) and gioiTinh like ? and vaiTro like ?\n" +
             "and trangThai = 'enable'";
             List<Object[]> results = em.createNativeQuery(sql)
-                    .setParameter(1, '%'+maTaiKhoan+'%')
-                    .setParameter(2, '%'+tenTaiKhoan+'%')
-                    .setParameter(3, '%'+gioiTinh+'%')
-                    .setParameter(4, '%'+vaiTro+'%')
+                    .setParameter(1, '%'+key+'%')
+                    .setParameter(2, '%'+key+'%')
+                    .setParameter(3, "%"+gioiTinh+"%")
+                    .setParameter(4, "%"+vaiTro+"%")
                     .getResultList();
 
             for (Object[] row : results) {
