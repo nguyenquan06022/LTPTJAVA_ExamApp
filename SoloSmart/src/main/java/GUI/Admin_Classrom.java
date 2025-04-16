@@ -63,7 +63,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
 
             @Override
             public void onDelete(int row) {
-                int choice= JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa lớp học này không", "Xác nhận xóa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+                int choice= JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa lớp học này không?", "Xác nhận xóa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if(choice==JOptionPane.YES_OPTION){
                     if(lh_dao.deleteLopHoc(jTable1.getValueAt(row, 0).toString())){
                         model.removeRow(row);

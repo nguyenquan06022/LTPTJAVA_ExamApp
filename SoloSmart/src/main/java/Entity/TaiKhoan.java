@@ -34,6 +34,7 @@ public class TaiKhoan {
     @NonNull
     private String dangOnline;
     @NonNull
+    @Column(columnDefinition = "nvarchar(255)")
     private String gioiTinh;
     @NonNull
     private String soDienThoai;
