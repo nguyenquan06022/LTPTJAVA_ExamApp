@@ -82,7 +82,7 @@ public class ListDeThi extends JPanel{
         int options = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Xóa đề thi",JOptionPane.YES_NO_OPTION);
         if(options == JOptionPane.YES_OPTION) {
             deThi_DAO.deleteDeThi(x.getMaDeThi());
-            updateDsDeThi(deThi_DAO.getDanhSachDeThi());
+            updateDsDeThi(deThi_DAO.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()));
         }
     }
     
