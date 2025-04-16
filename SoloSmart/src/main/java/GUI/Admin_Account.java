@@ -1061,6 +1061,12 @@ public class Admin_Account extends javax.swing.JPanel {
             }
         });
 
+        searchTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextField1ActionPerformed(evt);
+            }
+        });
+
         button14.setBorder(null);
         button14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-excel-30.png"))); // NOI18N
         button14.setText("Thêm từ Excel");
@@ -1242,6 +1248,10 @@ public class Admin_Account extends javax.swing.JPanel {
             eyeClick=false;
         }
     }//GEN-LAST:event_jLabel22MouseClicked
+
+    private void searchTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

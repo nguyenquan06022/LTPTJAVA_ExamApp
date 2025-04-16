@@ -567,4 +567,44 @@ public class TaiKhoan_DAO {
         }
         return danhSachTaiKhoan;
     }
+    
+    public ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String maTaiKhoan,String tenTaiKhoan) {
+        ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "Select maTaiKhoan,Ho,Ten,dangOnline,email,gioiTinh,matKhau,soDienThoai,tenTaiKhoan,trangThai,vaiTro from TaiKhoans\n" +
+            "where maTaiKhoan like ? and Ten like ? and gioiTinh like ? and vaiTro like ?\n" +
+            "and trangThai = 'enable'";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, '%'+maTaiKhoan+'%')
+                    .setParameter(2, '%'+tenTaiKhoan+'%')
+                    .setParameter(3, '%'+gioiTinh+'%')
+                    .setParameter(4, '%'+vaiTro+'%')
+                    .getResultList();
+
+            for (Object[] row : results) {
+                TaiKhoan taiKhoan = new TaiKhoan();
+                taiKhoan.setMaTaiKhoan((String) row[0]);
+                taiKhoan.setMatKhau((String) row[1]);
+                taiKhoan.setTenTaiKhoan((String) row[2]);
+                taiKhoan.setTrangThai((String) row[3]);
+                taiKhoan.setVaiTro((String) row[4]);
+                taiKhoan.setDangOnline((String) row[5]);
+                taiKhoan.setGioiTinh((String) row[6]);
+                taiKhoan.setHo((String) row[7]);
+                taiKhoan.setTen((String) row[8]);
+                taiKhoan.setSoDienThoai((String) row[9]);
+                taiKhoan.setEmail((String) row[10]);
+                danhSachTaiKhoan.add(taiKhoan);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachTaiKhoan;
+    }
 }

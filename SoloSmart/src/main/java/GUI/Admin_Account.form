@@ -1514,6 +1514,9 @@
               </Events>
             </Component>
             <Component class="Components.SearchTextField" name="searchTextField1">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchTextField1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="Components.Button" name="button14">
               <Properties>
