@@ -11,7 +11,6 @@ import java.util.Map;
 public class test {
         private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
         private static EntityManager em;
-
         public static void main(String[] args) {
                 LocalDateTime now = LocalDateTime.now();
                 em = CreateDB.createDB();
@@ -35,7 +34,9 @@ public class test {
                 // taiKhoanDao.importTaiKhoanFromExcel("C:\\Users\\Admin\\Desktop\\taikhoan.xlsx");
                 //
                 // taiKhoanDao.exportDsTaiKhoanVuaThemToExcel("C:\\Users\\Admin\\Desktop\\export.xlsx");
-                LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
-                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
+//                LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
+//                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
+                TaiKhoan_DAO tkdao = new TaiKhoan_DAO(em);
+                System.out.println(tkdao.searchTaiKhoanTheoMaVaTheoTen("TK1404", ""));
         }
 }
