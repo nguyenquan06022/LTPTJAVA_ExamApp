@@ -36,7 +36,6 @@ public class GV_Exams extends javax.swing.JPanel {
     private void initComponents() {
 
         roundedPanel1 = new Components.RoundedPanel();
-        listDeThi1 = new Components.ListDeThi();
 
         setOpaque(false);
 
@@ -46,14 +45,11 @@ public class GV_Exams extends javax.swing.JPanel {
         roundedPanel1.setLayout(roundedPanel1Layout);
         roundedPanel1Layout.setHorizontalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, 1080, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
-                .addGap(97, 97, 97)
-                .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 603, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -74,7 +70,6 @@ public class GV_Exams extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Components.ListDeThi listDeThi1;
     private Components.RoundedPanel roundedPanel1;
     // End of variables declaration//GEN-END:variables
 }
