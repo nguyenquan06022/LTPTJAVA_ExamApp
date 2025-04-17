@@ -20,10 +20,11 @@ public class GV_Exams extends javax.swing.JPanel {
      * Creates new form GV_Exams
      */
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
+    private ArrayList<DeThi> dsDeThi;
     public GV_Exams() {
-        initComponents();
-        ArrayList<DeThi> dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
         
+        dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
+        initComponents();
     }
 
     /**
@@ -36,6 +37,7 @@ public class GV_Exams extends javax.swing.JPanel {
     private void initComponents() {
 
         roundedPanel1 = new Components.RoundedPanel();
+        listDeThi1 = new Components.ListDeThi(dsDeThi);
 
         setOpaque(false);
 

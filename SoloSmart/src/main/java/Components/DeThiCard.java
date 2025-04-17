@@ -27,6 +27,14 @@ public class DeThiCard extends javax.swing.JPanel {
         jLabel3.setText("Số lượng câu hỏi: "+deThi.getSoLuongCauHoi());
     }
 
+    public Button getButton1() {
+        return button1;
+    }
+
+    public Button getButton2() {
+        return button2;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

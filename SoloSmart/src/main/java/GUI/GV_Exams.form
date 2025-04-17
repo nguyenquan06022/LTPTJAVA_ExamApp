@@ -54,6 +54,13 @@
           </Group>
         </DimensionLayout>
       </Layout>
+      <SubComponents>
+        <Component class="Components.ListDeThi" name="listDeThi1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.ListDeThi(dsDeThi)"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>
