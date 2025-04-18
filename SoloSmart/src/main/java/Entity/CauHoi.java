@@ -44,5 +44,16 @@ public class CauHoi {
     public CauHoi(String maCauHoi) {
         this.maCauHoi = maCauHoi;
     }
+
+    public CauHoi(String maCauHoi,String mucDo,String cauHoi,int kieuTraLoi, List<LuaChons> dsLuaChon,String loiGiai,String trangThai,DeThi deThi) {
+        this.maCauHoi = maCauHoi;
+        this.mucDo = mucDo;
+        this.cauHoi = cauHoi;
+        this.kieuTraLoi = kieuTraLoi;
+        this.dsLuaChon = dsLuaChon;
+        this.loiGiai = loiGiai;
+        this.trangThai = trangThai;
+        this.deThi = deThi;
+    }
 }
 
