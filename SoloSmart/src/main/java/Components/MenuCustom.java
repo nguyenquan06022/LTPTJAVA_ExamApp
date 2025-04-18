@@ -8,6 +8,7 @@ import GUI.Admin_Account;
 import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
+import GUI.GV_Classroom;
 import GUI.GV_Exams;
 import GUI.Main_GUI;
 import GUI.SV_Main_GUI;
@@ -30,7 +31,7 @@ public class MenuCustom extends javax.swing.JPanel {
     /**
      * Creates new form MenuCustom
      */
-    private final String[] GV = { "Home", "Exam", "Question Bank" };
+    private final String[] GV = { "Home","Class", "Exam", "Question Bank" };
     private final String[] SV = { "Home", "Class" };
     private final String[] AD = { "Subject", "Class", "Account" };
 
@@ -97,6 +98,9 @@ public class MenuCustom extends javax.swing.JPanel {
                 } else if (role.equalsIgnoreCase("SV")) {
                   
                     Main_GUI.main_panel.add(new StudentClassroom());
+                }
+                else if(role.equalsIgnoreCase("GV")){
+                    Main_GUI.main_panel.add(new GV_Classroom());
                 }
                 break;
             case "Subject":

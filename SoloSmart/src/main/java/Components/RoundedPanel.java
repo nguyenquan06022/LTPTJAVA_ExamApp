@@ -25,6 +25,7 @@ public class RoundedPanel extends JPanel{
         revalidate();
         repaint();
     }
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

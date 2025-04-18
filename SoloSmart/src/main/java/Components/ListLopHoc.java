@@ -65,6 +65,10 @@ public class ListLopHoc extends JPanel{
     public ListLopHoc(ArrayList<LopHoc> lopHocCards){
         init(lopHocCards);
     }
+    public void updateList(ArrayList<LopHoc> lopHocCards){
+        removeAll();
+        init(lopHocCards);
+    }
     public void init(ArrayList<LopHoc> lopHocCards){
         
         setOpaque(false);

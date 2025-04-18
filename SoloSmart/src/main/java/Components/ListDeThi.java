@@ -9,8 +9,10 @@ import Entity.DeThi;
 import GUI.GV_Add_Exam;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +29,24 @@ public class ListDeThi extends JPanel{
         repaint();
         revalidate();
     }
-    
+    private final Color[][] gradients = {
+        {new Color(255, 92, 92), new Color(255, 154, 158)}, // Đỏ
+        {new Color(92, 107, 192), new Color(159, 168, 218)}, // Xanh dương
+        {new Color(38, 166, 154), new Color(77, 182, 172)}, // Xanh lá
+        {new Color(255, 193, 7), new Color(255, 235, 59)}, // Vàng
+        {new Color(156, 39, 176), new Color(224, 64, 251)},  // Tím
+        {new Color(255, 94, 98), new Color(255, 154, 158)}, // Đỏ - Hồng nhạt
+        {new Color(255, 175, 189), new Color(255, 195, 160)}, // Hồng - Cam
+        {new Color(135, 206, 235), new Color(25, 25, 112)}, // Xanh da trời - Xanh đậm
+        {new Color(72, 61, 139), new Color(123, 104, 238)}, // Xanh tím - Xanh neon
+        {new Color(255, 140, 0), new Color(255, 69, 0)}, // Cam - Đỏ đậm
+        {new Color(34, 193, 195), new Color(253, 187, 45)}, // Xanh lục - Vàng
+        {new Color(131, 58, 180), new Color(253, 29, 29)}, // Tím - Đỏ
+        {new Color(252, 176, 69), new Color(255, 102, 0)}, // Cam nhạt - Cam đậm
+        {new Color(173, 83, 137), new Color(255, 117, 117)}, // Tím hồng - Hồng đậm
+        {new Color(67, 206, 162), new Color(24, 90, 157)}  // Xanh lục - Xanh biển
+    };
+    Random random = new Random();
     public void updateDsDeThi(ArrayList<DeThi> dsDeThi) {
         removeAll();
         init(dsDeThi);
@@ -39,7 +58,7 @@ public class ListDeThi extends JPanel{
         setOpaque(false);
         
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 4, fillx", "[grow][grow][grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 3, fillx", "[grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         for (int i= 0; i<10;i++) {
@@ -60,14 +79,16 @@ public class ListDeThi extends JPanel{
         setOpaque(false);
         
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 4, fillx", "[grow][grow][grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 3, fillx", "[grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         dsDeThi.forEach(item -> {
+            int randomIndex= random.nextInt(gradients.length);
             DeThiCard deThiCard = new DeThiCard(item);
             container.add(deThiCard, "growx");
             deThiCard.getButton2().addActionListener(x->deleteDeThi(item));
             deThiCard.getButton1().addActionListener(x->themDeThi(item));
+            deThiCard.getCircleBackgroundPanel1().setColor1(gradients[randomIndex][0]);
         });
         JScrollPane scrollPane = new JScrollPane(container);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
