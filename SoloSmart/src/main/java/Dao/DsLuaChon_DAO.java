@@ -27,7 +27,6 @@ public class DsLuaChon_DAO {
                     .setParameter(1, maCauHoi)
                     .setParameter(2, dapAnDung)
                     .setParameter(3, luaChon)
-
                     .executeUpdate();
 
             tr.commit();
@@ -122,4 +121,6 @@ public class DsLuaChon_DAO {
         }
         return isSuccess;
     }
+
+
 }
