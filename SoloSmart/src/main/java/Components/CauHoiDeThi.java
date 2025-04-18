@@ -28,6 +28,14 @@ public class CauHoiDeThi extends javax.swing.JPanel {
     public void setCauHoi(String key){
         jLabel1.setText(key);
     }
+    public boolean isDone(){
+        if(jTextArea1.getText().trim().isEmpty()) return false;
+        if(answer1.getMyTextField1().getText().trim().isEmpty()) return false;
+        if(answer2.getMyTextField1().getText().trim().isEmpty()) return false;
+        if(answer3.getMyTextField1().getText().trim().isEmpty()) return false;
+        if(answer4.getMyTextField1().getText().trim().isEmpty()) return false;
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

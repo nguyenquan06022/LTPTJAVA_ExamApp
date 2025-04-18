@@ -6,6 +6,7 @@ package Components;
 
 import Dao.DeThi_DAO;
 import Entity.DeThi;
+import GUI.GV_Add_Exam;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -38,7 +39,7 @@ public class ListDeThi extends JPanel{
         setOpaque(false);
         
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 2, fillx", "[grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 4, fillx", "[grow][grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         for (int i= 0; i<10;i++) {
@@ -59,13 +60,14 @@ public class ListDeThi extends JPanel{
         setOpaque(false);
         
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 2, fillx", "[grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 4, fillx", "[grow][grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         dsDeThi.forEach(item -> {
             DeThiCard deThiCard = new DeThiCard(item);
             container.add(deThiCard, "growx");
             deThiCard.getButton2().addActionListener(x->deleteDeThi(item));
+            deThiCard.getButton1().addActionListener(x->themDeThi(item));
         });
         JScrollPane scrollPane = new JScrollPane(container);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -84,6 +86,9 @@ public class ListDeThi extends JPanel{
             deThi_DAO.deleteDeThi(x.getMaDeThi());
             updateDsDeThi(deThi_DAO.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()));
         }
+    }
+    public void themDeThi(DeThi x){
+        
     }
     
 }
