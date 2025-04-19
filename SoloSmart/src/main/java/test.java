@@ -37,6 +37,6 @@ public class test {
 //                LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
 //                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
                 TaiKhoan_DAO tkdao = new TaiKhoan_DAO(em);
-                System.out.println(tkdao.filterTaiKhoan("Nam", "SV", ""));
+                System.out.println(tkdao.updateTrangThaiOnline(new TaiKhoan("TK16042025161236560")));
         }
 }
