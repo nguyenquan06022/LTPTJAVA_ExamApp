@@ -1273,11 +1273,11 @@ public class Admin_Account extends javax.swing.JPanel {
         if(!editEye){
             myPasswordField2.setEchoChar((char)0);
             jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_open.png")));
-            eyeClick=true;
+            editEye=true;
         }else{
             myPasswordField2.setEchoChar('*');
             jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
-            eyeClick=false;
+            editEye=false;
         }
     }//GEN-LAST:event_jLabel22MouseClicked
 

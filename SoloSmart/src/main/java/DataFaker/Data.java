@@ -363,10 +363,10 @@ public class Data {
             ArrayList<TaiKhoan> dsSV= taiKhoanDao.getDanhSachTaiKhoanSV();
             ArrayList<MonHoc> dsMH= monHocDao.getDanhSachMonHoc();
 
-            for(int i=0; i<10; i++) {
-                LopHoc lopHoc= data.LopHocFaker(dsMH.get(i));
+            for(int i=0; i<50; i++) {
+                LopHoc lopHoc= data.LopHocFaker(dsMH.get(i%5));
                 lopHocDao.addLopHoc(lopHoc);
-                NganHangDeThi nhdt= data.NganHangDeThiFaker(dsMH.get(i));
+                NganHangDeThi nhdt= data.NganHangDeThiFaker(dsMH.get(i%5));
                 nh_dao.addNganHangDeThi(nhdt);
             }
 
@@ -383,7 +383,7 @@ public class Data {
             }
             //them bai kiem tra
             ArrayList<LopHoc> dsLopHoc= lopHocDao.getDanhSachLopHoc();
-            for(int i=0;i<10;i++){
+            for(int i=0;i<50;i++){
                 MonHoc mon= monHocDao.getMonHoc(dsLopHoc.get(i).getMonHoc().getMaMonHoc());
                 ArrayList<DeThi> dsDethiTheoMon= deThiDao.getDanhSachDeThiTheoMon(mon.getTenMonHoc());
                 for(int j=0;j<dsDethiTheoMon.size();j++){

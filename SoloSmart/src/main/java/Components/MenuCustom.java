@@ -5,6 +5,7 @@
 package Components;
 
 import Dao.TaiKhoan_DAO;
+import Entity.TaiKhoan;
 import GUI.Admin_Account;
 import GUI.Admin_Account;
 import GUI.Admin_Classrom;
@@ -24,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -141,12 +143,243 @@ public class MenuCustom extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        EditDialog = new javax.swing.JDialog();
+        roundedGradientPanel1 = new Components.RoundedGradientPanel();
+        jLabel2 = new javax.swing.JLabel();
+        myTextField1 = new Components.MyTextField();
+        jLabel3 = new javax.swing.JLabel();
+        button3 = new Components.Button();
+        circleBackgroundPanel2 = new Components.CircleBackgroundPanel();
+        jLabel17 = new javax.swing.JLabel();
+        myTextField13 = new Components.MyTextField();
+        jLabel25 = new javax.swing.JLabel();
+        comboBoxSuggestion7 = new Components.ComboBoxSuggestion();
+        jLabel27 = new javax.swing.JLabel();
+        comboBoxSuggestion8 = new Components.ComboBoxSuggestion();
+        jLabel28 = new javax.swing.JLabel();
+        myTextField15 = new Components.MyTextField();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        myTextField16 = new Components.MyTextField();
+        myTextField19 = new Components.MyTextField();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        myPasswordField2 = new Components.MyPasswordField();
+        jLabel22 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         menuItemList1 = new Components.MenuItemList();
         button1 = new Components.Button();
+        button2 = new Components.Button();
+
+        EditDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        EditDialog.setTitle("Cập nhật tài khoản");
+        EditDialog.setResizable(false);
+
+        roundedGradientPanel1.setColor1(new java.awt.Color(255, 255, 255));
+        roundedGradientPanel1.setColor2(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Profiling-bro.png"))); // NOI18N
+
+        myTextField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel3.setText("Họ:");
+
+        button3.setBackground(new java.awt.Color(58, 138, 125));
+        button3.setForeground(new java.awt.Color(255, 255, 255));
+        button3.setText("Xác nhận");
+        button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
+
+        circleBackgroundPanel2.setColor1(new java.awt.Color(58, 138, 125));
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel17.setText("Cập nhật tài khoản");
+
+        javax.swing.GroupLayout circleBackgroundPanel2Layout = new javax.swing.GroupLayout(circleBackgroundPanel2);
+        circleBackgroundPanel2.setLayout(circleBackgroundPanel2Layout);
+        circleBackgroundPanel2Layout.setHorizontalGroup(
+            circleBackgroundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(circleBackgroundPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        circleBackgroundPanel2Layout.setVerticalGroup(
+            circleBackgroundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(circleBackgroundPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(21, 21, 21))
+        );
+
+        myTextField13.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel25.setText("Tên:");
+
+        comboBoxSuggestion7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
+        comboBoxSuggestion7.setPreferredSize(new java.awt.Dimension(68, 36));
+
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel27.setText("Giới tính:");
+
+        comboBoxSuggestion8.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sinh Viên", "Giảng Viên", "Quản trị viên" }));
+        comboBoxSuggestion8.setEnabled(false);
+        comboBoxSuggestion8.setPreferredSize(new java.awt.Dimension(109, 36));
+
+        jLabel28.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel28.setText("Vai trò:");
+
+        myTextField15.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
+        jLabel29.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel29.setText("Mail:");
+
+        jLabel30.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel30.setText("Số điện thoại:");
+
+        myTextField16.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+
+        myTextField19.setEditable(false);
+        myTextField19.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        myTextField19.setFocusable(false);
+
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel35.setText("Tên tài khoản:");
+
+        jLabel36.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel36.setText("Mật khẩu:");
+
+        myPasswordField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        myPasswordField2.setText("myPasswordField2");
+        myPasswordField2.setPreferredSize(new java.awt.Dimension(99, 36));
+
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eye_closed.png"))); // NOI18N
+        jLabel22.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel22MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout roundedGradientPanel1Layout = new javax.swing.GroupLayout(roundedGradientPanel1);
+        roundedGradientPanel1.setLayout(roundedGradientPanel1Layout);
+        roundedGradientPanel1Layout.setHorizontalGroup(
+            roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(myTextField19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(myTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 54, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myTextField15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(myPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel22)))
+                .addContainerGap())
+        );
+        roundedGradientPanel1Layout.setVerticalGroup(
+            roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(7, 7, 7)
+                        .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(myTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel35)
+                .addGap(7, 7, 7)
+                .addComponent(myTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel27)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel28)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel30))
+                .addGap(7, 7, 7)
+                .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(myTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(myTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout EditDialogLayout = new javax.swing.GroupLayout(EditDialog.getContentPane());
+        EditDialog.getContentPane().setLayout(EditDialogLayout);
+        EditDialogLayout.setHorizontalGroup(
+            EditDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EditDialogLayout.createSequentialGroup()
+                .addComponent(roundedGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        EditDialogLayout.setVerticalGroup(
+            EditDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(roundedGradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -160,39 +393,100 @@ public class MenuCustom extends javax.swing.JPanel {
             }
         });
 
+        button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-setting-50.png"))); // NOI18N
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(6, 6, 6)
-                                                .addGroup(layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(menuItemList1,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(menuItemList1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(button2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, 0)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(menuItemList1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        //          System.out.println(tk_dao.generatedTenTaiKhoan(comboBoxSuggestion8.getSelectedIndex())+" "+tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()));
+//        if(validateUpdate()){
+//            TaiKhoan tk= tk_dao.getTaiKhoan(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+//            TaiKhoan updateTK= new TaiKhoan(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), myTextField19.getText(),
+//                new String(myPasswordField2.getPassword()),
+//                myTextField19.getText(),
+//                myTextField13.getText(),
+//                comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion10.getSelectedIndex()==1?"GV":"AD",
+//                "enable",
+//                tk.getDangOnline(),
+//                comboBoxSuggestion7.getSelectedItem().toString(),
+//                myTextField15.getText(), myTextField16.getText());
+//            System.out.println(tk);
+//            if(tk_dao.updateTaiKhoan(updateTK)){
+//                EditDialog.dispose();
+//                initTable();
+//                jTable1.getCellEditor().cancelCellEditing();
+//            }else{
+//                JOptionPane.showMessageDialog(null, "Cập nhật không thành công!");
+//            }
+//        }
+
+    }//GEN-LAST:event_button3ActionPerformed
+    private boolean editEye=false;
+    private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
+        if(!editEye){
+            myPasswordField2.setEchoChar((char)0);
+            jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_open.png")));
+            editEye=true;
+        }else{
+            myPasswordField2.setEchoChar('*');
+            jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
+            editEye=false;
+        }
+    }//GEN-LAST:event_jLabel22MouseClicked
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        TaiKhoan tk= taiKhoan_DAO.getTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
+        
+        myTextField1.setText(tk.getHo());
+        myTextField13.setText(tk.getTen());
+        myTextField15.setText(tk.getEmail());
+        myTextField16.setText(tk.getSoDienThoai());
+        myTextField19.setText(tk.getTenTaiKhoan());
+        comboBoxSuggestion7.setSelectedItem(tk.getGioiTinh());
+        myPasswordField2.setText(tk.getMatKhau());
+        String role= tk.getVaiTro();
+        comboBoxSuggestion8.setSelectedItem(role.equalsIgnoreCase("SV")?"Sinh viên":role.equalsIgnoreCase("GV")?"Giảng viên":"Quản trị viên");
+        EditDialog.pack();
+        
+        EditDialog.setLocationRelativeTo(null);
+        EditDialog.setIconImage(new ImageIcon(getClass().getResource("/Image/favicon_1.png")).getImage());
+        EditDialog.setModal(true);
+        EditDialog.setVisible(true);
+    }//GEN-LAST:event_button2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
           int confirm = JOptionPane.showConfirmDialog(
@@ -230,8 +524,32 @@ public class MenuCustom extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog EditDialog;
     private Components.Button button1;
+    private Components.Button button2;
+    private Components.Button button3;
+    private Components.CircleBackgroundPanel circleBackgroundPanel2;
+    private Components.ComboBoxSuggestion comboBoxSuggestion7;
+    private Components.ComboBoxSuggestion comboBoxSuggestion8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private Components.MenuItemList menuItemList1;
+    private Components.MyPasswordField myPasswordField2;
+    private Components.MyTextField myTextField1;
+    private Components.MyTextField myTextField13;
+    private Components.MyTextField myTextField15;
+    private Components.MyTextField myTextField16;
+    private Components.MyTextField myTextField19;
+    private Components.RoundedGradientPanel roundedGradientPanel1;
     // End of variables declaration//GEN-END:variables
 }

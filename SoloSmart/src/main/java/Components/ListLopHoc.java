@@ -42,7 +42,7 @@ public class ListLopHoc extends JPanel{
     public ListLopHoc() {
         setOpaque(false);
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 3, fillx", "[grow][grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 3, fillx, filly", "[grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         for (int i= 0; i<10;i++) {
@@ -50,7 +50,7 @@ public class ListLopHoc extends JPanel{
             int randomIndex = random.nextInt(gradients.length); 
             lopHocCard.getCircleBackgroundPanel2().setColor1(gradients[randomIndex][0]);
             lopHocCard.getCircleBackgroundPanel2().setColor2(gradients[randomIndex][1]);
-            container.add(lopHocCard, "growx");
+            container.add(lopHocCard, "growx, growy");
         }
         
         JScrollPane scrollPane = new JScrollPane(container);
@@ -73,7 +73,7 @@ public class ListLopHoc extends JPanel{
         
         setOpaque(false);
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 3, fillx", "[grow][grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 3, fillx, filly", "[grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         lopHocCards.forEach(x->{
@@ -81,7 +81,7 @@ public class ListLopHoc extends JPanel{
             int randomIndex = random.nextInt(gradients.length); 
             lopHocCard.getCircleBackgroundPanel2().setColor1(gradients[randomIndex][0]);
             lopHocCard.getCircleBackgroundPanel2().setColor2(gradients[randomIndex][1]);
-            container.add(lopHocCard, "growx");
+            container.add(lopHocCard, "growx, growy");
             
             
         });
@@ -91,11 +91,12 @@ public class ListLopHoc extends JPanel{
         scrollPane.setVerticalScrollBar(new ScrollBarCustom());
         scrollPane.setPreferredSize(new Dimension(800, 460));
         scrollPane.setMinimumSize(new Dimension(800, 460));
-        scrollPane.setMaximumSize(new Dimension(1200,600));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
         scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
         scrollPane.setOpaque(false);
         add(scrollPane, BorderLayout.CENTER);
+        repaint();
+        revalidate();
     }
     
 }

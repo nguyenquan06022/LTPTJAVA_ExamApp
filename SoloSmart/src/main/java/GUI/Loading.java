@@ -49,7 +49,7 @@ public class Loading extends JFrame {
         panel.setBounds(0, 0, 900, 550);
         contentPane.add(panel);
         panel.setLayout(null);
-        setIconImage(new ImageIcon(getClass().getResource("/Image/favicon_1.png")).getImage());
+    setIconImage(new ImageIcon(getClass().getResource("/Image/favicon_1.png")).getImage());
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel.setIcon(new ImageIcon(Loading.class.getResource("/Image/Exams-bro (1).png")));

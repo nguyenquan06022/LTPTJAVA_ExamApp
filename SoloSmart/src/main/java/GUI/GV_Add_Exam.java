@@ -15,12 +15,14 @@
     import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
     import java.awt.Color;
+import java.io.File;
     import java.io.FileInputStream;
     import java.util.ArrayList;
     import java.util.LinkedHashMap;
     import java.util.List;
     import java.util.Map;
     import javax.swing.*;
+import jnafilechooser.api.JnaFileChooser;
 
     /**
      *
@@ -118,7 +120,6 @@
 
         button1.setBackground(new java.awt.Color(58, 122, 141));
         button1.setForeground(new java.awt.Color(255, 255, 255));
-        button1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Admin\\Desktop\\SoloSmart\\LTPTJAVA_ExamApp\\SoloSmart\\src\\main\\resources\\Image\\icons8-excel-30.png")); // NOI18N
         button1.setText("Tải đề thi từ file");
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
@@ -256,8 +257,12 @@
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         try {
-            // Đọc file Word
-            FileInputStream fis = new FileInputStream("C:\\Users\\Admin\\Desktop\\deThiMau.docx");
+           JnaFileChooser fileChooser = new JnaFileChooser();
+           if(fileChooser.showOpenDialog(null)){
+            File selectedFile = fileChooser.getSelectedFile();
+            String filePath = selectedFile.getAbsolutePath();
+            FileInputStream fis = new FileInputStream(filePath);
+            
             XWPFDocument document = new XWPFDocument(fis);
             List<XWPFParagraph> paragraphs = document.getParagraphs();
 
@@ -354,6 +359,8 @@
                     }
                 }
             }
+           }
+           
 
 
         } catch (Exception e) {

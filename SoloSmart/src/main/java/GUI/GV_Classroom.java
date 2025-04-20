@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import Components.EventPagination;
 import Components.Model_Card;
+import Components.PaginationItemRenderStyle1;
 import Dao.BaiKiemTra_DAO;
 import Dao.DeThi_DAO;
 import Dao.LopHoc_DAO;
@@ -13,6 +15,7 @@ import Entity.DeThi;
 import Entity.LopHoc;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 
 /**
@@ -32,9 +35,37 @@ public class GV_Classroom extends javax.swing.JPanel {
     public GV_Classroom() {
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
         dsBKT= bkt_dao.getBaiKiemTraTheoTaiKhoanGV(Main_GUI.tk.getMaTaiKhoan());
+        
         initComponents();
+        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        loadData(1);
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                loadData(page);
+            }
+            
+        });
     }
+    public void reloadData(){
+        dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
+        loadData(1);
+    }
+    public void loadData(int page){
+        int limit= 9;
+        
+        int totalPage=(int) Math.ceil((double)dsLopHocs.size()/limit);
+        System.out.println(totalPage);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = 1; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        ArrayList<LopHoc> lopHocsToShow = dsLopHocs.stream()
+        .skip(skip)
+        .limit(limit)
+        .collect(Collectors.toCollection(ArrayList::new));
 
+    listLopHoc1.updateList(lopHocsToShow);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,32 +78,18 @@ public class GV_Classroom extends javax.swing.JPanel {
         roundedPanel1 = new Components.RoundedPanel();
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         searchTextField1 = new Components.SearchTextField();
-        button1 = new Components.Button();
         button2 = new Components.Button();
         comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
-        listLopHoc1 = new Components.ListLopHoc(dsLopHocs);
         roundedPanel2 = new Components.RoundedPanel();
-        thongKeCard1 = new Components.ThongKeCard("FE4F2D", dsLopHocs.size()+"", "icons8-class-50", "Số lượng lớp học");
-        thongKeCard2 = new Components.ThongKeCard("3a8a7d", dsBKT.size()+"", "icons8-exam-48", "Các bài kiểm tra đang diễn ra")
-        ;
-        thongKeCard3 = new Components.ThongKeCard();
+        listLopHoc1 = new Components.ListLopHoc(dsLopHocs);
+        jPanel1 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
 
         setOpaque(false);
 
         roundedPanel1.setBackground(new java.awt.Color(245, 245, 245));
 
         circleBackgroundPanel1.setColor1(new java.awt.Color(58, 138, 125));
-
-        button1.setBackground(new java.awt.Color(0, 0, 0));
-        button1.setForeground(new java.awt.Color(255, 255, 255));
-        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-add-30.png"))); // NOI18N
-        button1.setText("Tạo bài kiểm tra");
-        button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        button1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
-            }
-        });
 
         button2.setBorder(null);
         button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
@@ -91,75 +108,62 @@ public class GV_Classroom extends javax.swing.JPanel {
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
-                        .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 111, Short.MAX_VALUE))
-                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 515, Short.MAX_VALUE)
+                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(30, 30, 30)
+                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30))
         );
 
-        roundedPanel2.setBackground(new java.awt.Color(182, 212, 205));
-        roundedPanel2.setPreferredSize(new java.awt.Dimension(0, 150));
+        roundedPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        listLopHoc1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(pagination1);
 
         javax.swing.GroupLayout roundedPanel2Layout = new javax.swing.GroupLayout(roundedPanel2);
         roundedPanel2.setLayout(roundedPanel2Layout);
         roundedPanel2Layout.setHorizontalGroup(
             roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(thongKeCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(thongKeCard2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(thongKeCard3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+            .addComponent(listLopHoc1, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         roundedPanel2Layout.setVerticalGroup(
             roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(roundedPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(thongKeCard3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thongKeCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(thongKeCard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(listLopHoc1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
         roundedPanel1.setLayout(roundedPanel1Layout);
         roundedPanel1Layout.setHorizontalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(roundedPanel1Layout.createSequentialGroup()
-                .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(listLopHoc1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundedPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1001, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(roundedPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundedPanel1Layout.createSequentialGroup()
-                .addComponent(roundedPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(listLopHoc1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(roundedPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -179,28 +183,19 @@ public class GV_Classroom extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        
+        reloadData();
     }//GEN-LAST:event_button2ActionPerformed
-
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        Main_GUI.main_panel.removeAll();
-        Main_GUI.main_panel.add(new GV_Add_Exam());
-        Main_GUI.main_panel.repaint();
-        Main_GUI.main_panel.revalidate();
-    }//GEN-LAST:event_button1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Components.Button button1;
     private Components.Button button2;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private Components.ComboBoxSuggestion comboBoxSuggestion1;
+    private javax.swing.JPanel jPanel1;
     private Components.ListLopHoc listLopHoc1;
+    private Components.Pagination pagination1;
     private Components.RoundedPanel roundedPanel1;
     private Components.RoundedPanel roundedPanel2;
     private Components.SearchTextField searchTextField1;
-    private Components.ThongKeCard thongKeCard1;
-    private Components.ThongKeCard thongKeCard2;
-    private Components.ThongKeCard thongKeCard3;
     // End of variables declaration//GEN-END:variables
 }

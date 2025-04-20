@@ -212,9 +212,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Admin\Desktop\SoloSmart\LTPTJAVA_ExamApp\SoloSmart\src\main\resources\Image\icons8-excel-30.png"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="T&#x1ea3;i &#x111;&#x1ec1; thi t&#x1eeb; file"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="14" style="1"/>

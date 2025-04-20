@@ -45,24 +45,18 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="listLopHoc1" max="32767" attributes="0"/>
-                      <Component id="roundedPanel2" pref="1001" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="circleBackgroundPanel1" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="circleBackgroundPanel1" alignment="0" max="32767" attributes="0"/>
+              <Component id="roundedPanel2" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Component id="roundedPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="listLopHoc1" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <Component id="circleBackgroundPanel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Component id="roundedPanel2" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
               </Group>
-              <Component id="circleBackgroundPanel1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -79,59 +73,31 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="searchTextField1" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="button2" min="-2" pref="170" max="-2" attributes="0"/>
-                                  <Component id="button1" alignment="0" min="-2" pref="170" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="111" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="comboBoxSuggestion1" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="searchTextField1" min="-2" pref="376" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="comboBoxSuggestion1" min="-2" pref="197" max="-2" attributes="0"/>
+                      <EmptySpace pref="515" max="32767" attributes="0"/>
+                      <Component id="button2" min="-2" pref="170" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="searchTextField1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="comboBoxSuggestion1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="button1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="button2" min="-2" pref="40" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="searchTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxSuggestion1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="button2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
             <Component class="Components.SearchTextField" name="searchTextField1">
-            </Component>
-            <Component class="Components.Button" name="button1">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="0" type="rgb"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Image/icons8-add-30.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="T&#x1ea1;o b&#xe0;i ki&#x1ec3;m tra"/>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Segoe UI" size="14" style="1"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button1ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="Components.Button" name="button2">
               <Properties>
@@ -157,62 +123,56 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="Components.ListLopHoc" name="listLopHoc1">
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.ListLopHoc(dsLopHocs)"/>
-          </AuxValues>
-        </Component>
         <Container class="Components.RoundedPanel" name="roundedPanel2">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cd" green="d4" red="b6" type="rgb"/>
-            </Property>
-            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[0, 150]"/>
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
           </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="thongKeCard1" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="thongKeCard2" pref="321" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="thongKeCard3" pref="320" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="listLopHoc1" pref="1300" max="32767" attributes="0"/>
+                  <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
+                      <Component id="listLopHoc1" pref="393" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="thongKeCard3" min="-2" max="-2" attributes="0"/>
-                          <Component id="thongKeCard2" min="-2" max="-2" attributes="0"/>
-                          <Component id="thongKeCard1" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="Components.ThongKeCard" name="thongKeCard1">
+            <Component class="Components.ListLopHoc" name="listLopHoc1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.ThongKeCard(&quot;FE4F2D&quot;, dsLopHocs.size()+&quot;&quot;, &quot;icons8-class-50&quot;, &quot;S&#x1ed1; l&#x1b0;&#x1ee3;ng l&#x1edb;p h&#x1ecd;c&quot;)"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.ListLopHoc(dsLopHocs)"/>
               </AuxValues>
             </Component>
-            <Component class="Components.ThongKeCard" name="thongKeCard2">
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new Components.ThongKeCard(&quot;3a8a7d&quot;, dsBKT.size()+&quot;&quot;, &quot;icons8-exam-48&quot;, &quot;C&#xe1;c b&#xe0;i ki&#x1ec3;m tra &#x111;ang di&#x1ec5;n ra&quot;)&#xa;"/>
-              </AuxValues>
-            </Component>
-            <Component class="Components.ThongKeCard" name="thongKeCard3">
-            </Component>
+            <Container class="javax.swing.JPanel" name="jPanel1">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
+              <SubComponents>
+                <Component class="Components.Pagination" name="pagination1">
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
       </SubComponents>
