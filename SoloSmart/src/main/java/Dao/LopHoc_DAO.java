@@ -345,7 +345,38 @@ public class LopHoc_DAO {
         }
         return danhSachLopHoc;
     }
+    public ArrayList<LopHoc> getDanhSachLopHocTheoGV(String magv) {
+        ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select * from LopHocs  \n" +
+                    "where magiaovien = ? and trangThai = 'enable'";
 
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, magv)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                LopHoc lopHoc = new LopHoc();
+                lopHoc.setMaLop((String) row[0]);
+                lopHoc.setNamHoc((String) row[1]);
+                lopHoc.setSiSo((Integer) row[2]);
+                lopHoc.setTenLop((String) row[3]);
+                lopHoc.setTrangThai((String) row[4]);
+                lopHoc.setMonHoc(new MonHoc((String) row[5],2));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                danhSachLopHoc.add(lopHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+        return danhSachLopHoc;
+    }
     // lọc lớp học theo tên lớp của admin JtextField
     public ArrayList<LopHoc> getDanhSachLopHocTheoTenLop(String tenLop) {
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();

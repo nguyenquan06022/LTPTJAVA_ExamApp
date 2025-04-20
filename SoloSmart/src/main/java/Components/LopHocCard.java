@@ -28,7 +28,7 @@ public class LopHocCard extends javax.swing.JPanel {
         this.lophoc=lh;
         jLabel2.setText(lh.getTenLop());
         jLabel3.setText(lh.getSiSo()+" sinh viên");
-        jLabel1.setText(mh_dao.getMonHoc(lh.getMonHoc().getMaMonHoc()).getTenMonHoc());
+        jLabel1.setText(lh.getMonHoc().getTenMonHoc());
     }
     public CircleBackgroundPanel getCircleBackgroundPanel2() {
         return circleBackgroundPanel2;
@@ -137,6 +137,7 @@ public class LopHocCard extends javax.swing.JPanel {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
+//        if(Main_GUI.tk.getVaiTro().equalsIgnoreCase("SV"))
         Main_GUI.main_panel.add(new StudentDetailClassroom());
         Main_GUI.main_panel.revalidate();   // Cập nhật lại layout
         Main_GUI.main_panel.repaint();

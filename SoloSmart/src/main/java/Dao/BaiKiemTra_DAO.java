@@ -498,4 +498,57 @@ public class BaiKiemTra_DAO {
         }
         return res;
     }
+    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoanGV(String id) {
+    List<BaiKiemTra> list = new ArrayList<>();
+    EntityTransaction tr = em.getTransaction();
+
+    try {
+        tr.begin();
+        String sql = """
+            select bkt.* from BaiKiemTras bkt inner join LopHocs lh on lh.maLop=bkt.maLop
+            where lh.maGiaoVien=? and bkt.trangThai='enable' and bkt.thoiGianBatDau>GETDATE()
+            """;
+
+        List<Object[]> results = em.createNativeQuery(sql)
+                .setParameter(1, id)
+                .getResultList();
+
+        for (Object[] result : results) {
+            BaiKiemTra baiKiemTra = new BaiKiemTra();
+            baiKiemTra.setMaBaiKiemTra((String) result[0]);
+            baiKiemTra.setChoPhepXemDiem((Boolean) result[1]);
+            baiKiemTra.setChoPhepXemLai((Boolean) result[2]);
+            baiKiemTra.setHeSo((Float) result[3]);
+            baiKiemTra.setHienThiDapAn((Boolean) result[4]);
+            baiKiemTra.setMatKhauBaiKiemTra((String) result[5]);
+            baiKiemTra.setSoLanLamBai((Integer) result[6]);
+            baiKiemTra.setThangDiem((Integer) result[7]);
+            baiKiemTra.setThoiGianBatDau(((Timestamp) result[8]).toLocalDateTime());
+            baiKiemTra.setThoiGianKetThuc(((Timestamp) result[9]).toLocalDateTime());
+            baiKiemTra.setThoiGianLamBai((Integer) result[10]);
+            baiKiemTra.setTrangThai((String) result[11]);
+
+            // Set quan hệ với DeThi
+            DeThi deThi = new DeThi();
+            deThi.setMaDeThi((String) result[12]);
+            baiKiemTra.setDeThi(deThi);
+
+            // Set quan hệ với LopHoc
+            LopHoc lopHoc = new LopHoc();
+            lopHoc.setMaLop((String) result[13]);
+            baiKiemTra.setLopHoc(lopHoc);
+
+            list.add(baiKiemTra);
+        }
+
+        tr.commit();
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
+        }
+        throw new RuntimeException(e);
+    }
+    return list;
+}
+
 }
