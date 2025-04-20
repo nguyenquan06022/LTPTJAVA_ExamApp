@@ -76,7 +76,9 @@
                       <Component id="searchTextField1" min="-2" pref="376" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="comboBoxSuggestion1" min="-2" pref="197" max="-2" attributes="0"/>
-                      <EmptySpace pref="515" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <Component id="comboBoxSuggestion2" min="-2" pref="206" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="button2" min="-2" pref="170" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
@@ -90,6 +92,7 @@
                           <Component id="searchTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="comboBoxSuggestion1" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="button2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="comboBoxSuggestion2" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   </Group>
@@ -120,6 +123,8 @@
               </Events>
             </Component>
             <Component class="Components.ComboBoxSuggestion" name="comboBoxSuggestion1">
+            </Component>
+            <Component class="Components.ComboBoxSuggestion" name="comboBoxSuggestion2">
             </Component>
           </SubComponents>
         </Container>

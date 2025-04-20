@@ -13,6 +13,8 @@ import Dao.LopHoc_DAO;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.LopHoc;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,14 @@ public class GV_Classroom extends javax.swing.JPanel {
             @Override
             public void pageChanged(int page) {
                 loadData(page);
+            }
+            
+        });
+        searchTextField1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String search= searchTextField1.getText();
+//                dsLopHocs= lh_dao.filterLopHocCuaGiaoVien(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
             }
             
         });
@@ -80,6 +90,7 @@ public class GV_Classroom extends javax.swing.JPanel {
         searchTextField1 = new Components.SearchTextField();
         button2 = new Components.Button();
         comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
+        comboBoxSuggestion2 = new Components.ComboBoxSuggestion();
         roundedPanel2 = new Components.RoundedPanel();
         listLopHoc1 = new Components.ListLopHoc(dsLopHocs);
         jPanel1 = new javax.swing.JPanel();
@@ -111,7 +122,9 @@ public class GV_Classroom extends javax.swing.JPanel {
                 .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 515, Short.MAX_VALUE)
+                .addGap(42, 42, 42)
+                .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -122,7 +135,8 @@ public class GV_Classroom extends javax.swing.JPanel {
                 .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxSuggestion2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -191,6 +205,7 @@ public class GV_Classroom extends javax.swing.JPanel {
     private Components.Button button2;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private Components.ComboBoxSuggestion comboBoxSuggestion1;
+    private Components.ComboBoxSuggestion comboBoxSuggestion2;
     private javax.swing.JPanel jPanel1;
     private Components.ListLopHoc listLopHoc1;
     private Components.Pagination pagination1;
