@@ -12,6 +12,7 @@ import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.LopHoc;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 
 /**
@@ -25,10 +26,12 @@ public class GV_Classroom extends javax.swing.JPanel {
      */
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
     private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
+    private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
     private ArrayList<LopHoc> dsLopHocs;
+    private List<BaiKiemTra> dsBKT; 
     public GV_Classroom() {
-        dsLopHocs= lh_dao.getDanhSachLopHoc();
-        
+        dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
+        dsBKT= bkt_dao.getBaiKiemTraTheoTaiKhoanGV(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
     }
 
@@ -46,10 +49,12 @@ public class GV_Classroom extends javax.swing.JPanel {
         searchTextField1 = new Components.SearchTextField();
         button1 = new Components.Button();
         button2 = new Components.Button();
-        listLopHoc1 = new Components.ListLopHoc();
+        comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
+        listLopHoc1 = new Components.ListLopHoc(dsLopHocs);
         roundedPanel2 = new Components.RoundedPanel();
-        thongKeCard1 = new Components.ThongKeCard("1a5a8a", "45", "icons8-class-50", "test");
-        thongKeCard2 = new Components.ThongKeCard();
+        thongKeCard1 = new Components.ThongKeCard("FE4F2D", dsLopHocs.size()+"", "icons8-class-50", "Số lượng lớp học");
+        thongKeCard2 = new Components.ThongKeCard("3a8a7d", dsBKT.size()+"", "icons8-exam-48", "Các bài kiểm tra đang diễn ra")
+        ;
         thongKeCard3 = new Components.ThongKeCard();
 
         setOpaque(false);
@@ -92,7 +97,8 @@ public class GV_Classroom extends javax.swing.JPanel {
                         .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 111, Short.MAX_VALUE)))
+                        .addGap(0, 111, Short.MAX_VALUE))
+                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
@@ -100,6 +106,8 @@ public class GV_Classroom extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -107,7 +115,7 @@ public class GV_Classroom extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
-        roundedPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        roundedPanel2.setBackground(new java.awt.Color(182, 212, 205));
         roundedPanel2.setPreferredSize(new java.awt.Dimension(0, 150));
 
         javax.swing.GroupLayout roundedPanel2Layout = new javax.swing.GroupLayout(roundedPanel2);
@@ -118,9 +126,9 @@ public class GV_Classroom extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(thongKeCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(thongKeCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(thongKeCard2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(thongKeCard3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(thongKeCard3, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addGap(18, 18, 18))
         );
         roundedPanel2Layout.setVerticalGroup(
@@ -186,6 +194,7 @@ public class GV_Classroom extends javax.swing.JPanel {
     private Components.Button button1;
     private Components.Button button2;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
+    private Components.ComboBoxSuggestion comboBoxSuggestion1;
     private Components.ListLopHoc listLopHoc1;
     private Components.RoundedPanel roundedPanel1;
     private Components.RoundedPanel roundedPanel2;

@@ -30,7 +30,14 @@ public class MonHoc {
     @OneToOne(mappedBy = "monHoc")
     private NganHangDeThi nganHangDeThi;
 
+    
     public MonHoc(String maMonHoc) {
         this.maMonHoc = maMonHoc;
     }
+    public MonHoc(String tenMonHoc, int field){
+        if(field==2)
+        this.tenMonHoc=tenMonHoc;
+    }
+    
+    
 }

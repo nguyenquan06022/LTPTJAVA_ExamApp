@@ -37,7 +37,7 @@ public class Main_GUI extends javax.swing.JFrame {
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
-        String vaiTro= tk.getVaiTro().equalsIgnoreCase("GV")? "Giao Vien":tk.getVaiTro().equalsIgnoreCase("SV")?"Sinh Vien":"Admin";
+        String vaiTro= tk.getVaiTro().equalsIgnoreCase("GV")? "Giảng viên":tk.getVaiTro().equalsIgnoreCase("SV")?"Sinh Viên":"Quản trị viên";
         avatar2.setData(new Model_Card(new ImageIcon(getClass().getResource("")),
                 vaiTro, tk.getHo()+" "+tk.getTen()));
         if(tk.getGioiTinh().equalsIgnoreCase("nam")){
