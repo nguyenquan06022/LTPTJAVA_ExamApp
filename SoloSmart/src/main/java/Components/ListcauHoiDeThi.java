@@ -132,7 +132,5 @@ public class ListcauHoiDeThi extends JPanel{
         }
         return true;
     }
-
-    
 }
 

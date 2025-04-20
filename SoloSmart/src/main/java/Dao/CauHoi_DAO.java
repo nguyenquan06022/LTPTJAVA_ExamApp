@@ -122,12 +122,12 @@ public class CauHoi_DAO {
             String sql = "UPDATE CauHois SET cauHoi = ?,  kieuTraLoi = ?, loiGiai = ?, mucDo = ?, trangThai = ?, maDeThi = ? WHERE maCauHoi = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1, cauHoi.getCauHoi())
-                    .setParameter(3, cauHoi.getKieuTraLoi())
-                    .setParameter(4, cauHoi.getLoiGiai())
-                    .setParameter(5, cauHoi.getMucDo())
-                    .setParameter(6, cauHoi.getTrangThai())
-                    .setParameter(7, cauHoi.getDeThi().getMaDeThi())
-                    .setParameter(8, cauHoi.getMaCauHoi())
+                    .setParameter(2, cauHoi.getKieuTraLoi())
+                    .setParameter(3, cauHoi.getLoiGiai())
+                    .setParameter(4, cauHoi.getMucDo())
+                    .setParameter(5, cauHoi.getTrangThai())
+                    .setParameter(6, cauHoi.getDeThi().getMaDeThi())
+                    .setParameter(7, cauHoi.getMaCauHoi())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
@@ -147,7 +147,6 @@ public class CauHoi_DAO {
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1, id)
                     .executeUpdate();
-
             tr.commit();
             return updatedRows > 0;
         } catch (Exception e) {
@@ -156,5 +155,39 @@ public class CauHoi_DAO {
             }
             throw new RuntimeException(e);
         }
+    }
+
+    // getdscauhoi theo madethi
+    public ArrayList<CauHoi> getDsCauHoiTheoDeThi(String maDeThi) {
+        ArrayList<CauHoi> danhSachCauHoi = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "select maCauHoi,cauHoi,kieuTraLoi,loiGiai,mucDo,trangThai,maDeThi from CauHois where trangThai = 'enable' and maDeThi = ?";
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,maDeThi)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                CauHoi cauHoi = new CauHoi();
+                cauHoi.setMaCauHoi((String) row[0]);
+                cauHoi.setCauHoi((String) row[1]);
+                cauHoi.setKieuTraLoi((int) row[2]);
+                cauHoi.setLoiGiai((String) row[3]);
+                cauHoi.setMucDo((String) row[4]);
+                cauHoi.setTrangThai((String) row[5]);
+                cauHoi.setDeThi(new DeThi((String) row[6]));
+                danhSachCauHoi.add(cauHoi);
+            }
+
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachCauHoi;
     }
 }

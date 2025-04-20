@@ -1,8 +1,6 @@
 package Dao;
 
-import Entity.DeThi;
-import Entity.NganHangDeThi;
-import Entity.TaiKhoan;
+import Entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
@@ -10,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DeThi_DAO {
     private EntityManager em;
@@ -52,6 +51,7 @@ public class DeThi_DAO {
         return isSuccess;
     }
 
+    // get de thi theo ma roi dung ma do lay ra danh sách caâu hỏi
     public DeThi getDeThi(String id) {
         DeThi deThi = null;
         EntityTransaction tr = em.getTransaction();

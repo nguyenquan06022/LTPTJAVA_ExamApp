@@ -140,7 +140,6 @@ public class GV_Exams extends javax.swing.JPanel {
         Main_GUI.main_panel.revalidate();
     }//GEN-LAST:event_button1ActionPerformed
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
     private Components.Button button2;

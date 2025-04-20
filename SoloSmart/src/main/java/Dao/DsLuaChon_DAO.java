@@ -1,5 +1,9 @@
 package Dao;
 
+import Entity.DeThi;
+import Entity.LuaChons;
+import Entity.NganHangDeThi;
+import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
@@ -122,5 +126,32 @@ public class DsLuaChon_DAO {
         return isSuccess;
     }
 
+    public ArrayList<LuaChons> getDSLuaChonTheoDeThi(String maDeThi) {
+        EntityTransaction tr = em.getTransaction();
+        ArrayList<LuaChons> dsLuaChon = new ArrayList<>();
+        try {
+            tr.begin();
+            String sql = "SELECT dslc.maCauHoi, dslc.dapAnDung, dslc.luaChon FROM CauHois ch join dsLuaChon dslc\n" +
+                    "ON ch.maCauHoi = dslc.maCauHoi JOIN DeThis dt\n" +
+                    "ON dt.maDeThi = ch.maDeThi\n" +
+                    "WHERE dt.maDeThi = ? AND ch.trangThai = 'enable'";
 
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,maDeThi)
+                    .getResultList();
+            for (Object[] row : results) {
+                LuaChons luaChons = new LuaChons();
+                luaChons.setLuaChon((String) row[2]);
+                luaChons.setDapAnDung((boolean) row[1]);
+                dsLuaChon.add(luaChons);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi lấy danh sách lựa chọn", e);
+        }
+        return dsLuaChon;
+    }
 }

@@ -27,9 +27,6 @@ public class CauHoi {
     @CollectionTable(name = "dsLuaChon", joinColumns = @JoinColumn(name = "maCauHoi"))
     private List<LuaChons> dsLuaChon;
 
-    //    @NonNull
-//    @Column(columnDefinition = "nvarchar(255)")
-//    private String dapAnDung;
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")
     private String loiGiai;

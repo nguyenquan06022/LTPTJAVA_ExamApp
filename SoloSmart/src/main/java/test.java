@@ -1,6 +1,8 @@
 import Dao.*;
 import Entity.*;
 import DB.CreateDB;
+import GUI.Main_GUI;
+import com.sun.tools.javac.Main;
 import jakarta.persistence.EntityManager;
 
 import java.time.LocalDateTime;
@@ -36,7 +38,18 @@ public class test {
                 // taiKhoanDao.exportDsTaiKhoanVuaThemToExcel("C:\\Users\\Admin\\Desktop\\export.xlsx");
 //                LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
 //                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
-                TaiKhoan_DAO tkdao = new TaiKhoan_DAO(em);
-                System.out.println(tkdao.updateTrangThaiOnline(new TaiKhoan("TK16042025161236560")));
+//                TaiKhoan_DAO tkdao = new TaiKhoan_DAO(em);
+//                System.out.println(tkdao.updateTrangThaiOnline(new TaiKhoan("TK16042025161236560")));
+
+
+                // load de thi
+                DeThi_DAO deThiDao = new DeThi_DAO(em);
+                CauHoi_DAO cauHoiDao = new CauHoi_DAO(em);
+                DsLuaChon_DAO luaChonDao = new DsLuaChon_DAO(em);
+
+                System.out.println(deThiDao.getDeThi("DT16042025161236701"));
+                System.out.println(cauHoiDao.getDsCauHoiTheoDeThi("DT16042025161236701"));
+                System.out.println(luaChonDao.getDSLuaChonTheoDeThi("DT16042025161236701"));
+
         }
 }
