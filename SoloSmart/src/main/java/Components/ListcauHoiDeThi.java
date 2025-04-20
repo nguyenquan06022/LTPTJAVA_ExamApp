@@ -6,6 +6,7 @@ package Components;
 
 import Dao.DeThi_DAO;
 import Entity.CauHoi;
+import Entity.LuaChons;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -50,6 +51,43 @@ public class ListcauHoiDeThi extends JPanel{
             dsCauHoiDeThis.add(cauHoi);
             container.add(cauHoi,"growx, wrap");
         }
+        JScrollPane scrollPane = new JScrollPane(container);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBar(new ScrollBarCustom());
+
+        scrollPane.setPreferredSize(new Dimension(800, 460));
+        scrollPane.setMinimumSize(new Dimension(800, 460));
+        scrollPane.setMaximumSize(new Dimension(1200,600));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); // Ẩn scrollbar ngang
+        scrollPane.getViewport().setOpaque(false); // Nền trong suốt);
+        scrollPane.setOpaque(false);
+        add(scrollPane, BorderLayout.CENTER);
+    }
+    
+    public ListcauHoiDeThi(String maDeThi,List<CauHoi> dsCauHoi,List<LuaChons> dsLuaChon){
+        this.maDeThi = maDeThi;
+        setOpaque(false);
+        setLayout(new BorderLayout());
+        JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
+        container.setOpaque(false);
+        int indexLuaChon = 0; // để lấy từng nhóm 4 phần tử
+
+        for (var cauHoi : dsCauHoi) {
+            // Lấy 4 phần tử từ dsLuaChon, nếu còn đủ
+            int endIndex = Math.min(indexLuaChon + 4, dsLuaChon.size());
+            List<LuaChons> luaChonSubList = dsLuaChon.subList(indexLuaChon, endIndex);
+
+            // Tạo câu hỏi từ nhóm lựa chọn
+            CauHoiDeThi cauHoiDeThi = new CauHoiDeThi(luaChonSubList);
+            cauHoiDeThi.setCauHoi("Câu " + (indexLuaChon / 4 + 1));
+            cauHoiDeThi.setNoiDungCauHoi(cauHoi.getCauHoi());
+            cauHoiDeThi.setTfLoiGiai(cauHoi.getLoiGiai());
+
+            dsCauHoiDeThis.add(cauHoiDeThi);
+            container.add(cauHoiDeThi, "growx, wrap");
+            indexLuaChon += 4;
+        }
+
         JScrollPane scrollPane = new JScrollPane(container);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBar(new ScrollBarCustom());

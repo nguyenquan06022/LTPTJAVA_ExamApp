@@ -24,6 +24,10 @@ public class Answer extends javax.swing.JPanel {
     public String getValue() {
         return myTextField1.getText().trim();
     }
+    
+    public void setValue(String value) {
+        myTextField1.setText(value);
+    }
 
     public void setMyTextField1(MyTextField myTextField1) {
         this.myTextField1 = myTextField1;

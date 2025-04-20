@@ -30,6 +30,17 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         answer4.getRoundedRectPanel1().setText("D.");
     }
     
+    public CauHoiDeThi(List<LuaChons> dsLuaChon) {
+        initComponents();
+        answer1.setValue(dsLuaChon.get(0).getLuaChon());
+        answer2.setValue(dsLuaChon.get(1).getLuaChon());
+        answer3.setValue(dsLuaChon.get(2).getLuaChon());
+        answer4.setValue(dsLuaChon.get(3).getLuaChon());
+        answer2.getRoundedRectPanel1().setText("B.");
+        answer3.getRoundedRectPanel1().setText("C.");
+        answer4.getRoundedRectPanel1().setText("D.");
+    }
+    
     public CauHoiDeThi(String maDeThi) {
         initComponents();
         answer2.getRoundedRectPanel1().setText("B.");
@@ -87,6 +98,13 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         }
         return cauHoi;
         
+    }
+    
+    public void setNoiDungCauHoi(String cauHoi) {
+        jTextArea1.setText(cauHoi);
+    }
+    public void setTfLoiGiai(String loiGiai) {
+        tfLoiGiai.setText(loiGiai);
     }
 
     public void setjLabel1(JLabel jLabel1) {

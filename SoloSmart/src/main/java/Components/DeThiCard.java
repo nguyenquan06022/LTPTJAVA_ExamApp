@@ -5,6 +5,8 @@
 package Components;
 
 import Entity.DeThi;
+import GUI.GV_Add_Exam;
+import GUI.Main_GUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -120,6 +122,11 @@ public class DeThiCard extends javax.swing.JPanel {
         button1.setText("Xem");
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button1.setPreferredSize(new java.awt.Dimension(120, 36));
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
         roundedPanel1.setLayout(roundedPanel1Layout);
@@ -160,6 +167,13 @@ public class DeThiCard extends javax.swing.JPanel {
             .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        Main_GUI.main_panel.removeAll();
+        Main_GUI.main_panel.add(new GV_Add_Exam(dethi));
+        Main_GUI.main_panel.repaint();
+        Main_GUI.main_panel.revalidate();
+    }//GEN-LAST:event_button1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

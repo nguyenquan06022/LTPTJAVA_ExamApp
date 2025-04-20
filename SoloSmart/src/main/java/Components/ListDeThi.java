@@ -46,6 +46,7 @@ public class ListDeThi extends JPanel{
         {new Color(173, 83, 137), new Color(255, 117, 117)}, // Tím hồng - Hồng đậm
         {new Color(67, 206, 162), new Color(24, 90, 157)}  // Xanh lục - Xanh biển
     };
+    
     Random random = new Random();
     public void updateDsDeThi(ArrayList<DeThi> dsDeThi) {
         removeAll();
