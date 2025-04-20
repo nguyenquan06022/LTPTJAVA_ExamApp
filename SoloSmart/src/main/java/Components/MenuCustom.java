@@ -4,10 +4,12 @@
  */
 package Components;
 
+import Dao.TaiKhoan_DAO;
 import GUI.Admin_Account;
 import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
+import GUI.DangNhapGUI;
 import GUI.GV_Classroom;
 import GUI.GV_Exams;
 import GUI.Main_GUI;
@@ -17,16 +19,20 @@ import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author THANH PHU
  */
 public class MenuCustom extends javax.swing.JPanel {
+    private TaiKhoan_DAO taiKhoan_DAO = new TaiKhoan_DAO(Main_GUI.em);
 
     /**
      * Creates new form MenuCustom
@@ -189,7 +195,25 @@ public class MenuCustom extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
+          int confirm = JOptionPane.showConfirmDialog(
+        null,
+        "Bạn có chắc chắn muốn thoát không?",
+        "Xác nhận thoát",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
 
+    if (confirm == JOptionPane.YES_OPTION) {
+        
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+            DangNhapGUI dangNhapGUI = new DangNhapGUI();
+            taiKhoan_DAO.updateTrangThaiOnline(Main_GUI.tk);
+	    dangNhapGUI.setLocationRelativeTo(null); // Cũng hiển thị ở giữa màn hình
+            dangNhapGUI.setVisible(true);
+        }
+    }  
     }// GEN-LAST:event_button1ActionPerformed
 
     @Override
