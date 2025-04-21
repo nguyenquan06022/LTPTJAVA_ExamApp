@@ -221,4 +221,35 @@ public class MonHoc_DAO {
 
         return danhSachMonHoc;
     }
+    
+    public ArrayList<MonHoc> getDanhSachMonHocCuaGiaoVien(String maTaiKhoan) {
+        ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = """
+                         select mh.* from MonHocs mh
+                         inner join LopHocs lh on lh.maMonHoc=mh.maMonHoc
+                         where lh.maGiaoVien= ?
+                         """;
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .getResultList();
+            for (Object[] row : results) {
+                MonHoc monHoc = new MonHoc();
+                monHoc.setMaMonHoc((String) row[0]);
+                monHoc.setTenMonHoc((String) row[1]);
+                monHoc.setTrangThai((String) row[2]);
+                danhSachMonHoc.add(monHoc);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+
+        return danhSachMonHoc;
+    }
 }

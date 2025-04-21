@@ -6,6 +6,7 @@ package Components;
 
 import Dao.MonHoc_DAO;
 import Entity.LopHoc;
+import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
 import GUI.StudentDetailClassroom;
 
@@ -28,7 +29,11 @@ public class LopHocCard extends javax.swing.JPanel {
         this.lophoc=lh;
         jLabel2.setText(lh.getTenLop());
         jLabel3.setText(lh.getSiSo()+" sinh viên");
-        jLabel1.setText(lh.getMonHoc().getTenMonHoc());
+        
+        String tenMon = mh_dao.getMonHoc(lh.getMonHoc().getMaMonHoc()).getTenMonHoc();
+        jLabel1.setText(tenMon);
+        jLabel1.setToolTipText(tenMon); // Set tooltip khi hover
+
     }
     public CircleBackgroundPanel getCircleBackgroundPanel2() {
         return circleBackgroundPanel2;
@@ -118,7 +123,7 @@ public class LopHocCard extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -137,8 +142,13 @@ public class LopHocCard extends javax.swing.JPanel {
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
-//        if(Main_GUI.tk.getVaiTro().equalsIgnoreCase("SV"))
-        Main_GUI.main_panel.add(new StudentDetailClassroom());
+        if(Main_GUI.tk.getVaiTro().equalsIgnoreCase("SV")){
+            Main_GUI.main_panel.add(new StudentDetailClassroom());
+        }
+        else{
+            Main_GUI.main_panel.add(new GV_ClassRoom_Detail(lophoc));
+        }
+        Avatar.isBack();
         Main_GUI.main_panel.revalidate();   // Cập nhật lại layout
         Main_GUI.main_panel.repaint();
     }//GEN-LAST:event_button1ActionPerformed

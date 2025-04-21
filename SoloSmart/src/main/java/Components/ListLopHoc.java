@@ -73,7 +73,7 @@ public class ListLopHoc extends JPanel{
         
         setOpaque(false);
         setLayout(new BorderLayout());
-        JPanel container = new JPanel(new MigLayout("wrap 3, fillx, filly", "[grow][grow][grow]", "[]"));
+        JPanel container = new JPanel(new MigLayout("wrap 3, fillx", "[grow][grow][grow]", "[]"));
         container.setOpaque(false);
         
         lopHocCards.forEach(x->{
@@ -81,7 +81,7 @@ public class ListLopHoc extends JPanel{
             int randomIndex = random.nextInt(gradients.length); 
             lopHocCard.getCircleBackgroundPanel2().setColor1(gradients[randomIndex][0]);
             lopHocCard.getCircleBackgroundPanel2().setColor2(gradients[randomIndex][1]);
-            container.add(lopHocCard, "growx, growy");
+            container.add(lopHocCard, "growx");
             
             
         });

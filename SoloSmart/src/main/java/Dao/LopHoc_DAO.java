@@ -351,7 +351,7 @@ public class LopHoc_DAO {
         try {
             tr.begin();
             String sql = "select * from LopHocs  \n" +
-                    "where magiaovien = ? and trangThai = 'enable'";
+                    "where magiaovien = ? and trangThai = 'enable' order by tenlop asc";
 
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, magv)
@@ -364,8 +364,8 @@ public class LopHoc_DAO {
                 lopHoc.setSiSo((Integer) row[2]);
                 lopHoc.setTenLop((String) row[3]);
                 lopHoc.setTrangThai((String) row[4]);
-                lopHoc.setMonHoc(new MonHoc((String) row[5],2));
-                lopHoc.setGiaoVien(new TaiKhoan((String) row[6]));
+                lopHoc.setMonHoc(new MonHoc((String) row[6]));
+                lopHoc.setGiaoVien(new TaiKhoan((String) row[5]));
                 danhSachLopHoc.add(lopHoc);
             }
             tr.commit();
@@ -421,7 +421,7 @@ public class LopHoc_DAO {
             String sql = "select lh.maLop, lh.namHoc, lh.siSo, lh.tenLop, lh.trangThai,lh.maMonHoc,lh.maGiaoVien from LopHocs lh join MonHocs mh\n"
                     +
                     "on lh.maMonHoc = mh.maMonHoc\n" +
-                    "where lh.maLop LIKE ? and lh.tenLop LIKE ? and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? and lh.trangThai = 'enable' and lh.maGiaoVien = ?";
+                    "where (lh.maLop LIKE ? or lh.tenLop LIKE ?) and mh.tenMonHoc LIKE ? and lh.namHoc LIKE ? and lh.trangThai = 'enable' and lh.maGiaoVien = ?";
 
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, "%" + maLop + "%")
@@ -485,6 +485,40 @@ public class LopHoc_DAO {
         }
         return danhSachLopHoc;
     }
+    
+    public List<String> getDSNamHocGV(String maGV){
+        List<String> list= new ArrayList<>();
+         EntityTransaction tr = em.getTransaction();
+         try {
+            tr.begin();
+            String sql = """
+                         SELECT namHoc
+                         FROM (
+                             SELECT DISTINCT namHoc
+                             FROM LopHocs
+                             WHERE maGiaoVien = ?
+                         ) AS temp
+                         ORDER BY CAST(LEFT(namHoc, 4) AS INT) DESC;
+                         """;
+            list = em.createNativeQuery(sql)
+                    .setParameter(1,maGV)
+                    .getResultList();
 
+//            for (Object[] row : results) {
+//                String nam= (String) row;
+//                list.add(nam);
+//            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+         return list;
+    }
     // lọc lớp học theo tiêu chi của sinh viên
+    
+    
+    
 }

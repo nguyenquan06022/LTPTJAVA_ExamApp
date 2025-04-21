@@ -1,9 +1,13 @@
 package Components;
 
 import Components.Model_Card;
+import GUI.GV_Classroom;
+import GUI.GV_Exams;
+import GUI.Main_GUI;
 
 import javax.swing.*;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -55,6 +59,10 @@ public class Avatar extends javax.swing.JPanel {
     public static void updateTitle(String newTitle){
         title.setText(newTitle);
     }
+    public static void isBack(){
+        title.setIcon(new ImageIcon( Avatar.class.getResource("/Image/icons8-back-16.png")));
+        title.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -81,6 +89,11 @@ public class Avatar extends javax.swing.JPanel {
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         title.setText("Home");
+        title.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titleMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -126,6 +139,32 @@ public class Avatar extends javax.swing.JPanel {
                 .addGap(22, 22, 22))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void titleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleMouseClicked
+        String tab= title.getText();
+        String role= Main_GUI.tk.getVaiTro();
+        Main_GUI.main_panel.removeAll();
+        System.out.println(role);
+        switch (tab) {
+            case "Exam":
+                if(role.equalsIgnoreCase("GV")){
+                    Main_GUI.main_panel.add(new GV_Exams());
+                }
+                
+                break;
+            case "Class":
+                if(role.equalsIgnoreCase("GV")){
+                    Main_GUI.main_panel.add(new GV_Classroom());
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+        title.setIcon(null);
+        title.setCursor(Cursor.getDefaultCursor());
+        Main_GUI.main_panel.repaint();
+        Main_GUI.main_panel.revalidate();
+    }//GEN-LAST:event_titleMouseClicked
 
     @Override
     protected void paintComponent(Graphics grphcs) {

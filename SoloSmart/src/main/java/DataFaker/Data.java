@@ -407,8 +407,8 @@ public class Data {
 
             //them ketquahoctap
             try {
-                for(int i=0;i<10;i++){
-                    for (int j=0;j<80;j++){
+                for(int i=0;i<dsLopHoc.size();i++){
+                    for (int j=0;j<dsLopHoc.get(i).getSiSo();j++){
                         KetQuaHocTap ketQua= data.KetQuaHocTapFaker(dsSV.get(j),dsLopHoc.get(i));
                         ketQuaHocTapDao.themKetQuaHocTap(ketQua);
                     }

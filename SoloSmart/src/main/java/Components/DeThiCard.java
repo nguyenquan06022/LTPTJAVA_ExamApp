@@ -171,6 +171,7 @@ public class DeThiCard extends javax.swing.JPanel {
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
         Main_GUI.main_panel.add(new GV_Add_Exam(dethi));
+        Avatar.isBack();
         Main_GUI.main_panel.repaint();
         Main_GUI.main_panel.revalidate();
     }//GEN-LAST:event_button1ActionPerformed

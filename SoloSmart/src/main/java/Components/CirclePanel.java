@@ -22,6 +22,10 @@ public class CirclePanel extends JPanel {
         this.progressColor= Color.decode("#"+color);
         repaint(); // Vẽ lại khi thay đổi màu
     }
+    public void setPercentage(int num){
+        this.percentage=num;
+        repaint();
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

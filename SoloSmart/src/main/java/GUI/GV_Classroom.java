@@ -10,6 +10,7 @@ import Components.PaginationItemRenderStyle1;
 import Dao.BaiKiemTra_DAO;
 import Dao.DeThi_DAO;
 import Dao.LopHoc_DAO;
+import Dao.MonHoc_DAO;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.LopHoc;
@@ -32,6 +33,7 @@ public class GV_Classroom extends javax.swing.JPanel {
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
     private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
     private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
+    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
     private ArrayList<LopHoc> dsLopHocs;
     private List<BaiKiemTra> dsBKT; 
     public GV_Classroom() {
@@ -51,11 +53,25 @@ public class GV_Classroom extends javax.swing.JPanel {
         searchTextField1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                String search= searchTextField1.getText();
-//                dsLopHocs= lh_dao.filterLopHocCuaGiaoVien(TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+                search();
             }
             
+            
         });
+        
+    }
+    public void search(){
+        String search= searchTextField1.getText();
+         Object monHocObj = comboBoxSuggestion2.getSelectedItem();
+        Object namHocObj = comboBoxSuggestion1.getSelectedItem();
+
+        String monHoc = (comboBoxSuggestion2.getSelectedIndex() == 0 || monHocObj == null) ? "" : monHocObj.toString();
+        String namHoc = (comboBoxSuggestion1.getSelectedIndex() == 0 || namHocObj == null) ? "" : namHocObj.toString();
+        dsLopHocs= lh_dao.filterLopHocCuaGiaoVien(search, search,
+                monHoc, 
+                namHoc,
+                Main_GUI.tk.getMaTaiKhoan());
+         listLopHoc1.updateList(dsLopHocs);
     }
     public void reloadData(){
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
@@ -65,16 +81,24 @@ public class GV_Classroom extends javax.swing.JPanel {
         int limit= 9;
         
         int totalPage=(int) Math.ceil((double)dsLopHocs.size()/limit);
-        System.out.println(totalPage);
         pagination1.setPagegination(page, totalPage);
-        int currentPage = 1; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
         int skip = (currentPage - 1) * limit;
         ArrayList<LopHoc> lopHocsToShow = dsLopHocs.stream()
         .skip(skip)
         .limit(limit)
         .collect(Collectors.toCollection(ArrayList::new));
-
-    listLopHoc1.updateList(lopHocsToShow);
+        comboBoxSuggestion1.removeAllItems();
+        comboBoxSuggestion2.removeAllItems();
+        comboBoxSuggestion1.addItem("Năm học");
+        lh_dao.getDSNamHocGV(Main_GUI.tk.getMaTaiKhoan()).forEach(x->{
+            comboBoxSuggestion1.addItem(x);
+        });
+        comboBoxSuggestion2.addItem("Môn học");
+        mh_dao.getDanhSachMonHocCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()).forEach(x->{
+            comboBoxSuggestion2.addItem(x.getTenMonHoc());
+        });
+        listLopHoc1.updateList(lopHocsToShow);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -110,6 +134,20 @@ public class GV_Classroom extends javax.swing.JPanel {
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button2ActionPerformed(evt);
+            }
+        });
+
+        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Năm học" }));
+        comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSuggestion1ActionPerformed(evt);
+            }
+        });
+
+        comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Môn học" }));
+        comboBoxSuggestion2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSuggestion2ActionPerformed(evt);
             }
         });
 
@@ -199,6 +237,14 @@ public class GV_Classroom extends javax.swing.JPanel {
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         reloadData();
     }//GEN-LAST:event_button2ActionPerformed
+
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+        search();
+    }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
+
+    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
+        search();
+    }//GEN-LAST:event_comboBoxSuggestion2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

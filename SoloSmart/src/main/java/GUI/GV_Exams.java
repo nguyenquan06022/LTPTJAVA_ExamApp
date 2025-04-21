@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Components.Avatar;
 import Components.Model_Card;
 import Dao.DeThi_DAO;
 import Entity.DeThi;
@@ -138,6 +139,7 @@ public class GV_Exams extends javax.swing.JPanel {
         Main_GUI.main_panel.add(new GV_Add_Exam());
         Main_GUI.main_panel.repaint();
         Main_GUI.main_panel.revalidate();
+        Avatar.isBack();
     }//GEN-LAST:event_button1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
