@@ -13,7 +13,7 @@ import java.awt.*;
 
 public class CirclePanel extends JPanel {
     private int percentage = 100; // Hiển thị cung 19%
-     private Color progressColor = Color.decode("#3a8a7d"); 
+     private Color progressColor = Color.decode("#ffffff"); 
     public CirclePanel() {
         this.setPreferredSize(new Dimension(100, 100)); // kích thước panel
         this.setBackground(Color.WHITE); // nền trắng
@@ -40,7 +40,7 @@ public class CirclePanel extends JPanel {
 
         // Vẽ vòng tròn ngoài màu trắng (đường viền nền)
         g2.setStroke(new BasicStroke(8)); // độ dày
-        g2.setColor(new Color(230, 230, 230)); // màu xám nhạt gần trắng
+        g2.setColor(Color.decode("#ffffff")); // màu xám nhạt gần trắng
         g2.drawOval(x, y, size, size);
 
         // Vẽ cung màu xanh dương

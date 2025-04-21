@@ -132,6 +132,7 @@ public class MenuCustom extends javax.swing.JPanel {
                 System.out.println("defaut");
                 ;
         }
+        Avatar.Backed();
         Main_GUI.main_panel.revalidate();   // Cập nhật lại layout
         Main_GUI.main_panel.repaint();
     }

@@ -190,4 +190,8 @@ public class KetQuaHocTap_DAO {
             e.printStackTrace();
         }
     }
+    
+//    public float ketQuaHocTapTrungBinhTheoLop(String maLop){
+//        
+//    }
 }

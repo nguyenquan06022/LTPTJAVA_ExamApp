@@ -63,6 +63,10 @@ public class Avatar extends javax.swing.JPanel {
         title.setIcon(new ImageIcon( Avatar.class.getResource("/Image/icons8-back-16.png")));
         title.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
+    public static void Backed(){
+        title.setIcon(null);
+        title.setCursor(Cursor.getDefaultCursor());
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
