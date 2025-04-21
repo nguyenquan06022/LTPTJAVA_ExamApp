@@ -567,7 +567,9 @@ public class TestCRUD {
                         String luaChonCu= sc.nextLine();
                         System.out.println("Nhap lua chon moi");
                         String luaChonMoi= sc.nextLine();
-                        boolean res = dsLuaChonDao.capNhatLuaChon(maCauHoi,luaChonCu,luaChonMoi);
+                        System.out.println("Co phai dap an dung");
+                        boolean isDapAnDung = Boolean.parseBoolean(sc.nextLine());
+                        boolean res = dsLuaChonDao.capNhatLuaChon(maCauHoi,luaChonCu,luaChonMoi,isDapAnDung);
                         if(res) System.out.println("Cap nhat lua chon thanh cong");
                         else System.out.println("Cap nhat lua chon that bai");
                         break;

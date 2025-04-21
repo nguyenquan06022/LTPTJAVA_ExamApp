@@ -9,7 +9,7 @@ package Components;
  * @author THANH PHU
  */
 public class Answer extends javax.swing.JPanel {
-
+    private String luaChonCu;
     /**
      * Creates new form Answer
      */
@@ -27,6 +27,15 @@ public class Answer extends javax.swing.JPanel {
     
     public void setValue(String value) {
         myTextField1.setText(value);
+    }
+
+    public void setValueForUpdate(String value) {
+        myTextField1.setText(value);
+        this.luaChonCu = value;
+    }
+
+    public String getLuaChonCu() {
+        return this.luaChonCu;
     }
 
     public void setMyTextField1(MyTextField myTextField1) {

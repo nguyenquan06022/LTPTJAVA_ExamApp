@@ -151,13 +151,13 @@ public class DeThi_DAO {
             String sql = "UPDATE DeThis SET linkFile = ?, monHoc = ?, soLuongCauHoi = ?, trangThai = ?, maNganHang = ?, maTaiKhoan = ?, tenDeThi = ? WHERE maDeThi = ?";
             int updatedRows = em.createNativeQuery(sql)
                     .setParameter(1,deThi.getLinkFile())
-                    .setParameter(2, deThi.getMonHoc())
+                    .setParameter(2,deThi.getMonHoc())
                     .setParameter(3,deThi.getSoLuongCauHoi())
                     .setParameter(4,deThi.getTrangThai())
                     .setParameter(5,deThi.getNganHangDeThi().getMaNganHang())
                     .setParameter(6,deThi.getTaiKhoan().getMaTaiKhoan())
-                    .setParameter(7,deThi.getMaDeThi())
-                    .setParameter(8,deThi.getTenDeThi())
+                    .setParameter(8,deThi.getMaDeThi())
+                    .setParameter(7,deThi.getTenDeThi())
                     .executeUpdate();
             tr.commit();
             return updatedRows > 0;
