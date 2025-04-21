@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Components.Avatar;
 import Components.CauHoiDeThi;
 import Components.ComboBoxSuggestion;
 import Dao.CauHoi_DAO;
@@ -644,7 +645,10 @@ public class GV_Add_Exam extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-       //btn hủy
+        Main_GUI.main_panel.removeAll();
+        Main_GUI.main_panel.add(new GV_Exams());
+        Main_GUI.main_panel.repaint();
+        Main_GUI.main_panel.revalidate();
     }//GEN-LAST:event_btnHuyActionPerformed
 
         private void loadListMonHoc() {

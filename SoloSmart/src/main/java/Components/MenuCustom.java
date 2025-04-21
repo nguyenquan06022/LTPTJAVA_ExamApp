@@ -149,25 +149,25 @@ public class MenuCustom extends javax.swing.JPanel {
         EditDialog = new javax.swing.JDialog();
         roundedGradientPanel1 = new Components.RoundedGradientPanel();
         jLabel2 = new javax.swing.JLabel();
-        myTextField1 = new Components.MyTextField();
+        tfHo = new Components.MyTextField();
         jLabel3 = new javax.swing.JLabel();
-        button3 = new Components.Button();
+        btnXacNhan = new Components.Button();
         circleBackgroundPanel2 = new Components.CircleBackgroundPanel();
         jLabel17 = new javax.swing.JLabel();
-        myTextField13 = new Components.MyTextField();
+        tfTen = new Components.MyTextField();
         jLabel25 = new javax.swing.JLabel();
-        comboBoxSuggestion7 = new Components.ComboBoxSuggestion();
+        cbbGioiTinh = new Components.ComboBoxSuggestion();
         jLabel27 = new javax.swing.JLabel();
         comboBoxSuggestion8 = new Components.ComboBoxSuggestion();
         jLabel28 = new javax.swing.JLabel();
-        myTextField15 = new Components.MyTextField();
+        tfMail = new Components.MyTextField();
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
-        myTextField16 = new Components.MyTextField();
-        myTextField19 = new Components.MyTextField();
+        tfSoDienThoai = new Components.MyTextField();
+        tfTenTaiKhoan = new Components.MyTextField();
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
-        myPasswordField2 = new Components.MyPasswordField();
+        tfMatKhau = new Components.MyPasswordField();
         jLabel22 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         menuItemList1 = new Components.MenuItemList();
@@ -183,18 +183,18 @@ public class MenuCustom extends javax.swing.JPanel {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/Profiling-bro.png"))); // NOI18N
 
-        myTextField1.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        tfHo.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel3.setText("Họ:");
 
-        button3.setBackground(new java.awt.Color(58, 138, 125));
-        button3.setForeground(new java.awt.Color(255, 255, 255));
-        button3.setText("Xác nhận");
-        button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        button3.addActionListener(new java.awt.event.ActionListener() {
+        btnXacNhan.setBackground(new java.awt.Color(58, 138, 125));
+        btnXacNhan.setForeground(new java.awt.Color(255, 255, 255));
+        btnXacNhan.setText("Xác nhận");
+        btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button3ActionPerformed(evt);
+                btnXacNhanActionPerformed(evt);
             }
         });
 
@@ -222,13 +222,13 @@ public class MenuCustom extends javax.swing.JPanel {
                 .addGap(21, 21, 21))
         );
 
-        myTextField13.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        tfTen.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel25.setText("Tên:");
 
-        comboBoxSuggestion7.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
-        comboBoxSuggestion7.setPreferredSize(new java.awt.Dimension(68, 36));
+        cbbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nam", "Nữ" }));
+        cbbGioiTinh.setPreferredSize(new java.awt.Dimension(68, 36));
 
         jLabel27.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel27.setText("Giới tính:");
@@ -240,7 +240,7 @@ public class MenuCustom extends javax.swing.JPanel {
         jLabel28.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel28.setText("Vai trò:");
 
-        myTextField15.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        tfMail.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 
         jLabel29.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel29.setText("Mail:");
@@ -248,11 +248,11 @@ public class MenuCustom extends javax.swing.JPanel {
         jLabel30.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel30.setText("Số điện thoại:");
 
-        myTextField16.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        tfSoDienThoai.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
 
-        myTextField19.setEditable(false);
-        myTextField19.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
-        myTextField19.setFocusable(false);
+        tfTenTaiKhoan.setEditable(false);
+        tfTenTaiKhoan.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)), javax.swing.BorderFactory.createEmptyBorder(1, 2, 1, 12)));
+        tfTenTaiKhoan.setFocusable(false);
 
         jLabel35.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel35.setText("Tên tài khoản:");
@@ -260,9 +260,9 @@ public class MenuCustom extends javax.swing.JPanel {
         jLabel36.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         jLabel36.setText("Mật khẩu:");
 
-        myPasswordField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
-        myPasswordField2.setText("myPasswordField2");
-        myPasswordField2.setPreferredSize(new java.awt.Dimension(99, 36));
+        tfMatKhau.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        tfMatKhau.setText("myPasswordField2");
+        tfMatKhau.setPreferredSize(new java.awt.Dimension(99, 36));
 
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eye_closed.png"))); // NOI18N
         jLabel22.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -280,10 +280,10 @@ public class MenuCustom extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXacNhan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,14 +291,14 @@ public class MenuCustom extends javax.swing.JPanel {
                                 .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(comboBoxSuggestion8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(myTextField19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfTenTaiKhoan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedGradientPanel1Layout.createSequentialGroup()
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfHo, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(myTextField13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfTen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 54, Short.MAX_VALUE))))
@@ -307,13 +307,13 @@ public class MenuCustom extends javax.swing.JPanel {
                             .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel36, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myTextField15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(tfMail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(myTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tfSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(myPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel22)))
                 .addContainerGap())
@@ -328,28 +328,28 @@ public class MenuCustom extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addGap(7, 7, 7)
-                        .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(tfHo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel25)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(myTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfTen, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel35)
                 .addGap(7, 7, 7)
-                .addComponent(myTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfTenTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jLabel36)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel27)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxSuggestion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel28)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -360,10 +360,10 @@ public class MenuCustom extends javax.swing.JPanel {
                     .addComponent(jLabel30))
                 .addGap(7, 7, 7)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(myTextField15, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(myTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfMail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnXacNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15))
             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -431,38 +431,76 @@ public class MenuCustom extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        //          System.out.println(tk_dao.generatedTenTaiKhoan(comboBoxSuggestion8.getSelectedIndex())+" "+tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()));
-//        if(validateUpdate()){
-//            TaiKhoan tk= tk_dao.getTaiKhoan(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-//            TaiKhoan updateTK= new TaiKhoan(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), myTextField19.getText(),
-//                new String(myPasswordField2.getPassword()),
-//                myTextField19.getText(),
-//                myTextField13.getText(),
-//                comboBoxSuggestion8.getSelectedIndex()==0?"SV":comboBoxSuggestion10.getSelectedIndex()==1?"GV":"AD",
-//                "enable",
-//                tk.getDangOnline(),
-//                comboBoxSuggestion7.getSelectedItem().toString(),
-//                myTextField15.getText(), myTextField16.getText());
-//            System.out.println(tk);
-//            if(tk_dao.updateTaiKhoan(updateTK)){
-//                EditDialog.dispose();
-//                initTable();
-//                jTable1.getCellEditor().cancelCellEditing();
-//            }else{
-//                JOptionPane.showMessageDialog(null, "Cập nhật không thành công!");
-//            }
-//        }
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        String maTaiKhoan = Main_GUI.tk.getMaTaiKhoan();
+        String ho = tfHo.getText().trim();
+        String ten = tfTen.getText().trim();
+        String tenTaiKhoan = tfTenTaiKhoan.getText().trim();
+        String matKhau = tfMatKhau.getText().trim();
+        String gioiTinh = cbbGioiTinh.getSelectedItem().toString();
+        String email = tfMail.getText().trim();
+        String sdt = tfSoDienThoai.getText().trim();
+        String vaiTro = comboBoxSuggestion8.getSelectedItem().toString();
+        if(vaiTro.equalsIgnoreCase("Giảng Viên")) {
+            vaiTro = "GV";
+        }else if(vaiTro.equalsIgnoreCase("Sinh Viên")) {
+            vaiTro = "SV";
+        }else {
+            vaiTro = "AD";
+        }
+        if (ho.isEmpty() || ten.isEmpty() || tenTaiKhoan.isEmpty() || matKhau.isEmpty()
+                || email.isEmpty() || sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    }//GEN-LAST:event_button3ActionPerformed
+        // Kiểm tra email hợp lệ
+        if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            JOptionPane.showMessageDialog(null, "Email không hợp lệ.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra số điện thoại (bắt đầu bằng 0 và 9-10 chữ số)
+        if (!sdt.matches("^\\(\\d{3}\\) \\d{3}-\\d{4}$")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại không hợp lệ.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra mật khẩu tối thiểu 6 ký tự
+        if (matKhau.length() < 6) {
+            JOptionPane.showMessageDialog(null, "Mật khẩu phải có ít nhất 6 ký tự.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // ========================
+
+        TaiKhoan tkUpdate = new TaiKhoan(maTaiKhoan);
+        tkUpdate.setTenTaiKhoan(tenTaiKhoan);
+        tkUpdate.setMatKhau(matKhau);
+        tkUpdate.setHo(ho);
+        tkUpdate.setTen(ten);
+        tkUpdate.setVaiTro(vaiTro);
+        tkUpdate.setTrangThai("enable");
+        tkUpdate.setDangOnline("online");
+        tkUpdate.setGioiTinh(gioiTinh);
+        tkUpdate.setEmail(email);
+        tkUpdate.setSoDienThoai(sdt);
+
+        if (taiKhoan_DAO.updateTaiKhoan(tkUpdate)) {
+            JOptionPane.showMessageDialog(null, "Cập nhật thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Cập nhật thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private boolean editEye=false;
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
         if(!editEye){
-            myPasswordField2.setEchoChar((char)0);
+            tfMatKhau.setEchoChar((char)0);
             jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_open.png")));
             editEye=true;
         }else{
-            myPasswordField2.setEchoChar('*');
+            tfMatKhau.setEchoChar('*');
             jLabel22.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
             editEye=false;
         }
@@ -471,15 +509,15 @@ public class MenuCustom extends javax.swing.JPanel {
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         TaiKhoan tk= taiKhoan_DAO.getTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         
-        myTextField1.setText(tk.getHo());
-        myTextField13.setText(tk.getTen());
-        myTextField15.setText(tk.getEmail());
-        myTextField16.setText(tk.getSoDienThoai());
-        myTextField19.setText(tk.getTenTaiKhoan());
-        comboBoxSuggestion7.setSelectedItem(tk.getGioiTinh());
-        myPasswordField2.setText(tk.getMatKhau());
+        tfHo.setText(tk.getHo());
+        tfTen.setText(tk.getTen());
+        tfMail.setText(tk.getEmail());
+        tfSoDienThoai.setText(tk.getSoDienThoai());
+        tfTenTaiKhoan.setText(tk.getTenTaiKhoan());
+        cbbGioiTinh.setSelectedItem(tk.getGioiTinh());
+        tfMatKhau.setText(tk.getMatKhau());
         String role= tk.getVaiTro();
-        comboBoxSuggestion8.setSelectedItem(role.equalsIgnoreCase("SV")?"Sinh viên":role.equalsIgnoreCase("GV")?"Giảng viên":"Quản trị viên");
+        comboBoxSuggestion8.setSelectedItem(role.equalsIgnoreCase("SV")?"Sinh viên":role.equalsIgnoreCase("GV")?"Giảng Viên":"Quản trị viên");
         EditDialog.pack();
         
         EditDialog.setLocationRelativeTo(null);
@@ -525,11 +563,11 @@ public class MenuCustom extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog EditDialog;
+    private Components.Button btnXacNhan;
     private Components.Button button1;
     private Components.Button button2;
-    private Components.Button button3;
+    private Components.ComboBoxSuggestion cbbGioiTinh;
     private Components.CircleBackgroundPanel circleBackgroundPanel2;
-    private Components.ComboBoxSuggestion comboBoxSuggestion7;
     private Components.ComboBoxSuggestion comboBoxSuggestion8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel17;
@@ -544,12 +582,12 @@ public class MenuCustom extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private Components.MenuItemList menuItemList1;
-    private Components.MyPasswordField myPasswordField2;
-    private Components.MyTextField myTextField1;
-    private Components.MyTextField myTextField13;
-    private Components.MyTextField myTextField15;
-    private Components.MyTextField myTextField16;
-    private Components.MyTextField myTextField19;
     private Components.RoundedGradientPanel roundedGradientPanel1;
+    private Components.MyTextField tfHo;
+    private Components.MyTextField tfMail;
+    private Components.MyPasswordField tfMatKhau;
+    private Components.MyTextField tfSoDienThoai;
+    private Components.MyTextField tfTen;
+    private Components.MyTextField tfTenTaiKhoan;
     // End of variables declaration//GEN-END:variables
 }
