@@ -20,7 +20,8 @@ import javax.swing.JLabel;
  */
 public class CauHoiDeThi extends javax.swing.JPanel {
     private CauHoi_DAO cauHoi_DAO = new CauHoi_DAO(Main_GUI.em);
-    private String maDeThi; 
+    private String maDeThi;
+    private String maCauHoi;
     /**
      * Creates new form CauHoiDeThi
      */
@@ -30,13 +31,22 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         answer3.getRoundedRectPanel1().setText("C.");
         answer4.getRoundedRectPanel1().setText("D.");
     }
+
+    public List<String> getDsLuaChonCu() {
+        List<String> dsLuaChonCu = new ArrayList<>();
+        dsLuaChonCu.add(answer1.getLuaChonCu());
+        dsLuaChonCu.add(answer2.getLuaChonCu());
+        dsLuaChonCu.add(answer3.getLuaChonCu());
+        dsLuaChonCu.add(answer4.getLuaChonCu());
+        return dsLuaChonCu;
+    }
     
     public CauHoiDeThi(List<LuaChons> dsLuaChon) {
         initComponents();
-        answer1.setValue(dsLuaChon.get(0).getLuaChon());
-        answer2.setValue(dsLuaChon.get(1).getLuaChon());
-        answer3.setValue(dsLuaChon.get(2).getLuaChon());
-        answer4.setValue(dsLuaChon.get(3).getLuaChon());
+        answer1.setValueForUpdate(dsLuaChon.get(0).getLuaChon());
+        answer2.setValueForUpdate(dsLuaChon.get(1).getLuaChon());
+        answer3.setValueForUpdate(dsLuaChon.get(2).getLuaChon());
+        answer4.setValueForUpdate(dsLuaChon.get(3).getLuaChon());
         answer2.getRoundedRectPanel1().setText("B.");
         answer3.getRoundedRectPanel1().setText("C.");
         answer4.getRoundedRectPanel1().setText("D.");
@@ -45,7 +55,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         for (int i = 0; i < dsLuaChon.size(); i++) {
             if (dsLuaChon.get(i).isDapAnDung()) {
                 dapAnDungIndex = i;
-                break; // Tìm thấy đáp án đúng, thoát khỏi vòng lặp
+                break;
             }
         }
         comboBoxSuggestion1.setSelectedIndex(dapAnDungIndex);
@@ -60,10 +70,10 @@ public class CauHoiDeThi extends javax.swing.JPanel {
     }
     
     public CauHoi getCauHoi() {
-        String luaChon1 = "A." + answer1.getValue();
-        String luaChon2 = "B." + answer2.getValue();
-        String luaChon3 = "C." + answer3.getValue();
-        String luaChon4 = "D." + answer4.getValue();
+        String luaChon1 = answer1.getValue();
+        String luaChon2 = answer2.getValue();
+        String luaChon3 = answer3.getValue();
+        String luaChon4 = answer4.getValue();
         CauHoi cauHoi;
         
         LuaChons lc1 = new LuaChons(luaChon1,false);
@@ -107,9 +117,61 @@ public class CauHoiDeThi extends javax.swing.JPanel {
             e.printStackTrace();
         }
         return cauHoi;
-        
     }
-    
+
+    public CauHoi getCauHoiForUpdate() {
+        String luaChon1 = answer1.getValue();
+        String luaChon2 = answer2.getValue();
+        String luaChon3 = answer3.getValue();
+        String luaChon4 = answer4.getValue();
+        CauHoi cauHoi;
+
+        LuaChons lc1 = new LuaChons(luaChon1,false);
+        LuaChons lc2 = new LuaChons(luaChon2,false);
+        LuaChons lc3 = new LuaChons(luaChon3,false);
+        LuaChons lc4 = new LuaChons(luaChon4,false);
+
+
+        int indexDapAn = comboBoxSuggestion1.getSelectedIndex() + 1;
+        switch (indexDapAn) {
+            case 1:
+                lc1.setDapAnDung(true);
+                break;
+            case 2:
+                lc2.setDapAnDung(true);
+                break;
+            case 3:
+                lc3.setDapAnDung(true);
+                break;
+            case 4:
+                lc4.setDapAnDung(true);
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+        String noiDungCauHoi = jTextArea1.getText().trim();
+
+        List<LuaChons> dsLuaChon = new ArrayList<>();
+        dsLuaChon.add(lc1);
+        dsLuaChon.add(lc2);
+        dsLuaChon.add(lc3);
+        dsLuaChon.add(lc4);
+
+        String loiGiai = tfLoiGiai.getText().trim();
+
+        cauHoi = new CauHoi(maCauHoi,"vận dụng",jTextArea1.getText().trim(),1,dsLuaChon,loiGiai,"enable",new DeThi());
+        try {
+            Thread.sleep(300); // dừng 300 mili giây
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return cauHoi;
+    }
+
+    public void setMaCauHoi(String maCauHoi) {
+        this.maCauHoi = maCauHoi;
+    }
     public void setNoiDungCauHoi(String cauHoi) {
         jTextArea1.setText(cauHoi);
     }

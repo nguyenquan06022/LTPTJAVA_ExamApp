@@ -32,7 +32,7 @@ public class ListcauHoiDeThi extends JPanel{
     }
     
     public List<CauHoiDeThi> getDsCauHoiDeThis() {
-        return dsCauHoiDeThis;
+        return this.dsCauHoiDeThis;
     }
     
     public List<CauHoi> getDsCauHoi() {
@@ -65,6 +65,7 @@ public class ListcauHoiDeThi extends JPanel{
     }
     
     public void updateListcauHoiDeThi(String maDeThi,List<CauHoi> dsCauHoi,List<LuaChons> dsLuaChon){
+        dsCauHoiDeThis.clear();
         this.maDeThi = maDeThi;
         setOpaque(false);
         setLayout(new BorderLayout());
@@ -82,6 +83,7 @@ public class ListcauHoiDeThi extends JPanel{
             cauHoiDeThi.setCauHoi("Câu " + (indexLuaChon / 4 + 1));
             cauHoiDeThi.setNoiDungCauHoi(cauHoi.getCauHoi());
             cauHoiDeThi.setTfLoiGiai(cauHoi.getLoiGiai());
+            cauHoiDeThi.setMaCauHoi(cauHoi.getMaCauHoi());
 
             dsCauHoiDeThis.add(cauHoiDeThi);
             container.add(cauHoiDeThi, "growx, wrap");

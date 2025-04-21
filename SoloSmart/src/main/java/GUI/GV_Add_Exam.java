@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Components.Avatar;
 import Components.CauHoiDeThi;
 import Components.ComboBoxSuggestion;
 import Dao.CauHoi_DAO;
@@ -39,11 +40,12 @@ public class GV_Add_Exam extends javax.swing.JPanel {
     public GV_Add_Exam() {
         initComponents();
         loadListMonHoc();
-        button2.setVisible(false);
-        button2.setVisible(false);
+        btnSua.setVisible(false);
+        btnSua.setVisible(false);
     }
 
     public GV_Add_Exam(DeThi deThi) {
+        this.maDeThi = deThi.getMaDeThi();
         List<CauHoi> dsCauHoi = cauHoiDao.getDsCauHoiTheoDeThi(deThi.getMaDeThi());
         List<LuaChons> dsLuaChon = dsLuaChonDao.getDSLuaChonTheoDeThi(deThi.getMaDeThi());
         initComponents();
@@ -75,8 +77,8 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         cbbMonHoc = new Components.ComboBoxSuggestion();
         button1 = new Components.Button();
         jPanel1 = new javax.swing.JPanel();
-        button2 = new Components.Button();
-        button3 = new Components.Button();
+        btnSua = new Components.Button();
+        btnHuy = new Components.Button();
         listcauHoiDeThi1 = new Components.ListcauHoiDeThi();
 
         circleBackgroundPanel1.setColor1(new java.awt.Color(58, 138, 125));
@@ -147,31 +149,41 @@ public class GV_Add_Exam extends javax.swing.JPanel {
 
         jPanel1.setOpaque(false);
 
-        button2.setBackground(new java.awt.Color(0, 0, 0));
-        button2.setForeground(new java.awt.Color(255, 255, 255));
-        button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-edit-30.png"))); // NOI18N
-        button2.setText("Sửa");
-        button2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSua.setBackground(new java.awt.Color(0, 0, 0));
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
+        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-edit-30.png"))); // NOI18N
+        btnSua.setText("Sửa");
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
-        button3.setBackground(new java.awt.Color(58, 138, 125));
-        button3.setForeground(new java.awt.Color(255, 255, 255));
-        button3.setText("Hủy");
-        button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnHuy.setBackground(new java.awt.Color(58, 138, 125));
+        btnHuy.setForeground(new java.awt.Color(255, 255, 255));
+        btnHuy.setText("Hủy");
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnHuy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -242,7 +254,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-        private void initComponents(DeThi deThi) {
+    private void initComponents(DeThi deThi) {
             // lấy ra danh sách câu hỏi
             List<CauHoi> dsCauHoi = cauHoiDao.getDsCauHoiTheoDeThi(deThi.getMaDeThi());
             List<LuaChons> dsLuaChon = dsLuaChonDao.getDSLuaChonTheoDeThi(deThi.getMaDeThi());
@@ -448,7 +460,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                 ex.printStackTrace();
             }
         }//GEN-LAST:event_btnTaoDeThiActionPerformed
-
+        
         private void cbbMonHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbMonHocActionPerformed
             // TODO add your handling code here:
         }//GEN-LAST:event_cbbMonHocActionPerformed
@@ -457,8 +469,9 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         try {
             JnaFileChooser fileChooser = new JnaFileChooser();
             if (fileChooser.showOpenDialog(null)) {
-                 File selectedFile = fileChooser.getSelectedFile();
+                File selectedFile = fileChooser.getSelectedFile();
                 String filePath = selectedFile.getAbsolutePath();
+
                 // Đọc file Word
                 FileInputStream fis = new FileInputStream(filePath);
                 XWPFDocument document = new XWPFDocument(fis);
@@ -509,7 +522,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                     }
                 }
 
-                // Xử lý câu hỏi cuối cùng sau khi kết thúc vòng lặp
+                // Xử lý câu hỏi cuối cùng
                 if (currentQuestion != null) {
                     correctAnswers.add(currentCorrect);
                     answersMap.put(currentQuestion, new ArrayList<>(currentAnswers));
@@ -528,7 +541,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                         questionCount,
                         subject,
                         "", // linkFile
-                        "enable", // trạng thái
+                        "enable",
                         tk,
                         nganHang,
                         examTitle
@@ -541,14 +554,16 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                     String maCauHoi = cauHoiDao.generateMa();
                     String correct = correctAnswers.get(i);
                     List<String> answerList = answersMap.get(questionText);
-                    String loiGiai = loiGiaiMap.getOrDefault(questionText, ""); // Lấy lời giải tương ứng
+                    String loiGiai = loiGiaiMap.getOrDefault(questionText, "");
                     Thread.sleep(100);
 
                     List<LuaChons> luaChonList = new ArrayList<>();
                     for (String ans : answerList) {
+                        // Tách "A. jack" -> "jack"
                         String optionKey = ans.substring(0, 1);
+                        String content = ans.substring(2).trim();
                         boolean isCorrect = optionKey.equalsIgnoreCase(correct);
-                        luaChonList.add(new LuaChons(ans, isCorrect));
+                        luaChonList.add(new LuaChons(content, isCorrect));
                     }
 
                     CauHoi ch = new CauHoi(
@@ -557,7 +572,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                             questionText,
                             1,
                             luaChonList,
-                            loiGiai, // Gán lời giải vào đây
+                            loiGiai,
                             "enable",
                             deThi
                     );
@@ -576,13 +591,65 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                         }
                     }
                 }
+
                 JOptionPane.showMessageDialog(null, "Thêm đề thi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        try {
+
+                List<CauHoiDeThi> listCauHoi = listcauHoiDeThi1.getDsCauHoiDeThis();
+                if (!listcauHoiDeThi1.isDone()) {
+                    return;
+                }
+                // Create new exam
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi(maDeThi);
+                deThi.setLinkFile("");
+                deThi.setMonHoc(cbbMonHoc.getSelectedItem().toString());
+                deThi.setSoLuongCauHoi(listCauHoi.size());
+                deThi.setTenDeThi(tfTenDeThi.getText().trim());
+                deThi.setTrangThai("enable");
+                deThi.setNganHangDeThi(new NganHangDeThi());
+                deThi.setTaiKhoan(new TaiKhoan(Main_GUI.tk.getMaTaiKhoan()));
+                deThi_DAO.updatDeThi(deThi);
+
+                // Add all questions to database
+                for (CauHoiDeThi item : listCauHoi) {
+                    CauHoi cauHoi = item.getCauHoiForUpdate();
+                    List<String> dsLuaChonCu = item.getDsLuaChonCu();
+                    cauHoi.setDeThi(new DeThi(maDeThi));
+                    List<LuaChons> dsLuaChons = cauHoi.getDsLuaChon();
+                    cauHoiDao.updateCauHoi(cauHoi);
+                    int index = 0;
+                    for (LuaChons dsLuaChon : dsLuaChons) {
+                        dsLuaChonDao.capNhatLuaChon(
+                                cauHoi.getMaCauHoi(),
+                                dsLuaChonCu.get(index),
+                                dsLuaChon.getLuaChon(),
+                                dsLuaChon.isDapAnDung()
+                        );
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "Cập nhật đề thi thành công", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Lỗi: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        Main_GUI.main_panel.removeAll();
+        Main_GUI.main_panel.add(new GV_Exams());
+        Main_GUI.main_panel.repaint();
+        Main_GUI.main_panel.revalidate();
+    }//GEN-LAST:event_btnHuyActionPerformed
 
         private void loadListMonHoc() {
             List<MonHoc> listMonHoc = monHoc_DAO.getDanhSachMonHoc();
@@ -594,10 +661,10 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private Components.Button btnHuy;
+    private Components.Button btnSua;
     private Components.Button btnTaoDeThi;
     private Components.Button button1;
-    private Components.Button button2;
-    private Components.Button button3;
     private Components.ComboBoxSuggestion cbbMonHoc;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private javax.swing.JLabel jLabel1;

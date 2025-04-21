@@ -43,18 +43,18 @@ public class DsLuaChon_DAO {
         return isSuccess;
     }
 
-    public boolean capNhatLuaChon(String maCauHoi, String luaChonCu, String luaChonMoi) {
+    public boolean capNhatLuaChon(String maCauHoi, String luaChonCu,String luaChonMoi, boolean dapAnDung) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
             tr.begin();
-            String sql = "UPDATE dsLuaChon SET luaChon = ? WHERE maCauHoi = ? AND luaChon = ?";
+            String sql = "UPDATE dsLuaChon SET luaChon = ?, dapAnDung = ? WHERE maCauHoi = ? and luaChon = ?";
             int result = em.createNativeQuery(sql)
                     .setParameter(1, luaChonMoi)
-                    .setParameter(2, maCauHoi)
-                    .setParameter(3, luaChonCu)
+                    .setParameter(2, dapAnDung)
+                    .setParameter(3, maCauHoi)
+                    .setParameter(4,luaChonCu)
                     .executeUpdate();
-
             tr.commit();
             isSuccess = result > 0;
         } catch (Exception e) {
