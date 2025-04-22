@@ -118,7 +118,7 @@ public class DeThi_DAO {
         try {
             tr.begin();
             String sql = "select maDeThi,linkFile,monHoc,soLuongCauHoi,trangThai,maNganHang,maTaiKhoan,tenDeThi from DeThis where trangThai = 'enable' and monhoc like ?\n" +
-"order by monHoc asc";
+            "order by monHoc asc";
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1,mon).getResultList();
             for (Object[] row : results) {
@@ -143,7 +143,45 @@ public class DeThi_DAO {
 
         return danhSachDeThi;
     }
+    
+    public ArrayList<DeThi> getDanhSachDeThiTheoMonCuaGV(String maTaiKhoan, String mon) {
+        ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = """
+                         select dt.* 
+                         from dethis dt inner join baikiemtras bkt on dt.madethi=bkt.madethi
+                         where monHoc like ? and dt.trangThai='enable' and dt.maTaiKhoan =?
+                         group by dt.maDeThi, dt.linkFile, dt.monHoc, dt.soLuongCauHoi,dt.tenDeThi,dt.trangThai, dt.maNganHang, dt.maTaiKhoan
+                         """;
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,"%"+mon+"%")
+                    .setParameter(2, maTaiKhoan).getResultList();
+            
+            for (Object[] row : results) {
+                DeThi deThi = new DeThi();
+                deThi.setMaDeThi((String) row[0]);
+                deThi.setLinkFile((String) row[1]);
+                deThi.setMonHoc((String) row[2]);
+                deThi.setSoLuongCauHoi((int)row[3]);
+                deThi.setTenDeThi((String) row[4]);
+                deThi.setNganHangDeThi(new NganHangDeThi((String) row[6]));
+                deThi.setTaiKhoan(new TaiKhoan((String) row[7]));
+                deThi.setTrangThai((String) row[5]);
+                danhSachDeThi.add(deThi);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
 
+        return danhSachDeThi;
+    }
     public boolean updatDeThi(DeThi deThi) {
         EntityTransaction tr = em.getTransaction();
         try {

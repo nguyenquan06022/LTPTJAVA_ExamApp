@@ -8,13 +8,19 @@ import Dao.BaiKiemTra_DAO;
 import Dao.DeThi_DAO;
 import Dao.KetQuaHocTap_DAO;
 import Dao.LopHoc_DAO;
+import Dao.MonHoc_DAO;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
+import Entity.MonHoc;
 import Entity.TaiKhoan;
+import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +39,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
     private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
     private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
+    private MonHoc_DAO mh_dao = new MonHoc_DAO(Main_GUI.em);
     private BaiKiemTra bkt;
     private DateTimeFormatter df= DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
     private DecimalFormat de = new DecimalFormat("#.##");
@@ -118,7 +125,20 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             });
         });
     }
-    
+    public void initDSDeThi(){
+        MonHoc mon= mh_dao.getMonHoc(GV_ClassRoom_Detail.lopHoc.getMonHoc().getMaMonHoc());
+        ArrayList<DeThi> dsDeThi= dt_dao.getDanhSachDeThiTheoMonCuaGV(Main_GUI.tk.getMaTaiKhoan(), mon.getTenMonHoc());
+        listDeThi21.updateDsDeThi(dsDeThi);
+        listDeThi21.dsCard.forEach(x->{
+            x.getButton1().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    deThiCard21.update(x.getDethi());
+                    jDialog1.dispose();
+                }
+            });
+        });
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,6 +177,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         pagination1 = new Components.Pagination();
         customDateChooser2 = new Components.CustomDateTimeChooser();
+        jDialog1 = new javax.swing.JDialog();
+        listDeThi21 = new Components.ListDeThi2();
         roundedPanel1 = new Components.RoundedPanel();
         roundedPanel2 = new Components.RoundedPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -241,8 +263,15 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         button5.setText("Chọn đề thi");
         button5.setPreferredSize(new java.awt.Dimension(61, 36));
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
 
         deThiCard21.setOpaque(false);
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jSlider1.setMajorTickSpacing(15);
         jSlider1.setMaximum(120);
@@ -428,6 +457,19 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         customDateChooser2.setTextReference(myTextField2);
 
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addComponent(listDeThi21, javax.swing.GroupLayout.PREFERRED_SIZE, 898, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(listDeThi21, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+        );
+
         roundedPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         roundedPanel2.setBackground(new java.awt.Color(58, 138, 125));
@@ -553,6 +595,14 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         initData();
     }//GEN-LAST:event_button1ActionPerformed
 
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        initDSDeThi();
+        jDialog1.pack();
+        jDialog1.setModal(true);
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_button5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog XemBKT;
@@ -569,6 +619,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private Components.JCheckBoxCustom jCheckBoxCustom1;
     private Components.JCheckBoxCustom jCheckBoxCustom2;
     private Components.JCheckBoxCustom jCheckBoxCustom3;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -585,6 +636,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
+    private Components.ListDeThi2 listDeThi21;
     private Components.MyTextField myTextField1;
     private Components.MyTextField myTextField2;
     private Components.Pagination pagination1;

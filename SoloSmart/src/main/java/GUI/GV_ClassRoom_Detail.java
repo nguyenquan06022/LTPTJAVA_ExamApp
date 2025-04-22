@@ -26,7 +26,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
     private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
     private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
-    private LopHoc lopHoc;
+    public static  LopHoc lopHoc;
     private ArrayList<KetQuaHocTap> dsKQHT;
     private ArrayList<BaiKiemTra> dsBKT;
     public GV_ClassRoom_Detail() {

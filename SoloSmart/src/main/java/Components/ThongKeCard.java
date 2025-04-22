@@ -29,7 +29,7 @@ public class ThongKeCard extends javax.swing.JPanel {
         jLabel3.setText(title);
         circlePanel1.setPercentage(per);
         circlePanel1.setBackgroundCircleColor(bg);
-        roundedPanel1.setBackground(Color.decode("#"+bg));
+//        roundedPanel1.setBackground(Color.decode("#"+bg));
     }
     public void updateCard(String color1,String color2,String bg, String num, String icon, String title, int per){
         initComponents();
@@ -40,7 +40,7 @@ public class ThongKeCard extends javax.swing.JPanel {
         jLabel3.setText(title);
         circlePanel1.setPercentage(per);
         circlePanel1.setBackgroundCircleColor(bg);
-        roundedPanel1.setBackground(Color.decode("#"+bg));
+//        roundedPanel1.setBackground(Color.decode("#"+bg));
     }
 
     /**
