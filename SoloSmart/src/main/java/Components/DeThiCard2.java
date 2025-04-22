@@ -45,6 +45,14 @@ public class DeThiCard2 extends javax.swing.JPanel {
         return circleBackgroundPanel1;
     }
 
+    public DeThi getDethi() {
+        return dethi;
+    }
+
+    public void setDethi(DeThi dethi) {
+        this.dethi = dethi;
+    }
+
     
     
     /**

@@ -154,4 +154,31 @@ public class DsLuaChon_DAO {
         }
         return dsLuaChon;
     }
+    public ArrayList<LuaChons> getDSLuaChonTheoMa(String maCauHoi) {
+        EntityTransaction tr = em.getTransaction();
+        ArrayList<LuaChons> dsLuaChon = new ArrayList<>();
+        try {
+            tr.begin();
+            String sql = "SELECT dslc.maCauHoi, dslc.dapAnDung, dslc.luaChon FROM CauHois ch join dsLuaChon dslc\n" +
+                    "ON ch.maCauHoi = dslc.maCauHoi \n" +
+                    "WHERE dslc.macauhoi = ? AND ch.trangThai = 'enable'";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1,maCauHoi)
+                    .getResultList();
+            for (Object[] row : results) {
+                LuaChons luaChons = new LuaChons();
+                luaChons.setLuaChon((String) row[2]);
+                luaChons.setDapAnDung((boolean) row[1]);
+                dsLuaChon.add(luaChons);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi lấy danh sách lựa chọn", e);
+        }
+        return dsLuaChon;
+    }
 }

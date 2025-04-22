@@ -191,6 +191,9 @@ private void updateTextReference() {
             updateTextReference();
         }
     }
+     public LocalDateTime getSelectedDateTime() {
+        return LocalDateTime.of(selectedDate, selectedTime);
+    }
     // Nút ngày với highlight nếu được chọn
      private static class DayButton extends JButton {
         public DayButton(String text, boolean isSelected) {

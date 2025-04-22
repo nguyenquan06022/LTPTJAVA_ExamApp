@@ -35,7 +35,11 @@ public class RatioExam extends JRadioButton {
         setPreferredSize(new Dimension(300, 60)); // điều chỉnh kích thước đủ chứa text
         setText(null);
     }
-
+    public void updateRatio(String answerText){
+        this.answerText=answerText;
+        repaint();
+        revalidate();
+    }
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();

@@ -256,7 +256,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Nhập lời giải");
 
-        tfLoiGiai.setBackground(new java.awt.Color(204, 204, 204));
+        tfLoiGiai.setBackground(new java.awt.Color(246, 246, 246));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

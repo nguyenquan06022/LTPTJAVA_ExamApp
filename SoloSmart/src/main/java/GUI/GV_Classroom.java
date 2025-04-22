@@ -41,6 +41,7 @@ public class GV_Classroom extends javax.swing.JPanel {
         dsBKT= bkt_dao.getBaiKiemTraTheoTaiKhoanGV(Main_GUI.tk.getMaTaiKhoan());
         
         initComponents();
+        loadCombobox();
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
         loadData(1);
         pagination1.addEventPagination(new EventPagination(){
@@ -71,7 +72,8 @@ public class GV_Classroom extends javax.swing.JPanel {
                 monHoc, 
                 namHoc,
                 Main_GUI.tk.getMaTaiKhoan());
-         listLopHoc1.updateList(dsLopHocs);
+        loadData(1);
+//         listLopHoc1.updateList(dsLopHocs);
     }
     public void reloadData(){
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
@@ -88,6 +90,10 @@ public class GV_Classroom extends javax.swing.JPanel {
         .skip(skip)
         .limit(limit)
         .collect(Collectors.toCollection(ArrayList::new));
+        
+        listLopHoc1.updateList(lopHocsToShow);
+    }
+    public void loadCombobox(){
         comboBoxSuggestion1.removeAllItems();
         comboBoxSuggestion2.removeAllItems();
         comboBoxSuggestion1.addItem("Năm học");
@@ -98,7 +104,6 @@ public class GV_Classroom extends javax.swing.JPanel {
         mh_dao.getDanhSachMonHocCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()).forEach(x->{
             comboBoxSuggestion2.addItem(x.getTenMonHoc());
         });
-        listLopHoc1.updateList(lopHocsToShow);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -236,6 +241,7 @@ public class GV_Classroom extends javax.swing.JPanel {
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         reloadData();
+        loadCombobox();
     }//GEN-LAST:event_button2ActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed

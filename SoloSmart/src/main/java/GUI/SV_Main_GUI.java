@@ -5,7 +5,11 @@
 package GUI;
 
 import Dao.BaiKiemTra_DAO;
+import Dao.CauHoi_DAO;
+import Dao.LopHoc_DAO;
 import Entity.BaiKiemTra;
+import Entity.CauHoi;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,11 +22,14 @@ public class SV_Main_GUI extends javax.swing.JPanel {
      * Creates new form SV_Main_GUI
      */
     private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO(Main_GUI.em);
+    private CauHoi_DAO chdao= new CauHoi_DAO(Main_GUI.em);
     private List<BaiKiemTra> list;
     public SV_Main_GUI() {
         list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
         jLabel1.setText("Bài tập, Đề Thi chưa làm ("+list.size()+" bài )");
+        ArrayList<CauHoi> dsCauHoi= chdao.getDsCauHoiTheoDeThi("DT21042025021126461");
+        listCauHoiKiemTra1.updateList(dsCauHoi);
     }
 
     /**
@@ -43,6 +50,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
         roundedPanel1 = new Components.RoundedPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        listCauHoiKiemTra1 = new Components.ListCauHoiKiemTra();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -141,6 +149,9 @@ public class SV_Main_GUI extends javax.swing.JPanel {
                         .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(listExam1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
+                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,13 +161,13 @@ public class SV_Main_GUI extends javax.swing.JPanel {
                     .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(listExam1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
-                        .addGap(45, 45, 45))
-                    .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
-                        .addComponent(roundedPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(roundedPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(listExam1, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
+                .addGap(45, 45, 45))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -181,6 +192,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private Components.ListCauHoiKiemTra listCauHoiKiemTra1;
     private Components.ListExam listExam1;
     private Components.RoundedPanel roundedPanel1;
     private Components.RoundedPanel roundedPanel2;
