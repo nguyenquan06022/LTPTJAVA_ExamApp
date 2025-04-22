@@ -4,6 +4,7 @@
  */
 package Components;
 
+import Components.chart.ModelChart;
 import Dao.BaiKiemTra_DAO;
 import Dao.DeThi_DAO;
 import Dao.KetQuaHocTap_DAO;
@@ -12,6 +13,7 @@ import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.TaiKhoan;
 import GUI.Main_GUI;
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 import java.time.format.DateTimeFormatter;
@@ -157,6 +159,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         pagination1 = new Components.Pagination();
         customDateChooser2 = new Components.CustomDateTimeChooser();
+        DialogThongKe = new javax.swing.JDialog();
+        chart1 = new Components.chart.Chart(quantity);
         roundedPanel1 = new Components.RoundedPanel();
         roundedPanel2 = new Components.RoundedPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -262,6 +266,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         button6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-statistics-30.png"))); // NOI18N
         button6.setText("Thống kê");
         button6.setPreferredSize(new java.awt.Dimension(42, 40));
+        button6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button6ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout roundedPanel5Layout = new javax.swing.GroupLayout(roundedPanel5);
         roundedPanel5.setLayout(roundedPanel5Layout);
@@ -428,6 +437,21 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         customDateChooser2.setTextReference(myTextField2);
 
+        javax.swing.GroupLayout DialogThongKeLayout = new javax.swing.GroupLayout(DialogThongKe.getContentPane());
+        DialogThongKe.getContentPane().setLayout(DialogThongKeLayout);
+        DialogThongKeLayout.setHorizontalGroup(
+            DialogThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogThongKeLayout.createSequentialGroup()
+                .addComponent(chart1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        DialogThongKeLayout.setVerticalGroup(
+            DialogThongKeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogThongKeLayout.createSequentialGroup()
+                .addComponent(chart1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
         roundedPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         roundedPanel2.setBackground(new java.awt.Color(58, 138, 125));
@@ -552,9 +576,42 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         initData();
     }//GEN-LAST:event_button1ActionPerformed
+    private int quantity;
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+      String maBaiKiemTra = bkt.getMaBaiKiemTra();
+      Map<TaiKhoan, Float> map = bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(maBaiKiemTra);
+      
+        chart1.addLegend("Số lượng sinh viên", new Color(100, 149, 237));
+        int[] thongKeDiem = new int[10];
+        quantity = 0;
+        for (Float diem : map.values()) {
+            if (diem != null) {
+                int diemLamTron = (int) Math.ceil(diem);
+                if (diemLamTron >= 1 && diemLamTron <= 10) {
+                    thongKeDiem[diemLamTron-1]++;
+                    quantity++;
+                }
+            }
+        }
+        
+        for(int diem : thongKeDiem) {
+            System.out.println(diem);
+        }
+        
+        for (int i = 0; i < thongKeDiem.length; i++) {
+            String nhan = String.valueOf(i + 1);
+            chart1.addData(new ModelChart(nhan, new double[]{thongKeDiem[i]}));
+        }
+        
+        DialogThongKe.pack();
+        DialogThongKe.setModal(true);
+        DialogThongKe.setLocationRelativeTo(null);
+        DialogThongKe.setVisible(true);
+    }//GEN-LAST:event_button6ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog DialogThongKe;
     private javax.swing.JDialog XemBKT;
     private Components.Button button1;
     private Components.Button button2;
@@ -562,6 +619,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private Components.Button button4;
     private Components.Button button5;
     private Components.Button button6;
+    private Components.chart.Chart chart1;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private Components.CustomDateTimeChooser customDateChooser1;
     private Components.CustomDateTimeChooser customDateChooser2;
