@@ -4,6 +4,7 @@ import Components.Model_Card;
 import GUI.GV_Classroom;
 import GUI.GV_Exams;
 import GUI.Main_GUI;
+import GUI.SV_Classroom;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -159,6 +160,9 @@ public class Avatar extends javax.swing.JPanel {
             case "Class":
                 if(role.equalsIgnoreCase("GV")){
                     Main_GUI.main_panel.add(new GV_Classroom());
+                }
+                else if(role.equalsIgnoreCase("SV")){
+                    Main_GUI.main_panel.add(new SV_Classroom());
                 }
                 break;
             default:

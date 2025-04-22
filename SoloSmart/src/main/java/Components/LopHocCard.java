@@ -8,6 +8,7 @@ import Dao.MonHoc_DAO;
 import Entity.LopHoc;
 import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
+import GUI.SV_ClassRoom_Detail;
 import GUI.StudentDetailClassroom;
 
 /**
@@ -143,7 +144,7 @@ public class LopHocCard extends javax.swing.JPanel {
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
         if(Main_GUI.tk.getVaiTro().equalsIgnoreCase("SV")){
-            Main_GUI.main_panel.add(new StudentDetailClassroom());
+            Main_GUI.main_panel.add(new SV_ClassRoom_Detail(lophoc));
         }
         else{
             Main_GUI.main_panel.add(new GV_ClassRoom_Detail(lophoc));
