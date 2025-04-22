@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Chart extends javax.swing.JPanel {
 
-    private List<Components.chart.ModelLegend> legends = new ArrayList<>();
+    private ModelLegend legend;
     private List<ModelChart> model = new ArrayList<>();
     private final int seriesSize = 12;
     private final int seriesSpace = 6;
@@ -25,14 +25,14 @@ public class Chart extends javax.swing.JPanel {
 
             @Override
             public void renderSeries(BlankPlotChart chart, Graphics2D g2, SeriesSize size, int index) {
-                double totalSeriesWidth = (seriesSize * legends.size()) + (seriesSpace * (legends.size() - 1));
-                double x = (size.getWidth() - totalSeriesWidth) / 2;
-                for (int i = 0; i < legends.size(); i++) {
-                    ModelLegend legend = legends.get(i);
-                    g2.setColor(legend.getColor());
-                    double seriesValues = chart.getSeriesValuesOf(model.get(index).getValues()[i], size.getHeight());
-                    g2.fillRect((int) (size.getX() + x), (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
-                    x += seriesSpace + seriesSize;
+                if (model.size() > index && legend != null) {
+                    ModelChart currentModel = model.get(index);
+                    if (currentModel.getValues().length > 0) {
+                        g2.setColor(legend.getColor());
+                        double seriesValues = chart.getSeriesValuesOf(currentModel.getValues()[0], size.getHeight());
+                        double x = size.getX() + (size.getWidth() / model.size() * index) + (size.getWidth() / model.size() / 2) - (seriesSize / 2);
+                        g2.fillRect((int) x, (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
+                    }
                 }
             }
         });
@@ -48,23 +48,23 @@ public class Chart extends javax.swing.JPanel {
 
             @Override
             public void renderSeries(BlankPlotChart chart, Graphics2D g2, SeriesSize size, int index) {
-                double totalSeriesWidth = (seriesSize * legends.size()) + (seriesSpace * (legends.size() - 1));
-                double x = (size.getWidth() - totalSeriesWidth) / 2;
-                for (int i = 0; i < legends.size(); i++) {
-                    ModelLegend legend = legends.get(i);
-                    g2.setColor(legend.getColor());
-                    double seriesValues = chart.getSeriesValuesOf(model.get(index).getValues()[i], size.getHeight());
-                    g2.fillRect((int) (size.getX() + x), (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
-                    x += seriesSpace + seriesSize;
+                if (model.size() > index && legend != null) {
+                    ModelChart currentModel = model.get(index);
+                    if (currentModel.getValues().length > 0) {
+                        g2.setColor(legend.getColor());
+                        double seriesValues = chart.getSeriesValuesOf(currentModel.getValues()[0], size.getHeight());
+                        double x = size.getX() + (size.getWidth() / model.size() * index) + (size.getWidth() / model.size() / 2) - (seriesSize / 2);
+                        g2.fillRect((int) x, (int) (size.getY() + size.getHeight() - seriesValues), seriesSize, (int) seriesValues);
+                    }
                 }
             }
         });
     }
 
     public void addLegend(String name, Color color) {
-        ModelLegend data = new ModelLegend(name, color);
-        legends.add(data);
-        panelLegend.add(new LegendItem(data));
+        this.legend = new ModelLegend(name, color);
+        panelLegend.removeAll(); // Xóa các legend item cũ (nếu có)
+        panelLegend.add(new LegendItem(this.legend)); // Thêm legend item mới
         panelLegend.repaint();
         panelLegend.revalidate();
     }
@@ -77,7 +77,11 @@ public class Chart extends javax.swing.JPanel {
             blankPlotChart.setMaxValues(max);
         }
     }
-
+    public void clearData() {
+        model.clear();
+        blankPlotChart.setLabelCount(0); // Reset số lượng nhãn
+        blankPlotChart.repaint(); // Yêu cầu vẽ lại biểu đồ
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

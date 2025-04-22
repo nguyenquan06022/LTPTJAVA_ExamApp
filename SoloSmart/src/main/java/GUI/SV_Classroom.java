@@ -40,6 +40,7 @@ public class SV_Classroom extends javax.swing.JPanel {
         
         initComponents();
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        loadCombobox();
         loadData(1);
         pagination1.addEventPagination(new EventPagination(){
             @Override
@@ -54,7 +55,6 @@ public class SV_Classroom extends javax.swing.JPanel {
                 search();
             }
         });
-        loadCombobox();
     }
     public void search(){
         String search= searchTextField1.getText();
@@ -68,11 +68,12 @@ public class SV_Classroom extends javax.swing.JPanel {
                 monHoc, 
                 namHoc,
                 Main_GUI.tk.getMaTaiKhoan());
-         listLopHoc1.updateList(dsLopHocs);
+         loadData(1);
     }
     public void reloadData(){
         dsLopHocs= lh_dao.getDsLopHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
         loadData(1);
+        loadCombobox();
     }
     public void loadData(int page){
         int limit= 9;

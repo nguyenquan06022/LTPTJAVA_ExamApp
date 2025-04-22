@@ -77,8 +77,9 @@ public class ListCauHoiKiemTra extends JPanel{
         scrollPane.setOpaque(false);
         add(scrollPane, BorderLayout.CENTER);
     }
-    public boolean isAnswered() {
-        int index = 1;
+    public boolean isAnswered(int i) {
+        if(i==1){
+            int index = 1;
         for (CauHoiKiemTra x : dsCauHoi) {
             ButtonGroup buttonGroup = x.getButtonGroup1(); // Giả sử getButtonGroup1() trả về ButtonGroup của câu hỏi
 
@@ -99,6 +100,8 @@ public class ListCauHoiKiemTra extends JPanel{
             }
             index++; // Tăng index cho câu hỏi tiếp theo
         }
+        }
+        
         return true; // Tất cả các câu hỏi đã được trả lời
     }
 }

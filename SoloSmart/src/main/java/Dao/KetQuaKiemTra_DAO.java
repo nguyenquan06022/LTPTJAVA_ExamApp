@@ -151,7 +151,7 @@ public class KetQuaKiemTra_DAO {
         }
         return ketQuaKiemTra;
     }
-
+    
     public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;

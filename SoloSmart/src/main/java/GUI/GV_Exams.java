@@ -5,11 +5,13 @@
 package GUI;
 
 import Components.Avatar;
+import Components.EventPagination;
 import Components.Model_Card;
 import Dao.DeThi_DAO;
 import Entity.DeThi;
 import Entity.LopHoc;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 
 /**
@@ -27,8 +29,31 @@ public class GV_Exams extends javax.swing.JPanel {
         
         dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                loadData(page);
+            }
+            
+        });
     }
-
+    public void reload(){
+        dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
+        loadData(1);
+    }
+    public void loadData(int page){
+        
+        int limit= 6;
+        int totalPage=(int) Math.ceil((double)dsDeThi.size()/limit);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        ArrayList<DeThi> lopHocsToShow = dsDeThi.stream()
+        .skip(skip)
+        .limit(limit)
+        .collect(Collectors.toCollection(ArrayList::new));
+        listDeThi1.updateDsDeThi(lopHocsToShow);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +69,8 @@ public class GV_Exams extends javax.swing.JPanel {
         searchTextField1 = new Components.SearchTextField();
         button1 = new Components.Button();
         button2 = new Components.Button();
+        jPanel1 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
 
         setOpaque(false);
 
@@ -110,22 +137,29 @@ public class GV_Exams extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+                .addComponent(listDeThi1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(pagination1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -146,7 +180,9 @@ public class GV_Exams extends javax.swing.JPanel {
     private Components.Button button1;
     private Components.Button button2;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
+    private javax.swing.JPanel jPanel1;
     private Components.ListDeThi listDeThi1;
+    private Components.Pagination pagination1;
     private Components.RoundedPanel roundedPanel1;
     private Components.SearchTextField searchTextField1;
     // End of variables declaration//GEN-END:variables

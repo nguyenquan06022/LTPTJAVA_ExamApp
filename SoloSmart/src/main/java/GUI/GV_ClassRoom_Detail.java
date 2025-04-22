@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Components.BaiKiemTraCard;
 import Dao.BaiKiemTra_DAO;
 import Dao.KetQuaHocTap_DAO;
 import Dao.LopHoc_DAO;
@@ -11,7 +12,10 @@ import Dao.TaiKhoan_DAO;
 import Entity.BaiKiemTra;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,22 +26,25 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     /**
      * Creates new form GV_ClassRoom_Detail
      */
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
+    private  LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
     private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
-    private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
+    private static KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
+    private static BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
     public static  LopHoc lopHoc;
-    private ArrayList<KetQuaHocTap> dsKQHT;
-    private ArrayList<BaiKiemTra> dsBKT;
+    private static ArrayList<KetQuaHocTap> dsKQHT;
+    private static ArrayList<BaiKiemTra> dsBKT;
     public GV_ClassRoom_Detail() {
         initComponents();
         loadData();
+        
     }
     public GV_ClassRoom_Detail(LopHoc lopHoc){
         this.lopHoc=lopHoc;
         initComponents();
         
-        loadBKT();loadData();
+        loadBKT();
+        loadData();
+        
     }
     public void loadData(){
         
@@ -47,12 +54,12 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         jLabel1.setText("<html>"+lopHoc.getTenLop()+"</html>");
         jLabel1.setToolTipText(lopHoc.getTenLop());
     }
-    public void loadBKT(){
+    public static void loadBKT(){
         dsKQHT=kqht_dao.getDanhSachKetQuaHocTap(lopHoc.getMaLop());
         dsBKT= bkt_dao.getDanhSachBaiKiemTraTheoLop(lopHoc.getMaLop());
         listBaiKiemTra1.updateList(dsBKT);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,6 +72,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         jLabel1 = new javax.swing.JLabel();
         button1 = new Components.Button();
+        jLabel2 = new javax.swing.JLabel();
         roundedGradientPanel1 = new Components.RoundedGradientPanel();
         thongKeCard1 = new Components.ThongKeCard();
         thongKeCard2 = new Components.ThongKeCard();
@@ -83,7 +91,15 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         jLabel1.setText("jLabel1");
         jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
+        button1.setBackground(new java.awt.Color(0, 0, 0));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-add-30.png"))); // NOI18N
         button1.setText("Tạo bài kiểm tra");
+        button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Năm học: ");
 
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
         circleBackgroundPanel1.setLayout(circleBackgroundPanel1Layout);
@@ -92,8 +108,11 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel2))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
@@ -101,9 +120,11 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(101, 101, 101)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(441, Short.MAX_VALUE))
+                .addContainerGap(332, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout roundedGradientPanel1Layout = new javax.swing.GroupLayout(roundedGradientPanel1);
@@ -175,7 +196,8 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     private Components.Button button1;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
     private javax.swing.JLabel jLabel1;
-    private Components.ListBaiKiemTra listBaiKiemTra1;
+    private javax.swing.JLabel jLabel2;
+    private static Components.ListBaiKiemTra listBaiKiemTra1;
     private Components.RoundedGradientPanel roundedGradientPanel1;
     private Components.RoundedPanel roundedPanel1;
     private Components.ThongKeCard thongKeCard1;

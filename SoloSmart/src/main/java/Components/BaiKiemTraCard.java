@@ -4,18 +4,22 @@
  */
 package Components;
 
+import Components.chart.Chart;
 import Components.chart.ModelChart;
 import Dao.BaiKiemTra_DAO;
 import Dao.DeThi_DAO;
 import Dao.KetQuaHocTap_DAO;
+import Dao.KetQuaKiemTra_DAO;
 import Dao.LopHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
+import Entity.KetQuaKiemTra;
 import Entity.MonHoc;
 import Entity.TaiKhoan;
 import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
+import GUI.SV_KiemTra;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,6 +50,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private BaiKiemTra_DAO bkt_dao = new BaiKiemTra_DAO(Main_GUI.em);
     private KetQuaHocTap_DAO kqht_dao = new KetQuaHocTap_DAO(Main_GUI.em);
     private MonHoc_DAO mh_dao = new MonHoc_DAO(Main_GUI.em);
+    private KetQuaKiemTra_DAO kqkt_dao= new KetQuaKiemTra_DAO(Main_GUI.em);
     private BaiKiemTra bkt;
     private DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
     private DecimalFormat de = new DecimalFormat("#.##");
@@ -65,16 +71,56 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jLabel6.setText("Số lần làm bài: " + bkt.getSoLanLamBai());
         if (Main_GUI.tk.getVaiTro().equalsIgnoreCase("GV")) {
             button2.setText("Xem");
-            button2.addActionListener(x -> ButtonGVXem());
+            button2.addActionListener(x -> buttonGVXem());
             button3.setText("Xóa");
+            button3.addActionListener(x->buttonGVXoa());
         } else {
-
+            button2.addActionListener(x->buttonSVThamGia());
         }
     }
 
     private Map<TaiKhoan, Float> dsSVLamBaiKiemTra;
-
-    public void ButtonGVXem() {
+    public void buttonSVThamGia(){
+        LocalDateTime now= LocalDateTime.now();
+        ArrayList<KetQuaKiemTra> dsKQKT= kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra());
+        if(bkt.getThoiGianBatDau().isAfter(now)){
+            JOptionPane.showMessageDialog(null, "Chưa tới thời gian làm bài kiểm tra");
+        }
+        else if(bkt.getThoiGianKetThuc().isBefore(now)){
+            JOptionPane.showMessageDialog(null, "Đã hết thời gian làm bài kiểm tra");
+        }
+        else if(bkt.getSoLanLamBai()<dsKQKT.size()){
+            JOptionPane.showMessageDialog(null, "Đã hết lượt kafm bài kiểm tra");
+        }
+        else {
+            String matKhau= bkt.getMatKhauBaiKiemTra();
+            if(JOptionPane.showConfirmDialog(null, 
+                    "Khi bắt đầu bài kiểm tra, bạn sẽ không thể thoát ra giữa chừng. Nếu bạn thoát, bài làm sẽ tự động được nộp và kết quả sẽ được lưu lại.\nXác nhận kiểm tra?",
+                    "Xác nhận kiểm tra",JOptionPane.YES_NO_OPTION)
+                    ==JOptionPane.YES_OPTION){
+                if(matKhau==null||matKhau.trim().equals("")){
+                    initBaiKiemTra();
+                }
+                else{
+                    String nhapMatKhau= JOptionPane.showInputDialog(null,"Vui lòng nhập mật khẩu để bắt đầu bài kiểm tra");
+                    if(nhapMatKhau==null){
+                        return;
+                    }
+                    if(!nhapMatKhau.equalsIgnoreCase(matKhau)){
+                        JOptionPane.showMessageDialog(null, "Mật khẩu không đúng, vui lòng thử lại");
+                        return;
+                    }
+                    initBaiKiemTra();
+                }
+            }
+        }
+    }
+    public void initBaiKiemTra(){
+        SV_KiemTra kiemTraGUI= new SV_KiemTra(bkt);
+        kiemTraGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        kiemTraGUI.setVisible(true);
+    }
+    public void buttonGVXem() {
         dsSVLamBaiKiemTra = bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(bkt.getMaBaiKiemTra());
         int soLuongSV = dsSVLamBaiKiemTra.size();
         int tongSV = kqht_dao.getDanhSachKetQuaHocTap(bkt.getLopHoc().getMaLop()).size();
@@ -101,7 +147,16 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         XemBKT.setLocationRelativeTo(null);
         XemBKT.setVisible(true);
     }
-
+    public void buttonGVXoa(){
+        if(JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa bài kiểm tra này không?","Xóa bài kiểm tra",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            if(bkt_dao.deleteBaiKiemTra(bkt.getMaBaiKiemTra())){
+                GV_ClassRoom_Detail.loadBKT();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Xóa thất bại");
+            }
+        }
+    }
     public void initData() {
         jCheckBoxCustom1.setSelected(bkt.isChoPhepXemDiem());
         jCheckBoxCustom2.setSelected(bkt.isChoPhepXemLai());
@@ -154,6 +209,10 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         });
     }
 
+    public static Button getButton4() {
+        return button4;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -521,7 +580,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         customDateChooser2.setTextReference(myTextField2);
 
+        DialogThongKe.setTitle("Biểu đồ phân phối điểm");
+        DialogThongKe.setIconImage(new ImageIcon(getClass().getResource("/Image/favicon_1.png")).getImage());
         DialogThongKe.setResizable(false);
+
+        chart1.setToolTipText("");
 
         javax.swing.GroupLayout DialogThongKeLayout = new javax.swing.GroupLayout(DialogThongKe.getContentPane());
         DialogThongKe.getContentPane().setLayout(DialogThongKeLayout);
@@ -671,10 +734,18 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         else{
             BaiKiemTra bktUpdate= new BaiKiemTra(bkt.getMaBaiKiemTra(),
                     customDateChooser1.getSelectedDateTime(), customDateChooser2.getSelectedDateTime(), 
-                    jSlider1.getValue(),new String(myPasswordField1.getPassword()),
+                    jSlider1.getValue(),new String(myPasswordField1.getPassword()).trim(),
                     jCheckBoxCustom1.isSelected(), jCheckBoxCustom2.isSelected(), jCheckBoxCustom3.isSelected(),
                     (Integer)jSpinner1.getValue(), 
-                    10, 0.2f, "enable", deThiCard21.getDethi(),GV_ClassRoom_Detail.lopHoc);
+                    10, Float.parseFloat(comboBoxSuggestion1.getSelectedItem().toString()),
+                    "enable", deThiCard21.getDethi(),GV_ClassRoom_Detail.lopHoc);
+            if(bkt_dao.updateBaiKiemTra(bktUpdate)){
+                JOptionPane.showMessageDialog(null, "Cập nhật bài kiểm tra thành công");
+                GV_ClassRoom_Detail.loadBKT();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Cập nhật bài kiểm tra thất bại");
+            }
         }
     }//GEN-LAST:event_button4ActionPerformed
     private boolean eye=false;
@@ -717,8 +788,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private void button6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button6ActionPerformed
         String maBaiKiemTra = bkt.getMaBaiKiemTra();
         Map<TaiKhoan, Float> map = bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(maBaiKiemTra);
-
-        chart1.addLegend("Số lượng sinh viên", Color.decode("#3a8a7d"));
+        
+       
         int[] thongKeDiem = new int[10];
         quantity = 0;
         for (Float diem : map.values()) {
@@ -731,10 +802,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             }
         }
 
-        for (int diem : thongKeDiem) {
-            System.out.println(diem);
-        }
-
+        chart1.clearData();
+        chart1.addLegend("Số lượng sinh viên", Color.decode("#3a8a7d"));
         for (int i = 0; i < thongKeDiem.length; i++) {
             String nhan = String.valueOf(i + 1);
             chart1.addData(new ModelChart(nhan, new double[] { thongKeDiem[i] }));
@@ -760,7 +829,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private Components.Button button1;
     private Components.Button button2;
     private Components.Button button3;
-    private Components.Button button4;
+    public static Components.Button button4;
     private Components.Button button5;
     private Components.Button button6;
     private Components.Button button7;

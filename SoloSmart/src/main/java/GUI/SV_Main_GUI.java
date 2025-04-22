@@ -28,8 +28,6 @@ public class SV_Main_GUI extends javax.swing.JPanel {
         list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
         jLabel1.setText("Bài tập, Đề Thi chưa làm ("+list.size()+" bài )");
-        ArrayList<CauHoi> dsCauHoi= chdao.getDsCauHoiTheoDeThi("DT21042025021126461");
-        listCauHoiKiemTra1.updateList(dsCauHoi);
     }
 
     /**
@@ -50,7 +48,6 @@ public class SV_Main_GUI extends javax.swing.JPanel {
         roundedPanel1 = new Components.RoundedPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        listCauHoiKiemTra1 = new Components.ListCauHoiKiemTra();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -149,9 +146,6 @@ public class SV_Main_GUI extends javax.swing.JPanel {
                         .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(listExam1, javax.swing.GroupLayout.PREFERRED_SIZE, 567, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
-                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,9 +157,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(circleBackgroundPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(roundedPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 472, Short.MAX_VALUE)
                 .addComponent(listExam1, javax.swing.GroupLayout.DEFAULT_SIZE, 6, Short.MAX_VALUE)
                 .addGap(45, 45, 45))
         );
@@ -192,7 +184,6 @@ public class SV_Main_GUI extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private Components.ListCauHoiKiemTra listCauHoiKiemTra1;
     private Components.ListExam listExam1;
     private Components.RoundedPanel roundedPanel1;
     private Components.RoundedPanel roundedPanel2;

@@ -40,8 +40,8 @@ public class GV_Classroom extends javax.swing.JPanel {
         dsBKT= bkt_dao.getBaiKiemTraTheoTaiKhoanGV(Main_GUI.tk.getMaTaiKhoan());
         
         initComponents();
-        loadCombobox();
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        initComboBox();
         loadData(1);
         pagination1.addEventPagination(new EventPagination(){
             @Override
@@ -68,11 +68,11 @@ public class GV_Classroom extends javax.swing.JPanel {
                 monHoc, 
                 namHoc,
                 Main_GUI.tk.getMaTaiKhoan());
-        loadData(1);
-//         listLopHoc1.updateList(dsLopHocs);
+         loadData(1);
     }
     public void reloadData(){
         //fix
+        initComboBox();
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
         loadData(1);
     }
@@ -88,12 +88,10 @@ public class GV_Classroom extends javax.swing.JPanel {
         .limit(limit)
         .collect(Collectors.toCollection(ArrayList::new));
         
-<<<<<<< HEAD
+        
         listLopHoc1.updateList(lopHocsToShow);
     }
-    public void loadCombobox(){
-=======
->>>>>>> d42ed6eb4fbdee2c514e22feef67b734edad1534
+    public void initComboBox(){
         comboBoxSuggestion1.removeAllItems();
         comboBoxSuggestion2.removeAllItems();
         comboBoxSuggestion1.addItem("Năm học");
@@ -244,7 +242,6 @@ public class GV_Classroom extends javax.swing.JPanel {
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         reloadData();
-        loadCombobox();
     }//GEN-LAST:event_button2ActionPerformed
 
     private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
