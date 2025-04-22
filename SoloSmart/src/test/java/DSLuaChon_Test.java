@@ -69,7 +69,7 @@ public class DSLuaChon_Test {
         String luaChonMoi = "Đáp án A";
 
         // Cập nhật lựa chọn
-        boolean isUpdated = dsLuaChonDAO.capNhatLuaChon(maCauHoi, luaChonCu, luaChonMoi);
+        boolean isUpdated = dsLuaChonDAO.capNhatLuaChon(maCauHoi, luaChonCu, luaChonMoi,true);
 
         assertTrue(isUpdated, "Không cập nhật được lựa chọn!");
 

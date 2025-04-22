@@ -12,9 +12,12 @@ import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.TaiKhoan;
 import GUI.Main_GUI;
+import java.text.DecimalFormat;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.stream.Collectors;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -26,12 +29,13 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     /**
      * Creates new form BaiKiemTraCard
      */
-    private CustomDateChooser datech= new CustomDateChooser();
+    private CustomDateTimeChooser datech= new CustomDateTimeChooser();
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
     private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
     private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
     private BaiKiemTra bkt;
-    DateTimeFormatter df= DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+    private DateTimeFormatter df= DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+    private DecimalFormat de = new DecimalFormat("#.##");
     public BaiKiemTraCard() {
         initComponents();
     }
@@ -55,22 +59,66 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             
         }
     }
+    private Map<TaiKhoan, Float> dsSVLamBaiKiemTra;
     public void ButtonGVXem(){
-        Map<TaiKhoan, Float> dsSVLamBaiKiemTra= bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(bkt.getMaBaiKiemTra());
+        dsSVLamBaiKiemTra= bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(bkt.getMaBaiKiemTra());
         int soLuongSV= dsSVLamBaiKiemTra.size();
         int tongSV= kqht_dao.getDanhSachKetQuaHocTap(bkt.getLopHoc().getMaLop()).size();
+        initData();
         float trungBinhDiem = (float) dsSVLamBaiKiemTra.values()
                     .stream()
                     .mapToDouble(Float::doubleValue)
                     .average()
                     .orElse(0.0);
         thongKeCard1.updateCard("E74888", "885FBF","F66060",soLuongSV+"", "icons8-user-groups-50", "Số sinh viên làm bài kiểm tra", (int) (((float)soLuongSV/tongSV)*100));
-        thongKeCard2.updateCard("38419D", "52D3D8","38419D",trungBinhDiem+"", "icons8-test-50", "Điểm trung bình", (int) (((float)trungBinhDiem/10)*100));
+        thongKeCard2.updateCard("38419D", "52D3D8","38419D",de.format(trungBinhDiem)+"", "icons8-test-50", "Điểm trung bình", (int) (((float)trungBinhDiem/10)*100));
+        loadTable(1);
+        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                loadTable(page);
+            }
+            
+        });
         XemBKT.pack();
         XemBKT.setLocationRelativeTo(null);
         XemBKT.setVisible(true);
     }
-
+    public void initData(){
+        jCheckBoxCustom1.setSelected(bkt.isChoPhepXemDiem());
+        jCheckBoxCustom2.setSelected(bkt.isChoPhepXemLai());
+        jCheckBoxCustom3.setSelected(bkt.isHienThiDapAn());
+        deThiCard21.update(dt_dao.getDeThi(bkt.getDeThi().getMaDeThi()));
+        customDateChooser1.setDateTime(bkt.getThoiGianBatDau());
+        customDateChooser2.setDateTime(bkt.getThoiGianKetThuc());
+        jSlider1.setValue(bkt.getThoiGianLamBai());
+        jLabel11.setText(bkt.getThoiGianLamBai()+" phút");
+        jSpinner1.setValue(bkt.getSoLanLamBai());
+    }
+    public void loadTable(int page){
+        int limit =10;
+        int totalPage=(int) Math.ceil((double)dsSVLamBaiKiemTra.size()/limit);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        System.out.println(dsSVLamBaiKiemTra.size());
+        Map<TaiKhoan, Float> listToShow= dsSVLamBaiKiemTra.entrySet().stream()
+                                        .skip(skip)
+                                        .limit(limit)
+                                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        DefaultTableModel model= (DefaultTableModel) jTable1.getModel();
+        System.out.println(listToShow.size());
+        model.setRowCount(0);
+        listToShow.entrySet().forEach(x->{
+            TaiKhoan sv= x.getKey();
+            Float diem= x.getValue();
+            model.addRow(new Object[]{
+                sv.getHo()+" "+sv.getTen(), diem
+            });
+        });
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,7 +128,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        customDateChooser1 = new Components.CustomDateChooser();
+        customDateChooser1 = new Components.CustomDateTimeChooser();
         XemBKT = new javax.swing.JDialog();
         roundedPanel4 = new Components.RoundedPanel();
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
@@ -90,9 +138,25 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jCheckBoxCustom1 = new Components.JCheckBoxCustom();
         jCheckBoxCustom2 = new Components.JCheckBoxCustom();
         jCheckBoxCustom3 = new Components.JCheckBoxCustom();
-        spinner1 = new Components.Spinner();
         jLabel7 = new javax.swing.JLabel();
         myTextField1 = new Components.MyTextField();
+        jLabel8 = new javax.swing.JLabel();
+        myTextField2 = new Components.MyTextField();
+        jLabel9 = new javax.swing.JLabel();
+        button1 = new Components.Button();
+        button4 = new Components.Button();
+        button5 = new Components.Button();
+        deThiCard21 = new Components.DeThiCard2();
+        jSpinner1 = new javax.swing.JSpinner();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        button6 = new Components.Button();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
+        customDateChooser2 = new Components.CustomDateTimeChooser();
         roundedPanel1 = new Components.RoundedPanel();
         roundedPanel2 = new Components.RoundedPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -120,9 +184,9 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(thongKeCard1, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+                .addComponent(thongKeCard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(thongKeCard2, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                .addComponent(thongKeCard2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(14, 14, 14))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
@@ -135,6 +199,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        roundedPanel5.setBackground(new java.awt.Color(247, 247, 247));
+
         jCheckBoxCustom1.setText("Cho phép xem điểm");
 
         jCheckBoxCustom2.setText("Cho phép xem lại");
@@ -143,6 +209,60 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         jLabel7.setText("Số lần làm lại:");
 
+        myTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Ngày bắt đầu:");
+
+        myTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Ngày kết thúc:");
+
+        button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
+        button1.setText("Đặt lại");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
+
+        button4.setBackground(new java.awt.Color(0, 0, 0));
+        button4.setForeground(new java.awt.Color(255, 255, 255));
+        button4.setText("Cập nhật");
+        button4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button4.setPreferredSize(new java.awt.Dimension(47, 40));
+
+        button5.setText("Chọn đề thi");
+        button5.setPreferredSize(new java.awt.Dimension(61, 36));
+
+        deThiCard21.setOpaque(false);
+
+        jSlider1.setMajorTickSpacing(15);
+        jSlider1.setMaximum(120);
+        jSlider1.setMinimum(5);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
+        jLabel10.setText("Thời gian làm bài:");
+
+        jLabel11.setText("jLabel11");
+
+        button6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-statistics-30.png"))); // NOI18N
+        button6.setText("Thống kê");
+        button6.setPreferredSize(new java.awt.Dimension(42, 40));
+
         javax.swing.GroupLayout roundedPanel5Layout = new javax.swing.GroupLayout(roundedPanel5);
         roundedPanel5.setLayout(roundedPanel5Layout);
         roundedPanel5Layout.setHorizontalGroup(
@@ -150,44 +270,122 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             .addGroup(roundedPanel5Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCheckBoxCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(80, 80, 80)
-                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(roundedPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(roundedPanel5Layout.createSequentialGroup()
-                        .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(myTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(deThiCard21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, Short.MAX_VALUE)
+                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(button5, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                                .addComponent(button6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         roundedPanel5Layout.setVerticalGroup(
             roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(roundedPanel5Layout.createSequentialGroup()
                 .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61))
                     .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                        .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(myTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel8))
+                                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                                .addGap(28, 28, 28)
+                                                .addComponent(jLabel9))
+                                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jCheckBoxCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(15, 15, 15)
+                                                .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jLabel11))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
                         .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(deThiCard21, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(roundedPanel5Layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(roundedPanel5Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(spinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(42, 42, 42)))
-                .addComponent(jCheckBoxCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                                .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Họ tên", "Điểm"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(pagination1);
 
         javax.swing.GroupLayout roundedPanel4Layout = new javax.swing.GroupLayout(roundedPanel4);
         roundedPanel4.setLayout(roundedPanel4Layout);
@@ -195,6 +393,12 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(roundedPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(roundedPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         roundedPanel4Layout.setVerticalGroup(
             roundedPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +406,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(roundedPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 45, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
 
         javax.swing.GroupLayout XemBKTLayout = new javax.swing.GroupLayout(XemBKT.getContentPane());
@@ -213,8 +421,12 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         );
         XemBKTLayout.setVerticalGroup(
             XemBKTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(XemBKTLayout.createSequentialGroup()
+                .addComponent(roundedPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
+
+        customDateChooser2.setTextReference(myTextField2);
 
         roundedPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -325,30 +537,62 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void myTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myTextField1ActionPerformed
+
+    private void myTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myTextField2ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        jLabel11.setText(jSlider1.getValue()+" phút");
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        initData();
+    }//GEN-LAST:event_button1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog XemBKT;
+    private Components.Button button1;
     private Components.Button button2;
     private Components.Button button3;
+    private Components.Button button4;
+    private Components.Button button5;
+    private Components.Button button6;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
-    private Components.CustomDateChooser customDateChooser1;
+    private Components.CustomDateTimeChooser customDateChooser1;
+    private Components.CustomDateTimeChooser customDateChooser2;
+    private Components.DeThiCard2 deThiCard21;
     private Components.JCheckBoxCustom jCheckBoxCustom1;
     private Components.JCheckBoxCustom jCheckBoxCustom2;
     private Components.JCheckBoxCustom jCheckBoxCustom3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JTable jTable1;
     private Components.MyTextField myTextField1;
+    private Components.MyTextField myTextField2;
+    private Components.Pagination pagination1;
     private Components.RoundedPanel roundedPanel1;
     private Components.RoundedPanel roundedPanel2;
     private Components.RoundedPanel roundedPanel3;
     private Components.RoundedPanel roundedPanel4;
     private Components.RoundedPanel roundedPanel5;
-    private Components.Spinner spinner1;
     private Components.ThongKeCard thongKeCard1;
     private Components.ThongKeCard thongKeCard2;
     // End of variables declaration//GEN-END:variables

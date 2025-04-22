@@ -4,21 +4,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 
-public class CustomDateChooser extends JPanel {
+public class CustomDateTimeChooser extends JPanel {
     private YearMonth currentMonth;
     private JPanel daysPanel;
     private JLabel monthLabel;
     private LocalDate selectedDate;
+    private LocalTime selectedTime;
     private JTextField textReference;
     private final JPopupMenu popup = new JPopupMenu();
+    private JSpinner hourSpinner;
+    private JSpinner minuteSpinner;
 
-    public CustomDateChooser() {
+    public CustomDateTimeChooser() {
         setLayout(new BorderLayout());
         selectedDate = LocalDate.now();
+        selectedTime = LocalTime.now();
         currentMonth = YearMonth.from(selectedDate);
-
 
         // Header: tháng/năm và nút điều hướng
         JPanel header = new JPanel(new BorderLayout());
@@ -36,6 +42,24 @@ public class CustomDateChooser extends JPanel {
         // Panel hiển thị ngày
         daysPanel = new JPanel(new GridLayout(0, 7));
         add(daysPanel, BorderLayout.CENTER);
+
+        // Panel chọn giờ và phút
+        JPanel timePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        timePanel.setBackground(Color.WHITE);
+        SpinnerModel hourModel = new SpinnerNumberModel(selectedTime.getHour(), 0, 23, 1);
+        hourSpinner = new JSpinner(hourModel);
+        JSpinner.NumberEditor hourEditor = new JSpinner.NumberEditor(hourSpinner, "00");
+        hourSpinner.setEditor(hourEditor);
+        timePanel.add(new JLabel("Giờ:"));
+        timePanel.add(hourSpinner);
+
+        SpinnerModel minuteModel = new SpinnerNumberModel(selectedTime.getMinute(), 0, 59, 1);
+        minuteSpinner = new JSpinner(minuteModel);
+        JSpinner.NumberEditor minuteEditor = new JSpinner.NumberEditor(minuteSpinner, "00");
+        minuteSpinner.setEditor(minuteEditor);
+        timePanel.add(new JLabel("Phút:"));
+        timePanel.add(minuteSpinner);
+        add(timePanel, BorderLayout.SOUTH);
 
         prev.addActionListener(e -> {
             currentMonth = currentMonth.minusMonths(1);
@@ -75,17 +99,15 @@ public class CustomDateChooser extends JPanel {
         for (; day <= daysInMonth; day++) {
             final int d = day;
             boolean isSelected = selectedDate != null &&
-                selectedDate.getYear() == currentMonth.getYear() &&
-                selectedDate.getMonthValue() == currentMonth.getMonthValue() &&
-                selectedDate.getDayOfMonth() == d;
+                    selectedDate.getYear() == currentMonth.getYear() &&
+                    selectedDate.getMonthValue() == currentMonth.getMonthValue() &&
+                    selectedDate.getDayOfMonth() == d;
 
             DayButton btn = new DayButton(String.valueOf(d), isSelected);
             btn.addActionListener(e -> {
                 selectedDate = LocalDate.of(currentMonth.getYear(), currentMonth.getMonth(), d);
                 updateCalendar(); // Cập nhật lại highlight
-                if (textReference != null) {
-                    textReference.setText(selectedDate.toString());
-                }
+                updateTextReference();
                 popup.setVisible(false);
             });
             daysPanel.add(btn);
@@ -106,13 +128,34 @@ public class CustomDateChooser extends JPanel {
                 showPopup();
             }
         });
-        // Mặc định hiện ngày hôm nay
+        // Mặc định hiện ngày và giờ hôm nay
         if (selectedDate == null) {
             selectedDate = LocalDate.now();
         }
-        textReference.setText(selectedDate.toString());
-    }
+        if (selectedTime == null) {
+            selectedTime = LocalTime.now();
+            ((SpinnerNumberModel) hourSpinner.getModel()).setValue(selectedTime.getHour());
+            ((SpinnerNumberModel) minuteSpinner.getModel()).setValue(selectedTime.getMinute());
+        }
+        updateTextReference();
 
+        hourSpinner.addChangeListener(e -> {
+            selectedTime = LocalTime.of((Integer) hourSpinner.getValue(), selectedTime.getMinute());
+            updateTextReference();
+        });
+
+        minuteSpinner.addChangeListener(e -> {
+            selectedTime = LocalTime.of(selectedTime.getHour(), (Integer) minuteSpinner.getValue());
+            updateTextReference();
+        });
+    }
+private void updateTextReference() {
+        if (textReference != null) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            textReference.setText( timeFormatter.format(selectedTime)+ " " +dateFormatter.format(selectedDate) );
+        }
+    }
     private void showPopup() {
         if (popup.isVisible()) {
             popup.setVisible(false);
@@ -135,15 +178,27 @@ public class CustomDateChooser extends JPanel {
     public LocalDate getSelectedDate() {
         return selectedDate;
     }
+     public void setDateTime(LocalDateTime dateTime) {
+        if (dateTime != null) {
+            selectedDate = dateTime.toLocalDate();
+            selectedTime = dateTime.toLocalTime();
+            currentMonth = YearMonth.from(selectedDate);
 
+            // Cập nhật giao diện
+            ((SpinnerNumberModel) hourSpinner.getModel()).setValue(selectedTime.getHour());
+            ((SpinnerNumberModel) minuteSpinner.getModel()).setValue(selectedTime.getMinute());
+            updateCalendar();
+            updateTextReference();
+        }
+    }
     // Nút ngày với highlight nếu được chọn
-    private static class DayButton extends JButton {
+     private static class DayButton extends JButton {
         public DayButton(String text, boolean isSelected) {
             super(text);
             setFocusPainted(false);
             setBorderPainted(false);
             setOpaque(true);
-            setBackground(isSelected ? new Color(220, 80, 60) : Color.WHITE);
+            setBackground(isSelected ? Color.decode("#3a8a7d") : Color.WHITE);
             setForeground(isSelected ? Color.WHITE : Color.BLACK);
             setFont(new Font("SansSerif", Font.PLAIN, 12));
         }
