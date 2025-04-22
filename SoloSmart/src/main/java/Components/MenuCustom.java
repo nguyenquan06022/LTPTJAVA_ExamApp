@@ -14,6 +14,7 @@ import GUI.DangNhapGUI;
 import GUI.GV_Classroom;
 import GUI.GV_Exams;
 import GUI.Main_GUI;
+import GUI.SV_Classroom;
 import GUI.SV_Main_GUI;
 import GUI.StudentClassroom;
 import com.sun.java.accessibility.util.AWTEventMonitor;
@@ -105,7 +106,7 @@ public class MenuCustom extends javax.swing.JPanel {
                     Main_GUI.main_panel.add(new Admin_Classrom());
                 } else if (role.equalsIgnoreCase("SV")) {
                   
-                    Main_GUI.main_panel.add(new StudentClassroom());
+                    Main_GUI.main_panel.add(new SV_Classroom());
                 }
                 else if(role.equalsIgnoreCase("GV")){
                     Main_GUI.main_panel.add(new GV_Classroom());
@@ -432,7 +433,7 @@ public class MenuCustom extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
         String maTaiKhoan = Main_GUI.tk.getMaTaiKhoan();
         String ho = tfHo.getText().trim();
         String ten = tfTen.getText().trim();
