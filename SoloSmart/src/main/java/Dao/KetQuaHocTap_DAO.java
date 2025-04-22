@@ -1,8 +1,6 @@
 package Dao;
 
-import Entity.KetQuaHocTap;
-import Entity.LopHoc;
-import Entity.TaiKhoan;
+import Entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import org.apache.poi.ss.usermodel.Row;
@@ -15,7 +13,9 @@ import java.io.FileInputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KetQuaHocTap_DAO {
     private EntityManager em;
@@ -189,5 +189,41 @@ public class KetQuaHocTap_DAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Map<String, Float> getDiemHocTapCuaSinhVien(String maTaiKhoan, String maLop) {
+        Map<String, Float> map = new HashMap<>();
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT bkt.heSo as heSo, AVG(kqkt.diemSo) as diem " +
+                    "FROM KetQuaKiemTras kqkt " +
+                    "JOIN BaiKiemTras bkt ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra " +
+                    "JOIN LopHocs lh ON lh.maLop = bkt.maLop " +
+                    "WHERE kqkt.maTaiKhoan = ? AND lh.maLop = ? " +
+                    "AND kqkt.diemCaoNhat = 1 " +
+                    "GROUP BY bkt.heSo";
+
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .setParameter(2, maLop)
+                    .getResultList();
+
+            for (Object[] row : results) {
+                if (row[0] != null && row[1] != null) {
+                    String heSo = row[0].toString();
+                    float diem = ((Number) row[1]).floatValue();
+                    map.put(heSo, diem);
+                }
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi lấy kết quả học tập của sinh viên", e);
+        }
+
+        return map;
     }
 }

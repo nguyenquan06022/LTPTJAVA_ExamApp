@@ -1219,7 +1219,13 @@ public class Admin_Account extends javax.swing.JPanel {
     }//GEN-LAST:event_button3ActionPerformed
 
     private void button14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button14ActionPerformed
-        // TODO add your handling code here:
+           JnaFileChooser fileChooser = new JnaFileChooser();
+            if (fileChooser.showOpenDialog(null)) {
+                 File selectedFile = fileChooser.getSelectedFile();
+                String filePath = selectedFile.getAbsolutePath();
+                tk_dao.importTaiKhoanFromExcel(filePath);
+                JOptionPane.showMessageDialog(null, "Thêm danh sách tài khoản thành công","Thông báo",JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_button14ActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed

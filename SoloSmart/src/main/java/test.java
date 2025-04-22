@@ -16,40 +16,8 @@ public class test {
         public static void main(String[] args) {
                 LocalDateTime now = LocalDateTime.now();
                 em = CreateDB.createDB();
-                // KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
-                // System.out.println(ketQuaKiemTraDao.getDsDiemTheoBaiKiemTra("LH08042025145310626","BKT08042025145318159"));
 
-                // BaiKiemTra_DAO baiKiemTraDao = new BaiKiemTra_DAO(em);
-                // for (Map.Entry<TaiKhoan,Float> entry :
-                // baiKiemTraDao.getDsTaiKhoanThamGiaKiemTraVaDiemSo("BKT08042025145318159").entrySet())
-                // {
-                // System.out.println(entry.getKey() + " " + entry.getValue());
-                // }
-
-                // KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
-                // System.out.println(ketQuaKiemTraDao.tinhDiemChoSinhVien("TK10042025175716521","BKT10042025175726138"));
-
-                // DeThi_DAO deThiDao = new DeThi_DAO(em);
-                // System.out.println(deThiDao.filterDeThiCuaGiaoVien("","","","TK14042025101852237"));
-
-                // TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
-                // taiKhoanDao.importTaiKhoanFromExcel("C:\\Users\\Admin\\Desktop\\taikhoan.xlsx");
-                //
-                // taiKhoanDao.exportDsTaiKhoanVuaThemToExcel("C:\\Users\\Admin\\Desktop\\export.xlsx");
-//                LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
-//                System.out.println(lopHocDao.filterLopHocCuaSinhVien("","","","","TK14042025233131460"));
-//                TaiKhoan_DAO tkdao = new TaiKhoan_DAO(em);
-//                System.out.println(tkdao.updateTrangThaiOnline(new TaiKhoan("TK16042025161236560")));
-
-
-                // load de thi
-                DeThi_DAO deThiDao = new DeThi_DAO(em);
-                CauHoi_DAO cauHoiDao = new CauHoi_DAO(em);
-                DsLuaChon_DAO luaChonDao = new DsLuaChon_DAO(em);
-
-                System.out.println(deThiDao.getDeThi("DT16042025161236701"));
-                System.out.println(cauHoiDao.getDsCauHoiTheoDeThi("DT16042025161236701"));
-                System.out.println(luaChonDao.getDSLuaChonTheoDeThi("DT16042025161236701"));
-
+                KetQuaHocTap_DAO ketQuaHocTap_dao = new KetQuaHocTap_DAO(em);
+                System.out.println(ketQuaHocTap_dao.getDiemHocTapCuaSinhVien("TK21042025233255336","LH21042025233255773"));
         }
 }

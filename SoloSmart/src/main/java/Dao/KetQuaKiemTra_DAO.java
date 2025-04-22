@@ -98,6 +98,7 @@ public class KetQuaKiemTra_DAO {
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaKiemTra> danhSachKetQua = new ArrayList<>();
         try {
+            tr.begin();
             String sql = "SELECT maketquakiemtra, DiemCaoNhat, diemso, lanthu, thoigianlambai, mabaiKiemTra, mataikhoan " +
                     "FROM ketquakiemtras WHERE mataikhoan = ? AND mabaiKiemTra = ?";
 
@@ -119,6 +120,7 @@ public class KetQuaKiemTra_DAO {
 
                 danhSachKetQua.add(ketQua);
             }
+            tr.commit();
         }  catch (Exception e) {
             if (tr.isActive()) {
                 tr.rollback();
