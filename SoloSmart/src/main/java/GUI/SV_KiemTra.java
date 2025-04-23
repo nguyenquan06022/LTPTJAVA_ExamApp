@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.swing.*;
 
 /**
@@ -166,10 +168,25 @@ public class SV_KiemTra extends javax.swing.JFrame {
         
         //cập nhật lại kết quả học tập của sinh viên
         Map<String, Float> map = ketQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getLopHoc().getMaLop());
-        float diemThuongKy = map.get("0.2");
-        float diemGiuaKy = map.get("0.3");
-        float diemCuoiKy = map.get("0.5");
-        float diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
+        List<String> key= map.entrySet().stream().map(x->x.getKey()).collect(Collectors.toList());
+        
+        float diemThuongKy=-1;
+        float diemGiuaKy =-1;
+        float diemCuoiKy=-1;
+        if(key.contains("0.2")){
+            diemThuongKy = map.get("0.2");
+        }
+        else if(key.contains("0.3")){
+            diemGiuaKy = map.get("0.3");
+        }
+        else if(key.contains("0.5")){
+            diemCuoiKy = map.get("0.5");
+        }
+        float diemTBMon=-1;
+        if(!(diemThuongKy==-1||diemGiuaKy==-1||diemCuoiKy==-1)){
+            diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
+        }
+        
         KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy,diemGiuaKy,diemCuoiKy,diemTBMon,tk,new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
         ketQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
         dispose();

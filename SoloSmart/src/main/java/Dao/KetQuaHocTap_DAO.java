@@ -125,10 +125,10 @@ public class KetQuaHocTap_DAO {
             String sql = "UPDATE KetQuaHocTaps SET diemCuoiKy = ?, diemGiuaKy = ?, diemTBMon = ?, diemThuongKy = ? " +
                     "WHERE maTaiKhoan = ? AND maLop = ?";
             em.createNativeQuery(sql)
-                    .setParameter(1, ketQuaHocTap.getDiemCuoiKy())
-                    .setParameter(2, ketQuaHocTap.getDiemGiuaKy())
-                    .setParameter(3, ketQuaHocTap.getDiemTBMon())
-                    .setParameter(4, ketQuaHocTap.getDiemThuongKy())
+                    .setParameter(1, ketQuaHocTap.getDiemCuoiKy()<0?null:ketQuaHocTap.getDiemCuoiKy())
+                    .setParameter(2, ketQuaHocTap.getDiemGiuaKy()<0?null:ketQuaHocTap.getDiemGiuaKy())
+                    .setParameter(3, ketQuaHocTap.getDiemTBMon()<0?null:ketQuaHocTap.getDiemTBMon())
+                    .setParameter(4, ketQuaHocTap.getDiemThuongKy()<0?null:ketQuaHocTap.getDiemThuongKy())
                     .setParameter(5, ketQuaHocTap.getTaiKhoan().getMaTaiKhoan())
                     .setParameter(6, ketQuaHocTap.getLopHoc().getMaLop())
                     .executeUpdate();
