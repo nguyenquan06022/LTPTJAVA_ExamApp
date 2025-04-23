@@ -121,7 +121,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         pagination1.addEventPagination(new EventPagination(){
             @Override
             public void pageChanged(int page) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                initPag(page);
             }
             
         });

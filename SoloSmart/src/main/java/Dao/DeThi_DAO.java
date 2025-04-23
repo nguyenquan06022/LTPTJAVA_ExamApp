@@ -151,7 +151,7 @@ public class DeThi_DAO {
             tr.begin();
             String sql = """
                          select dt.* 
-                         from dethis dt inner join baikiemtras bkt on dt.madethi=bkt.madethi
+                         from dethis dt 
                          where monHoc like ? and dt.trangThai='enable' and dt.maTaiKhoan =?
                          group by dt.maDeThi, dt.linkFile, dt.monHoc, dt.soLuongCauHoi,dt.tenDeThi,dt.trangThai, dt.maNganHang, dt.maTaiKhoan
                          """;

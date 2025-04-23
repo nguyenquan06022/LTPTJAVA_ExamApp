@@ -82,7 +82,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         };
         jTable1.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
         jTable1.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
-        initTable();
+        
         
         searchTextField1.addActionListener(x->{
             
@@ -95,7 +95,7 @@ public class Admin_Subject extends javax.swing.JPanel {
             }
             
         });
-        
+        initTable();
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
         initPage(1);
         pagination1.addEventPagination(new EventPagination(){
@@ -119,6 +119,7 @@ public class Admin_Subject extends javax.swing.JPanel {
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
     public void initTable(){
+        list=mh_dao.getDanhSachMonHoc();
         initPage(1);
                 
     }
@@ -581,7 +582,7 @@ public class Admin_Subject extends javax.swing.JPanel {
                 .addGap(0, 0, 0)
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
                 .addGap(5, 5, 5)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -594,7 +595,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
