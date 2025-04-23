@@ -70,6 +70,7 @@ public class CauHoiKiemTra extends javax.swing.JPanel {
         jTextArea1.setEditable(false);
         jTextArea1.setBackground(new java.awt.Color(246, 246, 246));
         jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setWrapStyleWord(true);
