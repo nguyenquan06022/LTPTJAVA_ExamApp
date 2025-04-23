@@ -105,7 +105,9 @@ public class RatioExam extends JRadioButton {
         g2.dispose();
     }
 
-
+    public String getCircleText() {
+        return this.circleText;
+    }
 }
 
 

@@ -212,13 +212,15 @@
                                                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                                           <Component id="jCheckBoxCustom3" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                                                          <Group type="103" groupAlignment="3" attributes="0">
-                                                              <Component id="jLabel7" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                                                              <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                          <Group type="103" groupAlignment="0" attributes="0">
                                                               <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                                                               <Component id="comboBoxSuggestion1" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                                  <Component id="jLabel7" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                                                                  <Component id="jSpinner1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                                  <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                              </Group>
                                                           </Group>
                                                       </Group>
                                                   </Group>
@@ -227,9 +229,11 @@
                                           <EmptySpace type="unrelated" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                                  <Component id="myPasswordField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
                                                   <Component id="button7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="3" attributes="0">
+                                                      <Component id="myPasswordField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                                  </Group>
                                               </Group>
                                           </Group>
                                           <EmptySpace pref="3" max="32767" attributes="0"/>

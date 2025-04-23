@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -103,5 +104,25 @@ public class ListCauHoiKiemTra extends JPanel{
         }
         
         return true; // Tất cả các câu hỏi đã được trả lời
+    }
+    
+    public List<String> getDsLuaChonCuaSinhVien() {
+        List<String> dsLuaChon = new ArrayList<>();
+        int i = 1;
+         for (CauHoiKiemTra x : dsCauHoi) {
+            ButtonGroup buttonGroup = x.getButtonGroup1();
+            Enumeration<AbstractButton> buttons = buttonGroup.getElements();
+                while (buttons.hasMoreElements()) {
+                AbstractButton button = buttons.nextElement();
+                if (button.isSelected()) {
+                    if (button instanceof RatioExam) {
+                        RatioExam ratio = (RatioExam) button;
+                        dsLuaChon.add(i+"."+ratio.getCircleText());
+                    }
+                }
+            }
+                i++;
+         }
+        return dsLuaChon;
     }
 }

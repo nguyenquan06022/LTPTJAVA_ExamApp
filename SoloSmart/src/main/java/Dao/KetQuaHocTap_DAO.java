@@ -196,13 +196,14 @@ public class KetQuaHocTap_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT bkt.heSo as heSo, AVG(kqkt.diemSo) as diem " +
-                    "FROM KetQuaKiemTras kqkt " +
-                    "JOIN BaiKiemTras bkt ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra " +
-                    "JOIN LopHocs lh ON lh.maLop = bkt.maLop " +
-                    "WHERE kqkt.maTaiKhoan = ? AND lh.maLop = ? " +
-                    "AND kqkt.diemCaoNhat = 1 " +
-                    "GROUP BY bkt.heSo";
+            String sql = "SELECT bkt.heSo as heSo, AVG(kqkt.diemSo) as diem\n" +
+                    "FROM KetQuaKiemTras kqkt\n" +
+                    "JOIN BaiKiemTras bkt ON kqkt.maBaiKiemTra = bkt.maBaiKiemTra\n" +
+                    "JOIN LopHocs lh ON lh.maLop = bkt.maLop\n" +
+                    "WHERE kqkt.maTaiKhoan = ? and bkt.maLop = ?\n" +
+                    "and kqkt.diemCaoNhat = 1\n" +
+                    "GROUP BY bkt.heSo\n" +
+                    "ORDER BY heSo asc";
 
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, maTaiKhoan)

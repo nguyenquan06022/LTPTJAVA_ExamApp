@@ -63,7 +63,6 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         this.bkt = bkt;
         initComponents();
         DeThi dt = dt_dao.getDeThi(bkt.getDeThi().getMaDeThi());
-        System.out.println(dt);
         jLabel2.setText(dt.getTenDeThi());
         jLabel3.setText("Thời gian bắt đầu: " + df.format(bkt.getThoiGianBatDau()));
         jLabel4.setText("Thời gian kết thúc: " + df.format(bkt.getThoiGianKetThuc()));
@@ -90,10 +89,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Đã hết thời gian làm bài kiểm tra");
         }
         else if(bkt.getSoLanLamBai()<dsKQKT.size()){
-            JOptionPane.showMessageDialog(null, "Đã hết lượt kafm bài kiểm tra");
+            JOptionPane.showMessageDialog(null, "Đã hết lượt làm bài kiểm tra");
         }
         else {
             String matKhau= bkt.getMatKhauBaiKiemTra();
+            System.out.println("mat khâu " + matKhau);
             if(JOptionPane.showConfirmDialog(null, 
                     "Khi bắt đầu bài kiểm tra, bạn sẽ không thể thoát ra giữa chừng. Nếu bạn thoát, bài làm sẽ tự động được nộp và kết quả sẽ được lưu lại.\nXác nhận kiểm tra?",
                     "Xác nhận kiểm tra",JOptionPane.YES_NO_OPTION)
@@ -487,19 +487,21 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                                                 .addGap(15, 15, 15)
                                                 .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(20, 20, 20)
-                                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(jLabel10)
-                                                    .addComponent(jLabel11)
+                                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel13)
-                                                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                                    .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel10)
+                                                        .addComponent(jLabel11)))))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
-                                    .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(button7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(button7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE))))
                     .addGroup(roundedPanel5Layout.createSequentialGroup()
                         .addGap(9, 9, 9)

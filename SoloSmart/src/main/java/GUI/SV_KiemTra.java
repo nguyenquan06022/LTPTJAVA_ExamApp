@@ -7,11 +7,17 @@ package GUI;
 import Dao.BaiKiemTra_DAO;
 import Dao.CauHoi_DAO;
 import Dao.DeThi_DAO;
-import Entity.BaiKiemTra;
-import Entity.CauHoi;
-import Entity.DeThi;
+import Dao.DsCauTraLoi_DAO;
+import Dao.KetQuaHocTap_DAO;
+import Dao.KetQuaKiemTra_DAO;
+import Entity.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import java.util.ArrayList;
-import javax.swing.JFrame;
+import java.util.List;
+import java.util.Map;
+import javax.swing.*;
 
 /**
  *
@@ -25,13 +31,23 @@ public class SV_KiemTra extends javax.swing.JFrame {
     private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO(Main_GUI.em);
     private CauHoi_DAO chdao= new CauHoi_DAO(Main_GUI.em);
     private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
+    private DsCauTraLoi_DAO dsCauTraLoi_DAO = new DsCauTraLoi_DAO(Main_GUI.em);
+    private KetQuaKiemTra_DAO ketQuaKiemTra_DAO = new KetQuaKiemTra_DAO(Main_GUI.em);
+    private KetQuaHocTap_DAO ketQuaHocTap_DAO = new KetQuaHocTap_DAO(Main_GUI.em);
+    private BaiKiemTra baiKiemTra;
+    private TaiKhoan tk;
+    private LocalDateTime startTime;
+    
     public SV_KiemTra() {
         initComponents();
     }
     public SV_KiemTra(BaiKiemTra bkt){
+        this.baiKiemTra = bkt;
+        this.tk = Main_GUI.tk;
         initComponents();
         ArrayList<CauHoi> dsCauHoi= chdao.getDsCauHoiTheoDeThi(bkt.getDeThi().getMaDeThi());
         listCauHoiKiemTra1.updateList(dsCauHoi);
+        startTime = LocalDateTime.now(); // Ghi lại thời gian bắt đầu
     }
 
     /**
@@ -117,6 +133,45 @@ public class SV_KiemTra extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+
+        LocalDateTime endTime = LocalDateTime.now(); // Thời gian kết thúc
+        long durationInMinutes = Duration.between(startTime, endTime).toMinutes(); // Tính phút
+
+        if (durationInMinutes == 0) {
+            durationInMinutes = 1; // Tối thiểu ghi nhận là 1 phút nếu quá nhanh
+        }
+        // tạo kết quả kiểm tra
+        String maKqkt = ketQuaKiemTra_DAO.generateMa();
+        boolean diemCaoNhat = true;
+        float diemSo = 0;
+        int lanThu = 1;
+        // tạm cho là 10p
+        int thoiGianLamBai = (int) durationInMinutes;
+        
+        ketQuaKiemTra_DAO.themKetQuaKiemTra(new KetQuaKiemTra(maKqkt,diemSo,thoiGianLamBai,lanThu,diemCaoNhat,baiKiemTra,tk));
+        
+        //lấy ra danh sách câu trả lời
+        List<String> dsCauTraLoi = listCauHoiKiemTra1.getDsLuaChonCuaSinhVien();
+        //themCauTraLoi
+        for(String cauTraLoi : dsCauTraLoi) {
+            boolean kq = dsCauTraLoi_DAO.themCauTraLoi(maKqkt, cauTraLoi);
+            System.out.println(kq);
+        }
+        //tinhDiemChoSinhVien
+        float diem = ketQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
+        //update điểm
+        ketQuaKiemTra_DAO.updateKetQuaKiemTra(new KetQuaKiemTra(maKqkt,diem,thoiGianLamBai,lanThu,diemCaoNhat,baiKiemTra,tk));
+        //updateDiemCaoNhatChoBaiKiemTraCuaSinhVien
+        ketQuaKiemTra_DAO.updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
+        
+        //cập nhật lại kết quả học tập của sinh viên
+        Map<String, Float> map = ketQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getLopHoc().getMaLop());
+        float diemThuongKy = map.get("0.2");
+        float diemGiuaKy = map.get("0.3");
+        float diemCuoiKy = map.get("0.5");
+        float diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
+        KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy,diemGiuaKy,diemCuoiKy,diemTBMon,tk,new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
+        ketQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
         dispose();
     }//GEN-LAST:event_button1ActionPerformed
 
