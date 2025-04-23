@@ -26,7 +26,7 @@ import javax.swing.*;
  * @author THANH PHU
  */
 public class SV_KiemTra extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form SV_KiemTra
      */
@@ -39,18 +39,47 @@ public class SV_KiemTra extends javax.swing.JFrame {
     private BaiKiemTra baiKiemTra;
     private TaiKhoan tk;
     private LocalDateTime startTime;
+    private LocalDateTime endTime;
+    private int thoiGianConLai;
+    private Timer timer;
+    
+    public void checkThoiGianConLai() {
+    timer = new Timer(1000, e -> {
+        LocalDateTime now = LocalDateTime.now();
+
+        // Kiểm tra nếu thời gian hiện tại đã qua thời gian kết thúc hoặc thời gian còn lại <= 0
+        if (now.isAfter(endTime) || thoiGianConLai <= 0) {
+            timer.stop(); // Dừng Timer
+            JOptionPane.showMessageDialog(this, "Đã hết giờ làm bài!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            button1ActionPerformed(null); // Gọi sự kiện nộp bài
+            return;
+        }
+
+        thoiGianConLai--;
+
+        // Cập nhật label thời gian còn lại theo định dạng mm:ss
+        int minutes = thoiGianConLai / 60;
+        int seconds = thoiGianConLai % 60;
+        lbThoiGianConLai.setText(String.format("%02d:%02d", minutes, seconds));
+    });
+
+        timer.start(); // Bắt đầu đếm ngược
+    }
     
     public SV_KiemTra() {
         initComponents();
     }
+    
     public SV_KiemTra(BaiKiemTra bkt){
         this.baiKiemTra = bkt;
+        this.thoiGianConLai = bkt.getThoiGianLamBai() * 60;
         this.tk = Main_GUI.tk;
         initComponents();
         ArrayList<CauHoi> dsCauHoi= chdao.getDsCauHoiTheoDeThi(bkt.getDeThi().getMaDeThi());
         listCauHoiKiemTra1.updateList(dsCauHoi);
         startTime = LocalDateTime.now(); // Ghi lại thời gian bắt đầu
-        
+        endTime = baiKiemTra.getThoiGianKetThuc();
+        checkThoiGianConLai();
     }
     
     
@@ -67,7 +96,7 @@ public class SV_KiemTra extends javax.swing.JFrame {
         listCauHoiKiemTra1 = new Components.ListCauHoiKiemTra();
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         button1 = new Components.Button();
-        jLabel1 = new javax.swing.JLabel();
+        lbThoiGianConLai = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -95,15 +124,22 @@ public class SV_KiemTra extends javax.swing.JFrame {
 
         circleBackgroundPanel1.setColor1(new java.awt.Color(58, 138, 125));
 
-        button1.setText("nộp");
+        button1.setBackground(new java.awt.Color(0, 0, 0));
+        button1.setForeground(new java.awt.Color(255, 255, 255));
+        button1.setText("Nộp bài");
+        button1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("12:20");
+        lbThoiGianConLai.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbThoiGianConLai.setForeground(new java.awt.Color(255, 255, 255));
+        lbThoiGianConLai.setText("12:20");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Thời gian còn lại:");
 
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
@@ -113,10 +149,13 @@ public class SV_KiemTra extends javax.swing.JFrame {
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
+                        .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbThoiGianConLai, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 57, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +163,7 @@ public class SV_KiemTra extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(lbThoiGianConLai)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(207, 207, 207))
@@ -245,9 +284,9 @@ public class SV_KiemTra extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbThoiGianConLai;
     private Components.ListCauHoiKiemTra listCauHoiKiemTra1;
     // End of variables declaration//GEN-END:variables
 }
