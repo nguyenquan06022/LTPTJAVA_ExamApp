@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
  * @author Admin
  */
 public class DeThiCard2 extends javax.swing.JPanel {
-    private DeThi dethi;
+    private DeThi dethi= null;
     /**
      * Creates new form DeThiCard
      */
@@ -52,7 +52,9 @@ public class DeThiCard2 extends javax.swing.JPanel {
     public void setDethi(DeThi dethi) {
         this.dethi = dethi;
     }
-
+    public void setNull(){
+        this.dethi=null;
+    }
     
     
     /**

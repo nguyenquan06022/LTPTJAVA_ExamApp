@@ -169,6 +169,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jSpinner1.setValue(bkt.getSoLanLamBai());
         comboBoxSuggestion1.setSelectedItem(bkt.getHeSo()+"");
         myPasswordField1.setText(bkt.getMatKhauBaiKiemTra());
+        eye=false;
     }
 
     public void loadTable(int page) {
@@ -198,7 +199,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         MonHoc mon = mh_dao.getMonHoc(GV_ClassRoom_Detail.lopHoc.getMonHoc().getMaMonHoc());
         ArrayList<DeThi> dsDeThi = dt_dao.getDanhSachDeThiTheoMonCuaGV(Main_GUI.tk.getMaTaiKhoan(), mon.getTenMonHoc());
         listDeThi21.updateDsDeThi(dsDeThi);
-        listDeThi21.dsCard.forEach(x -> {
+        listDeThi21.getDsCard().forEach(x -> {
             x.getButton1().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -358,7 +359,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
         deThiCard21.setOpaque(false);
 
-        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         jSlider1.setMajorTickSpacing(15);
         jSlider1.setMaximum(120);
@@ -498,10 +499,8 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
-                                    .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(button7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(button7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, Short.MAX_VALUE))))
                     .addGroup(roundedPanel5Layout.createSequentialGroup()
                         .addGap(9, 9, 9)

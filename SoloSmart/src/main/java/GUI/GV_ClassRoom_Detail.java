@@ -5,16 +5,23 @@
 package GUI;
 
 import Components.BaiKiemTraCard;
+import Components.DeThiCard2;
 import Dao.BaiKiemTra_DAO;
+import Dao.DeThi_DAO;
 import Dao.KetQuaHocTap_DAO;
 import Dao.LopHoc_DAO;
+import Dao.MonHoc_DAO;
 import Dao.TaiKhoan_DAO;
 import Entity.BaiKiemTra;
+import Entity.DeThi;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
+import Entity.MonHoc;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -30,6 +37,8 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
     private static KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
     private static BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
+    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
+    private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
     public static  LopHoc lopHoc;
     private static ArrayList<KetQuaHocTap> dsKQHT;
     private static ArrayList<BaiKiemTra> dsBKT;
@@ -53,6 +62,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         thongKeCard3.updateCard("F3825F", "FFE26F","F66060", dsBKT.size()+"", "icons8-statistics-50", "Số bài kiểm tra", 60);
         jLabel1.setText("<html>"+lopHoc.getTenLop()+"</html>");
         jLabel1.setToolTipText(lopHoc.getTenLop());
+        jLabel2.setText("Năm học: "+lopHoc.getNamHoc());
     }
     public static void loadBKT(){
         dsKQHT=kqht_dao.getDanhSachKetQuaHocTap(lopHoc.getMaLop());
@@ -69,16 +79,281 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        roundedPanel5 = new Components.RoundedPanel();
+        jCheckBoxCustom1 = new Components.JCheckBoxCustom();
+        jCheckBoxCustom2 = new Components.JCheckBoxCustom();
+        jCheckBoxCustom3 = new Components.JCheckBoxCustom();
+        jLabel7 = new javax.swing.JLabel();
+        myTextField1 = new Components.MyTextField();
+        jLabel8 = new javax.swing.JLabel();
+        myTextField2 = new Components.MyTextField();
+        jLabel9 = new javax.swing.JLabel();
+        button4 = new Components.Button();
+        button5 = new Components.Button();
+        button6 = new Components.Button();
+        jSpinner1 = new javax.swing.JSpinner();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        myPasswordField1 = new Components.MyPasswordField();
+        button8 = new Components.Button();
+        comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
+        jLabel13 = new javax.swing.JLabel();
+        deThiCard21 = new Components.DeThiCard2();
+        customDateChooser1 = new Components.CustomDateTimeChooser();
+        customDateChooser2 = new Components.CustomDateTimeChooser();
+        jDialog2 = new javax.swing.JDialog();
+        listDeThi21 = new Components.ListDeThi2();
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         jLabel1 = new javax.swing.JLabel();
         button1 = new Components.Button();
         jLabel2 = new javax.swing.JLabel();
+        button2 = new Components.Button();
+        button3 = new Components.Button();
         roundedGradientPanel1 = new Components.RoundedGradientPanel();
         thongKeCard1 = new Components.ThongKeCard();
         thongKeCard2 = new Components.ThongKeCard();
         thongKeCard3 = new Components.ThongKeCard();
         roundedPanel1 = new Components.RoundedPanel();
         listBaiKiemTra1 = new Components.ListBaiKiemTra();
+
+        jDialog1.setBackground(new java.awt.Color(255, 255, 255));
+        jDialog1.setModal(true);
+
+        roundedPanel5.setBackground(new java.awt.Color(247, 247, 247));
+
+        jCheckBoxCustom1.setText("Cho phép xem điểm");
+
+        jCheckBoxCustom2.setText("Cho phép xem lại");
+
+        jCheckBoxCustom3.setText("Hiển thị đáp án");
+
+        jLabel7.setText("Số lần làm bài:");
+
+        myTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Ngày bắt đầu:");
+
+        myTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myTextField2ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Ngày kết thúc:");
+
+        button4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
+        button4.setText("Đặt lại");
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
+
+        button5.setBackground(new java.awt.Color(0, 0, 0));
+        button5.setForeground(new java.awt.Color(255, 255, 255));
+        button5.setText("Tạo bài kiểm tra");
+        button5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button5.setPreferredSize(new java.awt.Dimension(47, 40));
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
+
+        button6.setText("Chọn đề thi");
+        button6.setPreferredSize(new java.awt.Dimension(61, 36));
+        button6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button6ActionPerformed(evt);
+            }
+        });
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jSlider1.setMajorTickSpacing(15);
+        jSlider1.setMaximum(120);
+        jSlider1.setMinimum(5);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setValue(30);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
+        jLabel10.setText("Thời gian làm bài:");
+
+        jLabel11.setText("30 phút");
+
+        jLabel12.setText("Mật khẩu:");
+
+        myPasswordField1.setPreferredSize(new java.awt.Dimension(64, 40));
+        myPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myPasswordField1ActionPerformed(evt);
+            }
+        });
+
+        button8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eye_closed.png"))); // NOI18N
+        button8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button8ActionPerformed(evt);
+            }
+        });
+
+        comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "0.2", "0.3", "0.5" }));
+
+        jLabel13.setText("Hệ số:");
+
+        deThiCard21.setOpaque(false);
+
+        javax.swing.GroupLayout roundedPanel5Layout = new javax.swing.GroupLayout(roundedPanel5);
+        roundedPanel5.setLayout(roundedPanel5Layout);
+        roundedPanel5Layout.setHorizontalGroup(
+            roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(deThiCard21, javax.swing.GroupLayout.PREFERRED_SIZE, 439, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jCheckBoxCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6))
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(button8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(myTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jSlider1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(10, 10, 10))
+        );
+        roundedPanel5Layout.setVerticalGroup(
+            roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addComponent(myTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(myTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8))
+                                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
+                                        .addComponent(jLabel9))
+                                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                                        .addGap(15, 15, 15)
+                                        .addComponent(jCheckBoxCustom2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(15, 15, 15)
+                                        .addComponent(jCheckBoxCustom3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(20, 20, 20)
+                                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel13)
+                                            .addComponent(comboBoxSuggestion1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel10)
+                                                .addComponent(jLabel11)))))))
+                        .addGap(27, 27, 27)
+                        .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(button8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(myPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGap(141, 141, 141)
+                        .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(roundedPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addComponent(deThiCard21, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))
+                    .addGroup(roundedPanel5Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(button6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(button4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(button5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundedPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundedPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        customDateChooser1.setTextReference(myTextField1);
+
+        customDateChooser2.setTextReference(myTextField2);
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog2Layout.createSequentialGroup()
+                .addComponent(listDeThi21, javax.swing.GroupLayout.PREFERRED_SIZE, 898, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(listDeThi21, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+        );
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -96,10 +371,33 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-add-30.png"))); // NOI18N
         button1.setText("Tạo bài kiểm tra");
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Năm học: ");
+
+        button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-reload-30.png"))); // NOI18N
+        button2.setText("Làm mới");
+        button2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
+
+        button3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-statistics-30.png"))); // NOI18N
+        button3.setText("Thống kê GPA");
+        button3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout circleBackgroundPanel1Layout = new javax.swing.GroupLayout(circleBackgroundPanel1);
         circleBackgroundPanel1.setLayout(circleBackgroundPanel1Layout);
@@ -107,12 +405,14 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                    .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         circleBackgroundPanel1Layout.setVerticalGroup(
@@ -122,9 +422,13 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addGap(101, 101, 101)
+                .addGap(26, 26, 26)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(332, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(287, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout roundedGradientPanel1Layout = new javax.swing.GroupLayout(roundedGradientPanel1);
@@ -190,16 +494,159 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
                 .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+    public void initThemBKT(){
+        jCheckBoxCustom1.setSelected(false);
+        jCheckBoxCustom2.setSelected(false);
+        jCheckBoxCustom3.setSelected(false);
+        jSpinner1.setValue(1);
+        myPasswordField1.setText("");
+        jSlider1.setValue(30);
+        customDateChooser1.setDateTime(LocalDateTime.now());
+        customDateChooser2.setDateTime(LocalDateTime.now().plusMinutes(30));
+        deThiCard21.setNull();
+        deThiCard21.setVisible(false);
+        myPasswordField1.setEchoChar('*');
+        button8.setIcon(new ImageIcon(BaiKiemTraCard.class.getResource("/Image/eye_closed.png")));
+        eye=false;
+    }
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        initThemBKT();
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        loadData();
+        loadBKT();
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button3ActionPerformed
+
+    private void myTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myTextField1ActionPerformed
+
+    private void myTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myTextField2ActionPerformed
+
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+        initThemBKT();
+    }//GEN-LAST:event_button4ActionPerformed
+
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        LocalDateTime now= LocalDateTime.now();
+        if(customDateChooser1.getSelectedDateTime().isAfter(customDateChooser2.getSelectedDateTime())){
+            JOptionPane.showMessageDialog(null, "Thời gian bắt đầu phải trước thời gian kết thúc");
+            
+        }else if(customDateChooser1.getSelectedDateTime().plusMinutes(1).isBefore(now)){
+            JOptionPane.showMessageDialog(null, "Thời gian bắt đầu phải sau hiện tại 1 phút");
+        }
+        else if(deThiCard21.getDethi()==null){
+            JOptionPane.showMessageDialog(null, "Hãy chọn đề thi cho bài kiểm tra");
+        }
+        else{
+            BaiKiemTra newBKT= new BaiKiemTra(bkt_dao.generateMa(), 
+                    customDateChooser1.getSelectedDateTime(), customDateChooser2.getSelectedDateTime(), 
+                    jSlider1.getValue()
+                    , new String(myPasswordField1.getPassword()), 
+                    jCheckBoxCustom1.isSelected(), jCheckBoxCustom2.isSelected(), jCheckBoxCustom3.isSelected(),
+                    (int) jSpinner1.getValue(),10
+                    ,Float.parseFloat(comboBoxSuggestion1.getSelectedItem().toString()),"enable",deThiCard21.getDethi(), lopHoc);
+            if(bkt_dao.themBaiKiemTra(newBKT)){
+                JOptionPane.showMessageDialog(null, "Thêm bài kiểm tra thành công");
+                jDialog1.dispose();
+                loadBKT();
+            }else{
+                JOptionPane.showMessageDialog(null, "Thêm bài kiểm tra thất bại");
+            }
+        }
+            
+    }//GEN-LAST:event_button5ActionPerformed
+
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+        MonHoc mon = mh_dao.getMonHoc(GV_ClassRoom_Detail.lopHoc.getMonHoc().getMaMonHoc());
+        ArrayList<DeThi> dsDeThi = dt_dao.getDanhSachDeThiTheoMonCuaGV(Main_GUI.tk.getMaTaiKhoan(), mon.getTenMonHoc());
+        listDeThi21.updateDsDeThi(dsDeThi);
+        listDeThi21.getDsCard().forEach(x -> {
+            x.getButton1().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    deThiCard21.update(x.getDethi());
+                    jDialog2.dispose();
+                    deThiCard21.setVisible(true);
+                }
+            });
+        });
+        jDialog2.pack();
+        jDialog2.setLocationRelativeTo(null);
+        jDialog2.setModal(true);
+        jDialog2.setVisible(true);
+    }//GEN-LAST:event_button6ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        jLabel11.setText(jSlider1.getValue()+" phút");
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void myPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myPasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myPasswordField1ActionPerformed
+    private boolean eye=false;
+    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button8ActionPerformed
+        if(!eye){
+            myPasswordField1.setEchoChar((char)0);
+            button8.setIcon(new ImageIcon(BaiKiemTraCard.class.getResource("/Image/eye_open.png")));
+            eye=true;
+
+        }
+        else{
+            myPasswordField1.setEchoChar('*');
+            button8.setIcon(new ImageIcon(BaiKiemTraCard.class.getResource("/Image/eye_closed.png")));
+            eye=false;
+        }
+    }//GEN-LAST:event_button8ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
+    private Components.Button button2;
+    private Components.Button button3;
+    private Components.Button button4;
+    public static Components.Button button5;
+    private Components.Button button6;
+    private Components.Button button8;
     private Components.CircleBackgroundPanel circleBackgroundPanel1;
+    private Components.ComboBoxSuggestion comboBoxSuggestion1;
+    private Components.CustomDateTimeChooser customDateChooser1;
+    private Components.CustomDateTimeChooser customDateChooser2;
+    private Components.DeThiCard2 deThiCard21;
+    private Components.JCheckBoxCustom jCheckBoxCustom1;
+    private Components.JCheckBoxCustom jCheckBoxCustom2;
+    private Components.JCheckBoxCustom jCheckBoxCustom3;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSpinner jSpinner1;
     private static Components.ListBaiKiemTra listBaiKiemTra1;
+    private Components.ListDeThi2 listDeThi21;
+    private Components.MyPasswordField myPasswordField1;
+    private Components.MyTextField myTextField1;
+    private Components.MyTextField myTextField2;
     private Components.RoundedGradientPanel roundedGradientPanel1;
     private Components.RoundedPanel roundedPanel1;
+    private Components.RoundedPanel roundedPanel5;
     private Components.ThongKeCard thongKeCard1;
     private Components.ThongKeCard thongKeCard2;
     private Components.ThongKeCard thongKeCard3;

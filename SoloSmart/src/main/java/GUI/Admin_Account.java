@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Components.EventPagination;
+import Components.PaginationItemRenderStyle1;
 import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -47,6 +50,7 @@ public class Admin_Account extends javax.swing.JPanel {
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
     private ArrayList<KetQuaHocTap> dsKQHT= new ArrayList<>();
+    private ArrayList<TaiKhoan> list= new ArrayList<>();
     public Admin_Account() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -114,18 +118,40 @@ public class Admin_Account extends javax.swing.JPanel {
         jTable1.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         jTable1.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(event));
         initTable();
-        
+        initPag(1);
         //search
         searchTextField1.addActionListener(x->{
             filterTaiKhoan();
+        });
+        
+        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                initPag(page);
+            }
+            
         });
     }
     public void initTable(){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        ArrayList<TaiKhoan> list= tk_dao.getDanhSachTaiKhoan();
-        updateTable(list);
+        list= tk_dao.getDanhSachTaiKhoan();
+        initPag(1);
                 
+    }
+    public void initPag(int page){
+        int limit= 15;
+        int totalPage=(int) Math.ceil((double)list.size()/limit);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        
+        updateTable(list.stream()
+                .skip(skip)
+                .limit(limit)
+                .collect(Collectors.toCollection(ArrayList::new)));
+        
     }
     public void updateTable(ArrayList<TaiKhoan> list){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -167,9 +193,9 @@ public class Admin_Account extends javax.swing.JPanel {
                 vaiTro = "AD";
             }
             
-            ArrayList<TaiKhoan> list= tk_dao.filterTaiKhoan(gioiTinh,vaiTro,key);
+            list= tk_dao.filterTaiKhoan(gioiTinh,vaiTro,key);
             if(list.size()>0){
-                updateTable(list);
+                initPag(1);
             }
             else{
                 JOptionPane.showMessageDialog(null,"khong tim thay");
@@ -343,6 +369,8 @@ public class Admin_Account extends javax.swing.JPanel {
         button14 = new Components.Button();
         comboBoxSuggestion1 = new Components.ComboBoxSuggestion();
         comboBoxSuggestion2 = new Components.ComboBoxSuggestion();
+        jPanel1 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
 
         EditDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         EditDialog.setTitle("Cập nhật tài khoản");
@@ -511,8 +539,7 @@ public class Admin_Account extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(myPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(roundedGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(roundedGradientPanel1Layout.createSequentialGroup()
@@ -1161,27 +1188,36 @@ public class Admin_Account extends javax.swing.JPanel {
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(0, 0, 0)
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(pagination1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        updateTable(tk_dao.getDanhSachTaiKhoan());
+        list=tk_dao.getDanhSachTaiKhoan();
+        initPag(1);
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -1256,7 +1292,7 @@ public class Admin_Account extends javax.swing.JPanel {
                     comboBoxSuggestion10.getSelectedIndex()==0?"SV":comboBoxSuggestion10.getSelectedIndex()==1?"GV":"AD",
                     "enable", 
                     "offline", comboBoxSuggestion9.getSelectedItem().toString(),
-                    myTextField17.getText().trim(), myTextField18.getText().trim());
+                    myTextField18.getText().trim(), myTextField17.getText().trim());
             if(tk_dao.addTaiKhoan(tk)){
                 
                 ClearAddDialog();
@@ -1352,6 +1388,7 @@ public class Admin_Account extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
@@ -1374,6 +1411,7 @@ public class Admin_Account extends javax.swing.JPanel {
     private Components.MyTextField myTextField6;
     private Components.MyTextField myTextField7;
     private Components.MyTextField myTextField8;
+    private Components.Pagination pagination1;
     private Components.RoundedGradientPanel roundedGradientPanel1;
     private Components.RoundedGradientPanel roundedGradientPanel2;
     private Components.RoundedGradientPanel roundedGradientPanel3;

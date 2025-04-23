@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Components.EventPagination;
+import Components.PaginationItemRenderStyle1;
 import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
@@ -11,6 +13,7 @@ import Components.TableActionEvent;
 import Dao.MonHoc_DAO;
 import Entity.MonHoc;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +27,7 @@ public class Admin_Subject extends javax.swing.JPanel {
      * Creates new form Admin_Subject
      */
     private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
+    private ArrayList<MonHoc> list= new ArrayList<>();
     public Admin_Subject() {
         initComponents();
         TableActionEvent event = new TableActionEvent() {
@@ -81,27 +85,41 @@ public class Admin_Subject extends javax.swing.JPanel {
         initTable();
         
         searchTextField1.addActionListener(x->{
-            ArrayList<MonHoc> list= new ArrayList<>();
+            
             list= mh_dao.getDanhSachMonHocTheoTen(searchTextField1.getText());
             if(list.size()>0){
-                updateTable(list);
+                initPage(1);
             }
             else{
                 JOptionPane.showMessageDialog(null,"khong tim thay");
             }
             
         });
+        
+        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        initPage(1);
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                initPage(page);
+            }
+            
+        });
+    }
+    public void initPage(int page){
+        int limit= 15;
+        int totalPage=(int) Math.ceil((double)list.size()/limit);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        
+        updateTable(list.stream()
+                .skip(skip)
+                .limit(limit)
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
     public void initTable(){
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        list= mh_dao.getDanhSachMonHoc();
-        list.forEach(x->{
-            model.addRow(new Object[]{
-                x.getMaMonHoc(),
-                x.getTenMonHoc()
-            });
-        });
+        initPage(1);
                 
     }
     public void updateTable(ArrayList<MonHoc> list){
@@ -159,6 +177,8 @@ public class Admin_Subject extends javax.swing.JPanel {
         button2 = new Components.Button();
         button1 = new Components.Button();
         searchTextField1 = new Components.SearchTextField();
+        jPanel8 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
 
         AddDialog.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -540,6 +560,9 @@ public class Admin_Subject extends javax.swing.JPanel {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.add(pagination1);
+
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
         roundedPanel1.setLayout(roundedPanel1Layout);
         roundedPanel1Layout.setHorizontalGroup(
@@ -548,17 +571,19 @@ public class Admin_Subject extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(0, 0, 0)
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -569,7 +594,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(roundedPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -708,7 +733,6 @@ public class Admin_Subject extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myTextField7ActionPerformed
 
-    private ArrayList<MonHoc> list;
     private MonHoc_DAO monHoc_DAO = new MonHoc_DAO(Main_GUI.em);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog AddDialog;
@@ -736,6 +760,7 @@ public class Admin_Subject extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private Components.MyTextField myTextField1;
@@ -744,6 +769,7 @@ public class Admin_Subject extends javax.swing.JPanel {
     private Components.MyTextField myTextField4;
     private Components.MyTextField myTextField6;
     private Components.MyTextField myTextField7;
+    private Components.Pagination pagination1;
     private Components.RoundedPanel roundedPanel1;
     private Components.SearchTextField searchTextField1;
     // End of variables declaration//GEN-END:variables

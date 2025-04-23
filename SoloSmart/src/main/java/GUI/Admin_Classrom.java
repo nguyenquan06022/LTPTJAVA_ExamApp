@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Components.EventPagination;
+import Components.PaginationItemRenderStyle1;
 import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -46,6 +49,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
     private ArrayList<KetQuaHocTap> dsKQHT= new ArrayList<>();
+    private ArrayList<LopHoc> list= new ArrayList<>();
     public Admin_Classrom() {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -103,13 +107,21 @@ public class Admin_Classrom extends javax.swing.JPanel {
         initTable();
         
         searchTextField1.addActionListener(x->{
-            ArrayList<LopHoc> list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
+            list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
             System.out.println(list.size());
             if(list.size()>0){
-                updateTable(list);
+                initPag(1);
             }
             else{
                 JOptionPane.showMessageDialog(null,"khong tim thay");
+            }
+            
+        });
+        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
+        pagination1.addEventPagination(new EventPagination(){
+            @Override
+            public void pageChanged(int page) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
             
         });
@@ -117,9 +129,21 @@ public class Admin_Classrom extends javax.swing.JPanel {
     public void initTable(){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        ArrayList<LopHoc> list= lh_dao.getDanhSachLopHoc();
-        updateTable(list);
+        list= lh_dao.getDanhSachLopHoc();
+        initPag(1);
                 
+    }
+    public void initPag(int page){
+        int limit= 15;
+        int totalPage=(int) Math.ceil((double)list.size()/limit);
+        pagination1.setPagegination(page, totalPage);
+        int currentPage = page; // Bạn có thể thay đổi thành biến động nếu muốn điều khiển trang
+        int skip = (currentPage - 1) * limit;
+        
+        updateTable(list.stream()
+                .skip(skip)
+                .limit(limit)
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
     public void updateTable(ArrayList<LopHoc> list){
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -277,6 +301,8 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button2 = new Components.Button();
         button1 = new Components.Button();
         searchTextField1 = new Components.SearchTextField();
+        jPanel1 = new javax.swing.JPanel();
+        pagination1 = new Components.Pagination();
 
         AddDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         AddDialog.setTitle("Thêm lớp học");
@@ -1045,14 +1071,17 @@ public class Admin_Classrom extends javax.swing.JPanel {
         circleBackgroundPanel1Layout.setVerticalGroup(
             circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(circleBackgroundPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(20, 20, 20)
                 .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(circleBackgroundPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(button1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(searchTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(button2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(pagination1);
 
         javax.swing.GroupLayout roundedPanel1Layout = new javax.swing.GroupLayout(roundedPanel1);
         roundedPanel1.setLayout(roundedPanel1Layout);
@@ -1062,17 +1091,20 @@ public class Admin_Classrom extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         roundedPanel1Layout.setVerticalGroup(
             roundedPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundedPanel1Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(0, 0, 0)
                 .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                .addGap(32, 32, 32))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -1083,13 +1115,15 @@ public class Admin_Classrom extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(roundedPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        ArrayList<LopHoc> list= lh_dao.getDanhSachLopHoc();
-        updateTable(list);
+         list= lh_dao.getDanhSachLopHoc();
+        initPag(1);
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
@@ -1452,6 +1486,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1470,6 +1505,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     private Components.MyTextField myTextField7;
     private Components.MyTextField myTextField8;
     private Components.MyTextField myTextField9;
+    private Components.Pagination pagination1;
     private Components.RoundedGradientPanel roundedGradientPanel1;
     private Components.RoundedGradientPanel roundedGradientPanel2;
     private Components.RoundedGradientPanel roundedGradientPanel3;

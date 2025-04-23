@@ -25,7 +25,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ListDeThi2 extends JPanel{
     private DeThi_DAO deThi_DAO = new DeThi_DAO(Main_GUI.em);
-    List<DeThiCard3> dsCard= new ArrayList<>();
+    private List<DeThiCard3> dsCard= new ArrayList<>();
     public ListDeThi2(ArrayList<DeThi> dsDeThi) {
         init(dsDeThi);
         repaint();
