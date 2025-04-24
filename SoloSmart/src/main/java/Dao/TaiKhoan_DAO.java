@@ -385,7 +385,7 @@ public class TaiKhoan_DAO extends UnicastRemoteObject implements ITaiKhoan_DAO {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
-            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ?";
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email FROM TaiKhoans WHERE tenTaiKhoan = ? AND matKhau = ? AND dangOnline = 'offline'";
             Object[] result = (Object[]) em.createNativeQuery(sql)
                     .setParameter(1, userName)
                     .setParameter(2, password)
