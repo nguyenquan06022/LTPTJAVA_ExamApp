@@ -33,6 +33,7 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
         this.em = em;
     }
 
+
     @Override
     public boolean themKetQuaKiemTra(KetQuaKiemTra ketQua) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
@@ -220,7 +221,16 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
         boolean isSuccess = false;
         try {
             tr.begin();
-            em.merge(ketQua);
+            String sql = "update KetQuaKiemTras set diemCaoNhat = ?, diemSo = ?, lanThu = ?, thoiGianLamBai = ?, maBaiKiemTra = ?, maTaiKhoan = ? where maKetQuaKiemTra = ?";
+            em.createNativeQuery(sql)
+                    .setParameter(1,ketQua.isDiemCaoNhat())
+                    .setParameter(2,ketQua.getDiemSo())
+                    .setParameter(3,ketQua.getLanThu())
+                    .setParameter(4,ketQua.getThoiGianLamBai())
+                    .setParameter(5,ketQua.getBaiKiemTra().getMaBaiKiemTra())
+                    .setParameter(6,ketQua.getTaiKhoan().getMaTaiKhoan())
+                    .setParameter(7,ketQua.getMaKetQuaKiemTra())
+                    .executeUpdate();
             tr.commit();
             isSuccess = true;
         } catch (Exception e) {

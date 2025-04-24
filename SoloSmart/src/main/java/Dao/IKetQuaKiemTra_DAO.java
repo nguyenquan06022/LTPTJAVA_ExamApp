@@ -29,4 +29,5 @@ public interface IKetQuaKiemTra_DAO extends Remote, Serializable {
     // cập nhật điểm cao nhất
     boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan, String maBaiKiemTra)
             throws RemoteException;
+
 }

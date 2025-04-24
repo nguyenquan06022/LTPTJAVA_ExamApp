@@ -20,35 +20,7 @@ public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi
     }
 
     @Override
-    public boolean themCauTraLoiCuaSinhVien(String maketquakiemtra, String cauTraLoi) throws RemoteException {
-        EntityTransaction tr = em.getTransaction();
-        boolean isSuccess = false;
-
-        try {
-            tr.begin();
-            String sql = "INSERT INTO  dsCauTraLoi (maKetQuaKiemTra, cauTraLoi) values (?, ?)";
-            em.createNativeQuery(sql)
-                    .setParameter(1, maketquakiemtra)
-                    .setParameter(2, cauTraLoi)
-                    .executeUpdate();
-
-            tr.commit();
-            em.flush();
-            isSuccess = true;
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-                e.printStackTrace();
-            }
-            isSuccess = false;
-            e.printStackTrace();
-        }
-        return isSuccess;
-    }
-
-
-    @Override
-    public boolean themCauTraLoi(String maKetQuaKiemTra, String cauTraLoi) throws RemoteException {
+    public boolean themCauTraLoiCuaSinhVien(String maKetQuaKiemTra, String cauTraLoi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
 
@@ -64,11 +36,40 @@ public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi
                     .executeUpdate();
 
             if (result > 0) {
+                    tr.commit();
+                isSuccess = true;
+            } else {
+                if (tr.isActive()) {
+                    tr.rollback();
+                }
+            }
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return isSuccess;
+    }
+
+
+    @Override
+    public boolean themCauTraLoi(String maKetQuaKiemTra, String cauTraLoi) throws RemoteException {
+        EntityTransaction tr = em.getTransaction();
+        boolean isSuccess = false;
+
+        try {
+            tr.begin();
+            String sql = "INSERT INTO dsCauTraLoi(maKetQuaKiemTra, cauTraLoi) VALUES (?, ?)";
+            int result = em.createNativeQuery(sql)
+                    .setParameter(1, maKetQuaKiemTra)
+                    .setParameter(2, cauTraLoi)
+                    .executeUpdate();
+
+            if (result > 0) {
                 if (tr.isActive()) {
                     tr.commit();
-                }
-                if (em.isOpen()) {
-                    em.flush(); // optional: thường không cần nếu đã commit
                 }
                 isSuccess = true;
             } else {

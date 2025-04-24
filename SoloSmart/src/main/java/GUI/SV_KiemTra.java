@@ -12,12 +12,10 @@ import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.swing.*;
+import javax.swing.Timer;
 
 /**
  *
@@ -204,8 +202,9 @@ public class SV_KiemTra extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button1ActionPerformed
-
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {
+        // GEN-FIRST:event_button1ActionPerformed
+        System.out.println(baiKiemTra);
         LocalDateTime endTime = LocalDateTime.now(); // Thời gian kết thúc
         long durationInMinutes = Duration.between(startTime, endTime).toMinutes(); // Tính phút
 
@@ -229,7 +228,6 @@ public class SV_KiemTra extends javax.swing.JFrame {
         if(res1) {
             for (String cauTraLoi : dsCauTraLoi) {
                 kq.add(IDsCauTraLoi_DAO.themCauTraLoiCuaSinhVien(maKqkt, cauTraLoi));
-                System.out.println(kq);
             }
                 // tinhDiemChoSinhVien
                 float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(baiKiemTra.getMaBaiKiemTra(),maKqkt);
@@ -271,6 +269,7 @@ public class SV_KiemTra extends javax.swing.JFrame {
         }
         dispose();
     }// GEN-LAST:event_button1ActionPerformed
+
 
     /**
      * @param args the command line arguments
