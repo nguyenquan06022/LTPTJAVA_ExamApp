@@ -7,7 +7,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,13 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class KetQuaHocTap_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IKetQuaHocTap_DAO dao;
+    private IKetQuaHocTap_DAO dao = RmiServiceLocator.getKetQuaHocTapDao();
 
     @BeforeAll
     public void setup() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        dao = new KetQuaHocTap_DAO(em);
     }
 
     @AfterAll
@@ -32,7 +33,7 @@ public class KetQuaHocTap_Test {
     }
 
     @Test
-    void testThemKetQuaHocTap() {
+    void testThemKetQuaHocTap() throws RemoteException {
         KetQuaHocTap ketQuaHocTap = new KetQuaHocTap();
         ketQuaHocTap.setDiemThuongKy(10f);
         ketQuaHocTap.setDiemGiuaKy(9f);
@@ -48,7 +49,7 @@ public class KetQuaHocTap_Test {
     }
 
     @Test
-    void testGetKetQuaHocTap() {
+    void testGetKetQuaHocTap() throws RemoteException {
         String maTaiKhoan = "TK001";
         String maLop = "DHKTMP18A";
 
@@ -59,7 +60,7 @@ public class KetQuaHocTap_Test {
     }
 
     @Test
-    void testCapNhatKetQuaHocTap() {
+    void testCapNhatKetQuaHocTap() throws RemoteException {
         KetQuaHocTap ketQuaHocTap = dao.getKetQuaHocTap("TK001","DHKTMP18A");
         ketQuaHocTap.setDiemTBMon((float)4.0);
 
@@ -71,7 +72,7 @@ public class KetQuaHocTap_Test {
     }
 
     @Test
-    void testGetDanhSachKetQuaHocTap() {
+    void testGetDanhSachKetQuaHocTap() throws RemoteException {
         String maLop = "DHKTMP18A";
 
         ArrayList<KetQuaHocTap> danhSachKetQua = dao.getDanhSachKetQuaHocTap(maLop);
@@ -79,7 +80,7 @@ public class KetQuaHocTap_Test {
         assertFalse(danhSachKetQua.isEmpty(), "Danh sách kết quả học tập bị rỗng.");
     }
     @Test
-    void testUpdate(){
+    void testUpdate() throws RemoteException {
         KetQuaHocTap kq= dao.getKetQuaHocTap("TK23012025025419647","LH23012025025420273");
         kq.setDiemTBMon(10f);
         boolean rs= dao.capNhatKetQuaHocTap(kq);

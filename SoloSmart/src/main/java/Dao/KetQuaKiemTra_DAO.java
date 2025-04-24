@@ -104,6 +104,60 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
     }
 
     @Override
+    public float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra, String maKetQuaKiemTra) throws RemoteException{
+        EntityTransaction tr = em.getTransaction();
+        try {
+            String sql = """
+                    WITH CauTraLoiSinhVien AS (
+                        SELECT
+                            ROW_NUMBER() OVER (
+                                ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
+                            ) AS stt,
+                            LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
+                        FROM TaiKhoans tk
+                        JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan
+                        JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra
+                        JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
+                        WHERE tk.maTaiKhoan = ?
+                          AND bkt.maBaiKiemTra = ?
+                          AND kqkt.maKetQuaKiemTra = ?
+                    ),
+                    DapAnDung AS (
+                        SELECT
+                            ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
+                            LEFT(dslc.luaChon, 1) AS dapAnDung
+                        FROM BaiKiemTras bkt
+                        JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi
+                        JOIN CauHois ch ON ch.maDeThi = dt.maDeThi
+                        JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
+                        WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
+                    )
+
+                    SELECT
+                        COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
+                    FROM CauTraLoiSinhVien sv
+                    JOIN DapAnDung da ON sv.stt = da.stt
+                    WHERE sv.dapAn = da.dapAnDung;
+                    """;
+
+            float result = ((Number) em.createNativeQuery(sql)
+                    .setParameter(1, maSinhVien)
+                    .setParameter(2, maKetQuaKiemTra)
+                    .setParameter(3, maBaiKiemTra)
+                    .setParameter(4, maBaiKiemTra)
+                    .getSingleResult()).floatValue();
+            return result;
+
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
     public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra)
             throws RemoteException {
         EntityTransaction tr = em.getTransaction();
@@ -210,57 +264,8 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
     }
 
     // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
-    public float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra) {
-        EntityTransaction tr = em.getTransaction();
-        try {
-            String sql = """
-                    WITH CauTraLoiSinhVien AS (
-                        SELECT
-                            ROW_NUMBER() OVER (
-                                ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
-                            ) AS stt,
-                            LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
-                        FROM TaiKhoans tk
-                        JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan
-                        JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra
-                        JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
-                        WHERE tk.maTaiKhoan = ?
-                          AND bkt.maBaiKiemTra = ?
-                          AND kqkt.maKetQuaKiemTra = ?
-                    ),
-                    DapAnDung AS (
-                        SELECT
-                            ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
-                            LEFT(dslc.luaChon, 1) AS dapAnDung
-                        FROM BaiKiemTras bkt
-                        JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi
-                        JOIN CauHois ch ON ch.maDeThi = dt.maDeThi
-                        JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
-                        WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
-                    )
 
-                    SELECT
-                        COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
-                    FROM CauTraLoiSinhVien sv
-                    JOIN DapAnDung da ON sv.stt = da.stt
-                    WHERE sv.dapAn = da.dapAnDung;
-                    """;
 
-            float result = ((Number) em.createNativeQuery(sql)
-                    .setParameter(1, maSinhVien)
-                    .setParameter(2, maKetQuaKiemtra)
-                    .setParameter(3, maBaiKiemTra)
-                    .setParameter(4, maBaiKiemTra)
-                    .getSingleResult()).floatValue();
-            return result;
-
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException(e);
-        }
-    }
 
     // cập nhật điểm cao nhất
     @Override

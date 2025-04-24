@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import jnafilechooser.api.JnaFileChooser;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -35,10 +36,10 @@ public class Admin_Classrom extends javax.swing.JPanel {
     /**
      * Creates new form Admin_Subject
      */
-    private IMonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    private ILopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private ITaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private IKetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
+    private IMonHoc_DAO mh_dao= RmiServiceLocator.getMonHocDao();
+    private ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
+    private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
+    private IKetQuaHocTap_DAO kqht_dao= RmiServiceLocator.getKetQuaHocTapDao();
     private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();

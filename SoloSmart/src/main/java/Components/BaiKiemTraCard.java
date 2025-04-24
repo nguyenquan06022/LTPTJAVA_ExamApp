@@ -83,7 +83,13 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                 }
             });
         } else {
-            button2.addActionListener(x -> buttonSVThamGia());
+            button2.addActionListener(x -> {
+                try {
+                    buttonSVThamGia();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
@@ -123,7 +129,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         }
     }
 
-    public void initBaiKiemTra() {
+    public void initBaiKiemTra() throws RemoteException {
         SV_KiemTra kiemTraGUI = new SV_KiemTra(bkt);
         kiemTraGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
         kiemTraGUI.setVisible(true);

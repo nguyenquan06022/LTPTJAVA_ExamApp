@@ -4,9 +4,7 @@
  */
 package Components;
 
-import Dao.BaiKiemTra_DAO;
-import Dao.DsCauTraLoi_DAO;
-import Dao.DsLuaChon_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
 import Entity.CauHoi;
 import Entity.KetQuaKiemTra;
@@ -14,6 +12,7 @@ import Entity.LuaChons;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -29,9 +29,9 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ListXemLai extends JPanel {
 
-    private DsCauTraLoi_DAO dsTL_dao = new DsCauTraLoi_DAO(Main_GUI.em);
-    private DsLuaChon_DAO dsLC_dao = new DsLuaChon_DAO(Main_GUI.em);
-    private BaiKiemTra_DAO bkt_dao = new BaiKiemTra_DAO(Main_GUI.em);
+    private IDsCauTraLoi_DAO dsTL_dao = RmiServiceLocator.getDsCauTraLoiDao();
+    private IDsLuaChon_DAO dsLC_dao = RmiServiceLocator.getDsLuaChonDao();
+    private IBaiKiemTra_DAO bkt_dao = RmiServiceLocator.getBaiKiemTraDao();
 
     public ListXemLai() {
         setOpaque(false);
@@ -55,7 +55,7 @@ public class ListXemLai extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void updateList(ArrayList<CauHoi> dsCauHoi, KetQuaKiemTra kq, BaiKiemTra bkt) {
+    public void updateList(ArrayList<CauHoi> dsCauHoi, KetQuaKiemTra kq, BaiKiemTra bkt) throws RemoteException {
         removeAll();
         setOpaque(false);
         setLayout(new BorderLayout());

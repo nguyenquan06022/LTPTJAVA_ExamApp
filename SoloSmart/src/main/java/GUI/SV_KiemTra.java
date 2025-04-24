@@ -230,7 +230,7 @@ public class SV_KiemTra extends javax.swing.JFrame {
 
             if (!kq.contains(false)) {
                 // tinhDiemChoSinhVien
-                float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
+                float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra(),maKqkt);
                 // update điểm
                 IKetQuaKiemTra_DAO.updateKetQuaKiemTra(
                         new KetQuaKiemTra(maKqkt, diem, thoiGianLamBai, lanThu, diemCaoNhat, baiKiemTra, tk));

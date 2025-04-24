@@ -5,6 +5,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,14 +17,13 @@ public class MonHoc_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IMonHoc_DAO monHocDAO;
+    private IMonHoc_DAO monHocDAO = RmiServiceLocator.getMonHocDao();
 
     @BeforeAll
     void setUp() {
         // Tạo EntityManagerFactory từ persistence unit "test-pu"
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        monHocDAO = new MonHoc_DAO(em);
     }
 
     @AfterAll
@@ -32,7 +34,7 @@ public class MonHoc_Test {
 
     @Test
     @Order(1)
-    void testAddMonHoc_Success() {
+    void testAddMonHoc_Success() throws RemoteException {
         MonHoc monHoc = new MonHoc();
         monHoc.setMaMonHoc("MH001");
         monHoc.setTenMonHoc("Toán học");
@@ -51,7 +53,7 @@ public class MonHoc_Test {
 
     @Test
     @Order(2)
-    void testAddMonHoc_DuplicateId() {
+    void testAddMonHoc_DuplicateId() throws RemoteException {
         MonHoc monHoc = new MonHoc();
         monHoc.setMaMonHoc("MH001"); // ID đã tồn tại
         monHoc.setTenMonHoc("Lý học");
@@ -63,7 +65,7 @@ public class MonHoc_Test {
 
     @Test
     @Order(3)
-    void testUpdateMonHoc_Success() {
+    void testUpdateMonHoc_Success() throws RemoteException {
         // Lấy môn học hiện tại từ cơ sở dữ liệu
         MonHoc monHoc = monHocDAO.getMonHoc("MH001");
         assertNotNull(monHoc, "Không tìm thấy môn học để cập nhật!");
@@ -80,7 +82,7 @@ public class MonHoc_Test {
     }
     @Test
     @Order(4)
-    void testDeleteMonHoc_Success() {
+    void testDeleteMonHoc_Success() throws RemoteException {
         // Lấy môn học hiện tại từ cơ sở dữ liệu
         MonHoc monHoc = monHocDAO.getMonHoc("MH001");
         assertNotNull(monHoc, "Không tìm thấy môn học để cập nhật!");

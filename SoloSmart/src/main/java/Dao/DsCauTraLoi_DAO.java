@@ -11,15 +11,13 @@ import java.util.List;
 public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi_DAO {
     private EntityManager em;
 
-    public DsCauTraLoi_DAO(EntityManager em) {
+    public DsCauTraLoi_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
 
     public DsCauTraLoi_DAO() throws RemoteException {
         super();
     }
-
-    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi) {
 
     @Override
     public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi) throws RemoteException {
@@ -43,7 +41,8 @@ public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi
         return isSuccess;
     }
 
-    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi) {
+    @Override
+    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -86,7 +85,9 @@ public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi
     }
 
     // lấy ra danh sách cau trả lời cua sinh vien theo mataikhoan va mabaikiemtra
-    public List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) {
+
+    @Override
+    public List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         List<String> dsLuaChon = new ArrayList<>();
         try {

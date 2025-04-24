@@ -6,7 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,13 +19,12 @@ public class CauHoi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private ICauHoi_DAO cauHoiDAO;
+    private ICauHoi_DAO cauHoiDAO = RmiServiceLocator.getCauHoiDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        cauHoiDAO = new CauHoi_DAO(em);
     }
 
     @AfterAll
@@ -34,7 +35,7 @@ public class CauHoi_Test {
 
     @Test
     @Order(1)
-    void testAddCauHoi_Success() {
+    void testAddCauHoi_Success() throws RemoteException {
         // Tạo đối tượng DeThi làm khóa ngoại
         DeThi deThi = new DeThi();
         deThi.setMaDeThi("DT001"); // Đảm bảo mã đề thi này tồn tại trong cơ sở dữ liệu
@@ -61,7 +62,7 @@ public class CauHoi_Test {
 
     @Test
     @Order(2)
-    void testGetCauHoi_Success() {
+    void testGetCauHoi_Success() throws RemoteException {
         // Lấy thông tin câu hỏi đã thêm
         CauHoi cauHoi = cauHoiDAO.getCauHoi("CH001");
         assertNotNull(cauHoi, "Không tìm thấy câu hỏi!");
@@ -71,7 +72,7 @@ public class CauHoi_Test {
 
     @Test
     @Order(3)
-    void testGetDanhSachCauHoi_Success() {
+    void testGetDanhSachCauHoi_Success() throws RemoteException {
         // Lấy danh sách câu hỏi
         ArrayList<CauHoi> danhSachCauHoi = cauHoiDAO.getDanhSachCauHoi();
         assertNotNull(danhSachCauHoi, "Danh sách câu hỏi trả về null!");
@@ -87,7 +88,7 @@ public class CauHoi_Test {
 
     @Test
     @Order(4)
-    void testUpdateCauHoi_Success() {
+    void testUpdateCauHoi_Success() throws RemoteException {
         // Lấy câu hỏi cần cập nhật
         CauHoi cauHoi = cauHoiDAO.getCauHoi("CH001");
         assertNotNull(cauHoi, "Không tìm thấy câu hỏi để cập nhật!");
@@ -108,7 +109,7 @@ public class CauHoi_Test {
 
     @Test
     @Order(5)
-    void testDeleteCauHoi_Success() {
+    void testDeleteCauHoi_Success() throws RemoteException {
         // Xóa câu hỏi
         boolean result = cauHoiDAO.deleteCauHoi("CH001");
         assertTrue(result, "Xóa câu hỏi không thành công!");

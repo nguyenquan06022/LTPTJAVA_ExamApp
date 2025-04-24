@@ -4,13 +4,13 @@
  */
 package Components;
 
-import Dao.CauHoi_DAO;
-import Dao.DsCauTraLoi_DAO;
+import Dao.ICauHoi_DAO;
+import Dao.IDsCauTraLoi_DAO;
 import Entity.BaiKiemTra;
 import Entity.KetQuaKiemTra;
-import GUI.Main_GUI;
-import java.util.List;
-import javax.swing.JOptionPane;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 
 /**
  *
@@ -23,8 +23,8 @@ public class KetQuaKiemTraCard extends javax.swing.JPanel {
      */
     private KetQuaKiemTra kq;
     private BaiKiemTra bkt;
-    private CauHoi_DAO ch_dao= new CauHoi_DAO(Main_GUI.em);
-    private DsCauTraLoi_DAO dsTL_dao= new DsCauTraLoi_DAO(Main_GUI.em);
+    private ICauHoi_DAO ch_dao= RmiServiceLocator.getCauHoiDao();
+    private IDsCauTraLoi_DAO dsTL_dao= RmiServiceLocator.getDsCauTraLoiDao();
     public KetQuaKiemTraCard() {
         initComponents();
     }
@@ -103,7 +103,11 @@ public class KetQuaKiemTraCard extends javax.swing.JPanel {
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -149,7 +153,7 @@ public class KetQuaKiemTraCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button1ActionPerformed
         listXemLai1.updateList(ch_dao.getDsCauHoiTheoDeThi(bkt.getDeThi().getMaDeThi()), kq, bkt);
 ////        List<String> cauTraLoi = dsTL_dao.getDsCauTraLoiCuaSinhVien(Main_GUI.tk.getMaTaiKhoan(),kq.getMaKetQuaKiemTra());
 //        JOptionPane.showMessageDialog(null, bkt.getMaBaiKiemTra()+" "+Main_GUI.tk.getMaTaiKhoan());

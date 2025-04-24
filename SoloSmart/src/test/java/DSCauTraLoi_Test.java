@@ -1,10 +1,12 @@
-import Dao.BaiKiemTra_DAO;
-import Dao.DsCauTraLoi_DAO;
+import Dao.IBaiKiemTra_DAO;
 import Dao.IDsCauTraLoi_DAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,13 +15,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DSCauTraLoi_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IDsCauTraLoi_DAO dao;
-    private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO();
+    private IDsCauTraLoi_DAO dao = RmiServiceLocator.getDsCauTraLoiDao();
+    private IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
     @BeforeAll
     public void setup() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        dao = new DsCauTraLoi_DAO(em);
     }
 
     @AfterAll
@@ -30,7 +31,7 @@ public class DSCauTraLoi_Test {
 
     @Test
     @Order(1)
-    void testThemCauTraLoi() {
+    void testThemCauTraLoi() throws RemoteException {
         String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
         String cauTraLoi = "A";
 
@@ -40,7 +41,7 @@ public class DSCauTraLoi_Test {
 
     @Test
     @Order(2)
-    void testUpdateCauTraLoi() {
+    void testUpdateCauTraLoi() throws RemoteException {
         String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
         String cauTraLoi = "A";
         String cauTraLoiMoi = "1.A";
@@ -52,7 +53,7 @@ public class DSCauTraLoi_Test {
 
     @Test
     @Order(3)
-    void testGetDSCauTraLoi() {
+    void testGetDSCauTraLoi() throws RemoteException {
         String maKetQuaKiemTra = bkt_dao.getDanhSachBaiKiemTraTheoLop("DHKTMP18A").get(0).getMaBaiKiemTra();
 
 

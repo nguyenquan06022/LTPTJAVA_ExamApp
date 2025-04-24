@@ -7,7 +7,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,13 +20,12 @@ public class DeThi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IDeThi_DAO deThiDAO;
+    private IDeThi_DAO deThiDAO = RmiServiceLocator.getDeThiDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        deThiDAO = new DeThi_DAO(em);
     }
 
     @AfterAll
@@ -35,7 +36,7 @@ public class DeThi_Test {
 
     @Test
     @Order(1)
-    void testAddDeThi_Success() {
+    void testAddDeThi_Success() throws RemoteException {
         // Tạo đối tượng NganHangDeThi và TaiKhoan làm khóa ngoại
         NganHangDeThi nganHangDeThi = new NganHangDeThi();
         nganHangDeThi.setMaNganHang("NHDT001"); // Đảm bảo mã ngân hàng này tồn tại trong DB
@@ -65,7 +66,7 @@ public class DeThi_Test {
 
     @Test
     @Order(2)
-    void testGetDeThi_Success() {
+    void testGetDeThi_Success() throws RemoteException {
         // Lấy thông tin đề thi đã thêm
         DeThi deThi = deThiDAO.getDeThi("DT001");
         assertNotNull(deThi, "Không tìm thấy đề thi!");
@@ -75,7 +76,7 @@ public class DeThi_Test {
 
     @Test
     @Order(3)
-    void testGetDanhSachDeThi_Success() {
+    void testGetDanhSachDeThi_Success() throws RemoteException {
         // Lấy danh sách đề thi
         ArrayList<DeThi> danhSachDeThi = deThiDAO.getDanhSachDeThi();
         assertNotNull(danhSachDeThi, "Danh sách đề thi trả về null!");
@@ -91,7 +92,7 @@ public class DeThi_Test {
 
     @Test
     @Order(4)
-    void testUpdateDeThi_Success() {
+    void testUpdateDeThi_Success() throws RemoteException {
         // Lấy đề thi cần cập nhật
         DeThi deThi = deThiDAO.getDeThi("DT001");
         assertNotNull(deThi, "Không tìm thấy đề thi để cập nhật!");
@@ -114,7 +115,7 @@ public class DeThi_Test {
 
     @Test
     @Order(5)
-    void testDeleteDeThi_Success() {
+    void testDeleteDeThi_Success() throws RemoteException {
         // Xóa đề thi
         boolean result = deThiDAO.deleteDeThi("DT001");
         assertTrue(result, "Xóa đề thi không thành công!");

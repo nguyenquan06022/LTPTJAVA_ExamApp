@@ -13,6 +13,5 @@ public interface IDsCauTraLoi_DAO extends Remote, Serializable {
 
     ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) throws RemoteException;
 
-    // lấy ra danh sách cau trả lời cua sinh vien theo mataikhoan va mabaikiemtra
     List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) throws RemoteException;
 }

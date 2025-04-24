@@ -6,6 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,13 +18,12 @@ public class NganHangDeThi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private INganHangDeThi_DAO nganHangDeThiDAO;
+    private INganHangDeThi_DAO nganHangDeThiDAO = RmiServiceLocator.getNganHangDeThiDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        nganHangDeThiDAO = new NganHangDeThi_DAO(em);
     }
 
     @AfterAll
@@ -32,7 +34,7 @@ public class NganHangDeThi_Test {
 
     @Test
     @Order(1)
-    void testAddNganHangDeThi_Success() {
+    void testAddNganHangDeThi_Success() throws RemoteException {
         // Tạo đối tượng MonHoc làm khóa ngoại
         MonHoc monHoc = new MonHoc();
         monHoc.setMaMonHoc("MH001"); // Đảm bảo môn học này tồn tại trong cơ sở dữ liệu
@@ -58,7 +60,7 @@ public class NganHangDeThi_Test {
 
     @Test
     @Order(2)
-    void testUpdateNganHangDeThi_Success() {
+    void testUpdateNganHangDeThi_Success() throws RemoteException {
         // Lấy ngân hàng đề thi đã thêm
         NganHangDeThi nganHangDeThi = nganHangDeThiDAO.getNganHangDeThi("NHDT001");
         assertNotNull(nganHangDeThi, "Không tìm thấy ngân hàng đề thi để cập nhật!");
@@ -79,7 +81,7 @@ public class NganHangDeThi_Test {
 
     @Test
     @Order(3)
-    void testGetNganHang(){
+    void testGetNganHang() throws RemoteException {
         NganHangDeThi nganHangDeThi= nganHangDeThiDAO.getNganHangDeThi("NHDT001");
         assertNotNull(nganHangDeThi);
     }

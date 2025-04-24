@@ -6,7 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,13 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TaiKhoan_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private ITaiKhoan_DAO taiKhoanDAO;
+    private ITaiKhoan_DAO taiKhoanDAO = RmiServiceLocator.getTaiKhoanDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        taiKhoanDAO = new TaiKhoan_DAO(em);
     }
 
     @AfterAll
@@ -32,7 +33,7 @@ public class TaiKhoan_Test {
 
     @Test
     @Order(1)
-    void testAddTaiKhoan_Success() {
+    void testAddTaiKhoan_Success() throws RemoteException {
         TaiKhoan taiKhoan = new TaiKhoan();
         taiKhoan.setMaTaiKhoan("TK001");
         taiKhoan.setMatKhau("123456");
@@ -52,7 +53,7 @@ public class TaiKhoan_Test {
 
     @Test
     @Order(2)
-    void testAddDanhSachTaiKhoan_Success() {
+    void testAddDanhSachTaiKhoan_Success() throws RemoteException {
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
 
         TaiKhoan tk1 = new TaiKhoan();
@@ -91,7 +92,7 @@ public class TaiKhoan_Test {
 
     @Test
     @Order(3)
-    void testUpdateTaiKhoan_Success() {
+    void testUpdateTaiKhoan_Success() throws RemoteException {
         TaiKhoan taiKhoan = taiKhoanDAO.getTaiKhoan("TK002");
         assertNotNull(taiKhoan, "Không tìm thấy tài khoản để cập nhật!");
 
@@ -106,7 +107,7 @@ public class TaiKhoan_Test {
     }
     @Test
     @Order(4)
-    void testDeleteTaiKhoan_Success() {
+    void testDeleteTaiKhoan_Success() throws RemoteException {
         boolean result = taiKhoanDAO.deleteTaiKhoan("TK003");
         assertTrue(result, "Xóa tài khoản không thành công!");
 

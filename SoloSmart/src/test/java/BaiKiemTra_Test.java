@@ -1,4 +1,5 @@
 import Dao.BaiKiemTra_DAO;
+import Dao.IBaiKiemTra_DAO;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.LopHoc;
@@ -6,7 +7,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -18,13 +21,12 @@ public class BaiKiemTra_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private BaiKiemTra_DAO baiKiemTraDAO;
+    private IBaiKiemTra_DAO baiKiemTraDAO = RmiServiceLocator.getBaiKiemTraDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        baiKiemTraDAO = new BaiKiemTra_DAO(em);
     }
 
     @AfterAll
@@ -35,7 +37,7 @@ public class BaiKiemTra_Test {
 
     @Test
     @Order(1)
-    void testAddBaiKiemTra_Success() {
+    void testAddBaiKiemTra_Success() throws RemoteException {
         // Tạo đối tượng DeThi làm khóa ngoại
         DeThi deThi = new DeThi();
         deThi.setMaDeThi("DT001"); // Đảm bảo mã đề thi này tồn tại trong cơ sở dữ liệu
@@ -72,7 +74,7 @@ public class BaiKiemTra_Test {
 
     @Test
     @Order(2)
-    void testGetBaiKiemTra_Success() {
+    void testGetBaiKiemTra_Success() throws RemoteException {
         // Lấy thông tin bài kiểm tra đã thêm
         BaiKiemTra baiKiemTra = baiKiemTraDAO.getBaiKiemTra("BKT001");
         assertNotNull(baiKiemTra, "Không tìm thấy bài kiểm tra!");
@@ -82,7 +84,7 @@ public class BaiKiemTra_Test {
 
     @Test
     @Order(3)
-    void testGetDanhSachBaiKiemTra_Success() {
+    void testGetDanhSachBaiKiemTra_Success() throws RemoteException {
         // Lấy danh sách bài kiểm tra
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = baiKiemTraDAO.getDanhSachBaiKiemTra();
         assertNotNull(danhSachBaiKiemTra, "Danh sách bài kiểm tra trả về null!");
@@ -98,7 +100,7 @@ public class BaiKiemTra_Test {
 
     @Test
     @Order(4)
-    void testUpdateBaiKiemTra_Success() {
+    void testUpdateBaiKiemTra_Success() throws RemoteException {
         // Lấy bài kiểm tra cần cập nhật
         BaiKiemTra baiKiemTra = baiKiemTraDAO.getBaiKiemTra("BKT001");
         assertNotNull(baiKiemTra, "Không tìm thấy bài kiểm tra để cập nhật!");
@@ -119,7 +121,7 @@ public class BaiKiemTra_Test {
 
     @Test
     @Order(5)
-    void testDeleteBaiKiemTra_Success() {
+    void testDeleteBaiKiemTra_Success() throws RemoteException {
         // Xóa bài kiểm tra
         boolean result = baiKiemTraDAO.deleteBaiKiemTra("BKT001");
         assertTrue(result, "Xóa bài kiểm tra không thành công!");

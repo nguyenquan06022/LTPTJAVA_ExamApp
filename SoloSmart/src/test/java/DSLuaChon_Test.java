@@ -4,7 +4,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,13 +17,12 @@ public class DSLuaChon_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IDsLuaChon_DAO dsLuaChonDAO;
+    private IDsLuaChon_DAO dsLuaChonDAO = RmiServiceLocator.getDsLuaChonDao();
 
     @BeforeAll
     void setUp() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        dsLuaChonDAO = new DsLuaChon_DAO(em);
     }
 
     @AfterAll
@@ -32,7 +33,7 @@ public class DSLuaChon_Test {
 
     @Test
     @Order(1)
-    void testThemLuaChon() {
+    void testThemLuaChon() throws RemoteException {
         String maCauHoi = "CH001";
 
         // Thêm 4 lựa chọn
@@ -49,7 +50,7 @@ public class DSLuaChon_Test {
 
     @Test
     @Order(2)
-    void testGetDSLuaChon() {
+    void testGetDSLuaChon() throws RemoteException {
         String maCauHoi = "CH001";
 
         // Lấy danh sách lựa chọn
@@ -64,7 +65,7 @@ public class DSLuaChon_Test {
 
     @Test
     @Order(3)
-    void testCapNhatLuaChon() {
+    void testCapNhatLuaChon() throws RemoteException {
         String maCauHoi = "CH001";
         String luaChonCu = "Đáp án 1";
         String luaChonMoi = "Đáp án A";
@@ -83,7 +84,7 @@ public class DSLuaChon_Test {
     }
     @Test
     @Order(4) // Đảm bảo thứ tự thực thi nếu có sử dụng @TestMethodOrder
-    void testXoaLuaChon() {
+    void testXoaLuaChon() throws RemoteException {
         String maCauHoi = "CH001"; // Mã câu hỏi giả lập
         String luaChon = "Đáp án 4"; // Lựa chọn cần xóa
 

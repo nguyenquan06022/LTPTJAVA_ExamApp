@@ -1,5 +1,4 @@
 import Dao.IKetQuaKiemTra_DAO;
-import Dao.KetQuaKiemTra_DAO;
 import Entity.BaiKiemTra;
 import Entity.KetQuaKiemTra;
 import Entity.TaiKhoan;
@@ -7,7 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
+import service.RmiServiceLocator;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,13 +18,12 @@ public class KetQuaKiemTra_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private IKetQuaKiemTra_DAO dao;
+    private IKetQuaKiemTra_DAO dao = RmiServiceLocator.getKetQuaKiemTraDao();
 
     @BeforeAll
     public void setup() {
         emf = Persistence.createEntityManagerFactory("mssql-pu");
         em = emf.createEntityManager();
-        dao = new KetQuaKiemTra_DAO(em);
     }
 
     @AfterAll
@@ -35,7 +35,7 @@ public class KetQuaKiemTra_Test {
     }
 
     @Test
-    public void testThemKetQuaKiemTra() {
+    public void testThemKetQuaKiemTra() throws RemoteException {
         KetQuaKiemTra ketQua = new KetQuaKiemTra();
         ketQua.setMaKetQuaKiemTra(dao.generateMa());
         ketQua.setDiemCaoNhat(true);
@@ -52,21 +52,21 @@ public class KetQuaKiemTra_Test {
     }
 
     @Test
-    public void testGetDanhSachKetQuaKiemTra() {
+    public void testGetDanhSachKetQuaKiemTra() throws RemoteException {
         ArrayList<KetQuaKiemTra> danhSach = dao.getDanhSachKetQuaKiemTra("TK24022025173708720", "BKT24022025173716455");
         assertNotNull(danhSach, "Danh sách kết quả kiểm tra không được null");
         assertFalse(danhSach.isEmpty(), "Danh sách kết quả kiểm tra rỗng");
     }
 
     @Test
-    public void testGetKetQuaKiemTra(){
+    public void testGetKetQuaKiemTra() throws RemoteException {
         KetQuaKiemTra kq= dao.getKetQuaKiemTra("KQKT24022025173720634");
         assertNotNull(kq);
         assertEquals("KQKT24022025173720634",kq.getMaKetQuaKiemTra());
     }
 
     @Test
-    public void testUpdateKetQuaKiemTra() {
+    public void testUpdateKetQuaKiemTra() throws RemoteException {
         ArrayList<KetQuaKiemTra> danhSach = dao.getDanhSachKetQuaKiemTra("TK001", "BKT001");
         KetQuaKiemTra ketQua = danhSach.get(0);
         assertNotNull(ketQua, "Không tìm thấy kết quả kiểm tra với ID: ");

@@ -139,10 +139,10 @@ public class MonHoc_DAO extends UnicastRemoteObject implements IMonHoc_DAO {
                      "FROM BaiKiemTras bkt " +
                      "INNER JOIN LopHocs lh ON lh.maLop = bkt.maLop " +
                      "INNER JOIN MonHocs mh ON mh.maMonHoc = lh.maMonHoc " +
-                     "WHERE bkt.maBaiKiemTra = :id";
+                     "WHERE bkt.maBaiKiemTra = ?";
                      
         Object result = em.createNativeQuery(sql)
-                          .setParameter("id", id) // Gán giá trị tham số
+                          .setParameter(1, id) // Gán giá trị tham số
                           .getSingleResult(); // Lấy kết quả duy nhất
 
         tr.commit();
