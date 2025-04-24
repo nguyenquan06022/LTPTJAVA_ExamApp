@@ -7,6 +7,7 @@ package Components;
 import Entity.BaiKiemTra;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,7 +18,7 @@ import net.miginfocom.swing.MigLayout;
  * @author THANH PHU
  */
 public class ListBaiKiemTra extends JPanel{
-    public ListBaiKiemTra(){
+    public ListBaiKiemTra() throws RemoteException {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
@@ -43,7 +44,12 @@ public class ListBaiKiemTra extends JPanel{
         JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
         container.setOpaque(false);
         dsBKT.forEach(x->{
-            BaiKiemTraCard card= new BaiKiemTraCard(x);
+            BaiKiemTraCard card= null;
+            try {
+                card = new BaiKiemTraCard(x);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             container.add(card,"growx, wrap");
         });
         JScrollPane scrollPane = new JScrollPane(container);

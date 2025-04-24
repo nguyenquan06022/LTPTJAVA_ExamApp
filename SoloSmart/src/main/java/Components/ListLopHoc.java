@@ -7,6 +7,7 @@ package Components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JPanel;
@@ -39,7 +40,7 @@ public class ListLopHoc extends JPanel{
         {new Color(67, 206, 162), new Color(24, 90, 157)}  // Xanh lục - Xanh biển
     };
     Random random = new Random();
-    public ListLopHoc() {
+    public ListLopHoc() throws RemoteException {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel container = new JPanel(new MigLayout("wrap 3, fillx, filly", "[grow][grow][grow]", "[]"));
@@ -77,7 +78,12 @@ public class ListLopHoc extends JPanel{
         container.setOpaque(false);
         
         lopHocCards.forEach(x->{
-            LopHocCard lopHocCard = new LopHocCard(x);
+            LopHocCard lopHocCard = null;
+            try {
+                lopHocCard = new LopHocCard(x);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             int randomIndex = random.nextInt(gradients.length); 
             lopHocCard.getCircleBackgroundPanel2().setColor1(gradients[randomIndex][0]);
             lopHocCard.getCircleBackgroundPanel2().setColor2(gradients[randomIndex][1]);

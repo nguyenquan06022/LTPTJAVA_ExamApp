@@ -2,13 +2,15 @@ package Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "KetQuaHocTaps")
-public class KetQuaHocTap {
+public class KetQuaHocTap implements Serializable {
 
     private Float diemThuongKy;
     private Float diemGiuaKy;

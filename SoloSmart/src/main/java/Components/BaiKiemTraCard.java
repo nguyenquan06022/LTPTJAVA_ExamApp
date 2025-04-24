@@ -4,14 +4,8 @@
  */
 package Components;
 
-import Components.chart.Chart;
 import Components.chart.ModelChart;
-import Dao.BaiKiemTra_DAO;
-import Dao.DeThi_DAO;
-import Dao.KetQuaHocTap_DAO;
-import Dao.KetQuaKiemTra_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.KetQuaKiemTra;
@@ -20,9 +14,12 @@ import Entity.TaiKhoan;
 import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
 import GUI.SV_KiemTra;
+import service.RmiServiceLocator;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
@@ -46,20 +43,20 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
      * Creates new form BaiKiemTraCard
      */
     private CustomDateTimeChooser datech = new CustomDateTimeChooser();
-    private DeThi_DAO dt_dao = new DeThi_DAO(Main_GUI.em);
-    private BaiKiemTra_DAO bkt_dao = new BaiKiemTra_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao = new KetQuaHocTap_DAO(Main_GUI.em);
-    private MonHoc_DAO mh_dao = new MonHoc_DAO(Main_GUI.em);
-    private KetQuaKiemTra_DAO kqkt_dao= new KetQuaKiemTra_DAO(Main_GUI.em);
+    private IDeThi_DAO dt_dao = RmiServiceLocator.getDeThiDao();
+    private IBaiKiemTra_DAO bkt_dao = RmiServiceLocator.getBaiKiemTraDao();
+    private IKetQuaHocTap_DAO kqht_dao = RmiServiceLocator.getKetQuaHocTapDao();
+    private IMonHoc_DAO mh_dao = RmiServiceLocator.getMonHocDao();
+    private IKetQuaKiemTra_DAO kqkt_dao= RmiServiceLocator.getKetQuaKiemTraDao();
     private BaiKiemTra bkt;
     private DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
     private DecimalFormat de = new DecimalFormat("#.##");
 
-    public BaiKiemTraCard() {
+    public BaiKiemTraCard() throws RemoteException {
         initComponents();
     }
 
-    public BaiKiemTraCard(BaiKiemTra bkt) {
+    public BaiKiemTraCard(BaiKiemTra bkt) throws RemoteException {
         this.bkt = bkt;
         initComponents();
         DeThi dt = dt_dao.getDeThi(bkt.getDeThi().getMaDeThi());
@@ -70,16 +67,34 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jLabel6.setText("Số lần làm bài: " + bkt.getSoLanLamBai());
         if (Main_GUI.tk.getVaiTro().equalsIgnoreCase("GV")) {
             button2.setText("Xem");
-            button2.addActionListener(x -> buttonGVXem());
+            button2.addActionListener(x -> {
+                try {
+                    buttonGVXem();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             button3.setText("Xóa");
-            button3.addActionListener(x->buttonGVXoa());
+            button3.addActionListener(x-> {
+                try {
+                    buttonGVXoa();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } else {
-            button2.addActionListener(x->buttonSVThamGia());
+            button2.addActionListener(x-> {
+                try {
+                    buttonSVThamGia();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
     private Map<TaiKhoan, Float> dsSVLamBaiKiemTra;
-    public void buttonSVThamGia(){
+    public void buttonSVThamGia() throws RemoteException {
         LocalDateTime now= LocalDateTime.now();
         ArrayList<KetQuaKiemTra> dsKQKT= kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra());
         if(bkt.getThoiGianBatDau().isAfter(now)){
@@ -115,12 +130,12 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             }
         }
     }
-    public void initBaiKiemTra(){
+    public void initBaiKiemTra() throws RemoteException {
         SV_KiemTra kiemTraGUI= new SV_KiemTra(bkt);
         kiemTraGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
         kiemTraGUI.setVisible(true);
     }
-    public void buttonGVXem() {
+    public void buttonGVXem() throws RemoteException {
         dsSVLamBaiKiemTra = bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(bkt.getMaBaiKiemTra());
         int soLuongSV = dsSVLamBaiKiemTra.size();
         int tongSV = kqht_dao.getDanhSachKetQuaHocTap(bkt.getLopHoc().getMaLop()).size();
@@ -147,7 +162,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         XemBKT.setLocationRelativeTo(null);
         XemBKT.setVisible(true);
     }
-    public void buttonGVXoa(){
+    public void buttonGVXoa() throws RemoteException {
         if(JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa bài kiểm tra này không?","Xóa bài kiểm tra",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             if(bkt_dao.deleteBaiKiemTra(bkt.getMaBaiKiemTra())){
                 GV_ClassRoom_Detail.loadBKT();
@@ -157,7 +172,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             }
         }
     }
-    public void initData() {
+    public void initData() throws RemoteException {
         jCheckBoxCustom1.setSelected(bkt.isChoPhepXemDiem());
         jCheckBoxCustom2.setSelected(bkt.isChoPhepXemLai());
         jCheckBoxCustom3.setSelected(bkt.isHienThiDapAn());
@@ -195,7 +210,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         });
     }
 
-    public void initDSDeThi() {
+    public void initDSDeThi() throws RemoteException {
         MonHoc mon = mh_dao.getMonHoc(GV_ClassRoom_Detail.lopHoc.getMonHoc().getMaMonHoc());
         ArrayList<DeThi> dsDeThi = dt_dao.getDanhSachDeThiTheoMonCuaGV(Main_GUI.tk.getMaTaiKhoan(), mon.getTenMonHoc());
         listDeThi21.updateDsDeThi(dsDeThi);
@@ -222,7 +237,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         customDateChooser1 = new Components.CustomDateTimeChooser();
         XemBKT = new javax.swing.JDialog();
@@ -334,7 +349,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         button1.setText("Đặt lại");
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -345,7 +364,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         button4.setPreferredSize(new java.awt.Dimension(47, 40));
         button4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button4ActionPerformed(evt);
+                try {
+                    button4ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -353,7 +376,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         button5.setPreferredSize(new java.awt.Dimension(61, 36));
         button5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button5ActionPerformed(evt);
+                try {
+                    button5ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -381,7 +408,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         button6.setPreferredSize(new java.awt.Dimension(42, 40));
         button6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button6ActionPerformed(evt);
+                try {
+                    button6ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -724,7 +755,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button4ActionPerformed
         if(bkt.getThoiGianBatDau().isBefore(LocalDateTime.now())){
             JOptionPane.showMessageDialog(null, "Thời gian bắt đầu dã qua, không thể cập nhât!");
         
@@ -780,13 +811,13 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         jLabel11.setText(jSlider1.getValue() + " phút");
     }// GEN-LAST:event_jSlider1StateChanged
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button1ActionPerformed
         initData();
     }// GEN-LAST:event_button1ActionPerformed
 
     private int quantity;
 
-    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button6ActionPerformed
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button6ActionPerformed
         String maBaiKiemTra = bkt.getMaBaiKiemTra();
         Map<TaiKhoan, Float> map = bkt_dao.getDsTaiKhoanThamGiaKiemTraVaDiemSo(maBaiKiemTra);
         
@@ -816,7 +847,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         DialogThongKe.setVisible(true);
     }// GEN-LAST:event_button6ActionPerformed
 
-    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button5ActionPerformed
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button5ActionPerformed
         initDSDeThi();
         jDialog1.pack();
         jDialog1.setModal(true);

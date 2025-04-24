@@ -5,13 +5,13 @@
 package GUI;
 
 import DB.CreateDB;
-import Dao.BaiKiemTra_DAO;
-import Dao.CauHoi_DAO;
-import Dao.LopHoc_DAO;
-import Entity.BaiKiemTra;
+import Dao.*;
 import Entity.CauHoi;
 import Entity.LopHoc;
 import jakarta.persistence.EntityManager;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -24,11 +24,12 @@ public class NewJFrame extends javax.swing.JFrame {
      * Creates new form NewJFrame
      */
     EntityManager em= CreateDB.createDB();
-    BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(em);
-    LopHoc_DAO lh_dao= new LopHoc_DAO(em);
-    CauHoi_DAO chdao= new CauHoi_DAO(em);
+    IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
+    ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
+    ICauHoi_DAO chdao= RmiServiceLocator.getCauHoiDao();
+
     LopHoc lh;
-    public NewJFrame() {
+    public NewJFrame() throws RemoteException {
 //        lh= lh_dao.getLopHoc("LH20042025235947884");
         initComponents();
 //        jPanel1.add(new Admin_Subject());
@@ -44,7 +45,7 @@ public class NewJFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         jPanel1 = new javax.swing.JPanel();
         listCauHoiKiemTra1 = new Components.ListCauHoiKiemTra();
@@ -120,7 +121,11 @@ public class NewJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                try {
+                    new NewJFrame().setVisible(true);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

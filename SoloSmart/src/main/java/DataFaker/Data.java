@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import net.datafaker.Faker;
 
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -15,21 +16,41 @@ import java.util.*;
 public class Data {
     Faker faker = new Faker();
     private static EntityManager em= CreateDB.createDB();
-    private static TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
-    private static MonHoc_DAO monHocDao = new MonHoc_DAO(em);
-    private static LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
-    private static NganHangDeThi_DAO nganHangDeThiDao = new NganHangDeThi_DAO(em);
-    private static DeThi_DAO deThiDao = new DeThi_DAO(em);
-    private static CauHoi_DAO cauHoiDao = new CauHoi_DAO(em);
-    private static DsLuaChon_DAO dsLuaChonDao = new DsLuaChon_DAO(em);
-    private static BaiKiemTra_DAO baiKiemTraDao= new BaiKiemTra_DAO(em);
-    private static KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
-    private static NganHangDeThi_DAO nh_dao= new NganHangDeThi_DAO(em);
-    private  static KetQuaHocTap_DAO ketQuaHocTapDao=new KetQuaHocTap_DAO(em);
+    private static ITaiKhoan_DAO taiKhoanDao;
+    private static IMonHoc_DAO monHocDao;
+    private static ILopHoc_DAO lopHocDao;
+    private static INganHangDeThi_DAO nganHangDeThiDao;
+    private static IDeThi_DAO deThiDao;
+    private static ICauHoi_DAO cauHoiDao;
+    private static IDsLuaChon_DAO dsLuaChonDao;
+    private static BaiKiemTra_DAO baiKiemTraDao;
+    private static IKetQuaKiemTra_DAO ketQuaKiemTraDao;
+    private static INganHangDeThi_DAO nh_dao;
+    private  static IKetQuaHocTap_DAO ketQuaHocTapDao;
+
+    static {
+        try {
+            taiKhoanDao = new TaiKhoan_DAO(em);
+            monHocDao = new MonHoc_DAO(em);
+            lopHocDao = new LopHoc_DAO(em);
+            nganHangDeThiDao = new NganHangDeThi_DAO(em);
+            deThiDao = new DeThi_DAO(em);
+            cauHoiDao = new CauHoi_DAO(em);
+            dsLuaChonDao = new DsLuaChon_DAO(em);
+            baiKiemTraDao= new BaiKiemTra_DAO(em);
+            ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
+            nh_dao= new NganHangDeThi_DAO(em);
+            ketQuaHocTapDao=new KetQuaHocTap_DAO(em);
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     private static ArrayList<String> dsMa = new ArrayList<>();
     private static ArrayList<String> dsMaGiaoVien = new ArrayList<>();
 
-    public TaiKhoan TaiKhoanFaker() {
+    public TaiKhoan TaiKhoanFaker() throws RemoteException {
         TaiKhoan tk = new TaiKhoan();
         String maTaiKhoan;
         do {
@@ -58,7 +79,7 @@ public class Data {
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
-    public TaiKhoan TaiKhoanSVFaker() {
+    public TaiKhoan TaiKhoanSVFaker() throws RemoteException {
         TaiKhoan tk = new TaiKhoan();
         String maTaiKhoan;
         do {
@@ -87,7 +108,7 @@ public class Data {
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
-    public TaiKhoan TaiKhoanGVFaker() {
+    public TaiKhoan TaiKhoanGVFaker() throws RemoteException {
         TaiKhoan tk = new TaiKhoan();
         String maTaiKhoan;
         do {
@@ -118,7 +139,7 @@ public class Data {
         tk.setSoDienThoai(faker.phoneNumber().cellPhone());
         return tk;
     }
-    public MonHoc MonHocFaker() {
+    public MonHoc MonHocFaker() throws RemoteException {
         MonHoc mh = new MonHoc();
         String maMonHoc;
         do {
@@ -131,7 +152,7 @@ public class Data {
         return mh;
     }
 
-    public LopHoc LopHocFaker(MonHoc mh) {
+    public LopHoc LopHocFaker(MonHoc mh) throws RemoteException {
         LopHoc lopHoc = new LopHoc();
         String maLopHoc;
         do {
@@ -149,7 +170,7 @@ public class Data {
         return lopHoc;
     }
 
-    public NganHangDeThi NganHangDeThiFaker(MonHoc mh) {
+    public NganHangDeThi NganHangDeThiFaker(MonHoc mh) throws RemoteException {
         NganHangDeThi nh = new NganHangDeThi();
         String maNganHangDeThi;
         do {
@@ -163,7 +184,7 @@ public class Data {
         return nh;
     }
 
-    public DeThi DeThiFaker(TaiKhoan taiKhoan, NganHangDeThi nganHangDeThi, MonHoc mh) {
+    public DeThi DeThiFaker(TaiKhoan taiKhoan, NganHangDeThi nganHangDeThi, MonHoc mh) throws RemoteException {
         DeThi deThi = new DeThi();
         String maDeThi;
         do {
@@ -189,7 +210,7 @@ public class Data {
         return deThi;
     }
 
-    public CauHoi CauHoiFaker(DeThi deThi) {
+    public CauHoi CauHoiFaker(DeThi deThi) throws RemoteException {
         CauHoi cauHoi = new CauHoi();
         String maCauHoi;
         do {
@@ -219,7 +240,7 @@ public class Data {
         cauHoi.setDeThi(deThi);
         return cauHoi;
     }
-    public void DsLuaChonFaker(CauHoi cauHoi) {
+    public void DsLuaChonFaker(CauHoi cauHoi) throws RemoteException {
         List<String> dapAn = Arrays.asList("A", "B", "C", "D");
         int viTriDung = faker.random().nextInt(0, 3); // 0 đến 3
 
@@ -232,7 +253,7 @@ public class Data {
     public Date toDate(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
-    public BaiKiemTra BaiKiemTraFaker(DeThi deThi, LopHoc lopHoc){
+    public BaiKiemTra BaiKiemTraFaker(DeThi deThi, LopHoc lopHoc) throws RemoteException {
         BaiKiemTra baiKiemTra= new BaiKiemTra();
         String maBaKiemTra;
         do {
@@ -267,7 +288,7 @@ public class Data {
         baiKiemTra.setLopHoc(lopHoc);
         return baiKiemTra;
     }
-    public KetQuaKiemTra KetQuaKiemTraFaker(BaiKiemTra baiKiemTra,TaiKhoan taiKhoan) {
+    public KetQuaKiemTra KetQuaKiemTraFaker(BaiKiemTra baiKiemTra,TaiKhoan taiKhoan) throws RemoteException {
         KetQuaKiemTra ketQuaKiemTra= new KetQuaKiemTra();
         String maKetQuaKiem;
         do {
@@ -283,8 +304,8 @@ public class Data {
         ketQuaKiemTra.setTaiKhoan(taiKhoan);
         return  ketQuaKiemTra;
     }
-    public void DSCauTraLoiFaker(KetQuaKiemTra ketQuaKiemTra){
-        DsCauTraLoi_DAO dao= new DsCauTraLoi_DAO(em);
+    public void DSCauTraLoiFaker(KetQuaKiemTra ketQuaKiemTra) throws RemoteException {
+        IDsCauTraLoi_DAO dao= new DsCauTraLoi_DAO(em);
         String maBKT= ketQuaKiemTra.getBaiKiemTra().getMaBaiKiemTra();
         BaiKiemTra bkt= baiKiemTraDao.getBaiKiemTra(maBKT);
         DeThi deThi=deThiDao.getDeThi(bkt.getDeThi().getMaDeThi());
@@ -295,7 +316,7 @@ public class Data {
         }
     }
 
-    public void GenerateGV(int i) {
+    public void GenerateGV(int i) throws RemoteException {
         for (int count = 0; count < i; count++) {
             // Tạo tài khoản giáo viên bằng Faker
             TaiKhoan tk = TaiKhoanGVFaker();
@@ -306,7 +327,7 @@ public class Data {
             }
         }
     }
-    public void GenerateSV(int i) {
+    public void GenerateSV(int i) throws RemoteException {
         for (int count = 0; count < i; count++) {
             // Tạo tài khoản giáo viên bằng Faker
             TaiKhoan tk = TaiKhoanSVFaker();
@@ -317,7 +338,7 @@ public class Data {
             }
         }
     }
-    public void GenerateMonHoc(int soLuong) {
+    public void GenerateMonHoc(int soLuong) throws RemoteException {
         Set<String> tenMonHocSet = new HashSet<>(); // Sử dụng Set để đảm bảo tên môn học không trùng nhau
 
         int count = 0;

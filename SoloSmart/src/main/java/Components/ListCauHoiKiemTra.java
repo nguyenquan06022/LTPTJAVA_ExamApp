@@ -5,11 +5,12 @@
 package Components;
 
 import Dao.DsLuaChon_DAO;
+import Dao.IDsLuaChon_DAO;
 import Entity.CauHoi;
-import Entity.LuaChons;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -26,8 +28,8 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ListCauHoiKiemTra extends JPanel{
     private ArrayList<CauHoiKiemTra> dsCauHoi=new ArrayList<>();
-    private DsLuaChon_DAO lc_dao= new DsLuaChon_DAO(Main_GUI.em);
-    public ListCauHoiKiemTra(){
+    private IDsLuaChon_DAO lc_dao= RmiServiceLocator.getDsLuaChonDao();
+    public ListCauHoiKiemTra() throws RemoteException {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
@@ -48,14 +50,14 @@ public class ListCauHoiKiemTra extends JPanel{
         scrollPane.setOpaque(false);
         add(scrollPane, BorderLayout.CENTER);
     }
-    public ListCauHoiKiemTra(ArrayList<CauHoi> ds){
+    public ListCauHoiKiemTra(ArrayList<CauHoi> ds) throws RemoteException {
         init(ds);
     }
-    public void updateList(ArrayList<CauHoi> ds){
+    public void updateList(ArrayList<CauHoi> ds) throws RemoteException {
         removeAll();
         init(ds);
     }
-    public void init(ArrayList<CauHoi> ds){
+    public void init(ArrayList<CauHoi> ds) throws RemoteException {
         dsCauHoi.clear();
         setOpaque(false);
         setLayout(new BorderLayout());

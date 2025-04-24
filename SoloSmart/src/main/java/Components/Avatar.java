@@ -13,6 +13,7 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.rmi.RemoteException;
 
 public class Avatar extends javax.swing.JPanel {
 
@@ -96,7 +97,11 @@ public class Avatar extends javax.swing.JPanel {
         title.setText("Home");
         title.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                titleMouseClicked(evt);
+                try {
+                    titleMouseClicked(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -145,7 +150,7 @@ public class Avatar extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void titleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleMouseClicked
+    private void titleMouseClicked(java.awt.event.MouseEvent evt) throws RemoteException {//GEN-FIRST:event_titleMouseClicked
         String tab= title.getText();
         String role= Main_GUI.tk.getVaiTro();
         Main_GUI.main_panel.removeAll();

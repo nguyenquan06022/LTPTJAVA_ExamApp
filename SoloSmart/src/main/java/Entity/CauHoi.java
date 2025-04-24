@@ -3,6 +3,7 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "CauHois")
-public class CauHoi {
+public class CauHoi implements Serializable {
     @Id
     @NonNull
     private String maCauHoi;

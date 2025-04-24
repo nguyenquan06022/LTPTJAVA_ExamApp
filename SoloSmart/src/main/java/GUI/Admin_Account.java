@@ -3,32 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI;
-
+import service.RmiServiceLocator;
 import Components.EventPagination;
 import Components.PaginationItemRenderStyle1;
 import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
 import Components.TableActionEvent;
-import Dao.KetQuaHocTap_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
-import Dao.TaiKhoan_DAO;
+import Dao.*;
 import Entity.KetQuaHocTap;
-import Entity.LopHoc;
-import Entity.MonHoc;
 import Entity.TaiKhoan;
 import java.io.File;
-import java.time.LocalDateTime;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import jnafilechooser.api.JnaFileChooser;
 
@@ -41,23 +31,23 @@ public class Admin_Account extends javax.swing.JPanel {
     /**
      * Creates new form Admin_Subject
      */
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
-    private TaiKhoan_DAO taiKhoan_DAO = new TaiKhoan_DAO(Main_GUI.em);
+    private IMonHoc_DAO mh_dao= RmiServiceLocator.getMonHocDao();
+    private ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
+    private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
+    private IKetQuaHocTap_DAO kqht_dao= RmiServiceLocator.getKetQuaHocTapDao();
+    private ITaiKhoan_DAO ITaiKhoan_DAO = RmiServiceLocator.getTaiKhoanDao();
     private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
     private ArrayList<KetQuaHocTap> dsKQHT= new ArrayList<>();
     private ArrayList<TaiKhoan> list= new ArrayList<>();
-    public Admin_Account() {
+    public Admin_Account() throws RemoteException {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
         TableActionEvent event = new TableActionEvent() {
             @Override
-            public void onEdit(int row) {
+            public void onEdit(int row) throws RemoteException {
                TaiKhoan tk= tk_dao.getTaiKhoan(jTable1.getValueAt(row, 0).toString());
                myTextField1.setText(tk.getHo());
                myTextField13.setText(tk.getTen());
@@ -81,7 +71,7 @@ public class Admin_Account extends javax.swing.JPanel {
             }
 
             @Override
-            public void onDelete(int row) {
+            public void onDelete(int row) throws RemoteException {
                 int choice= JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa tài khoản này không?", "Xác nhận xóa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if(choice==JOptionPane.YES_OPTION){
                     if(tk_dao.deleteTaiKhoan(jTable1.getValueAt(row, 0).toString())){
@@ -94,7 +84,7 @@ public class Admin_Account extends javax.swing.JPanel {
             }
 
             @Override
-            public void onView(int row) {
+            public void onView(int row) throws RemoteException {
                 TaiKhoan tk= tk_dao.getTaiKhoan(jTable1.getValueAt(row, 0).toString());
                 
                 myTextField2.setText(tk.getMaTaiKhoan());
@@ -121,7 +111,11 @@ public class Admin_Account extends javax.swing.JPanel {
         initPag(1);
         //search
         searchTextField1.addActionListener(x->{
-            filterTaiKhoan();
+            try {
+                filterTaiKhoan();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
         
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
@@ -133,7 +127,7 @@ public class Admin_Account extends javax.swing.JPanel {
             
         });
     }
-    public void initTable(){
+    public void initTable() throws RemoteException {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         list= tk_dao.getDanhSachTaiKhoan();
@@ -168,7 +162,7 @@ public class Admin_Account extends javax.swing.JPanel {
                 
     }
     
-    public void filterTaiKhoan() {
+    public void filterTaiKhoan() throws RemoteException {
         int slgioiTinh = comboBoxSuggestion1.getSelectedIndex();
             int slvaiTro = comboBoxSuggestion2.getSelectedIndex();
             String key = searchTextField1.getText();
@@ -202,7 +196,7 @@ public class Admin_Account extends javax.swing.JPanel {
             }
     }
     
-    public boolean validateAccount(){
+    public boolean validateAccount() throws RemoteException {
         String ho= myTextField5.getText();
         String ten= myTextField14.getText();
         String email = myTextField17.getText().trim();
@@ -392,7 +386,11 @@ public class Admin_Account extends javax.swing.JPanel {
         button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button3ActionPerformed(evt);
+                try {
+                    button3ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -919,7 +917,11 @@ public class Admin_Account extends javax.swing.JPanel {
         button6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button6ActionPerformed(evt);
+                try {
+                    button6ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1101,7 +1103,11 @@ public class Admin_Account extends javax.swing.JPanel {
         button2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1122,21 +1128,33 @@ public class Admin_Account extends javax.swing.JPanel {
         button14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button14ActionPerformed(evt);
+                try {
+                    button14ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Giới tính", "Nam", "Nữ" }));
         comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSuggestion1ActionPerformed(evt);
+                try {
+                    comboBoxSuggestion1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Vai trò", "Sinh viên", "Giảng viên", "Quản trị viên", "" }));
         comboBoxSuggestion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSuggestion2ActionPerformed(evt);
+                try {
+                    comboBoxSuggestion2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1215,7 +1233,7 @@ public class Admin_Account extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
         list=tk_dao.getDanhSachTaiKhoan();
         initPag(1);
     }//GEN-LAST:event_button2ActionPerformed
@@ -1229,7 +1247,7 @@ public class Admin_Account extends javax.swing.JPanel {
         AddDialog.setVisible(true);
     }//GEN-LAST:event_button1ActionPerformed
         
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button3ActionPerformed
 //          System.out.println(tk_dao.generatedTenTaiKhoan(comboBoxSuggestion8.getSelectedIndex())+" "+tk_dao.generatePassword(myTextField13.getText(), myTextField1.getText(), comboBoxSuggestion8.getSelectedIndex()));
         if(validateUpdate()){
             TaiKhoan tk= tk_dao.getTaiKhoan(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
@@ -1254,7 +1272,7 @@ public class Admin_Account extends javax.swing.JPanel {
         
     }//GEN-LAST:event_button3ActionPerformed
 
-    private void button14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button14ActionPerformed
+    private void button14ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button14ActionPerformed
            JnaFileChooser fileChooser = new JnaFileChooser();
             if (fileChooser.showOpenDialog(null)) {
                  File selectedFile = fileChooser.getSelectedFile();
@@ -1284,7 +1302,7 @@ public class Admin_Account extends javax.swing.JPanel {
         ViewDialog.dispose();
     }//GEN-LAST:event_button5ActionPerformed
 
-    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button6ActionPerformed
         if(validateAccount()){
             TaiKhoan tk= new TaiKhoan(tk_dao.generateMa(), tk_dao.generatedTenTaiKhoan(comboBoxSuggestion10.getSelectedIndex()), 
                     tk_dao.generatePassword(myTextField14.getText(), myTextField5.getText(), comboBoxSuggestion10.getSelectedIndex()),
@@ -1323,11 +1341,11 @@ public class Admin_Account extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jLabel22MouseClicked
 
-    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
         filterTaiKhoan();
     }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
 
-    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
+    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
         filterTaiKhoan();
     }//GEN-LAST:event_comboBoxSuggestion2ActionPerformed
 

@@ -5,9 +5,13 @@
 package Components;
 
 import Dao.DsLuaChon_DAO;
+import Dao.IDsLuaChon_DAO;
 import Entity.CauHoi;
 import Entity.LuaChons;
 import GUI.Main_GUI;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 
@@ -20,12 +24,12 @@ public class CauHoiKiemTra extends javax.swing.JPanel {
     /**
      * Creates new form CauHoiKiemTra
      */
-    private DsLuaChon_DAO lc_dao= new DsLuaChon_DAO(Main_GUI.em);
-    public CauHoiKiemTra() {
+    private IDsLuaChon_DAO lc_dao= RmiServiceLocator.getDsLuaChonDao();
+    public CauHoiKiemTra() throws RemoteException {
         initComponents();
         
     }
-    public CauHoiKiemTra(int cau,CauHoi cauHoi){
+    public CauHoiKiemTra(int cau,CauHoi cauHoi) throws RemoteException {
         initComponents();
         jTextArea1.setText(cauHoi.getCauHoi());
         jLabel1.setText("Câu "+cau);

@@ -8,27 +8,32 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KetQuaKiemTra_DAO {
+public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKiemTra_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "KQKT" + df.format(now);
     }
 
-    public KetQuaKiemTra_DAO() {
+    public KetQuaKiemTra_DAO() throws RemoteException{
+        super();
     }
 
-    public KetQuaKiemTra_DAO(EntityManager em) {
+    public KetQuaKiemTra_DAO(EntityManager em) throws RemoteException{
         this.em = em;
     }
-    public boolean themKetQuaKiemTra(KetQuaKiemTra ketQua) {
+    @Override
+    public boolean themKetQuaKiemTra(KetQuaKiemTra ketQua) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -58,7 +63,8 @@ public class KetQuaKiemTra_DAO {
         return isSuccess;
     }
 
-    public KetQuaKiemTra getKetQuaKiemTra(String id) {
+    @Override
+    public KetQuaKiemTra getKetQuaKiemTra(String id) throws RemoteException{
         if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("Mã kết quả kiểm tra không được để trống.");
         }
@@ -94,7 +100,8 @@ public class KetQuaKiemTra_DAO {
         }
     }
 
-    public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra) {
+    @Override
+    public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaKiemTra> danhSachKetQua = new ArrayList<>();
         try {
@@ -130,7 +137,8 @@ public class KetQuaKiemTra_DAO {
         return danhSachKetQua;
     }
 
-    public KetQuaKiemTra getKetQuaKiemTra(String maBaiKiemTra, String maTaiKhoan) {
+    @Override
+    public KetQuaKiemTra getKetQuaKiemTra(String maBaiKiemTra, String maTaiKhoan) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         KetQuaKiemTra ketQuaKiemTra = null;
         try {
@@ -152,7 +160,8 @@ public class KetQuaKiemTra_DAO {
         return ketQuaKiemTra;
     }
     
-    public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) {
+    @Override
+    public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -170,7 +179,8 @@ public class KetQuaKiemTra_DAO {
     }
 
     // thống kê điểm theo bài kiểm tra
-    public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) {
+    @Override
+    public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         ArrayList<Float> danhSachKetQua = new ArrayList<>();
         try {
@@ -196,7 +206,8 @@ public class KetQuaKiemTra_DAO {
     }
 
     // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
-    public float tinhDiemChoSinhVien(String maSinhVien,String maBaiKiemTra) {
+    @Override
+    public float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             String sql = "WITH CauTraLoiSinhVien AS (\n" +
@@ -243,7 +254,8 @@ public class KetQuaKiemTra_DAO {
     }
 
     //cập nhật điểm cao nhất
-    public boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan,String maBaiKiemTra) {
+    @Override
+    public boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {

@@ -4,26 +4,22 @@
  */
 package GUI;
 
-import Components.Avatar;
 import Components.CauHoiDeThi;
-import Components.ComboBoxSuggestion;
-import Dao.CauHoi_DAO;
-import Dao.DeThi_DAO;
-import Dao.DsLuaChon_DAO;
-import Dao.MonHoc_DAO;
+import Dao.*;
 import Entity.*;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.*;
 import jnafilechooser.api.JnaFileChooser;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -31,20 +27,20 @@ import jnafilechooser.api.JnaFileChooser;
  */
 public class GV_Add_Exam extends javax.swing.JPanel {
 
-    private MonHoc_DAO monHoc_DAO = new MonHoc_DAO(Main_GUI.em);
-    private DeThi_DAO deThi_DAO = new DeThi_DAO(Main_GUI.em);
-    private CauHoi_DAO cauHoiDao = new CauHoi_DAO(Main_GUI.em);
-    private DsLuaChon_DAO dsLuaChonDao = new DsLuaChon_DAO(Main_GUI.em);
+    private IMonHoc_DAO IMonHoc_DAO = RmiServiceLocator.getMonHocDao();
+    private IDeThi_DAO IDeThi_DAO = RmiServiceLocator.getDeThiDao();
+    private ICauHoi_DAO cauHoiDao = RmiServiceLocator.getCauHoiDao();
+    private IDsLuaChon_DAO dsLuaChonDao = RmiServiceLocator.getDsLuaChonDao();
     private String maDeThi;
 
-    public GV_Add_Exam() {
+    public GV_Add_Exam() throws RemoteException {
         initComponents();
         loadListMonHoc();
         btnSua.setVisible(false);
         btnSua.setVisible(false);
     }
 
-    public GV_Add_Exam(DeThi deThi) {
+    public GV_Add_Exam(DeThi deThi) throws RemoteException {
         this.maDeThi = deThi.getMaDeThi();
         List<CauHoi> dsCauHoi = cauHoiDao.getDsCauHoiTheoDeThi(deThi.getMaDeThi());
         List<LuaChons> dsLuaChon = dsLuaChonDao.getDSLuaChonTheoDeThi(deThi.getMaDeThi());
@@ -63,7 +59,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -113,7 +109,11 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         sliderGradient1.setTicksColor(new java.awt.Color(255, 255, 255));
         sliderGradient1.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sliderGradient1StateChanged(evt);
+                try {
+                    sliderGradient1StateChanged(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -166,7 +166,11 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
+                try {
+                    btnHuyActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -254,7 +258,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             .addComponent(circleBackgroundPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-    private void initComponents(DeThi deThi) {
+    private void initComponents(DeThi deThi) throws RemoteException {
             // lấy ra danh sách câu hỏi
             List<CauHoi> dsCauHoi = cauHoiDao.getDsCauHoiTheoDeThi(deThi.getMaDeThi());
             List<LuaChons> dsLuaChon = dsLuaChonDao.getDSLuaChonTheoDeThi(deThi.getMaDeThi());
@@ -304,7 +308,11 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             sliderGradient1.setTicksColor(new java.awt.Color(255, 255, 255));
             sliderGradient1.addChangeListener(new javax.swing.event.ChangeListener() {
                 public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                    sliderGradient1StateChanged(evt);
+                    try {
+                        sliderGradient1StateChanged(evt);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             });
 
@@ -405,7 +413,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             );
         }
 
-        private void sliderGradient1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sliderGradient1StateChanged
+        private void sliderGradient1StateChanged(javax.swing.event.ChangeEvent evt) throws RemoteException {//GEN-FIRST:event_sliderGradient1StateChanged
             jLabel2.setText(sliderGradient1.getValue() + " câu hỏi");
             listcauHoiDeThi1.updateCauHoi(sliderGradient1.getValue());
         }//GEN-LAST:event_sliderGradient1StateChanged
@@ -432,7 +440,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                 deThi.setTaiKhoan(new TaiKhoan(Main_GUI.tk.getMaTaiKhoan()));
 
                 // Add exam to database
-                res.add(deThi_DAO.addDeThi(deThi));
+                res.add(IDeThi_DAO.addDeThi(deThi));
 
                 // Add all questions to database
                 for (CauHoiDeThi item : listCauHoi) {
@@ -532,7 +540,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                 document.close();
 
                 // Tạo đối tượng DeThi
-                String maDeThi = deThi_DAO.generateMa();
+                String maDeThi = IDeThi_DAO.generateMa();
                 NganHangDeThi nganHang = new NganHangDeThi(null);
                 TaiKhoan tk = Main_GUI.tk;
 
@@ -580,7 +588,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                     danhSachCauHoi.add(ch);
                 }
 
-                boolean res1 = deThi_DAO.addDeThi(deThi);
+                boolean res1 = IDeThi_DAO.addDeThi(deThi);
                 if (res1) {
                     for (CauHoi ch : danhSachCauHoi) {
                         boolean res2 = cauHoiDao.addCauHoi(ch);
@@ -618,7 +626,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                 deThi.setTrangThai("enable");
                 deThi.setNganHangDeThi(new NganHangDeThi());
                 deThi.setTaiKhoan(new TaiKhoan(Main_GUI.tk.getMaTaiKhoan()));
-                deThi_DAO.updatDeThi(deThi);
+                IDeThi_DAO.updatDeThi(deThi);
 
                 // Add all questions to database
                 for (CauHoiDeThi item : listCauHoi) {
@@ -644,15 +652,15 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             }
     }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_btnHuyActionPerformed
         Main_GUI.main_panel.removeAll();
         Main_GUI.main_panel.add(new GV_Exams());
         Main_GUI.main_panel.repaint();
         Main_GUI.main_panel.revalidate();
     }//GEN-LAST:event_btnHuyActionPerformed
 
-        private void loadListMonHoc() {
-            List<MonHoc> listMonHoc = monHoc_DAO.getDanhSachMonHoc();
+        private void loadListMonHoc() throws RemoteException {
+            List<MonHoc> listMonHoc = IMonHoc_DAO.getDanhSachMonHoc();
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
             for (MonHoc item : listMonHoc) {
                 model.addElement(item.getTenMonHoc());

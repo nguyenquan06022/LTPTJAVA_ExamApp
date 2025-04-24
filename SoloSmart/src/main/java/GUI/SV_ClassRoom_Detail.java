@@ -4,13 +4,13 @@
  */
 package GUI;
 
-import Dao.BaiKiemTra_DAO;
-import Dao.KetQuaHocTap_DAO;
-import Dao.LopHoc_DAO;
-import Dao.TaiKhoan_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -22,24 +22,24 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
     /**
      * Creates new form GV_ClassRoom_Detail
      */
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
-    private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
+    private ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
+    private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
+    private IKetQuaHocTap_DAO kqht_dao= RmiServiceLocator.getKetQuaHocTapDao();
+    private IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
     private LopHoc lopHoc;
     private ArrayList<KetQuaHocTap> dsKQHT;
     private ArrayList<BaiKiemTra> dsBKT;
-    public SV_ClassRoom_Detail() {
+    public SV_ClassRoom_Detail() throws RemoteException {
         initComponents();
     }
-    public SV_ClassRoom_Detail(LopHoc lopHoc){
+    public SV_ClassRoom_Detail(LopHoc lopHoc) throws RemoteException {
         this.lopHoc=lopHoc;
         initComponents();
         
         loadBKT();
     }
    
-    public void loadBKT(){
+    public void loadBKT() throws RemoteException {
         dsKQHT=kqht_dao.getDanhSachKetQuaHocTap(lopHoc.getMaLop());
         dsBKT= bkt_dao.getDanhSachBaiKiemTraTheoLop(lopHoc.getMaLop());
         listBaiKiemTra1.updateList(dsBKT);
@@ -52,7 +52,7 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         roundedPanel1 = new Components.RoundedPanel();
         listBaiKiemTra1 = new Components.ListBaiKiemTra();

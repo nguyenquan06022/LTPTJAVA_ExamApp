@@ -4,29 +4,53 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class TestCRUD {
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("mssql-pu");
-    private static EntityManager em = emf.createEntityManager();
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
     private static final Scanner sc = new Scanner(System.in);
 
-    private static BaiKiemTra_DAO baiKiemTraDao = new BaiKiemTra_DAO(em);
-    private static CauHoi_DAO cauHoiDao = new CauHoi_DAO(em);
-    private static DeThi_DAO deThiDao = new DeThi_DAO(em);
-    private static KetQuaHocTap_DAO ketQuaHocTapDao = new KetQuaHocTap_DAO(em);
-    private static KetQuaKiemTra_DAO ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
-    private static LopHoc_DAO lopHocDao = new LopHoc_DAO(em);
-    private static MonHoc_DAO monHocDao = new MonHoc_DAO(em);
-    private static NganHangDeThi_DAO nganHangDeThiDao = new NganHangDeThi_DAO(em);
-    private static TaiKhoan_DAO taiKhoanDao = new TaiKhoan_DAO(em);
-    private static DsLuaChon_DAO dsLuaChonDao = new DsLuaChon_DAO(em);
-    private static DsCauTraLoi_DAO dsCauTraLoi_dao = new DsCauTraLoi_DAO(em);
+    private static BaiKiemTra_DAO baiKiemTraDao;
+    private static ICauHoi_DAO cauHoiDao;
+    private static IDeThi_DAO deThiDao;
+    private static IKetQuaHocTap_DAO ketQuaHocTapDao;
+    private static IKetQuaKiemTra_DAO ketQuaKiemTraDao;
+    private static ILopHoc_DAO lopHocDao;
+    private static IMonHoc_DAO monHocDao;
+    private static INganHangDeThi_DAO nganHangDeThiDao;
+    private static ITaiKhoan_DAO taiKhoanDao;
+    private static IDsLuaChon_DAO dsLuaChonDao;
+    private static IDsCauTraLoi_DAO IDsCauTraLoi_dao;
+
+    static {
+        try {
+            emf = Persistence.createEntityManagerFactory("mssql-pu");
+            em = emf.createEntityManager();
+
+            baiKiemTraDao = new BaiKiemTra_DAO(em);
+            cauHoiDao = new CauHoi_DAO(em);
+            deThiDao = new DeThi_DAO(em);
+            ketQuaHocTapDao = new KetQuaHocTap_DAO(em);
+            ketQuaKiemTraDao = new KetQuaKiemTra_DAO(em);
+            lopHocDao = new LopHoc_DAO(em);
+            monHocDao = new MonHoc_DAO(em);
+            nganHangDeThiDao = new NganHangDeThi_DAO(em);
+            taiKhoanDao = new TaiKhoan_DAO(em);
+            dsLuaChonDao = new DsLuaChon_DAO(em);
+            IDsCauTraLoi_dao = new DsCauTraLoi_DAO(em);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Lỗi khi khởi tạo các DAO hoặc EntityManager!", e);
+        }
+    }
 
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws RemoteException {
         int choice;
         do {
             System.out.println("----Menu----");
@@ -99,51 +123,51 @@ public class TestCRUD {
         } while (choice != 0);
     }
 
-    public static void TaiKhoanMenu() {
+    public static void TaiKhoanMenu() throws RemoteException {
         subMenu("TaiKhoan");
     }
 
-    public static void MonHocMenu() {
+    public static void MonHocMenu() throws RemoteException {
         subMenu("MonHoc");
     }
 
-    public static void LopHocMenu() {
+    public static void LopHocMenu() throws RemoteException {
         subMenu("LopHoc");
     }
 
-    public static void NganHangMenu() {
+    public static void NganHangMenu() throws RemoteException {
         subMenu("NganHang");
     }
 
-    public static void DeThiMenu() {
+    public static void DeThiMenu() throws RemoteException {
         subMenu("DeThi");
     }
 
-    public static void CauHoiMenu() {
+    public static void CauHoiMenu() throws RemoteException {
         subMenu("CauHoi");
     }
 
-    public static void DsLuaChonMenu() {
+    public static void DsLuaChonMenu() throws RemoteException {
         subMenu("dsLuaChon");
     }
 
-    public static void BaiKiemTraMenu() {
+    public static void BaiKiemTraMenu() throws RemoteException {
         subMenu("BaiKiemTra");
     }
 
-    public static void KetQuaKiemTraMenu() {
+    public static void KetQuaKiemTraMenu() throws RemoteException {
         subMenu("KetQuaKiemTra");
     }
 
-    public static void DsCauTraLoiMenu() {
+    public static void DsCauTraLoiMenu() throws RemoteException {
         subMenu("dsCauTraLoi");
     }
 
-    public static void KetQuaHocTapMenu() {
+    public static void KetQuaHocTapMenu() throws RemoteException {
         subMenu("KetQuaHocTap");
     }
 
-    public static void subMenu(String entityName) {
+    public static void subMenu(String entityName) throws RemoteException {
         int choice;
         do {
             System.out.println("----" + entityName + "----");
@@ -162,7 +186,7 @@ public class TestCRUD {
         } while (choice != 0);
     }
 
-    public static void handleCRUD(int choice, String entityName) {
+    public static void handleCRUD(int choice, String entityName) throws RemoteException {
         switch (entityName) {
             case "TaiKhoan": {
                 switch (choice) {
@@ -755,7 +779,7 @@ public class TestCRUD {
                         String maKetQuaKiemTra = sc.nextLine();
                         System.out.println("Nhap cau tra loi");
                         String cauTraLoi = sc.nextLine();
-                        boolean res = dsCauTraLoi_dao.themCauTraLoi(maKetQuaKiemTra,cauTraLoi);
+                        boolean res = IDsCauTraLoi_dao.themCauTraLoi(maKetQuaKiemTra,cauTraLoi);
                         if(res) System.out.println("Them cau tra loi thanh cong");
                         else System.out.println("Them cau tra loi that bai");
                         break;
@@ -767,7 +791,7 @@ public class TestCRUD {
                         System.out.println("Nhap ma ket qua kiem tra");
                         String maKetQuaKiemTra = sc.nextLine();
                         System.out.println("Danh sach cau tra loi");
-                        System.out.println(dsCauTraLoi_dao.getDSCauTraLoi(maKetQuaKiemTra));
+                        System.out.println(IDsCauTraLoi_dao.getDSCauTraLoi(maKetQuaKiemTra));
                         break;
                     }
                     case 4: {
@@ -777,7 +801,7 @@ public class TestCRUD {
                         String cauTraLoi = sc.nextLine();
                         System.out.println("Nhap cau tra loi moi");
                         String cauTraLoiMoi = sc.nextLine();
-                        boolean res = dsCauTraLoi_dao.updateCauTraLoi(maKetQuaKiemTra,cauTraLoi,cauTraLoiMoi);
+                        boolean res = IDsCauTraLoi_dao.updateCauTraLoi(maKetQuaKiemTra,cauTraLoi,cauTraLoiMoi);
                         if(res) System.out.println("Sua cau tra loi thanh cong");
                         else System.out.println("Sua cau tra loi that bai");
                         break;

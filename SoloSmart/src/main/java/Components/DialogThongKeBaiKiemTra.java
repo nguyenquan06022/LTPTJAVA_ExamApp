@@ -1,6 +1,7 @@
 package Components;
 
 import Components.chart.ModelChart;
+import Dao.IBaiKiemTra_DAO;
 import Dao.TaiKhoan_DAO;
 import jakarta.persistence.EntityManager;
 import java.awt.Color;
@@ -8,6 +9,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import DB.CreateDB;
 import Dao.BaiKiemTra_DAO;
 import Entity.TaiKhoan;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.Map;
 
 /**
@@ -16,12 +20,11 @@ import java.util.Map;
  */
 public class DialogThongKeBaiKiemTra extends javax.swing.JDialog {
     private static EntityManager em;
-    private BaiKiemTra_DAO baiKiemTra_DAO;
+    private IBaiKiemTra_DAO baiKiemTra_DAO = RmiServiceLocator.getBaiKiemTraDao();
     private int quantity;
 
-    public DialogThongKeBaiKiemTra() {
+    public DialogThongKeBaiKiemTra() throws RemoteException {
         em = CreateDB.createDB();
-        baiKiemTra_DAO = new BaiKiemTra_DAO(em);
         String maBaiKiemTra = "BKT21042025233306599";
 
         initComponents();
@@ -98,7 +101,11 @@ public class DialogThongKeBaiKiemTra extends javax.swing.JDialog {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new DialogThongKeBaiKiemTra().setVisible(true);
+            try {
+                new DialogThongKeBaiKiemTra().setVisible(true);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

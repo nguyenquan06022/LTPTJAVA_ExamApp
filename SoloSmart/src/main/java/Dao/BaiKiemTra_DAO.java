@@ -7,6 +7,8 @@ import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,23 +17,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BaiKiemTra_DAO {
+public class BaiKiemTra_DAO  extends UnicastRemoteObject implements IBaiKiemTra_DAO {
     private EntityManager em;
     private static DateTimeFormatter df= DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException{
         LocalDateTime now = LocalDateTime.now();
         return "BKT" + df.format(now);
     }
 
-    public BaiKiemTra_DAO() {
+    public BaiKiemTra_DAO() throws RemoteException {
+        super();
     }
 
-    public BaiKiemTra_DAO(EntityManager em) {
+    public BaiKiemTra_DAO(EntityManager em) throws RemoteException{
         this.em = em;
     }
 
-    public boolean themBaiKiemTra(BaiKiemTra bkt){
+    @Override
+    public boolean themBaiKiemTra(BaiKiemTra bkt) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -62,7 +67,8 @@ public class BaiKiemTra_DAO {
         return isSuccess;
     }
 
-    public BaiKiemTra getBaiKiemTra(String id) {
+    @Override
+    public BaiKiemTra getBaiKiemTra(String id) throws RemoteException{
         BaiKiemTra baiKiemTra = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -111,7 +117,8 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
-    public BaiKiemTra getBaiKiemTra() {
+    @Override
+    public BaiKiemTra getBaiKiemTra() throws RemoteException{
         BaiKiemTra baiKiemTra = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -159,7 +166,8 @@ public class BaiKiemTra_DAO {
         }
         return baiKiemTra;
     }
-    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoan(String id) {
+    @Override
+    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoan(String id) throws RemoteException{
     List<BaiKiemTra> list = new ArrayList<>();
     EntityTransaction tr = em.getTransaction();
 
@@ -220,7 +228,8 @@ public class BaiKiemTra_DAO {
     return list;
 }
 
-    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTra() {
+    @Override
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTra() throws RemoteException{
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -241,7 +250,8 @@ public class BaiKiemTra_DAO {
         }
         return danhSachBaiKiemTra;
     }
-    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraTheoLop(String maLop) {
+    @Override
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraTheoLop(String maLop) throws RemoteException{
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -289,7 +299,8 @@ public class BaiKiemTra_DAO {
         return danhSachBaiKiemTra;
     }
 
-    public boolean updateBaiKiemTra(BaiKiemTra baiKiemTra) {
+    @Override
+    public boolean updateBaiKiemTra(BaiKiemTra baiKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -334,7 +345,8 @@ public class BaiKiemTra_DAO {
         }
     }
 
-    public boolean deleteBaiKiemTra(String id) {
+    @Override
+    public boolean deleteBaiKiemTra(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -356,7 +368,8 @@ public class BaiKiemTra_DAO {
     }
 
     // lấy ra danh sách bài kiểm tra của sinh viên theo lớp học
-    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaSinhVienTheoLop(String maTaiKhoan,String maLop) {
+    @Override
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaSinhVienTheoLop(String maTaiKhoan, String maLop) throws RemoteException{
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -410,7 +423,8 @@ public class BaiKiemTra_DAO {
     }
 
     // lấy ra danh sách bài kiểm tra theo lớp học của giáo viên
-    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaGiaoVienTheoLop(String maTaiKhoan,String maLop) {
+    @Override
+    public ArrayList<BaiKiemTra> getDanhSachBaiKiemTraCuaGiaoVienTheoLop(String maTaiKhoan, String maLop) throws RemoteException{
         ArrayList<BaiKiemTra> danhSachBaiKiemTra = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -462,7 +476,8 @@ public class BaiKiemTra_DAO {
     }
 
     // Lấy ra danh sách tài khoản đã tham gia kiểm tra và điểm số của tài khoản đó trong bài kiểm tra đó
-    public Map<TaiKhoan,Float> getDsTaiKhoanThamGiaKiemTraVaDiemSo(String maBaiKiemTra) {
+    @Override
+    public Map<TaiKhoan,Float> getDsTaiKhoanThamGiaKiemTraVaDiemSo(String maBaiKiemTra) throws RemoteException{
         Map<TaiKhoan,Float> res = new HashMap<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -498,7 +513,8 @@ public class BaiKiemTra_DAO {
         }
         return res;
     }
-    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoanGV(String id) {
+    @Override
+    public List<BaiKiemTra> getBaiKiemTraTheoTaiKhoanGV(String id) throws RemoteException{
     List<BaiKiemTra> list = new ArrayList<>();
     EntityTransaction tr = em.getTransaction();
 

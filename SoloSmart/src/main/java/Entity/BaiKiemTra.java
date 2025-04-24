@@ -1,5 +1,6 @@
 package Entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "BaiKiemTras")
-public class BaiKiemTra {
+public class BaiKiemTra implements Serializable {
     @Id
     @NonNull
     private String maBaiKiemTra;

@@ -5,13 +5,16 @@
 package Components;
 
 import Dao.CauHoi_DAO;
+import Dao.ICauHoi_DAO;
 import Entity.CauHoi;
 import Entity.DeThi;
 import Entity.LuaChons;
 import GUI.Main_GUI;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.JLabel;
 
 /**
@@ -19,13 +22,13 @@ import javax.swing.JLabel;
  * @author Admin
  */
 public class CauHoiDeThi extends javax.swing.JPanel {
-    private CauHoi_DAO cauHoi_DAO = new CauHoi_DAO(Main_GUI.em);
+    private ICauHoi_DAO ICauHoi_DAO = RmiServiceLocator.getCauHoiDao();
     private String maDeThi;
     private String maCauHoi;
     /**
      * Creates new form CauHoiDeThi
      */
-    public CauHoiDeThi() {
+    public CauHoiDeThi() throws RemoteException {
         initComponents();
         answer2.getRoundedRectPanel1().setText("B.");
         answer3.getRoundedRectPanel1().setText("C.");
@@ -41,7 +44,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         return dsLuaChonCu;
     }
     
-    public CauHoiDeThi(List<LuaChons> dsLuaChon) {
+    public CauHoiDeThi(List<LuaChons> dsLuaChon) throws RemoteException {
         initComponents();
         answer1.setValueForUpdate(dsLuaChon.get(0).getLuaChon());
         answer2.setValueForUpdate(dsLuaChon.get(1).getLuaChon());
@@ -61,7 +64,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         comboBoxSuggestion1.setSelectedIndex(dapAnDungIndex);
     }
     
-    public CauHoiDeThi(String maDeThi) {
+    public CauHoiDeThi(String maDeThi) throws RemoteException {
         initComponents();
         answer2.getRoundedRectPanel1().setText("B.");
         answer3.getRoundedRectPanel1().setText("C.");
@@ -69,7 +72,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         this.maDeThi = maDeThi;
     }
     
-    public CauHoi getCauHoi() {
+    public CauHoi getCauHoi() throws RemoteException {
         String luaChon1 = answer1.getValue();
         String luaChon2 = answer2.getValue();
         String luaChon3 = answer3.getValue();
@@ -110,7 +113,7 @@ public class CauHoiDeThi extends javax.swing.JPanel {
         
         String loiGiai = tfLoiGiai.getText().trim();
         
-        cauHoi = new CauHoi(cauHoi_DAO.generateMa(),"vận dụng",jTextArea1.getText().trim(),1,dsLuaChon,loiGiai,"enable",new DeThi());
+        cauHoi = new CauHoi(ICauHoi_DAO.generateMa(),"vận dụng",jTextArea1.getText().trim(),1,dsLuaChon,loiGiai,"enable",new DeThi());
         try {
             Thread.sleep(300); // dừng 300 mili giây
         } catch (InterruptedException e) {

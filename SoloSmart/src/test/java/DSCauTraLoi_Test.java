@@ -1,7 +1,6 @@
 import Dao.BaiKiemTra_DAO;
 import Dao.DsCauTraLoi_DAO;
-import Dao.KetQuaKiemTra_DAO;
-import Entity.BaiKiemTra;
+import Dao.IDsCauTraLoi_DAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -14,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DSCauTraLoi_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private DsCauTraLoi_DAO dao;
+    private IDsCauTraLoi_DAO dao;
     private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO();
     @BeforeAll
     public void setup() {

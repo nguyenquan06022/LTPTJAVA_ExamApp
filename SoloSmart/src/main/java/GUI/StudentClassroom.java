@@ -4,10 +4,15 @@
  */
 package GUI;
 
+import Dao.ILopHoc_DAO;
+import Dao.IMonHoc_DAO;
 import Dao.LopHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.LopHoc;
 import Entity.MonHoc;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +26,18 @@ public class StudentClassroom extends javax.swing.JPanel {
     /**
      * Creates new form StudentClassroom
      */
-    private MonHoc_DAO monHoc_DAO = new MonHoc_DAO(Main_GUI.em);
-    private LopHoc_DAO lopHoc_DAO= new LopHoc_DAO(Main_GUI.em);
-    private ArrayList<LopHoc> dsLop;
-    public StudentClassroom() {
-        dsLop=lopHoc_DAO.getDsLopHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
-        initComponents();
+    private IMonHoc_DAO IMonHoc_DAO = RmiServiceLocator.getMonHocDao();
+    private ILopHoc_DAO ILopHoc_DAO = RmiServiceLocator.getLopHocDao();
 
+    private ArrayList<LopHoc> dsLop;
+    public StudentClassroom() throws RemoteException {
+        dsLop= ILopHoc_DAO.getDsLopHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
+        initComponents();
         LoadMonHoc();
         LoadNamHoc();
     }
-    public void LoadMonHoc() {
-        List<MonHoc> monHocs = monHoc_DAO.getDanhSachMonHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
+    public void LoadMonHoc() throws RemoteException {
+        List<MonHoc> monHocs = IMonHoc_DAO.getDanhSachMonHocCuaSinhVien(Main_GUI.tk.getMaTaiKhoan());
         comboBoxSuggestion2.removeAllItems();
         monHocs.forEach(item -> {
             comboBoxSuggestion2.addItem(item.getTenMonHoc());

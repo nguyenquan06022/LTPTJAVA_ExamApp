@@ -5,21 +5,18 @@
 package GUI;
 
 import Components.EventPagination;
-import Components.Model_Card;
 import Components.PaginationItemRenderStyle1;
-import Dao.BaiKiemTra_DAO;
-import Dao.DeThi_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
-import Entity.DeThi;
 import Entity.LopHoc;
+import service.RmiServiceLocator;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,15 +24,14 @@ import javax.swing.ImageIcon;
  */
 public class GV_Classroom extends javax.swing.JPanel {
 
-    private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
+    private IDeThi_DAO dt_dao = RmiServiceLocator.getDeThiDao();
+    private ILopHoc_DAO lh_dao = RmiServiceLocator.getLopHocDao();
+    private IBaiKiemTra_DAO bkt_dao = RmiServiceLocator.getBaiKiemTraDao();
+    private IMonHoc_DAO mh_dao = RmiServiceLocator.getMonHocDao();
     private ArrayList<LopHoc> dsLopHocs;
     private List<BaiKiemTra> dsBKT; 
     
-    public GV_Classroom() {
-        //fix
+    public GV_Classroom() throws RemoteException {
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
         dsBKT= bkt_dao.getBaiKiemTraTheoTaiKhoanGV(Main_GUI.tk.getMaTaiKhoan());
         
@@ -53,11 +49,15 @@ public class GV_Classroom extends javax.swing.JPanel {
         searchTextField1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                search();
+                try {
+                    search();
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
-    public void search(){
+    public void search() throws RemoteException {
         String search= searchTextField1.getText();
         Object monHocObj = comboBoxSuggestion2.getSelectedItem();
         Object namHocObj = comboBoxSuggestion1.getSelectedItem();
@@ -70,8 +70,7 @@ public class GV_Classroom extends javax.swing.JPanel {
                 Main_GUI.tk.getMaTaiKhoan());
          loadData(1);
     }
-    public void reloadData(){
-        //fix
+    public void reloadData() throws RemoteException {
         initComboBox();
         dsLopHocs= lh_dao.getDanhSachLopHocTheoGV(Main_GUI.tk.getMaTaiKhoan());
         loadData(1);
@@ -91,7 +90,7 @@ public class GV_Classroom extends javax.swing.JPanel {
         
         listLopHoc1.updateList(lopHocsToShow);
     }
-    public void initComboBox(){
+    public void initComboBox() throws RemoteException {
         comboBoxSuggestion1.removeAllItems();
         comboBoxSuggestion2.removeAllItems();
         comboBoxSuggestion1.addItem("Năm học");
@@ -139,21 +138,33 @@ public class GV_Classroom extends javax.swing.JPanel {
         button2.setPreferredSize(new java.awt.Dimension(82, 36));
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         comboBoxSuggestion1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Năm học" }));
         comboBoxSuggestion1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSuggestion1ActionPerformed(evt);
+                try {
+                    comboBoxSuggestion1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         comboBoxSuggestion2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Môn học" }));
         comboBoxSuggestion2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxSuggestion2ActionPerformed(evt);
+                try {
+                    comboBoxSuggestion2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -240,15 +251,15 @@ public class GV_Classroom extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
         reloadData();
     }//GEN-LAST:event_button2ActionPerformed
 
-    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
+    private void comboBoxSuggestion1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_comboBoxSuggestion1ActionPerformed
         search();
     }//GEN-LAST:event_comboBoxSuggestion1ActionPerformed
 
-    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
+    private void comboBoxSuggestion2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_comboBoxSuggestion2ActionPerformed
         search();
     }//GEN-LAST:event_comboBoxSuggestion2ActionPerformed
 

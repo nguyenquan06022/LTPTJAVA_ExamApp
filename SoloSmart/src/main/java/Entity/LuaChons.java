@@ -3,12 +3,13 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 @Embeddable
 @Data
 @NoArgsConstructor
 @Table(name = "dsLuaChon")
-public class LuaChons {
+public class LuaChons implements Serializable {
     @Column(name="luaChon", nullable = false, columnDefinition = "nvarchar(255)")
     private String luaChon;
 

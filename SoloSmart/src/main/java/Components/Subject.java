@@ -5,10 +5,12 @@
 package Components;
 
 import DB.CreateDB;
+import Dao.IMonHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.BaiKiemTra;
-import GUI.Main_GUI;
 import jakarta.persistence.EntityManager;
+
+import java.rmi.RemoteException;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -35,9 +37,9 @@ public class Subject extends javax.swing.JPanel {
     }
      
     
-    public Subject(BaiKiemTra bkt ){
+    public Subject(BaiKiemTra bkt ) throws RemoteException {
         EntityManager em= CreateDB.createDB();
-        MonHoc_DAO mh_dao= new MonHoc_DAO(em);
+        IMonHoc_DAO mh_dao= new MonHoc_DAO(em);
         initComponents();
         subject.setText(mh_dao.getTenMonHocTheoBaiKiemTra(bkt.getMaBaiKiemTra()));
         time.setText(bkt.getThoiGianLamBai()+" phút");

@@ -5,28 +5,33 @@ import Entity.NganHangDeThi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NganHangDeThi_DAO {
+public class NganHangDeThi_DAO extends UnicastRemoteObject implements INganHangDeThi_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "NH" + df.format(now);
     }
 
-    public NganHangDeThi_DAO() {
+    public NganHangDeThi_DAO() throws RemoteException{
+        super();
     }
 
-    public NganHangDeThi_DAO(EntityManager em) {
+    public NganHangDeThi_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
 
-    public boolean addNganHangDeThi(NganHangDeThi nganHangDeThi) {
+    @Override
+    public boolean addNganHangDeThi(NganHangDeThi nganHangDeThi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -47,7 +52,8 @@ public class NganHangDeThi_DAO {
         return isSuccess;
     }
 
-    public NganHangDeThi getNganHangDeThi(String id) {
+    @Override
+    public NganHangDeThi getNganHangDeThi(String id) throws RemoteException {
         NganHangDeThi nganHangDeThi = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -75,7 +81,8 @@ public class NganHangDeThi_DAO {
         return nganHangDeThi;
     }
 
-    public ArrayList<NganHangDeThi> getDanhSachNganHangDeThi() {
+    @Override
+    public ArrayList<NganHangDeThi> getDanhSachNganHangDeThi() throws RemoteException {
         ArrayList<NganHangDeThi> danhSachNganHangDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -103,7 +110,8 @@ public class NganHangDeThi_DAO {
         return danhSachNganHangDeThi;
     }
 
-    public boolean updateNganHangDeThi(NganHangDeThi nganHangDeThi) {
+    @Override
+    public boolean updateNganHangDeThi(NganHangDeThi nganHangDeThi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();

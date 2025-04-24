@@ -5,17 +5,20 @@
 package Components;
 
 import Dao.DeThi_DAO;
+import Dao.IDeThi_DAO;
 import Entity.CauHoi;
 import Entity.LuaChons;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -24,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
 public class ListcauHoiDeThi extends JPanel{
     private List<CauHoiDeThi> dsCauHoiDeThis = new ArrayList<>();
     private List<CauHoi> dsCauHoi = new ArrayList<>();
-    private DeThi_DAO deThi_DAO = new DeThi_DAO(Main_GUI.em);
+    private IDeThi_DAO IDeThi_DAO = RmiServiceLocator.getDeThiDao();
     private String maDeThi;
 
     public String getMaDeThi() {
@@ -39,7 +42,7 @@ public class ListcauHoiDeThi extends JPanel{
         return dsCauHoi;
     }
 
-    public ListcauHoiDeThi(String maDeThi){
+    public ListcauHoiDeThi(String maDeThi) throws RemoteException {
         this.maDeThi = maDeThi;
         setOpaque(false);
         setLayout(new BorderLayout());
@@ -64,7 +67,7 @@ public class ListcauHoiDeThi extends JPanel{
         add(scrollPane, BorderLayout.CENTER);
     }
     
-    public void updateListcauHoiDeThi(String maDeThi,List<CauHoi> dsCauHoi,List<LuaChons> dsLuaChon){
+    public void updateListcauHoiDeThi(String maDeThi,List<CauHoi> dsCauHoi,List<LuaChons> dsLuaChon) throws RemoteException {
         dsCauHoiDeThis.clear();
         this.maDeThi = maDeThi;
         setOpaque(false);
@@ -103,7 +106,7 @@ public class ListcauHoiDeThi extends JPanel{
         add(scrollPane, BorderLayout.CENTER);
     }
     
-    public ListcauHoiDeThi(){
+    public ListcauHoiDeThi() throws RemoteException {
         setOpaque(false);
         setLayout(new BorderLayout());
         JPanel container = new JPanel(new MigLayout("wrap 1, fillx", "[grow]", "[]"));
@@ -126,14 +129,14 @@ public class ListcauHoiDeThi extends JPanel{
         scrollPane.setOpaque(false);
         add(scrollPane, BorderLayout.CENTER);
     }
-    public ListcauHoiDeThi(int soLuong){
+    public ListcauHoiDeThi(int soLuong) throws RemoteException {
         init(soLuong);
     }
-    public void updateCauHoi(int soluong){
+    public void updateCauHoi(int soluong) throws RemoteException {
         removeAll();
         init(soluong);
     }
-    public void init(int soLuong){
+    public void init(int soLuong) throws RemoteException {
 
         dsCauHoiDeThis.clear();
         setOpaque(false);

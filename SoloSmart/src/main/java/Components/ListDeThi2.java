@@ -5,28 +5,29 @@
 package Components;
 
 import Dao.DeThi_DAO;
+import Dao.IDeThi_DAO;
 import Entity.DeThi;
-import GUI.GV_Add_Exam;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
+import service.RmiServiceLocator;
 
 /**
  *
  * @author Admin
  */
 public class ListDeThi2 extends JPanel{
-    private DeThi_DAO deThi_DAO = new DeThi_DAO(Main_GUI.em);
+    private IDeThi_DAO IDeThi_DAO = RmiServiceLocator.getDeThiDao();
     private List<DeThiCard3> dsCard= new ArrayList<>();
-    public ListDeThi2(ArrayList<DeThi> dsDeThi) {
+    public ListDeThi2(ArrayList<DeThi> dsDeThi) throws RemoteException {
         init(dsDeThi);
         repaint();
         revalidate();
@@ -58,7 +59,7 @@ public class ListDeThi2 extends JPanel{
         revalidate();
     }
     
-    public ListDeThi2() {
+    public ListDeThi2() throws RemoteException {
         setOpaque(false);
         
         setLayout(new BorderLayout());
