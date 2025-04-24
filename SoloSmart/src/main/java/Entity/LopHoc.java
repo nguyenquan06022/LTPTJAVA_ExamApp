@@ -3,6 +3,7 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "LopHocs")
-public class LopHoc {
+public class LopHoc implements Serializable {
     @Id
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")

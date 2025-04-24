@@ -10,6 +10,7 @@ package Components;
  */
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import javax.swing.JDialog;
 
 /**
@@ -36,19 +37,31 @@ public class PanelAction extends javax.swing.JPanel {
         cmdEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                event.onEdit(row);
+                try {
+                    event.onEdit(row);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         cmdDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                event.onDelete(row);
+                try {
+                    event.onDelete(row);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         cmdView.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                event.onView(row);
+                try {
+                    event.onView(row);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

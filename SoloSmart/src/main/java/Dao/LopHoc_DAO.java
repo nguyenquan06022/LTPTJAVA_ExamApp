@@ -13,29 +13,34 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class LopHoc_DAO {
+public class LopHoc_DAO extends UnicastRemoteObject implements ILopHoc_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "LH" + df.format(now);
     }
 
-    public LopHoc_DAO() {
+    public LopHoc_DAO() throws RemoteException{
+        super();
     }
 
-    public LopHoc_DAO(EntityManager em) {
+    public LopHoc_DAO(EntityManager em) throws RemoteException{
         this.em = em;
     }
 
-    public boolean addLopHoc(LopHoc lopHoc) {
+    @Override
+    public boolean addLopHoc(LopHoc lopHoc) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -58,7 +63,8 @@ public class LopHoc_DAO {
         return isSuccess;
     }
 
-    public LopHoc getLopHoc(String id) {
+    @Override
+    public LopHoc getLopHoc(String id) throws RemoteException{
         LopHoc lopHoc = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -88,7 +94,8 @@ public class LopHoc_DAO {
         return lopHoc;
     }
 
-    public ArrayList<LopHoc> getDanhSachLopHoc() {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHoc() throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -117,7 +124,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
 
-    public ArrayList<LopHoc> getDanhSachLopHocByKey(String name) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocByKey(String name) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -152,7 +160,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
 
-    public boolean updateLopHoc(LopHoc lopHoc) {
+    @Override
+    public boolean updateLopHoc(LopHoc lopHoc) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -176,7 +185,8 @@ public class LopHoc_DAO {
         }
     }
 
-    public boolean deleteLopHoc(String id) {
+    @Override
+    public boolean deleteLopHoc(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -194,7 +204,8 @@ public class LopHoc_DAO {
         }
     }
 
-    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHocCuaSinhVien(String maTaiKhoan, String namHoc) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHocCuaSinhVien(String maTaiKhoan, String namHoc) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -234,7 +245,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
 
-    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLopHocCuaSinhVien(String maTaiKhoan, String tenLopHoc) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLopHocCuaSinhVien(String maTaiKhoan, String tenLopHoc) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -277,7 +289,8 @@ public class LopHoc_DAO {
     }
 
     // get danh sach lop hoc theo nam hoc cua admin Jcombobox
-    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHoc(String namHoc) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoNamHoc(String namHoc) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -311,7 +324,8 @@ public class LopHoc_DAO {
     }
 
     // get danh sach lop hoc theo ten monHoc cua admin Jcombobox
-    public ArrayList<LopHoc> getDanhSachLopHocTheoTenMonHoc(String tenMonHoc) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenMonHoc(String tenMonHoc) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -345,7 +359,8 @@ public class LopHoc_DAO {
         }
         return danhSachLopHoc;
     }
-    public ArrayList<LopHoc> getDanhSachLopHocTheoGV(String magv) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoGV(String magv) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -378,7 +393,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
     // lọc lớp học theo tên lớp của admin JtextField
-    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLop(String tenLop) {
+    @Override
+    public ArrayList<LopHoc> getDanhSachLopHocTheoTenLop(String tenLop) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -412,8 +428,9 @@ public class LopHoc_DAO {
     }
 
     // filter lớp học của giáo viên
+    @Override
     public ArrayList<LopHoc> filterLopHocCuaGiaoVien(String maLop, String tenLop, String tenMonHoc, String namHoc,
-            String maGiaoVien) {
+                                                     String maGiaoVien) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -452,7 +469,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
     
-    public ArrayList<LopHoc> getDsLopHocCuaSinhVien(String maTaiKhoan) {
+    @Override
+    public ArrayList<LopHoc> getDsLopHocCuaSinhVien(String maTaiKhoan) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -486,7 +504,8 @@ public class LopHoc_DAO {
         return danhSachLopHoc;
     }
     
-    public List<String> getDSNamHocGV(String maGV){
+    @Override
+    public List<String> getDSNamHocGV(String maGV) throws RemoteException{
         List<String> list= new ArrayList<>();
          EntityTransaction tr = em.getTransaction();
          try {
@@ -514,8 +533,9 @@ public class LopHoc_DAO {
          return list;
     }
     // lọc lớp học theo tiêu chi của sinh viên
+    @Override
     public ArrayList<LopHoc> filterLopHocCuaSinhVien(String maLop, String tenLop, String tenMonHoc, String namHoc,
-            String maSinhVien) {
+                                                     String maSinhVien) throws RemoteException{
         ArrayList<LopHoc> danhSachLopHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -556,7 +576,8 @@ public class LopHoc_DAO {
     }
     
     
-    public List<String> getDSNamHocSV(String maSV){
+    @Override
+    public List<String> getDSNamHocSV(String maSV) throws RemoteException{
         List<String> list= new ArrayList<>();
          EntityTransaction tr = em.getTransaction();
          try {

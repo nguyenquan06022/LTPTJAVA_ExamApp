@@ -8,33 +8,40 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KetQuaKiemTra_DAO {
+public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKiemTra_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "KQKT" + df.format(now);
     }
 
-    public KetQuaKiemTra_DAO() {
+    public KetQuaKiemTra_DAO() throws RemoteException {
+        super();
     }
 
-    public KetQuaKiemTra_DAO(EntityManager em) {
+    public KetQuaKiemTra_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
-    public boolean themKetQuaKiemTra(KetQuaKiemTra ketQua) {
+
+    @Override
+    public boolean themKetQuaKiemTra(KetQuaKiemTra ketQua) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
             tr.begin();
             // Câu lệnh SQL chèn dữ liệu
-            String sql = "INSERT INTO KetQuaKiemTras (diemSo, thoiGianLamBai, lanThu, diemCaoNhat, maBaiKiemTra, maTaiKhoan,maKetQuaKiemTra) " +
+            String sql = "INSERT INTO KetQuaKiemTras (diemSo, thoiGianLamBai, lanThu, diemCaoNhat, maBaiKiemTra, maTaiKhoan,maKetQuaKiemTra) "
+                    +
                     "VALUES (?, ?, ?, ?, ?, ?,?)";
 
             em.createNativeQuery(sql)
@@ -44,7 +51,7 @@ public class KetQuaKiemTra_DAO {
                     .setParameter(4, ketQua.isDiemCaoNhat()) // boolean: điểm cao nhất
                     .setParameter(5, ketQua.getBaiKiemTra().getMaBaiKiemTra()) // Long: mã bài kiểm tra (FK)
                     .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan()) // Long: mã tài khoản (FK)
-                    .setParameter(7,ketQua.getMaKetQuaKiemTra())
+                    .setParameter(7, ketQua.getMaKetQuaKiemTra())
                     .executeUpdate();
 
             tr.commit();
@@ -58,13 +65,15 @@ public class KetQuaKiemTra_DAO {
         return isSuccess;
     }
 
-    public KetQuaKiemTra getKetQuaKiemTra(String id) {
+    @Override
+    public KetQuaKiemTra getKetQuaKiemTra(String id) throws RemoteException {
         if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("Mã kết quả kiểm tra không được để trống.");
         }
 
         try {
-            String sql = "SELECT maketquakiemtra, DiemCaoNhat, diemso, lanthu, thoigianlambai, mabaiKiemTra, mataikhoan " +
+            String sql = "SELECT maketquakiemtra, DiemCaoNhat, diemso, lanthu, thoigianlambai, mabaiKiemTra, mataikhoan "
+                    +
                     "FROM ketquakiemtras WHERE maketquakiemtra = ?";
 
             List<Object[]> results = em.createNativeQuery(sql)
@@ -79,7 +88,7 @@ public class KetQuaKiemTra_DAO {
             Object[] row = results.get(0);
             KetQuaKiemTra ketQua = new KetQuaKiemTra();
             ketQua.setMaKetQuaKiemTra((String) row[0]);
-            ketQua.setDiemCaoNhat((Boolean)row[1]);
+            ketQua.setDiemCaoNhat((Boolean) row[1]);
             ketQua.setDiemSo((Float) row[2]);
             ketQua.setLanThu((Integer) row[3]);
             ketQua.setThoiGianLamBai((Integer) row[4]);
@@ -94,19 +103,21 @@ public class KetQuaKiemTra_DAO {
         }
     }
 
-    public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra) {
+    @Override
+    public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra)
+            throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaKiemTra> danhSachKetQua = new ArrayList<>();
         try {
             tr.begin();
-            String sql = "SELECT maketquakiemtra, DiemCaoNhat, diemso, lanthu, thoigianlambai, mabaiKiemTra, mataikhoan " +
+            String sql = "SELECT maketquakiemtra, DiemCaoNhat, diemso, lanthu, thoigianlambai, mabaiKiemTra, mataikhoan "
+                    +
                     "FROM ketquakiemtras WHERE mataikhoan = ? AND mabaiKiemTra = ?";
 
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, maTaiKhoan)
                     .setParameter(2, maBaiKiemTra)
                     .getResultList();
-
 
             for (Object[] row : results) {
                 KetQuaKiemTra ketQua = new KetQuaKiemTra();
@@ -116,12 +127,12 @@ public class KetQuaKiemTra_DAO {
                 ketQua.setLanThu((Integer) row[3]);
                 ketQua.setThoiGianLamBai((Integer) row[4]);
                 ketQua.setBaiKiemTra(new BaiKiemTra((String) row[5])); // Nếu có constructor BaiKiemTra(String id)
-                ketQua.setTaiKhoan(new TaiKhoan((String) row[6]));     // Nếu có constructor TaiKhoan(String id)
+                ketQua.setTaiKhoan(new TaiKhoan((String) row[6])); // Nếu có constructor TaiKhoan(String id)
 
                 danhSachKetQua.add(ketQua);
             }
             tr.commit();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (tr.isActive()) {
                 tr.rollback();
             }
@@ -130,7 +141,8 @@ public class KetQuaKiemTra_DAO {
         return danhSachKetQua;
     }
 
-    public KetQuaKiemTra getKetQuaKiemTra(String maBaiKiemTra, String maTaiKhoan) {
+    @Override
+    public KetQuaKiemTra getKetQuaKiemTra(String maBaiKiemTra, String maTaiKhoan) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         KetQuaKiemTra ketQuaKiemTra = null;
         try {
@@ -151,44 +163,28 @@ public class KetQuaKiemTra_DAO {
         }
         return ketQuaKiemTra;
     }
-    
-    public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) {
-    EntityTransaction tr = em.getTransaction();
-    boolean isSuccess = false;
 
-    try {
-        tr.begin();
-
-        String sql = "UPDATE ketquakiemtras " +
-                     "SET diemso = ?, thoigianlambai = ?, diemcaonhat = ?, lanthu = ?, mabaikiemtra = ?, mataikhoan = ? " +
-                     "WHERE maketquakiemtra = ?";
-
-        em.createNativeQuery(sql)
-          .setParameter(1, ketQua.getDiemSo())
-          .setParameter(2, ketQua.getThoiGianLamBai())
-          .setParameter(3, ketQua.isDiemCaoNhat())
-          .setParameter(4, ketQua.getLanThu())
-          .setParameter(5, ketQua.getBaiKiemTra().getMaBaiKiemTra())
-          .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan())
-          .setParameter(7, ketQua.getMaKetQuaKiemTra())
-          .executeUpdate();
-
-        tr.commit();
-        isSuccess = true;
-    } catch (Exception e) {
-        if (tr.isActive()) {
-            tr.rollback();
+    @Override
+    public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) throws RemoteException {
+        EntityTransaction tr = em.getTransaction();
+        boolean isSuccess = false;
+        try {
+            tr.begin();
+            em.merge(ketQua);
+            tr.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException("Lỗi khi cập nhật kết quả kiểm tra", e);
         }
-        e.printStackTrace();
-        throw new RuntimeException("Lỗi khi cập nhật kết quả kiểm tra", e);
+        return isSuccess;
     }
 
-    return isSuccess;
-}
-
-
     // thống kê điểm theo bài kiểm tra
-    public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) {
+    @Override
+    public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<Float> danhSachKetQua = new ArrayList<>();
         try {
@@ -204,7 +200,7 @@ public class KetQuaKiemTra_DAO {
             for (Float row : results) {
                 danhSachKetQua.add(row);
             }
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (tr.isActive()) {
                 tr.rollback();
             }
@@ -214,41 +210,41 @@ public class KetQuaKiemTra_DAO {
     }
 
     // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
-    public float tinhDiemChoSinhVien(String maSinhVien,String maBaiKiemTra, String maKetQuaKiemtra) {
+    public float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra) {
         EntityTransaction tr = em.getTransaction();
         try {
             String sql = """
-                         WITH CauTraLoiSinhVien AS (
-                             SELECT 
-                                 ROW_NUMBER() OVER (
-                                     ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
-                                 ) AS stt,
-                                 LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
-                             FROM TaiKhoans tk 
-                             JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan 
-                             JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra 
-                             JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
-                             WHERE tk.maTaiKhoan = ?
-                               AND bkt.maBaiKiemTra = ?
-                               AND kqkt.maKetQuaKiemTra = ?
-                         ),
-                         DapAnDung AS (
-                             SELECT 
-                                 ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
-                                 LEFT(dslc.luaChon, 1) AS dapAnDung
-                             FROM BaiKiemTras bkt 
-                             JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi 
-                             JOIN CauHois ch ON ch.maDeThi = dt.maDeThi 
-                             JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
-                             WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
-                         )
-                         
-                         SELECT 
-                             COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
-                         FROM CauTraLoiSinhVien sv
-                         JOIN DapAnDung da ON sv.stt = da.stt
-                         WHERE sv.dapAn = da.dapAnDung;
-                         """;
+                    WITH CauTraLoiSinhVien AS (
+                        SELECT
+                            ROW_NUMBER() OVER (
+                                ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
+                            ) AS stt,
+                            LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
+                        FROM TaiKhoans tk
+                        JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan
+                        JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra
+                        JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
+                        WHERE tk.maTaiKhoan = ?
+                          AND bkt.maBaiKiemTra = ?
+                          AND kqkt.maKetQuaKiemTra = ?
+                    ),
+                    DapAnDung AS (
+                        SELECT
+                            ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
+                            LEFT(dslc.luaChon, 1) AS dapAnDung
+                        FROM BaiKiemTras bkt
+                        JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi
+                        JOIN CauHois ch ON ch.maDeThi = dt.maDeThi
+                        JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
+                        WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
+                    )
+
+                    SELECT
+                        COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
+                    FROM CauTraLoiSinhVien sv
+                    JOIN DapAnDung da ON sv.stt = da.stt
+                    WHERE sv.dapAn = da.dapAnDung;
+                    """;
 
             float result = ((Number) em.createNativeQuery(sql)
                     .setParameter(1, maSinhVien)
@@ -258,7 +254,7 @@ public class KetQuaKiemTra_DAO {
                     .getSingleResult()).floatValue();
             return result;
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             if (tr.isActive()) {
                 tr.rollback();
             }
@@ -266,8 +262,10 @@ public class KetQuaKiemTra_DAO {
         }
     }
 
-    //cập nhật điểm cao nhất
-    public boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan,String maBaiKiemTra) {
+    // cập nhật điểm cao nhất
+    @Override
+    public boolean updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(String maTaiKhoan, String maBaiKiemTra)
+            throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {

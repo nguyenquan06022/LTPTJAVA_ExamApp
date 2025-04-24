@@ -4,28 +4,33 @@ import Entity.MonHoc;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonHoc_DAO {
+public class MonHoc_DAO extends UnicastRemoteObject implements IMonHoc_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "MH" + df.format(now);
     }
 
-    public MonHoc_DAO() {
+    public MonHoc_DAO() throws RemoteException{
+        super();
     }
 
-    public MonHoc_DAO(EntityManager em) {
+    public MonHoc_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
 
-    public boolean addMonHoc(MonHoc monHoc) {
+    @Override
+    public boolean addMonHoc(MonHoc monHoc) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -44,7 +49,8 @@ public class MonHoc_DAO {
         return isSuccess;
     }
 
-    public MonHoc getMonHoc(String id) {
+    @Override
+    public MonHoc getMonHoc(String id) throws RemoteException {
         MonHoc monHoc = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -70,7 +76,8 @@ public class MonHoc_DAO {
         return monHoc;
     }
 
-    public ArrayList<MonHoc> getDanhSachMonHoc() {
+    @Override
+    public ArrayList<MonHoc> getDanhSachMonHoc() throws RemoteException{
         ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -94,7 +101,8 @@ public class MonHoc_DAO {
 
         return danhSachMonHoc;
     }
-    public ArrayList<MonHoc> getDanhSachMonHocTheoTen(String ten) {
+    @Override
+    public ArrayList<MonHoc> getDanhSachMonHocTheoTen(String ten) throws RemoteException{
         ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -122,7 +130,8 @@ public class MonHoc_DAO {
         return danhSachMonHoc;
     }
     
-    public String getTenMonHocTheoBaiKiemTra(String id) {
+    @Override
+    public String getTenMonHocTheoBaiKiemTra(String id) throws RemoteException{
     EntityTransaction tr = em.getTransaction();
     try {
         tr.begin();
@@ -149,7 +158,8 @@ public class MonHoc_DAO {
 }
 
 
-    public boolean updateMonHoc(MonHoc monHoc) {
+    @Override
+    public boolean updateMonHoc(MonHoc monHoc) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -172,7 +182,8 @@ public class MonHoc_DAO {
         }
     }
 
-    public boolean deleteMonHoc(String id) {
+    @Override
+    public boolean deleteMonHoc(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -191,7 +202,8 @@ public class MonHoc_DAO {
         }
     }
     
-    public ArrayList<MonHoc> getDanhSachMonHocCuaSinhVien(String maTaiKhoan) {
+    @Override
+    public ArrayList<MonHoc> getDanhSachMonHocCuaSinhVien(String maTaiKhoan) throws RemoteException{
         ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -222,7 +234,8 @@ public class MonHoc_DAO {
         return danhSachMonHoc;
     }
     
-    public ArrayList<MonHoc> getDanhSachMonHocCuaGiaoVien(String maTaiKhoan) {
+    @Override
+    public ArrayList<MonHoc> getDanhSachMonHocCuaGiaoVien(String maTaiKhoan) throws RemoteException{
         ArrayList<MonHoc> danhSachMonHoc = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {

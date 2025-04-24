@@ -3,21 +3,26 @@ package Dao;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DsCauTraLoi_DAO {
-
+public class DsCauTraLoi_DAO extends UnicastRemoteObject implements IDsCauTraLoi_DAO {
     private EntityManager em;
 
     public DsCauTraLoi_DAO(EntityManager em) {
         this.em = em;
     }
 
-    public DsCauTraLoi_DAO() {
+    public DsCauTraLoi_DAO() throws RemoteException {
+        super();
     }
 
     public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi) {
+
+    @Override
+    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -59,7 +64,8 @@ public class DsCauTraLoi_DAO {
         return isSuccess;
     }
 
-    public ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) {
+    @Override
+    public ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<String> dsLuaChon = new ArrayList<>();
         try {
@@ -86,11 +92,11 @@ public class DsCauTraLoi_DAO {
         try {
             tr.begin();
             String sql = """
-                         select tl.cauTraLoi, TRY_CAST(SUBSTRING(tl.cauTraLoi, 1, CHARINDEX('.', tl.cauTraLoi) - 1) AS INT) AS soThuTu
-                                                  from dsCauTraLoi tl inner join KetQuaKiemTras kq on tl.maKetQuaKiemTra=kq.maKetQuaKiemTra
-                                                  where kq.maTaiKhoan=? and maBaiKiemTra = ?
-                                                  ORDER BY soThuTu;
-                         """;
+                    select tl.cauTraLoi, TRY_CAST(SUBSTRING(tl.cauTraLoi, 1, CHARINDEX('.', tl.cauTraLoi) - 1) AS INT) AS soThuTu
+                                             from dsCauTraLoi tl inner join KetQuaKiemTras kq on tl.maKetQuaKiemTra=kq.maKetQuaKiemTra
+                                             where kq.maTaiKhoan=? and maBaiKiemTra = ?
+                                             ORDER BY soThuTu;
+                    """;
             List<Object[]> results = em.createNativeQuery(sql)
                     .setParameter(1, maTaiKhoan)
                     .setParameter(2, maBaiKiemTra)

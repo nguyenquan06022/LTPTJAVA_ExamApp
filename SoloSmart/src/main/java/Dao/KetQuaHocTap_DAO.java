@@ -10,6 +10,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,25 +19,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class KetQuaHocTap_DAO {
+public class KetQuaHocTap_DAO extends UnicastRemoteObject implements IKetQuaHocTap_DAO {
     private EntityManager em;
 
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException {
         LocalDateTime now = LocalDateTime.now();
         return "KQHT" + df.format(now);
     }
 
-    public KetQuaHocTap_DAO() {
+    public KetQuaHocTap_DAO() throws RemoteException{
+        super();
     }
 
-    public KetQuaHocTap_DAO(EntityManager em) {
+    public KetQuaHocTap_DAO(EntityManager em)throws RemoteException {
         this.em = em;
     }
 
     // Thêm kết quả học tập
-    public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
+    @Override
+    public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -61,7 +66,8 @@ public class KetQuaHocTap_DAO {
         }
     }
 
-    public boolean xoaKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
+    @Override
+    public boolean xoaKetQuaHocTap(KetQuaHocTap ketQuaHocTap) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -83,7 +89,8 @@ public class KetQuaHocTap_DAO {
     }
 
     // Lấy kết quả học tập dựa trên mã tài khoản và mã lớp
-    public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) {
+    @Override
+    public KetQuaHocTap getKetQuaHocTap(String maTaiKhoan, String maLop) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         KetQuaHocTap ketQuaHocTap = null;
         try {
@@ -117,7 +124,8 @@ public class KetQuaHocTap_DAO {
     }
 
     // Cập nhật kết quả học tập
-    public boolean capNhatKetQuaHocTap(KetQuaHocTap ketQuaHocTap) {
+    @Override
+    public boolean capNhatKetQuaHocTap(KetQuaHocTap ketQuaHocTap) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -143,7 +151,8 @@ public class KetQuaHocTap_DAO {
     }
 
     // Lấy danh sách kết quả học tập dựa trên mã lớp
-    public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) {
+    @Override
+    public ArrayList<KetQuaHocTap> getDanhSachKetQuaHocTap(String maLop) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         ArrayList<KetQuaHocTap> danhSachKetQua = new ArrayList<>();
         try {
@@ -176,7 +185,8 @@ public class KetQuaHocTap_DAO {
     }
 
     // thêm sinh viên vào lớp học
-    public void importDanhSachTaiKhoanVaoLopHoc(String filePath, String maLop) {
+    @Override
+    public void importDanhSachTaiKhoanVaoLopHoc(String filePath, String maLop) throws RemoteException{
         try (FileInputStream fis = new FileInputStream(new File(filePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -191,7 +201,8 @@ public class KetQuaHocTap_DAO {
         }
     }
 
-    public Map<String, Float> getDiemHocTapCuaSinhVien(String maTaiKhoan, String maLop) {
+    @Override
+    public Map<String, Float> getDiemHocTapCuaSinhVien(String maTaiKhoan, String maLop) throws RemoteException{
         Map<String, Float> map = new HashMap<>();
         EntityTransaction tr = em.getTransaction();
         try {

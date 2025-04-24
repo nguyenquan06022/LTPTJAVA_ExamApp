@@ -4,15 +4,17 @@
  */
 package Components;
 
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Trong Nghia
  */
 public interface TableActionEvent {
 
-    public void onEdit(int row);
+    public void onEdit(int row) throws RemoteException;
 
-    public void onDelete(int row);
+    public void onDelete(int row) throws RemoteException;
 
-    public void onView(int row);
+    public void onView(int row) throws RemoteException;
 }

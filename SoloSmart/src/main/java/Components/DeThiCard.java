@@ -10,6 +10,7 @@ import GUI.Main_GUI;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -125,7 +126,11 @@ public class DeThiCard extends javax.swing.JPanel {
         button1.setPreferredSize(new java.awt.Dimension(120, 36));
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -171,7 +176,7 @@ public class DeThiCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
         Main_GUI.main_panel.add(new GV_Add_Exam(dethi));
         Avatar.isBack();

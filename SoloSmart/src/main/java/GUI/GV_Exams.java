@@ -6,13 +6,14 @@ package GUI;
 
 import Components.Avatar;
 import Components.EventPagination;
-import Components.Model_Card;
 import Dao.DeThi_DAO;
+import Dao.IDeThi_DAO;
 import Entity.DeThi;
-import Entity.LopHoc;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -23,9 +24,9 @@ public class GV_Exams extends javax.swing.JPanel {
     /**
      * Creates new form GV_Exams
      */
-    private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
+    private IDeThi_DAO dt_dao= RmiServiceLocator.getDeThiDao();
     private ArrayList<DeThi> dsDeThi;
-    public GV_Exams() {
+    public GV_Exams() throws RemoteException {
         
         dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
@@ -37,7 +38,7 @@ public class GV_Exams extends javax.swing.JPanel {
             
         });
     }
-    public void reload(){
+    public void reload() throws RemoteException {
         dsDeThi= dt_dao.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan());
         loadData(1);
     }
@@ -61,7 +62,7 @@ public class GV_Exams extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         roundedPanel1 = new Components.RoundedPanel();
         listDeThi1 = new Components.ListDeThi(dsDeThi);
@@ -85,7 +86,11 @@ public class GV_Exams extends javax.swing.JPanel {
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -168,7 +173,7 @@ public class GV_Exams extends javax.swing.JPanel {
         
     }//GEN-LAST:event_button2ActionPerformed
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
         Main_GUI.main_panel.add(new GV_Add_Exam());
         Main_GUI.main_panel.repaint();

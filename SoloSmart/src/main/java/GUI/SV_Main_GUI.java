@@ -6,10 +6,12 @@ package GUI;
 
 import Dao.BaiKiemTra_DAO;
 import Dao.CauHoi_DAO;
-import Dao.LopHoc_DAO;
+import Dao.IBaiKiemTra_DAO;
+import Dao.ICauHoi_DAO;
 import Entity.BaiKiemTra;
-import Entity.CauHoi;
-import java.util.ArrayList;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.List;
 
 /**
@@ -21,10 +23,10 @@ public class SV_Main_GUI extends javax.swing.JPanel {
     /**
      * Creates new form SV_Main_GUI
      */
-    private BaiKiemTra_DAO bkt_dao=new BaiKiemTra_DAO(Main_GUI.em);
-    private CauHoi_DAO chdao= new CauHoi_DAO(Main_GUI.em);
+    private IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
+    private ICauHoi_DAO chdao= RmiServiceLocator.getCauHoiDao();
     private List<BaiKiemTra> list;
-    public SV_Main_GUI() {
+    public SV_Main_GUI() throws RemoteException {
         list= bkt_dao.getBaiKiemTraTheoTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         initComponents();
         jLabel1.setText("Bài tập, Đề Thi chưa làm ("+list.size()+" bài )");
@@ -37,7 +39,7 @@ public class SV_Main_GUI extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         circleBackgroundPanel1 = new Components.CircleBackgroundPanel();
         circleBackgroundPanel2 = new Components.CircleBackgroundPanel();

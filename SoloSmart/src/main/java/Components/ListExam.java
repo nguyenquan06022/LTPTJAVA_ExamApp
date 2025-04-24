@@ -14,6 +14,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import static java.lang.Math.random;
 import static java.lang.StrictMath.random;
+
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +50,11 @@ public class ListExam extends JPanel{
         {new Color(67, 206, 162), new Color(24, 90, 157)}  // Xanh lục - Xanh biển
     };
     
-    public ListExam(List<BaiKiemTra> danhSachBaiKiemTra) {
+    public ListExam(List<BaiKiemTra> danhSachBaiKiemTra) throws RemoteException {
         init(danhSachBaiKiemTra);
         
     }
-    public void updateExam(ArrayList<BaiKiemTra> danhSachBaiKiemTra){
+    public void updateExam(ArrayList<BaiKiemTra> danhSachBaiKiemTra) throws RemoteException {
         this.removeAll();
         init(danhSachBaiKiemTra);
     }
@@ -84,7 +86,7 @@ public class ListExam extends JPanel{
 //scrollPane.setBorder(titledBorder);
         add(scrollPane, BorderLayout.CENTER);
     }
-    public void init(List<BaiKiemTra> danhSachBaiKiemTra){
+    public void init(List<BaiKiemTra> danhSachBaiKiemTra) throws RemoteException {
         setOpaque(false);
         
         setLayout(new BorderLayout());

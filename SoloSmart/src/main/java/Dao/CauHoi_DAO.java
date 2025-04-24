@@ -5,28 +5,33 @@ import Entity.DeThi;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CauHoi_DAO {
+public class CauHoi_DAO extends UnicastRemoteObject implements ICauHoi_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException{
         LocalDateTime now = LocalDateTime.now();
         return "CH" + df.format(now);
     }
 
-    public CauHoi_DAO() {
+    public CauHoi_DAO() throws RemoteException {
+        super();
     }
 
-    public CauHoi_DAO(EntityManager em) {
+    public CauHoi_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
 
-    public boolean addCauHoi(CauHoi cauHoi) {
+    @Override
+    public boolean addCauHoi(CauHoi cauHoi) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -52,7 +57,8 @@ public class CauHoi_DAO {
         return isSuccess;
     }
 
-    public CauHoi getCauHoi(String id) {
+    @Override
+    public CauHoi getCauHoi(String id) throws RemoteException{
         CauHoi cauHoi = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -84,7 +90,8 @@ public class CauHoi_DAO {
         return cauHoi;
     }
 
-    public ArrayList<CauHoi> getDanhSachCauHoi() {
+    @Override
+    public ArrayList<CauHoi> getDanhSachCauHoi() throws RemoteException{
         ArrayList<CauHoi> danhSachCauHoi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -115,7 +122,8 @@ public class CauHoi_DAO {
         return danhSachCauHoi;
     }
 
-    public boolean updateCauHoi(CauHoi cauHoi) {
+    @Override
+    public boolean updateCauHoi(CauHoi cauHoi) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -139,7 +147,8 @@ public class CauHoi_DAO {
         }
     }
 
-    public boolean deleteCauHoi(String id) {
+    @Override
+    public boolean deleteCauHoi(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -158,7 +167,8 @@ public class CauHoi_DAO {
     }
 
     // getdscauhoi theo madethi
-    public ArrayList<CauHoi> getDsCauHoiTheoDeThi(String maDeThi) {
+    @Override
+    public ArrayList<CauHoi> getDsCauHoiTheoDeThi(String maDeThi) throws RemoteException{
         ArrayList<CauHoi> danhSachCauHoi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {

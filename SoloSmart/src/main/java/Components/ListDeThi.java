@@ -5,26 +5,28 @@
 package Components;
 
 import Dao.DeThi_DAO;
+import Dao.IDeThi_DAO;
 import Entity.DeThi;
-import GUI.GV_Add_Exam;
 import GUI.Main_GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
+import service.RmiServiceLocator;
 
 /**
  *
  * @author Admin
  */
 public class ListDeThi extends JPanel{
-    private DeThi_DAO deThi_DAO = new DeThi_DAO(Main_GUI.em);
-    public ListDeThi(ArrayList<DeThi> dsDeThi) {
+    private IDeThi_DAO IDeThi_DAO = RmiServiceLocator.getDeThiDao();
+    public ListDeThi(ArrayList<DeThi> dsDeThi) throws RemoteException {
         init(dsDeThi);
         repaint();
         revalidate();
@@ -55,7 +57,7 @@ public class ListDeThi extends JPanel{
         revalidate();
     }
     
-    public ListDeThi() {
+    public ListDeThi() throws RemoteException {
         setOpaque(false);
         
         setLayout(new BorderLayout());
@@ -87,7 +89,13 @@ public class ListDeThi extends JPanel{
             int randomIndex= random.nextInt(gradients.length);
             DeThiCard deThiCard = new DeThiCard(item);
             container.add(deThiCard, "growx");
-            deThiCard.getButton2().addActionListener(x->deleteDeThi(item));
+            deThiCard.getButton2().addActionListener(x-> {
+                try {
+                    deleteDeThi(item);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             deThiCard.getButton1().addActionListener(x->themDeThi(item));
             deThiCard.getCircleBackgroundPanel1().setColor1(gradients[randomIndex][0]);
         });
@@ -102,11 +110,11 @@ public class ListDeThi extends JPanel{
         add(scrollPane, BorderLayout.CENTER);
     }
     
-    public void deleteDeThi(DeThi x) {
+    public void deleteDeThi(DeThi x) throws RemoteException {
         int options = JOptionPane.showConfirmDialog(null, "Xác nhận xóa","Xóa đề thi",JOptionPane.YES_NO_OPTION);
         if(options == JOptionPane.YES_OPTION) {
-            deThi_DAO.deleteDeThi(x.getMaDeThi());
-            updateDsDeThi(deThi_DAO.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()));
+            IDeThi_DAO.deleteDeThi(x.getMaDeThi());
+            updateDsDeThi(IDeThi_DAO.getDanhSachDeThiCuaGiaoVien(Main_GUI.tk.getMaTaiKhoan()));
         }
     }
     public void themDeThi(DeThi x){

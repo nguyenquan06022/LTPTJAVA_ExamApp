@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.Normalizer;
@@ -20,12 +22,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class TaiKhoan_DAO {
+public class TaiKhoan_DAO extends UnicastRemoteObject implements ITaiKhoan_DAO {
     private ArrayList<TaiKhoan> dsTaiKhoanVuaThem;
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String removeVietnameseAccent(String input) {
+    @Override
+    public String removeVietnameseAccent(String input) throws RemoteException {
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(normalized).replaceAll("")
@@ -33,12 +36,14 @@ public class TaiKhoan_DAO {
                 .replace("Đ", "D");
     }
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException{
         LocalDateTime now = LocalDateTime.now();
         return "TK" + df.format(now);
     }
 
-    public String generatePassword(String ten, String ho, int vaiTro) {
+    @Override
+    public String generatePassword(String ten, String ho, int vaiTro) throws RemoteException{
 
         String[] hoParts = ho.trim().split("\\s+");
         StringBuilder chuCaiDau = new StringBuilder();
@@ -50,7 +55,8 @@ public class TaiKhoan_DAO {
         return removeVietnameseAccent(ten.toLowerCase()) + chuCaiDau.toString().toUpperCase() + "@"
                 + ((vaiTro == 0) ? "SV" : (vaiTro == 1) ? "GV" : "AD") + LocalDateTime.now().getYear();
     }
-    public String generatedTenTaiKhoan(int role){
+    @Override
+    public String generatedTenTaiKhoan(int role) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         int x=0;
         try {
@@ -64,14 +70,16 @@ public class TaiKhoan_DAO {
         DateTimeFormatter dfTK = DateTimeFormatter.ofPattern("yy");
         return dfTK.format(LocalDateTime.now())+role+String.format("%05d",x);
     }
-    public TaiKhoan_DAO() {
+    public TaiKhoan_DAO() throws RemoteException{
+        super();
     }
 
-    public TaiKhoan_DAO(EntityManager em) {
+    public TaiKhoan_DAO(EntityManager em) throws RemoteException{
         this.em = em;
     }
 
-    public boolean addTaiKhoan(TaiKhoan taiKhoan) {
+    @Override
+    public boolean addTaiKhoan(TaiKhoan taiKhoan) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -98,7 +106,8 @@ public class TaiKhoan_DAO {
         return isSuccess;
     }
     
-    public TaiKhoan getTaiKhoan(String id) {
+    @Override
+    public TaiKhoan getTaiKhoan(String id) throws RemoteException{
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -133,7 +142,8 @@ public class TaiKhoan_DAO {
         return taiKhoan;
     }
     
-    public TaiKhoan getTaiKhoanByMailPhone(String id) {
+    @Override
+    public TaiKhoan getTaiKhoanByMailPhone(String id) throws RemoteException{
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -169,7 +179,8 @@ public class TaiKhoan_DAO {
 
         return taiKhoan;
     }
-    public TaiKhoan getTaiKhoanByName(String id) {
+    @Override
+    public TaiKhoan getTaiKhoanByName(String id) throws RemoteException{
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -204,7 +215,8 @@ public class TaiKhoan_DAO {
 
         return taiKhoan;
     }
-    public ArrayList<TaiKhoan> getDanhSachTaiKhoan() {
+    @Override
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoan() throws RemoteException{
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -238,7 +250,8 @@ public class TaiKhoan_DAO {
         return danhSachTaiKhoan;
     }
 
-    public ArrayList<TaiKhoan> getDanhSachTaiKhoanGV() {
+    @Override
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanGV() throws RemoteException{
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -274,7 +287,8 @@ public class TaiKhoan_DAO {
         return danhSachTaiKhoan;
     }
 
-    public ArrayList<TaiKhoan> getDanhSachTaiKhoanSV() {
+    @Override
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanSV() throws RemoteException{
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -311,7 +325,8 @@ public class TaiKhoan_DAO {
         return danhSachTaiKhoan;
     }
 
-    public boolean updateTaiKhoan(TaiKhoan taiKhoan) {
+    @Override
+    public boolean updateTaiKhoan(TaiKhoan taiKhoan) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -341,7 +356,8 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public boolean deleteTaiKhoan(String id) {
+    @Override
+    public boolean deleteTaiKhoan(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -363,7 +379,8 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public TaiKhoan dangNhap(String userName, String password) {
+    @Override
+    public TaiKhoan dangNhap(String userName, String password) throws RemoteException{
         TaiKhoan taiKhoan = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -397,7 +414,8 @@ public class TaiKhoan_DAO {
         return taiKhoan;
     }
 
-    public boolean updateTrangThaiOnline(TaiKhoan taiKhoan) {
+    @Override
+    public boolean updateTrangThaiOnline(TaiKhoan taiKhoan) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -421,7 +439,8 @@ public class TaiKhoan_DAO {
     }
 
     // thêm danh sách tài khoản từ file Excel
-    public void importTaiKhoanFromExcel(String filePath) {
+    @Override
+    public void importTaiKhoanFromExcel(String filePath) throws RemoteException{
         try (FileInputStream fis = new FileInputStream(new File(filePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
 
@@ -467,7 +486,8 @@ public class TaiKhoan_DAO {
         }
     }
 
-    public ArrayList<TaiKhoan> getDanhSachTaiKhoanFromExcel(String filePath) {
+    @Override
+    public ArrayList<TaiKhoan> getDanhSachTaiKhoanFromExcel(String filePath) throws RemoteException{
         try (FileInputStream fis = new FileInputStream(new File(filePath));
                 Workbook workbook = new XSSFWorkbook(fis)) {
             Sheet sheet = workbook.getSheetAt(0);
@@ -486,7 +506,8 @@ public class TaiKhoan_DAO {
     } 
 
     // export file excel danh sách tài khoản vua them
-    public void exportDsTaiKhoanVuaThemToExcel(String filePath) {
+    @Override
+    public void exportDsTaiKhoanVuaThemToExcel(String filePath) throws RemoteException{
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("TaiKhoanVuaThem");
 
@@ -531,7 +552,8 @@ public class TaiKhoan_DAO {
         }
     }
     
-    public ArrayList<TaiKhoan> searchTaiKhoanTheoMaVaTheoTen(String maTaiKhoan,String ten) {
+    @Override
+    public ArrayList<TaiKhoan> searchTaiKhoanTheoMaVaTheoTen(String maTaiKhoan, String ten) throws RemoteException{
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -568,7 +590,8 @@ public class TaiKhoan_DAO {
         return danhSachTaiKhoan;
     }
     
-    public ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String key) {
+    @Override
+    public ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String key) throws RemoteException{
         ArrayList<TaiKhoan> danhSachTaiKhoan = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {

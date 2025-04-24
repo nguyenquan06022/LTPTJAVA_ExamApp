@@ -1,22 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
-import Components.MyTextField;
+import service.RmiServiceLocator;
 import DB.CreateDB;
-import Dao.TaiKhoan_DAO;
+import Dao.ITaiKhoan_DAO;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
+import lombok.SneakyThrows;
+
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.rmi.RemoteException;
+import javax.naming.NamingException;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
@@ -27,11 +25,10 @@ import javax.swing.SwingWorker;
  */
 public class DangNhapGUI extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Test
-     */
+    static EntityManager em=CreateDB.createDB();
+
     private boolean eyeClick=false;
-    public DangNhapGUI() {
+    public DangNhapGUI() throws RemoteException{
         initComponents();
         setLocationRelativeTo(null);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
@@ -63,22 +60,29 @@ public class DangNhapGUI extends javax.swing.JFrame {
                    String userName = myTextField1.getText();
                    String password = new String(myPasswordField1.getPassword());
 
-                TaiKhoan taiKhoan = taiKhoanDao.dangNhap(userName, password);
+                TaiKhoan taiKhoan = null;
+                try {
+                    taiKhoan = taiKhoanDao.dangNhap(userName, password);
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
                 if (taiKhoan == null) {
                     JOptionPane.showMessageDialog(null, "Tên đăng nhập hoặc mật khẩu không đúng!", "Lỗi",
                             JOptionPane.ERROR_MESSAGE);
                 }
                 else {
-//                    Main_GUI tf = new Main_GUI(taiKhoan);
-//                    tf.setVisible(true);
-//                    dispose();
                     Loading loading = new Loading(taiKhoan);
-                    taiKhoanDao.updateTrangThaiOnline(taiKhoan);
-	                dispose();
+                    try {
+                        taiKhoanDao.updateTrangThaiOnline(taiKhoan);
+                    } catch (RemoteException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    dispose();
 	                loading.setVisible(true);
 	                loading.setLocationRelativeTo(null);
 
-	                SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
+                    TaiKhoan finalTaiKhoan = taiKhoan;
+                    SwingWorker<Void, Integer> worker = new SwingWorker<Void, Integer>() {
 	                    @Override
 	                    protected Void doInBackground() throws Exception {
 	                        for (int i = 0; i <= 100; i++) {
@@ -88,10 +92,11 @@ public class DangNhapGUI extends javax.swing.JFrame {
 	                        return null;
 	                    }
 
-	                    @Override
+	                    @SneakyThrows
+                        @Override
 	                    protected void process(java.util.List<Integer> chunks) {
 	                        int progressValue = chunks.get(chunks.size() - 1);
-	                        loading.updateProgress(progressValue, taiKhoan);
+	                        loading.updateProgress(progressValue, finalTaiKhoan);
 	                    }
 
 	                    @Override
@@ -117,7 +122,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jDialog1 = new javax.swing.JDialog();
         roundedPanel1 = new Components.RoundedPanel();
         myTextField2 = new Components.MyTextField();
@@ -431,12 +435,14 @@ public class DangNhapGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DangNhapGUI().setVisible(true);
+                try {
+                    new DangNhapGUI().setVisible(true);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
-    static EntityManager em=CreateDB.createDB();
-    private TaiKhoan_DAO taiKhoanDao= new TaiKhoan_DAO(em);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private Components.Button button1;
@@ -466,5 +472,6 @@ public class DangNhapGUI extends javax.swing.JFrame {
     private Components.MyTextField myTextField3;
     private Components.MyTextField myTextField4;
     private Components.RoundedPanel roundedPanel1;
+    private ITaiKhoan_DAO taiKhoanDao = RmiServiceLocator.getTaiKhoanDao();
     // End of variables declaration//GEN-END:variables
 }

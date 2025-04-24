@@ -4,29 +4,34 @@ import Entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DeThi_DAO {
+public class DeThi_DAO extends UnicastRemoteObject implements IDeThi_DAO {
     private EntityManager em;
     private static DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyyHHmmssSSS");
 
-    public String generateMa() {
+    @Override
+    public String generateMa() throws RemoteException{
         LocalDateTime now = LocalDateTime.now();
         return "DT" + df.format(now);
     }
 
-    public DeThi_DAO() {
+    public DeThi_DAO() throws RemoteException {
+        super();
     }
 
-    public DeThi_DAO(EntityManager em) {
+    public DeThi_DAO(EntityManager em) throws RemoteException{
         this.em = em;
     }
 
-    public boolean addDeThi(DeThi deThi) {
+    @Override
+    public boolean addDeThi(DeThi deThi) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -52,7 +57,8 @@ public class DeThi_DAO {
     }
 
     // get de thi theo ma roi dung ma do lay ra danh sách caâu hỏi
-    public DeThi getDeThi(String id) {
+    @Override
+    public DeThi getDeThi(String id) throws RemoteException{
         DeThi deThi = null;
         EntityTransaction tr = em.getTransaction();
         try {
@@ -83,7 +89,8 @@ public class DeThi_DAO {
         return deThi;
     }
 
-    public ArrayList<DeThi> getDanhSachDeThi() {
+    @Override
+    public ArrayList<DeThi> getDanhSachDeThi() throws RemoteException{
         ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -112,7 +119,8 @@ public class DeThi_DAO {
 
         return danhSachDeThi;
     }
-    public ArrayList<DeThi> getDanhSachDeThiTheoMon(String mon) {
+    @Override
+    public ArrayList<DeThi> getDanhSachDeThiTheoMon(String mon) throws RemoteException{
         ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -144,7 +152,8 @@ public class DeThi_DAO {
         return danhSachDeThi;
     }
     
-    public ArrayList<DeThi> getDanhSachDeThiTheoMonCuaGV(String maTaiKhoan, String mon) {
+    @Override
+    public ArrayList<DeThi> getDanhSachDeThiTheoMonCuaGV(String maTaiKhoan, String mon) throws RemoteException{
         ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -182,7 +191,8 @@ public class DeThi_DAO {
 
         return danhSachDeThi;
     }
-    public boolean updatDeThi(DeThi deThi) {
+    @Override
+    public boolean updatDeThi(DeThi deThi) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -207,7 +217,8 @@ public class DeThi_DAO {
         }
     }
 
-    public boolean deleteDeThi(String id) {
+    @Override
+    public boolean deleteDeThi(String id) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
             tr.begin();
@@ -226,7 +237,8 @@ public class DeThi_DAO {
     }
 
     // lấy ra danh sách đề thi của giáo viên đó tạo
-    public ArrayList<DeThi> getDanhSachDeThiCuaGiaoVien(String maTaiKhoan) {
+    @Override
+    public ArrayList<DeThi> getDanhSachDeThiCuaGiaoVien(String maTaiKhoan) throws RemoteException{
         ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {
@@ -259,7 +271,8 @@ public class DeThi_DAO {
     }
 
     // filter dethi của giáo viên
-    public ArrayList<DeThi> filterDeThiCuaGiaoVien(String maDeThi,String monHoc,String tenDeThi,String maTaiKhoan) {
+    @Override
+    public ArrayList<DeThi> filterDeThiCuaGiaoVien(String maDeThi, String monHoc, String tenDeThi, String maTaiKhoan) throws RemoteException{
         ArrayList<DeThi> danhSachDeThi = new ArrayList<>();
         EntityTransaction tr = em.getTransaction();
         try {

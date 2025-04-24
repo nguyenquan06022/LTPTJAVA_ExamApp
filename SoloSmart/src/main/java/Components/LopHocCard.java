@@ -4,12 +4,15 @@
  */
 package Components;
 
+import Dao.IMonHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.LopHoc;
 import GUI.GV_ClassRoom_Detail;
 import GUI.Main_GUI;
 import GUI.SV_ClassRoom_Detail;
-import GUI.StudentDetailClassroom;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 
 /**
  *
@@ -20,12 +23,12 @@ public class LopHocCard extends javax.swing.JPanel {
     /**
      * Creates new form LopHoc
      */
-    public LopHocCard() {
+    public LopHocCard() throws RemoteException {
         initComponents();
     }
     private LopHoc lophoc;
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    public LopHocCard(LopHoc lh) {
+    private IMonHoc_DAO mh_dao= RmiServiceLocator.getMonHocDao();
+    public LopHocCard(LopHoc lh) throws RemoteException {
         initComponents();
         this.lophoc=lh;
         jLabel2.setText(lh.getTenLop());
@@ -82,7 +85,11 @@ public class LopHocCard extends javax.swing.JPanel {
         button1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -141,7 +148,7 @@ public class LopHocCard extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button1ActionPerformed
         Main_GUI.main_panel.removeAll();
         if(Main_GUI.tk.getVaiTro().equalsIgnoreCase("SV")){
             Main_GUI.main_panel.add(new SV_ClassRoom_Detail(lophoc));

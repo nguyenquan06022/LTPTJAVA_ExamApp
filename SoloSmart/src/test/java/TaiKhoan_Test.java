@@ -1,4 +1,5 @@
 
+import Dao.ITaiKhoan_DAO;
 import Dao.TaiKhoan_DAO;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TaiKhoan_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private TaiKhoan_DAO taiKhoanDAO;
+    private ITaiKhoan_DAO taiKhoanDAO;
 
     @BeforeAll
     void setUp() {

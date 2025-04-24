@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.rmi.RemoteException;
 import javax.swing.JProgressBar;
 
 public class Loading extends JFrame {
@@ -35,7 +36,6 @@ public class Loading extends JFrame {
 	private Color color;
 
     public Loading(TaiKhoan taiKhoan) {
-    	System.out.println(taiKhoan);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 900, 550);
@@ -82,7 +82,7 @@ public class Loading extends JFrame {
         panel.add(value);
     }
     
-    public void updateProgress(int value, TaiKhoan taiKhoan) {
+    public void updateProgress(int value, TaiKhoan taiKhoan) throws RemoteException {
         this.value.setText(value + " %");
         this.progress.setValue(value);
 

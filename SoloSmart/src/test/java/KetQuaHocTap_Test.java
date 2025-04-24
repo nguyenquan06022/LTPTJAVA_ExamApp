@@ -1,3 +1,4 @@
+import Dao.IKetQuaHocTap_DAO;
 import Dao.KetQuaHocTap_DAO;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class KetQuaHocTap_Test {
     private EntityManagerFactory emf;
     private EntityManager em;
-    private KetQuaHocTap_DAO dao;
+    private IKetQuaHocTap_DAO dao;
 
     @BeforeAll
     public void setup() {

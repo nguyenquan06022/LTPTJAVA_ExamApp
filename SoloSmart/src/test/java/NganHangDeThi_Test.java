@@ -1,3 +1,4 @@
+import Dao.INganHangDeThi_DAO;
 import Dao.NganHangDeThi_DAO;
 import Entity.MonHoc;
 import Entity.NganHangDeThi;
@@ -14,7 +15,7 @@ public class NganHangDeThi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private NganHangDeThi_DAO nganHangDeThiDAO;
+    private INganHangDeThi_DAO nganHangDeThiDAO;
 
     @BeforeAll
     void setUp() {

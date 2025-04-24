@@ -10,25 +10,19 @@ import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
 import Components.TableActionEvent;
-import Dao.KetQuaHocTap_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
-import Dao.TaiKhoan_DAO;
+import Dao.*;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
 import Entity.MonHoc;
 import Entity.TaiKhoan;
 import java.io.File;
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import jnafilechooser.api.JnaFileChooser;
 
@@ -41,22 +35,22 @@ public class Admin_Classrom extends javax.swing.JPanel {
     /**
      * Creates new form Admin_Subject
      */
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    private LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
+    private IMonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
+    private ILopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
+    private ITaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
+    private IKetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
     private ImageIcon icon = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
     private ArrayList<TaiKhoan> listAddStudent= new ArrayList<>();
     private ArrayList<TaiKhoan> listUpdateStudent= new ArrayList<>();
     private ArrayList<KetQuaHocTap> dsKQHT= new ArrayList<>();
     private ArrayList<LopHoc> list= new ArrayList<>();
-    public Admin_Classrom() {
+    public Admin_Classrom() throws RemoteException {
         initComponents();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
         TableActionEvent event = new TableActionEvent() {
             @Override
-            public void onEdit(int row) {
+            public void onEdit(int row) throws RemoteException {
                 LopHoc lophoc= lh_dao.getLopHoc(jTable1.getValueAt(row, 0).toString());
                 
                 initEdit(lophoc);
@@ -66,7 +60,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
             }
 
             @Override
-            public void onDelete(int row) {
+            public void onDelete(int row) throws RemoteException {
                 int choice= JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa lớp học này không?", "Xác nhận xóa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
                 if(choice==JOptionPane.YES_OPTION){
                     if(lh_dao.deleteLopHoc(jTable1.getValueAt(row, 0).toString())){
@@ -83,7 +77,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
             }
 
             @Override
-            public void onView(int row) {
+            public void onView(int row) throws RemoteException {
                 LopHoc lophoc= lh_dao.getLopHoc(jTable1.getValueAt(row, 0).toString());
                 if(lophoc!=null){
                     myTextField2.setText(lophoc.getMaLop());
@@ -107,7 +101,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         initTable();
         
         searchTextField1.addActionListener(x->{
-            list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
+            try {
+                list= lh_dao.getDanhSachLopHocByKey(searchTextField1.getText());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             System.out.println(list.size());
             if(list.size()>0){
                 initPag(1);
@@ -126,7 +124,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
             
         });
     }
-    public void initTable(){
+    public void initTable() throws RemoteException {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
         list= lh_dao.getDanhSachLopHoc();
@@ -172,7 +170,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     public void updateSisoThemLopHoc(){
         myTextField8.setText(listAddStudent.size()+"");
     }
-    public void initEdit(LopHoc lophoc){
+    public void initEdit(LopHoc lophoc) throws RemoteException {
         if(lophoc!=null){
                     myTextField10.setText(lophoc.getTenLop());
                     ArrayList<TaiKhoan> tkGV=tk_dao.getDanhSachTaiKhoanGV();
@@ -329,7 +327,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button3ActionPerformed(evt);
+                try {
+                    button3ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -649,7 +651,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button6ActionPerformed(evt);
+                try {
+                    button6ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -660,7 +666,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button7ActionPerformed(evt);
+                try {
+                    button7ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -674,7 +684,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button8.setPreferredSize(new java.awt.Dimension(42, 36));
         button8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button8ActionPerformed(evt);
+                try {
+                    button8ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -748,7 +762,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         button9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button9ActionPerformed(evt);
+                try {
+                    button9ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -920,7 +938,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button11ActionPerformed(evt);
+                try {
+                    button11ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -931,7 +953,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button12ActionPerformed(evt);
+                try {
+                    button12ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1040,7 +1066,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1051,7 +1081,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
         button1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -1121,12 +1155,12 @@ public class Admin_Classrom extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
          list= lh_dao.getDanhSachLopHoc();
         initPag(1);
     }//GEN-LAST:event_button2ActionPerformed
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button1ActionPerformed
         ArrayList<MonHoc> listMH= mh_dao.getDanhSachMonHoc();
         listMH.forEach(x->{
             comboBoxSuggestion1.addItem(x.getTenMonHoc());
@@ -1196,7 +1230,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         AddStudents.setVisible(true);
     }//GEN-LAST:event_button5ActionPerformed
     
-    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button6ActionPerformed
        JnaFileChooser fileChooser = new JnaFileChooser();
          // Đảm bảo hiện trên cùng nếu cần
 
@@ -1223,7 +1257,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_button6ActionPerformed
 
-    private void button7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button7ActionPerformed
+    private void button7ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button7ActionPerformed
         String value= myTextField9.getText();
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         if(value.trim().isEmpty()||!value.trim().equalsIgnoreCase("")){
@@ -1241,7 +1275,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_button7ActionPerformed
 
-    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button8ActionPerformed
+    private void button8ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button8ActionPerformed
         listAddStudent=new ArrayList<>();
         for(int i=0;i<jTable2.getRowCount();i++){
            listAddStudent.add(tk_dao.getTaiKhoan(jTable2.getValueAt(i, 0).toString()));
@@ -1264,7 +1298,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
             
         return true;
     }
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button3ActionPerformed
         String ma= lh_dao.generateMa();
         String tenLopHoc= myTextField1.getText();
         String namHoc= comboBoxSuggestion2.getSelectedItem().toString();
@@ -1280,7 +1314,11 @@ public class Admin_Classrom extends javax.swing.JPanel {
             if(lh_dao.addLopHoc(newLop)){
                 listAddStudent.forEach(x->{
                     KetQuaHocTap kq= new KetQuaHocTap(newLop, x);
-                    if(!kqht_dao.themKetQuaHocTap(kq)) System.out.println("Them khong thanh cong");
+                    try {
+                        if(!kqht_dao.themKetQuaHocTap(kq)) System.out.println("Them khong thanh cong");
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
                 listAddStudent.clear();
                 initTable();
@@ -1296,7 +1334,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
 //    public boolean KQHTContain(){
 //        
 //    }
-    private void button9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button9ActionPerformed
+    private void button9ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button9ActionPerformed
         ArrayList<MonHoc> listMH= mh_dao.getDanhSachMonHoc();
         ArrayList<TaiKhoan> tkGV=tk_dao.getDanhSachTaiKhoanGV();
         LopHoc lophoc= new LopHoc(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString(), 
@@ -1308,20 +1346,32 @@ public class Admin_Classrom extends javax.swing.JPanel {
             //kiem tra xem ket qua hoc tap co trong db chua, neu chua se them vao
             dsKQHT.forEach(x->{
                 System.out.println("Sau update");
-                System.out.println(kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop()));
-                if(kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop())==null){
-                    kqht_dao.themKetQuaHocTap(x);
+                try {
+                    System.out.println(kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop()));
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
                 }
-                else{
-                System.out.println("khong duoc");
-            }
+                try {
+                    if(kqht_dao.getKetQuaHocTap(x.getTaiKhoan().getMaTaiKhoan(), x.getLopHoc().getMaLop())==null){
+                        kqht_dao.themKetQuaHocTap(x);
+                    }
+                    else{
+                    System.out.println("khong duoc");
+                }
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             });
             
             //kiem tra xem ket qua trong ds ban dau co trong ds sau khi update khong, neu khong thi xoa
             dsKetQuaBefore.forEach(x->{
                 if(!dsKQHT.contains(x)){
-                    kqht_dao.xoaKetQuaHocTap(x);
-                    
+                    try {
+                        kqht_dao.xoaKetQuaHocTap(x);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             });
         }
@@ -1338,7 +1388,12 @@ public class Admin_Classrom extends javax.swing.JPanel {
         model.setRowCount(0);
         
         dsKQHT.forEach(x->{
-            TaiKhoan sv= tk_dao.getTaiKhoan(x.getTaiKhoan().getMaTaiKhoan());
+            TaiKhoan sv= null;
+            try {
+                sv = tk_dao.getTaiKhoan(x.getTaiKhoan().getMaTaiKhoan());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             model.addRow(new Object[]{
                 sv.getMaTaiKhoan(),
                 sv.getHo()+" "+sv.getTen(),
@@ -1376,7 +1431,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         UpdateStudent.setVisible(true);
     }//GEN-LAST:event_button10ActionPerformed
 
-    private void button11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button11ActionPerformed
+    private void button11ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button11ActionPerformed
        JnaFileChooser fileChooser = new JnaFileChooser();
          // Đảm bảo hiện trên cùng nếu cần
 
@@ -1403,7 +1458,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         } 
     }//GEN-LAST:event_button11ActionPerformed
 
-    private void button12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button12ActionPerformed
+    private void button12ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button12ActionPerformed
         String ma= myTextField12.getText().trim();
         DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
         TaiKhoan sv= tk_dao.getTaiKhoan(ma);

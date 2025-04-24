@@ -4,9 +4,9 @@
  */
 package Components;
 
+import Dao.ITaiKhoan_DAO;
 import Dao.TaiKhoan_DAO;
 import Entity.TaiKhoan;
-import GUI.Admin_Account;
 import GUI.Admin_Account;
 import GUI.Admin_Classrom;
 import GUI.Admin_Subject;
@@ -16,16 +16,16 @@ import GUI.GV_Exams;
 import GUI.Main_GUI;
 import GUI.SV_Classroom;
 import GUI.SV_Main_GUI;
-import GUI.StudentClassroom;
-import com.sun.java.accessibility.util.AWTEventMonitor;
+import service.RmiServiceLocator;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.NamingException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -35,7 +35,7 @@ import javax.swing.SwingUtilities;
  * @author THANH PHU
  */
 public class MenuCustom extends javax.swing.JPanel {
-    private TaiKhoan_DAO taiKhoan_DAO = new TaiKhoan_DAO(Main_GUI.em);
+    private ITaiKhoan_DAO ITaiKhoan_DAO = RmiServiceLocator.getTaiKhoanDao();
 
     /**
      * Creates new form MenuCustom
@@ -44,7 +44,7 @@ public class MenuCustom extends javax.swing.JPanel {
     private final String[] SV = {  "Class" };
     private final String[] AD = { "Subject", "Class", "Account" };
 
-    public MenuCustom() {
+    public MenuCustom() throws RemoteException {
         initComponents();
         setOpaque(false);
         repaint();
@@ -53,7 +53,7 @@ public class MenuCustom extends javax.swing.JPanel {
 
     private String role;
 
-    public MenuCustom(String role) {
+    public MenuCustom(String role) throws RemoteException {
 
         initComponents();
 
@@ -74,7 +74,13 @@ public class MenuCustom extends javax.swing.JPanel {
         for (String item : items) {
             MenuItemCustom menuItem = new MenuItemCustom(item, "icons8-" + item.toLowerCase() + "-30");
             listItems.add(menuItem);
-            menuItem.addActionListener(x -> handleClick(menuItem));
+            menuItem.addActionListener(x -> {
+                try {
+                    handleClick(menuItem);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
         
         // if(role.equalsIgnoreCase("GV")){
@@ -93,7 +99,7 @@ public class MenuCustom extends javax.swing.JPanel {
         menuItemList1.updateMenu(listItems);
     }
 
-    public void handleClick(MenuItemCustom item) {
+    public void handleClick(MenuItemCustom item) throws RemoteException {
         Avatar.updateTitle(item.getItemText());
         System.out.println(item.getItemText());
 
@@ -193,7 +199,11 @@ public class MenuCustom extends javax.swing.JPanel {
         btnXacNhan.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXacNhanActionPerformed(evt);
+                try {
+                    btnXacNhanActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -388,14 +398,24 @@ public class MenuCustom extends javax.swing.JPanel {
         button1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-logout-64.png"))); // NOI18N
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button1ActionPerformed(evt);
+                try {
+                    button1ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                } catch (NamingException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         button2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/icons8-setting-50.png"))); // NOI18N
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -430,7 +450,7 @@ public class MenuCustom extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {
         String maTaiKhoan = Main_GUI.tk.getMaTaiKhoan();
         String ho = tfHo.getText().trim();
         String ten = tfTen.getText().trim();
@@ -485,7 +505,7 @@ public class MenuCustom extends javax.swing.JPanel {
         tkUpdate.setEmail(email);
         tkUpdate.setSoDienThoai(sdt);
 
-        if (taiKhoan_DAO.updateTaiKhoan(tkUpdate)) {
+        if (ITaiKhoan_DAO.updateTaiKhoan(tkUpdate)) {
             JOptionPane.showMessageDialog(null, "Cập nhật thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, "Cập nhật thất bại", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -505,8 +525,8 @@ public class MenuCustom extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jLabel22MouseClicked
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        TaiKhoan tk= taiKhoan_DAO.getTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
+        TaiKhoan tk= ITaiKhoan_DAO.getTaiKhoan(Main_GUI.tk.getMaTaiKhoan());
         
         tfHo.setText(tk.getHo());
         tfTen.setText(tk.getTen());
@@ -525,7 +545,7 @@ public class MenuCustom extends javax.swing.JPanel {
         EditDialog.setVisible(true);
     }//GEN-LAST:event_button2ActionPerformed
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_button1ActionPerformed
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException, NamingException {// GEN-FIRST:event_button1ActionPerformed
           int confirm = JOptionPane.showConfirmDialog(
         null,
         "Bạn có chắc chắn muốn thoát không?",
@@ -540,7 +560,7 @@ public class MenuCustom extends javax.swing.JPanel {
         if (window != null) {
             window.dispose();
             DangNhapGUI dangNhapGUI = new DangNhapGUI();
-            taiKhoan_DAO.updateTrangThaiOnline(Main_GUI.tk);
+            ITaiKhoan_DAO.updateTrangThaiOnline(Main_GUI.tk);
 	    dangNhapGUI.setLocationRelativeTo(null); // Cũng hiển thị ở giữa màn hình
             dangNhapGUI.setVisible(true);
         }

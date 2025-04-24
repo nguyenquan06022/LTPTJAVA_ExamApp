@@ -1,4 +1,5 @@
 import Dao.DsLuaChon_DAO;
+import Dao.IDsLuaChon_DAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -14,7 +15,7 @@ public class DSLuaChon_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private DsLuaChon_DAO dsLuaChonDAO;
+    private IDsLuaChon_DAO dsLuaChonDAO;
 
     @BeforeAll
     void setUp() {

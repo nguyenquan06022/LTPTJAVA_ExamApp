@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
 public class CustomTextArea extends JTextArea {
-private Color backgroundColor = new Color(0xeeeefc); // Màu nền #eeeefc
+    private Color backgroundColor = new Color(0xeeeefc); // Màu nền #eeeefc
     private Color borderColor = Color.RED; // Màu viền nhạt (có thể tùy chỉnh)
     private int borderRadius = 20;
     private String placeholder = "";

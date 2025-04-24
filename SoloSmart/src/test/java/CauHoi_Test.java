@@ -1,4 +1,5 @@
 import Dao.CauHoi_DAO;
+import Dao.ICauHoi_DAO;
 import Entity.CauHoi;
 import Entity.DeThi;
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,7 @@ public class CauHoi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private CauHoi_DAO cauHoiDAO;
+    private ICauHoi_DAO cauHoiDAO;
 
     @BeforeAll
     void setUp() {

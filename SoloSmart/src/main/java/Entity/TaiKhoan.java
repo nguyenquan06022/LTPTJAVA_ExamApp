@@ -2,6 +2,7 @@ package Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -9,7 +10,7 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "TaiKhoans")
-public class TaiKhoan {
+public class TaiKhoan implements Serializable {
     @Id
     @NonNull
     @Column(columnDefinition = "nvarchar(255)")

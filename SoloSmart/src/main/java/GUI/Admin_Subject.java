@@ -10,8 +10,12 @@ import Components.ScrollBarCustom;
 import Components.TableActionCellEditor;
 import Components.TableActionCellRender;
 import Components.TableActionEvent;
+import Dao.IMonHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.MonHoc;
+import service.RmiServiceLocator;
+
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
@@ -26,9 +30,9 @@ public class Admin_Subject extends javax.swing.JPanel {
     /**
      * Creates new form Admin_Subject
      */
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
+    private IMonHoc_DAO mh_dao= RmiServiceLocator.getMonHocDao();
     private ArrayList<MonHoc> list= new ArrayList<>();
-    public Admin_Subject() {
+    public Admin_Subject() throws RemoteException {
         initComponents();
         TableActionEvent event = new TableActionEvent() {
             @Override
@@ -43,7 +47,7 @@ public class Admin_Subject extends javax.swing.JPanel {
             }
 
             @Override
-            public void onDelete(int row) {
+            public void onDelete(int row) throws RemoteException {
                 int[] selectedRows = jTable1.getSelectedRows();
 
                 if (selectedRows.length == 0) {
@@ -59,7 +63,7 @@ public class Admin_Subject extends javax.swing.JPanel {
                 if (confirm == JOptionPane.YES_OPTION) {
                 for (int r : selectedRows) {
                     String maMonHoc = jTable1.getValueAt(r, 0).toString(); // giả sử cột 0 là mã môn học
-                    monHoc_DAO.deleteMonHoc(maMonHoc);
+                    mh_dao.deleteMonHoc(maMonHoc);
                     jTable1.getCellEditor().cancelCellEditing();
                 }
                 initTable();
@@ -85,8 +89,12 @@ public class Admin_Subject extends javax.swing.JPanel {
         
         
         searchTextField1.addActionListener(x->{
-            
-            list= mh_dao.getDanhSachMonHocTheoTen(searchTextField1.getText());
+
+            try {
+                list= mh_dao.getDanhSachMonHocTheoTen(searchTextField1.getText());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
             if(list.size()>0){
                 initPage(1);
             }
@@ -118,7 +126,7 @@ public class Admin_Subject extends javax.swing.JPanel {
                 .limit(limit)
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
-    public void initTable(){
+    public void initTable() throws RemoteException {
         list=mh_dao.getDanhSachMonHoc();
         initPage(1);
                 
@@ -233,7 +241,11 @@ public class Admin_Subject extends javax.swing.JPanel {
         button3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button3ActionPerformed(evt);
+                try {
+                    button3ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -521,7 +533,11 @@ public class Admin_Subject extends javax.swing.JPanel {
         button2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -599,7 +615,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
         ArrayList<MonHoc> list= mh_dao.getDanhSachMonHoc();
         updateTable(list);
     }//GEN-LAST:event_button2ActionPerformed
@@ -608,7 +624,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myTextField1ActionPerformed
 
-    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button3ActionPerformed
         String name = myTextField1.getText();
         if(name.trim().equals("")) {
             // Hiển thị thông báo khi tên môn học trống
@@ -621,7 +637,7 @@ public class Admin_Subject extends javax.swing.JPanel {
     }
         else {
     // Thêm môn học mới
-        monHoc_DAO.addMonHoc(new MonHoc(monHoc_DAO.generateMa(), name, "enable"));
+        mh_dao.addMonHoc(new MonHoc(mh_dao.generateMa(), name, "enable"));
     
         // Hiển thị thông báo thành công
         JOptionPane.showMessageDialog(
@@ -734,7 +750,7 @@ public class Admin_Subject extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_myTextField7ActionPerformed
 
-    private MonHoc_DAO monHoc_DAO = new MonHoc_DAO(Main_GUI.em);
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog AddDialog;
     private javax.swing.JDialog EditDialog;

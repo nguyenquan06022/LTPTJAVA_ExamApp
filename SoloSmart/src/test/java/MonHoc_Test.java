@@ -1,3 +1,4 @@
+import Dao.IMonHoc_DAO;
 import Dao.MonHoc_DAO;
 import Entity.MonHoc;
 import jakarta.persistence.EntityManager;
@@ -13,7 +14,7 @@ public class MonHoc_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private MonHoc_DAO monHocDAO;
+    private IMonHoc_DAO monHocDAO;
 
     @BeforeAll
     void setUp() {

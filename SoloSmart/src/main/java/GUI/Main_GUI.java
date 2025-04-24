@@ -11,6 +11,8 @@ import jakarta.persistence.EntityManager;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author THANH PHU
@@ -19,16 +21,16 @@ public class Main_GUI extends javax.swing.JFrame {
 
 
     public static TaiKhoan tk = new TaiKhoan();
-    
     public static EntityManager em;
-    public Main_GUI() {
+
+    public Main_GUI() throws RemoteException {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon img = new ImageIcon(getClass().getResource("/Image/favicon_1.png"));
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
     }
-    public Main_GUI(TaiKhoan tk) {
+    public Main_GUI(TaiKhoan tk) throws RemoteException {
         
         this.em= DangNhapGUI.em;
         this.tk= tk;
@@ -64,7 +66,7 @@ public class Main_GUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         menuCustom1 = new Components.MenuCustom(Main_GUI.tk.getVaiTro());
         avatar2 = new Components.Avatar();
@@ -144,7 +146,11 @@ public class Main_GUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main_GUI().setVisible(true);
+                try {
+                    new Main_GUI().setVisible(true);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

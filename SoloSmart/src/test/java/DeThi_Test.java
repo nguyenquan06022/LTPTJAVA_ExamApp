@@ -1,4 +1,5 @@
 import Dao.DeThi_DAO;
+import Dao.IDeThi_DAO;
 import Entity.DeThi;
 import Entity.NganHangDeThi;
 import Entity.TaiKhoan;
@@ -17,7 +18,7 @@ public class DeThi_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private DeThi_DAO deThiDAO;
+    private IDeThi_DAO deThiDAO;
 
     @BeforeAll
     void setUp() {

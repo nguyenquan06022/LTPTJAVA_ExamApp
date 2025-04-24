@@ -7,21 +7,25 @@ import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DsLuaChon_DAO {
+public class DsLuaChon_DAO extends UnicastRemoteObject implements IDsLuaChon_DAO {
     private EntityManager em;
 
-    public DsLuaChon_DAO() {
+    public DsLuaChon_DAO() throws RemoteException {
+        super();
     }
 
-    public DsLuaChon_DAO(EntityManager em) {
+    public DsLuaChon_DAO(EntityManager em) throws RemoteException {
         this.em = em;
     }
 
-    public boolean themLuaChon(String maCauHoi, String luaChon, boolean dapAnDung) {
+    @Override
+    public boolean themLuaChon(String maCauHoi, String luaChon, boolean dapAnDung) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -43,7 +47,8 @@ public class DsLuaChon_DAO {
         return isSuccess;
     }
 
-    public boolean capNhatLuaChon(String maCauHoi, String luaChonCu,String luaChonMoi, boolean dapAnDung) {
+    @Override
+    public boolean capNhatLuaChon(String maCauHoi, String luaChonCu, String luaChonMoi, boolean dapAnDung) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -63,7 +68,8 @@ public class DsLuaChon_DAO {
         }
         return isSuccess;
     }
-    public String getLuaChon(String maCauHoi, String luaChon) {
+    @Override
+    public String getLuaChon(String maCauHoi, String luaChon) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         String ketQua = null;
         try {
@@ -82,7 +88,8 @@ public class DsLuaChon_DAO {
         }
         return ketQua;
     }
-    public ArrayList<String> getDSLuaChon(String maCauHoi) {
+    @Override
+    public ArrayList<String> getDSLuaChon(String maCauHoi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<String> dsLuaChon = new ArrayList<>();
         try {
@@ -105,7 +112,8 @@ public class DsLuaChon_DAO {
         return dsLuaChon;
     }
 
-    public boolean xoaLuaChon(String maCauHoi, String luaChon) {
+    @Override
+    public boolean xoaLuaChon(String maCauHoi, String luaChon) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -126,7 +134,8 @@ public class DsLuaChon_DAO {
         return isSuccess;
     }
 
-    public ArrayList<LuaChons> getDSLuaChonTheoDeThi(String maDeThi) {
+    @Override
+    public ArrayList<LuaChons> getDSLuaChonTheoDeThi(String maDeThi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<LuaChons> dsLuaChon = new ArrayList<>();
         try {
@@ -154,7 +163,8 @@ public class DsLuaChon_DAO {
         }
         return dsLuaChon;
     }
-    public ArrayList<LuaChons> getDSLuaChonTheoMa(String maCauHoi) {
+    @Override
+    public ArrayList<LuaChons> getDSLuaChonTheoMa(String maCauHoi) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         ArrayList<LuaChons> dsLuaChon = new ArrayList<>();
         try {

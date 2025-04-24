@@ -1,3 +1,4 @@
+import Dao.IKetQuaKiemTra_DAO;
 import Dao.KetQuaKiemTra_DAO;
 import Entity.BaiKiemTra;
 import Entity.KetQuaKiemTra;
@@ -16,7 +17,7 @@ public class KetQuaKiemTra_Test {
 
     private EntityManagerFactory emf;
     private EntityManager em;
-    private KetQuaKiemTra_DAO dao;
+    private IKetQuaKiemTra_DAO dao;
 
     @BeforeAll
     public void setup() {

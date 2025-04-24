@@ -5,20 +5,17 @@
 package GUI;
 
 import Components.BaiKiemTraCard;
-import Components.DeThiCard2;
-import Dao.BaiKiemTra_DAO;
-import Dao.DeThi_DAO;
-import Dao.KetQuaHocTap_DAO;
-import Dao.LopHoc_DAO;
-import Dao.MonHoc_DAO;
-import Dao.TaiKhoan_DAO;
+import Dao.*;
 import Entity.BaiKiemTra;
 import Entity.DeThi;
 import Entity.KetQuaHocTap;
 import Entity.LopHoc;
 import Entity.MonHoc;
+import service.RmiServiceLocator;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -33,21 +30,23 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
     /**
      * Creates new form GV_ClassRoom_Detail
      */
-    private  LopHoc_DAO lh_dao= new LopHoc_DAO(Main_GUI.em);
-    private TaiKhoan_DAO tk_dao= new TaiKhoan_DAO(Main_GUI.em);
-    private static KetQuaHocTap_DAO kqht_dao= new KetQuaHocTap_DAO(Main_GUI.em);
-    private static BaiKiemTra_DAO bkt_dao= new BaiKiemTra_DAO(Main_GUI.em);
-    private MonHoc_DAO mh_dao= new MonHoc_DAO(Main_GUI.em);
-    private DeThi_DAO dt_dao= new DeThi_DAO(Main_GUI.em);
+    private ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
+    private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
+    private static IKetQuaHocTap_DAO kqht_dao = RmiServiceLocator.getKetQuaHocTapDao();
+
+    private static IBaiKiemTra_DAO bkt_dao = RmiServiceLocator.getBaiKiemTraDao();
+    private IMonHoc_DAO mh_dao= RmiServiceLocator.getMonHocDao();
+    private IDeThi_DAO dt_dao= RmiServiceLocator.getDeThiDao();
     public static  LopHoc lopHoc;
     private static ArrayList<KetQuaHocTap> dsKQHT;
     private static ArrayList<BaiKiemTra> dsBKT;
-    public GV_ClassRoom_Detail() {
+
+    public GV_ClassRoom_Detail() throws RemoteException {
         initComponents();
         loadData();
         
     }
-    public GV_ClassRoom_Detail(LopHoc lopHoc){
+    public GV_ClassRoom_Detail(LopHoc lopHoc) throws RemoteException {
         this.lopHoc=lopHoc;
         initComponents();
         
@@ -64,7 +63,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         jLabel1.setToolTipText(lopHoc.getTenLop());
         jLabel2.setText("Năm học: "+lopHoc.getNamHoc());
     }
-    public static void loadBKT(){
+    public static void loadBKT() throws RemoteException {
         dsKQHT=kqht_dao.getDanhSachKetQuaHocTap(lopHoc.getMaLop());
         dsBKT= bkt_dao.getDanhSachBaiKiemTraTheoLop(lopHoc.getMaLop());
         listBaiKiemTra1.updateList(dsBKT);
@@ -77,7 +76,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws RemoteException {
 
         jDialog1 = new javax.swing.JDialog();
         roundedPanel5 = new Components.RoundedPanel();
@@ -163,7 +162,11 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         button5.setPreferredSize(new java.awt.Dimension(47, 40));
         button5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button5ActionPerformed(evt);
+                try {
+                    button5ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -171,7 +174,11 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         button6.setPreferredSize(new java.awt.Dimension(61, 36));
         button6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button6ActionPerformed(evt);
+                try {
+                    button6ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -386,7 +393,11 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         button2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+                    button2ActionPerformed(evt);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -516,7 +527,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         jDialog1.setVisible(true);
     }//GEN-LAST:event_button1ActionPerformed
 
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button2ActionPerformed
         loadData();
         loadBKT();
     }//GEN-LAST:event_button2ActionPerformed
@@ -537,7 +548,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         initThemBKT();
     }//GEN-LAST:event_button4ActionPerformed
 
-    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button5ActionPerformed
         LocalDateTime now= LocalDateTime.now();
         if(customDateChooser1.getSelectedDateTime().isAfter(customDateChooser2.getSelectedDateTime())){
             JOptionPane.showMessageDialog(null, "Thời gian bắt đầu phải trước thời gian kết thúc");
@@ -567,7 +578,7 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
             
     }//GEN-LAST:event_button5ActionPerformed
 
-    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button6ActionPerformed
         MonHoc mon = mh_dao.getMonHoc(GV_ClassRoom_Detail.lopHoc.getMonHoc().getMaMonHoc());
         ArrayList<DeThi> dsDeThi = dt_dao.getDanhSachDeThiTheoMonCuaGV(Main_GUI.tk.getMaTaiKhoan(), mon.getTenMonHoc());
         listDeThi21.updateDsDeThi(dsDeThi);
