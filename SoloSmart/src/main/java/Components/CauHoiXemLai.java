@@ -25,34 +25,46 @@ public class CauHoiXemLai extends javax.swing.JPanel {
         initComponents();
 
         List<RatioExam> ratioList = List.of(ratioExam1, ratioExam2, ratioExam3, ratioExam4);
-
+        
         // Cập nhật nội dung cho từng lựa chọn (nếu đủ)
         int minSize = Math.min(dsLuaChon.size(), ratioList.size());
         for (int i = 0; i < minSize; i++) {
-            ratioList.get(i).updateRatio(dsLuaChon.get(i).getLuaChon());
+            // Lấy phần nội dung sau dấu chấm đầu tiên
+            String[] parts = dsLuaChon.get(i).getLuaChon().split("\\. ", 2);
+            if (parts.length > 1) {
+                ratioList.get(i).updateRatio(parts[1]);
+            } else {
+                ratioList.get(i).updateRatio(dsLuaChon.get(i).getLuaChon()); // Xử lý trường hợp không có dấu chấm
+            }
         }
 
-        
+        String maLuaChonNguoiDung = "";
+        String noiDungLuaChonNguoiDung = "";
+        if (cauTraLoi != null && !cauTraLoi.isEmpty() && cauTraLoi.contains(".")) {
+            maLuaChonNguoiDung = cauTraLoi.split("\\.")[0].trim();
+        }
 
         for (int i = 0; i < minSize; i++) {
-            String luaChon = dsLuaChon.get(i).getLuaChon();
+            String maLuaChonHienTai = dsLuaChon.get(i).getLuaChon().split("\\. ")[0].trim();
+            boolean laDapAnDung = dsLuaChon.get(i).isDapAnDung();
 
-            if (luaChon.equalsIgnoreCase(cauTraLoi)) {
+            // Kiểm tra xem lựa chọn hiện tại có trùng với câu trả lời của người dùng không
+            if (maLuaChonHienTai.equalsIgnoreCase(cauTraLoi)) {
+                System.out.println(maLuaChonHienTai + " " + cauTraLoi);
                 ratioList.get(i).setSelected(true);
-
                 if (xemDapAn) {
-                    if (dsLuaChon.get(i).isDapAnDung()) {
+                    if (laDapAnDung) {
                         ratioList.get(i).isCorrect(); // Người dùng chọn đúng
                     } else {
                         ratioList.get(i).isFalse(); // Người dùng chọn sai
                     }
                 }
-            } 
-                // Nếu là đáp án đúng nhưng không phải lựa chọn người dùng -> tô xanh nếu đang xem đáp án
-                if (xemDapAn && dsLuaChon.get(i).isDapAnDung()) {
-                    ratioList.get(i).isFalse();
+            } else {
+                // Nếu đang xem đáp án và đây là đáp án đúng (nhưng không phải lựa chọn của người dùng)
+                if (xemDapAn && laDapAnDung) {
+                    ratioList.get(i).isCorrect(); // Tô màu xanh đáp án đúng
                 }
-            
+            }
         }
 
         jTextArea2.setText(loigiai);

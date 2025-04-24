@@ -28,7 +28,7 @@ public class KetQuaKiemTra implements Serializable {
     @ElementCollection
     @CollectionTable(name = "dsCauTraLoi", joinColumns = @JoinColumn(name = "maKetQuaKiemTra"))
     @Column(name = "cauTraLoi", nullable = false, columnDefinition = "nvarchar(255)")
-    private List<String> dsCauTraLoi;
+    private Set<String> dsCauTraLoi;
     @NonNull
     private boolean diemCaoNhat;
 
@@ -46,20 +46,18 @@ public class KetQuaKiemTra implements Serializable {
         diemCaoNhat = true;
     }
 
-
-
-
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         KetQuaKiemTra that = (KetQuaKiemTra) o;
-        return Objects.equals(maKetQuaKiemTra, that.maKetQuaKiemTra) && Objects.equals(baiKiemTra, that.baiKiemTra) && Objects.equals(taiKhoan, that.taiKhoan);
+        return Objects.equals(maKetQuaKiemTra, that.maKetQuaKiemTra) && Objects.equals(baiKiemTra, that.baiKiemTra)
+                && Objects.equals(taiKhoan, that.taiKhoan);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(maKetQuaKiemTra, baiKiemTra, taiKhoan);
     }
-
 
 }

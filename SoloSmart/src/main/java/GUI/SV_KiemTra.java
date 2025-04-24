@@ -12,11 +12,10 @@ import java.rmi.RemoteException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.swing.*;
+import javax.swing.Timer;
 
 /**
  *
@@ -204,8 +203,9 @@ public class SV_KiemTra extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button1ActionPerformed
-        System.out.println(this.baiKiemTra);
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {
+        // GEN-FIRST:event_button1ActionPerformed
+        System.out.println(baiKiemTra);
         LocalDateTime endTime = LocalDateTime.now(); // Thời gian kết thúc
         long durationInMinutes = Duration.between(startTime, endTime).toMinutes(); // Tính phút
 
@@ -220,20 +220,19 @@ public class SV_KiemTra extends javax.swing.JFrame {
 
         int thoiGianLamBai = (int) durationInMinutes;
         List<Boolean> kq = new ArrayList<>();
-        
-        KetQuaKiemTra ketQuaKiemTra = new KetQuaKiemTra(maKqkt, diemSo, thoiGianLamBai, lanThu, diemCaoNhat, this.baiKiemTra, tk);
-        System.out.println(ketQuaKiemTra);
+        KetQuaKiemTra ketQuaKiemTra = new KetQuaKiemTra(maKqkt, diemSo, thoiGianLamBai, lanThu, diemCaoNhat, baiKiemTra,
+                tk);
+
         List<String> dsCauTraLoi = listCauHoiKiemTra1.getDsLuaChonCuaSinhVien();
-        
         System.out.println(dsCauTraLoi);
-        ketQuaKiemTra.setDsCauTraLoi(dsCauTraLoi);
+        ketQuaKiemTra.setDsCauTraLoi(dsCauTraLoi.stream().collect(Collectors.toSet()));
         boolean res1 = IKetQuaKiemTra_DAO.themKetQuaKiemTra(ketQuaKiemTra);
-        System.out.println(ketQuaKiemTra);
-        if(res1) {
+        if (res1) {
             for (String cauTraLoi : dsCauTraLoi) {
                 kq.add(IDsCauTraLoi_DAO.themCauTraLoiCuaSinhVien(maKqkt, cauTraLoi));
-                System.out.println(kq);
             }
+
+            if (!kq.contains(false)) {
                 // tinhDiemChoSinhVien
                 float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(baiKiemTra.getMaBaiKiemTra(),maKqkt);
                 // update điểm
@@ -243,36 +242,40 @@ public class SV_KiemTra extends javax.swing.JFrame {
                 IKetQuaKiemTra_DAO.updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(tk.getMaTaiKhoan(),
                         baiKiemTra.getMaBaiKiemTra());
 
-                // cập nhật lại kết quả học tập của sinh viên
-                Map<String, Float> map = IKetQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(),
-                        baiKiemTra.getLopHoc().getMaLop());
-                List<String> key = map.entrySet().stream().map(x -> x.getKey()).collect(Collectors.toList());
+            // cập nhật lại kết quả học tập của sinh viên
+            Map<String, Float> map = IKetQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(),
+                    baiKiemTra.getLopHoc().getMaLop());
+            List<String> key = map.entrySet().stream().map(x -> x.getKey()).collect(Collectors.toList());
 
-                float diemThuongKy = -1;
-                float diemGiuaKy = -1;
-                float diemCuoiKy = -1;
-                if (key.contains("0.2")) {
-                    diemThuongKy = map.get("0.2");
-                } else if (key.contains("0.3")) {
-                    diemGiuaKy = map.get("0.3");
-                } else if (key.contains("0.5")) {
-                    diemCuoiKy = map.get("0.5");
-                }
-                float diemTBMon = -1;
-                if (!(diemThuongKy == -1 || diemGiuaKy == -1 || diemCuoiKy == -1)) {
-                    diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
-                }
-
-                KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy, diemGiuaKy, diemCuoiKy, diemTBMon, tk,
-                        new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
-
-                IKetQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
-
+            float diemThuongKy = -1;
+            float diemGiuaKy = -1;
+            float diemCuoiKy = -1;
+            if (key.contains("0.2")) {
+                diemThuongKy = map.get("0.2");
+            } else if (key.contains("0.3")) {
+                diemGiuaKy = map.get("0.3");
+            } else if (key.contains("0.5")) {
+                diemCuoiKy = map.get("0.5");
             }
+            float diemTBMon = -1;
+            if (!(diemThuongKy == -1 || diemGiuaKy == -1 || diemCuoiKy == -1)) {
+                diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
+            }
+
+            KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy, diemGiuaKy, diemCuoiKy, diemTBMon, tk,
+                    new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
+
+            IKetQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
+
+        }
         if (timer != null && timer.isRunning()) {
             timer.stop();
         }
+            setAlwaysOnTop(false);
+            JOptionPane.showMessageDialog(null, "Nộp bài thành công");
+            SV_ClassRoom_Detail.loadBKT();
         dispose();
+    }
     }// GEN-LAST:event_button1ActionPerformed
 
     /**

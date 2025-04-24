@@ -46,10 +46,10 @@ public class CauHoiDeThi extends javax.swing.JPanel {
     
     public CauHoiDeThi(List<LuaChons> dsLuaChon) throws RemoteException {
         initComponents();
-        answer1.setValueForUpdate(dsLuaChon.get(0).getLuaChon());
-        answer2.setValueForUpdate(dsLuaChon.get(1).getLuaChon());
-        answer3.setValueForUpdate(dsLuaChon.get(2).getLuaChon());
-        answer4.setValueForUpdate(dsLuaChon.get(3).getLuaChon());
+        answer1.setValueForUpdate(dsLuaChon.get(0).getLuaChon().substring(dsLuaChon.get(0).getLuaChon().indexOf(".") + 1).trim());
+        answer2.setValueForUpdate(dsLuaChon.get(1).getLuaChon().substring(dsLuaChon.get(1).getLuaChon().indexOf(".") + 1).trim());
+        answer3.setValueForUpdate(dsLuaChon.get(2).getLuaChon().substring(dsLuaChon.get(2).getLuaChon().indexOf(".") + 1).trim());
+        answer4.setValueForUpdate(dsLuaChon.get(3).getLuaChon().substring(dsLuaChon.get(3).getLuaChon().indexOf(".") + 1).trim());
         answer2.getRoundedRectPanel1().setText("B.");
         answer3.getRoundedRectPanel1().setText("C.");
         answer4.getRoundedRectPanel1().setText("D.");

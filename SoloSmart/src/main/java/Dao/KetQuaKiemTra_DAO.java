@@ -53,7 +53,6 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
                     .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan()) // Long: mã tài khoản (FK)
                     .setParameter(7, ketQua.getMaKetQuaKiemTra())
                     .executeUpdate();
-
             tr.commit();
             isSuccess = true;
         } catch (Exception e) {
@@ -104,7 +103,7 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
     }
 
     @Override
-    public float tinhDiemChoSinhVien(String maBaiKiemTra,String maKetQuaKiemTra) throws RemoteException{
+    public float tinhDiemChoSinhVien(String maBaiKiemTra, String maKetQuaKiemTra) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
         try {
             String sql = "WITH \n" +
@@ -132,7 +131,8 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
                     ")\n" +
                     "SELECT \n" +
                     "    COUNT(CASE WHEN c.TraLoi = d.DapAn THEN 1 END) AS SoCauDung,\n" +
-                    "    COUNT(CASE WHEN c.TraLoi = d.DapAn THEN 1 END) * 10.0 / (SELECT Total FROM TongSoCau) AS DiemDatDuoc\n" +
+                    "    COUNT(CASE WHEN c.TraLoi = d.DapAn THEN 1 END) * 10.0 / (SELECT Total FROM TongSoCau) AS DiemDatDuoc\n"
+                    +
                     "FROM CauTraLoiThiSinh c\n" +
                     "JOIN DapAnDung d ON c.CauHoi = d.CauHoi";
 
@@ -152,7 +152,6 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
             throw new RuntimeException(e);
         }
     }
-
 
     @Override
     public ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra)
@@ -221,7 +220,16 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
         boolean isSuccess = false;
         try {
             tr.begin();
-            em.merge(ketQua);
+            String sql = "update KetQuaKiemTras set diemCaoNhat = ?, diemSo = ?, lanThu = ?, thoiGianLamBai = ?, maBaiKiemTra = ?, maTaiKhoan = ? where maKetQuaKiemTra = ?";
+            em.createNativeQuery(sql)
+                    .setParameter(1, ketQua.isDiemCaoNhat())
+                    .setParameter(2, ketQua.getDiemSo())
+                    .setParameter(3, ketQua.getLanThu())
+                    .setParameter(4, ketQua.getThoiGianLamBai())
+                    .setParameter(5, ketQua.getBaiKiemTra().getMaBaiKiemTra())
+                    .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan())
+                    .setParameter(7, ketQua.getMaKetQuaKiemTra())
+                    .executeUpdate();
             tr.commit();
             isSuccess = true;
         } catch (Exception e) {
@@ -261,8 +269,6 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
     }
 
     // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
-
-
 
     // cập nhật điểm cao nhất
     @Override

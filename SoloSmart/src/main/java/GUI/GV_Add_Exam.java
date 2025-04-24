@@ -21,10 +21,6 @@ import javax.swing.*;
 import jnafilechooser.api.JnaFileChooser;
 import service.RmiServiceLocator;
 
-/**
- *
- * @author THANH PHU
- */
 public class GV_Add_Exam extends javax.swing.JPanel {
 
     private IMonHoc_DAO IMonHoc_DAO = RmiServiceLocator.getMonHocDao();
@@ -50,6 +46,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         tfTenDeThi.setText(deThi.getTenDeThi());
         btnTaoDeThi.setVisible(false);
         button1.setVisible(false);
+        cbbMonHoc.setSelectedItem(deThi.getMonHoc());
     }
 
     /**
@@ -473,14 +470,14 @@ public class GV_Add_Exam extends javax.swing.JPanel {
             // TODO add your handling code here:
         }//GEN-LAST:event_cbbMonHocActionPerformed
 
-    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+    public void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         try {
             JnaFileChooser fileChooser = new JnaFileChooser();
             if (fileChooser.showOpenDialog(null)) {
                 File selectedFile = fileChooser.getSelectedFile();
                 String filePath = selectedFile.getAbsolutePath();
 
-                // Đọc file Word
+                // Read Word file
                 FileInputStream fis = new FileInputStream(filePath);
                 XWPFDocument document = new XWPFDocument(fis);
                 List<XWPFParagraph> paragraphs = document.getParagraphs();
@@ -508,21 +505,21 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                     } else if (text.startsWith("Môn học:")) {
                         subject = text.replace("Môn học:", "").trim();
                     } else if (text.matches("^\\d+\\.\\s.*")) {
-                        // Nếu đã có câu hỏi trước đó, lưu lời giải tương ứng
+                        // If there was a previous question, save its solution
                         if (currentQuestion != null) {
                             correctAnswers.add(currentCorrect);
                             answersMap.put(currentQuestion, new ArrayList<>(currentAnswers));
                             loiGiaiMap.put(currentQuestion, currentLoiGiai);
                         }
 
-                        // Bắt đầu câu hỏi mới
+                        // Start new question
                         currentQuestion = text.substring(text.indexOf(".") + 1).trim();
                         questions.add(currentQuestion);
                         currentAnswers = new ArrayList<>();
                         currentCorrect = "";
                         currentLoiGiai = "";
                     } else if (text.matches("^[A-D]\\..*")) {
-                        currentAnswers.add(text);
+                        currentAnswers.add(text); // Keep the full answer text (e.g., "A. Hình ảnh chủ quan...")
                     } else if (text.startsWith("Đáp án đúng:")) {
                         currentCorrect = text.replace("Đáp án đúng:", "").trim();
                     } else if (text.startsWith("Lời giải:")) {
@@ -530,7 +527,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                     }
                 }
 
-                // Xử lý câu hỏi cuối cùng
+                // Process the last question
                 if (currentQuestion != null) {
                     correctAnswers.add(currentCorrect);
                     answersMap.put(currentQuestion, new ArrayList<>(currentAnswers));
@@ -539,7 +536,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
 
                 document.close();
 
-                // Tạo đối tượng DeThi
+                // Create DeThi object
                 String maDeThi = IDeThi_DAO.generateMa();
                 NganHangDeThi nganHang = new NganHangDeThi(null);
                 TaiKhoan tk = Main_GUI.tk;
@@ -567,11 +564,10 @@ public class GV_Add_Exam extends javax.swing.JPanel {
 
                     List<LuaChons> luaChonList = new ArrayList<>();
                     for (String ans : answerList) {
-                        // Tách "A. jack" -> "jack"
+                        // Keep the full answer text (e.g., "A. Hình ảnh chủ quan...")
                         String optionKey = ans.substring(0, 1);
-                        String content = ans.substring(2).trim();
                         boolean isCorrect = optionKey.equalsIgnoreCase(correct);
-                        luaChonList.add(new LuaChons(content, isCorrect));
+                        luaChonList.add(new LuaChons(ans, isCorrect)); // Store the full answer text
                     }
 
                     CauHoi ch = new CauHoi(
@@ -594,6 +590,7 @@ public class GV_Add_Exam extends javax.swing.JPanel {
                         boolean res2 = cauHoiDao.addCauHoi(ch);
                         if (res2) {
                             for (LuaChons lc : ch.getDsLuaChon()) {
+                                // Save the full choice text (e.g., "A. Hình ảnh chủ quan...")
                                 dsLuaChonDao.themLuaChon(ch.getMaCauHoi(), lc.getLuaChon(), lc.isDapAnDung());
                             }
                         }
@@ -602,11 +599,9 @@ public class GV_Add_Exam extends javax.swing.JPanel {
 
                 JOptionPane.showMessageDialog(null, "Thêm đề thi thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }//GEN-LAST:event_button1ActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed

@@ -24,11 +24,11 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
      */
     private ILopHoc_DAO lh_dao= RmiServiceLocator.getLopHocDao();
     private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
-    private IKetQuaHocTap_DAO kqht_dao= RmiServiceLocator.getKetQuaHocTapDao();
-    private IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
-    private LopHoc lopHoc;
-    private ArrayList<KetQuaHocTap> dsKQHT;
-    private ArrayList<BaiKiemTra> dsBKT;
+    private static IKetQuaHocTap_DAO kqht_dao= RmiServiceLocator.getKetQuaHocTapDao();
+    private static IBaiKiemTra_DAO bkt_dao= RmiServiceLocator.getBaiKiemTraDao();
+    private static LopHoc lopHoc;
+    private static ArrayList<KetQuaHocTap> dsKQHT;
+    private static ArrayList<BaiKiemTra> dsBKT;
     public SV_ClassRoom_Detail() throws RemoteException {
         initComponents();
     }
@@ -39,7 +39,7 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
         loadBKT();
     }
    
-    public void loadBKT() throws RemoteException {
+    public static void loadBKT() throws RemoteException {
         dsKQHT=kqht_dao.getDanhSachKetQuaHocTap(lopHoc.getMaLop());
         dsBKT= bkt_dao.getDanhSachBaiKiemTraTheoLop(lopHoc.getMaLop());
         listBaiKiemTra1.updateList(dsBKT);
@@ -52,10 +52,14 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() throws RemoteException {
+    private void initComponents() {
 
         roundedPanel1 = new Components.RoundedPanel();
-        listBaiKiemTra1 = new Components.ListBaiKiemTra();
+        try {
+            listBaiKiemTra1 = new Components.ListBaiKiemTra();
+        } catch (java.rmi.RemoteException e1) {
+            e1.printStackTrace();
+        }
 
         setBackground(new java.awt.Color(255, 255, 255));
         setOpaque(false);
@@ -97,7 +101,7 @@ public class SV_ClassRoom_Detail extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Components.ListBaiKiemTra listBaiKiemTra1;
+    private static Components.ListBaiKiemTra listBaiKiemTra1;
     private Components.RoundedPanel roundedPanel1;
     // End of variables declaration//GEN-END:variables
 }

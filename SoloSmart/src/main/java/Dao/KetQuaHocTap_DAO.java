@@ -40,15 +40,20 @@ public class KetQuaHocTap_DAO extends UnicastRemoteObject implements IKetQuaHocT
 
     // Thêm kết quả học tập
     @Override
-    public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) throws RemoteException{
+    public boolean themKetQuaHocTap(KetQuaHocTap ketQuaHocTap) throws RemoteException {
         EntityTransaction tr = em.getTransaction();
+        boolean isSuccess = false;
+
         try {
-            tr.begin();
+            if (!tr.isActive()) {
+                tr.begin();
+            }
+
             // Dùng native SQL để thêm kết quả học tập vào cơ sở dữ liệu
-            String sql = "INSERT INTO KetQuaHocTaps (diemCuoiKy, diemGiuaKy, diemTBMon, diemThuongKy, maTaiKhoan, maLop) "
-                    +
+            String sql = "INSERT INTO KetQuaHocTaps (diemCuoiKy, diemGiuaKy, diemTBMon, diemThuongKy, maTaiKhoan, maLop) " +
                     "VALUES (?, ?, ?, ?, ?, ?)";
-            em.createNativeQuery(sql)
+
+            int result = em.createNativeQuery(sql)
                     .setParameter(1, ketQuaHocTap.getDiemCuoiKy())
                     .setParameter(2, ketQuaHocTap.getDiemGiuaKy())
                     .setParameter(3, ketQuaHocTap.getDiemTBMon())
@@ -56,14 +61,25 @@ public class KetQuaHocTap_DAO extends UnicastRemoteObject implements IKetQuaHocT
                     .setParameter(5, ketQuaHocTap.getTaiKhoan().getMaTaiKhoan())
                     .setParameter(6, ketQuaHocTap.getLopHoc().getMaLop())
                     .executeUpdate();
-            tr.commit();
-            return true;
+
+            if (result > 0) {
+                if (tr.isActive()) {
+                    tr.commit();
+                }
+                isSuccess = true;
+            } else {
+                if (tr.isActive()) {
+                    tr.rollback();
+                }
+            }
         } catch (Exception e) {
             if (tr.isActive()) {
                 tr.rollback();
             }
             throw new RuntimeException("Lỗi khi thêm kết quả học tập", e);
         }
+
+        return isSuccess;
     }
 
     @Override
