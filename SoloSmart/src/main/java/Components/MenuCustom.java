@@ -40,8 +40,8 @@ public class MenuCustom extends javax.swing.JPanel {
     /**
      * Creates new form MenuCustom
      */
-    private final String[] GV = { "Home","Class", "Exam", "Question Bank" };
-    private final String[] SV = { "Home", "Class" };
+    private final String[] GV = { "Class", "Exam" };
+    private final String[] SV = {  "Class" };
     private final String[] AD = { "Subject", "Class", "Account" };
 
     public MenuCustom() {
@@ -76,6 +76,7 @@ public class MenuCustom extends javax.swing.JPanel {
             listItems.add(menuItem);
             menuItem.addActionListener(x -> handleClick(menuItem));
         }
+        
         // if(role.equalsIgnoreCase("GV")){
         //
         // }
@@ -102,10 +103,8 @@ public class MenuCustom extends javax.swing.JPanel {
 
             case "Class":
                 if (role.equalsIgnoreCase("AD")) {
-                    
                     Main_GUI.main_panel.add(new Admin_Classrom());
                 } else if (role.equalsIgnoreCase("SV")) {
-                  
                     Main_GUI.main_panel.add(new SV_Classroom());
                 }
                 else if(role.equalsIgnoreCase("GV")){
@@ -113,7 +112,6 @@ public class MenuCustom extends javax.swing.JPanel {
                 }
                 break;
             case "Subject":
-               
                 Main_GUI.main_panel.add(new Admin_Subject());
                 break;
             case "Account":
@@ -122,7 +120,6 @@ public class MenuCustom extends javax.swing.JPanel {
                 break;
             case "Home":
                 if (role.equals("SV")) {
-                    
                     Main_GUI.main_panel.add(new SV_Main_GUI());
                 }
                 break;

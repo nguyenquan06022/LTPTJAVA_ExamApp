@@ -80,8 +80,8 @@ public class Admin_Subject extends javax.swing.JPanel {
                 ViewDialog.setVisible(true);
             }
         };
-        jTable1.getColumnModel().getColumn(3).setCellRenderer(new TableActionCellRender());
-        jTable1.getColumnModel().getColumn(3).setCellEditor(new TableActionCellEditor(event));
+        jTable1.getColumnModel().getColumn(2).setCellRenderer(new TableActionCellRender());
+        jTable1.getColumnModel().getColumn(2).setCellEditor(new TableActionCellEditor(event));
         
         
         searchTextField1.addActionListener(x->{
@@ -490,17 +490,17 @@ public class Admin_Subject extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Mã môn học", "Tên môn học", "Trạng thái", ""
+                "Mã môn học", "Tên môn học", ""
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

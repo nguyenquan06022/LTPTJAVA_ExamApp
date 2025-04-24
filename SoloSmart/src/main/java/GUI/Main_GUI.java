@@ -47,10 +47,10 @@ public class Main_GUI extends javax.swing.JFrame {
             avatar2.setAvt(false);
         }
         if(tk.getVaiTro().equalsIgnoreCase("SV")){
-            main_panel.add(new SV_Main_GUI());
+            main_panel.add(new SV_Classroom());
         }
         else if(tk.getVaiTro().equalsIgnoreCase("GV")){
-            
+            main_panel.add(new GV_Classroom());
         }else{
             main_panel.add(new Admin_Subject());
             Avatar.updateTitle("Subject");

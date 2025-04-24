@@ -43,7 +43,7 @@ public class BaiKiemTra_DAO {
                     .setParameter(3,bkt.isChoPhepXemLai() )
                     .setParameter(4,bkt.getHeSo() )
                     .setParameter(5,bkt.isHienThiDapAn() )
-                    .setParameter(6,bkt.getMaBaiKiemTra() )
+                    .setParameter(6,bkt.getMatKhauBaiKiemTra())
                     .setParameter(7,bkt.getSoLanLamBai() )
                     .setParameter(8,bkt.getThangDiem() )
                     .setParameter(9,bkt.getThoiGianBatDau() )

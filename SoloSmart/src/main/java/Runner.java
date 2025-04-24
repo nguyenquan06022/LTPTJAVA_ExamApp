@@ -5,6 +5,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Runner {
     public static void main(String[] args) {
+        
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException ex) {

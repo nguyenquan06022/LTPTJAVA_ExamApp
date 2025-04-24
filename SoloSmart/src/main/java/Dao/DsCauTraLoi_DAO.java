@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DsCauTraLoi_DAO {
+
     private EntityManager em;
+
     public DsCauTraLoi_DAO(EntityManager em) {
         this.em = em;
     }
@@ -15,7 +17,7 @@ public class DsCauTraLoi_DAO {
     public DsCauTraLoi_DAO() {
     }
 
-    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi){
+    public boolean themCauTraLoi(String maketquakiemtra, String cauTraLoi) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -31,11 +33,12 @@ public class DsCauTraLoi_DAO {
         } catch (Exception e) {
             tr.rollback();
             isSuccess = false;
+            e.printStackTrace();
         }
         return isSuccess;
     }
 
-    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi){
+    public boolean updateCauTraLoi(String maketquakiemtra, String cauTraLoi, String cauTraLoiMoi) {
         EntityTransaction tr = em.getTransaction();
         boolean isSuccess = false;
         try {
@@ -77,20 +80,25 @@ public class DsCauTraLoi_DAO {
     }
 
     // lấy ra danh sách cau trả lời cua sinh vien theo mataikhoan va mabaikiemtra
-    public List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan,String maBaiKiemTra) {
+    public List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) {
         EntityTransaction tr = em.getTransaction();
         List<String> dsLuaChon = new ArrayList<>();
         try {
             tr.begin();
-            String sql = "select cauTraLoi from dsCauTraLoi dsctl join KetQuaKiemTras kqkt\n" +
-                    "on dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra join TaiKhoans tk\n" +
-                    "on tk.maTaiKhoan = kqkt.maTaiKhoan\n" +
-                    "where maBaiKiemTra = ? and tk.maTaiKhoan = ?";
-            List<String> results = em.createNativeQuery(sql)
-                    .setParameter(1, maBaiKiemTra)
-                    .setParameter(2,maTaiKhoan)// Sử dụng tham số vị trí
+            String sql = """
+                         select tl.cauTraLoi, TRY_CAST(SUBSTRING(tl.cauTraLoi, 1, CHARINDEX('.', tl.cauTraLoi) - 1) AS INT) AS soThuTu
+                                                  from dsCauTraLoi tl inner join KetQuaKiemTras kq on tl.maKetQuaKiemTra=kq.maKetQuaKiemTra
+                                                  where kq.maTaiKhoan=? and maBaiKiemTra = ?
+                                                  ORDER BY soThuTu;
+                         """;
+            List<Object[]> results = em.createNativeQuery(sql)
+                    .setParameter(1, maTaiKhoan)
+                    .setParameter(2, maBaiKiemTra)
                     .getResultList();
-            dsLuaChon.addAll(results);
+
+            for (Object[] row : results) {
+                dsLuaChon.add((String) row[0]); // Lấy giá trị cột `tl.cauTraLoi`
+            }
             tr.commit();
         } catch (Exception e) {
             if (tr.isActive()) {
@@ -100,4 +108,5 @@ public class DsCauTraLoi_DAO {
         }
         return dsLuaChon;
     }
+
 }

@@ -551,8 +551,8 @@ public class GV_ClassRoom_Detail extends javax.swing.JPanel {
         else{
             BaiKiemTra newBKT= new BaiKiemTra(bkt_dao.generateMa(), 
                     customDateChooser1.getSelectedDateTime(), customDateChooser2.getSelectedDateTime(), 
-                    jSlider1.getValue()
-                    , new String(myPasswordField1.getPassword()), 
+                    jSlider1.getValue(), 
+                    new String(myPasswordField1.getPassword()), 
                     jCheckBoxCustom1.isSelected(), jCheckBoxCustom2.isSelected(), jCheckBoxCustom3.isSelected(),
                     (int) jSpinner1.getValue(),10
                     ,Float.parseFloat(comboBoxSuggestion1.getSelectedItem().toString()),"enable",deThiCard21.getDethi(), lopHoc);

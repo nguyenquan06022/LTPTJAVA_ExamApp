@@ -93,7 +93,7 @@ public class Avatar extends javax.swing.JPanel {
         title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         title.setForeground(new java.awt.Color(255, 255, 255));
         title.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        title.setText("Home");
+        title.setText("Class");
         title.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 titleMouseClicked(evt);

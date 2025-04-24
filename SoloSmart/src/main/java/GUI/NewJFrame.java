@@ -33,7 +33,7 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
 //        jPanel1.add(new Admin_Subject());
         ArrayList<CauHoi> dsCauHoi= chdao.getDsCauHoiTheoDeThi("DT21042025021126461");
-        listCauHoiKiemTra1.updateList(dsCauHoi);
+//        listCauHoiKiemTra1.updateList(dsCauHoi);
     
     }
 
@@ -47,7 +47,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        listCauHoiKiemTra1 = new Components.ListCauHoiKiemTra();
+        listKetQuaKiemTra1 = new Components.ListKetQuaKiemTra();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,16 +58,16 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addGap(135, 135, 135)
+                .addComponent(listKetQuaKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(486, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(listCauHoiKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(641, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(listKetQuaKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(609, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -127,6 +127,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
-    private Components.ListCauHoiKiemTra listCauHoiKiemTra1;
+    private Components.ListKetQuaKiemTra listKetQuaKiemTra1;
     // End of variables declaration//GEN-END:variables
 }

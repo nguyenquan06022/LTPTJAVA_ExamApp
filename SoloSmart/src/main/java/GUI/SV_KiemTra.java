@@ -164,9 +164,9 @@ public class SV_KiemTra extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbThoiGianConLai)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(207, 207, 207))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,41 +208,43 @@ public class SV_KiemTra extends javax.swing.JFrame {
         
         //lấy ra danh sách câu trả lời
         List<String> dsCauTraLoi = listCauHoiKiemTra1.getDsLuaChonCuaSinhVien();
+        
         //themCauTraLoi
         for(String cauTraLoi : dsCauTraLoi) {
             boolean kq = dsCauTraLoi_DAO.themCauTraLoi(maKqkt, cauTraLoi);
             System.out.println(kq);
         }
         //tinhDiemChoSinhVien
-        float diem = ketQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
+        float diem = ketQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra(), maKqkt);
         //update điểm
-        ketQuaKiemTra_DAO.updateKetQuaKiemTra(new KetQuaKiemTra(maKqkt,diem,thoiGianLamBai,lanThu,diemCaoNhat,baiKiemTra,tk));
+        System.out.println(ketQuaKiemTra_DAO.updateKetQuaKiemTra(new KetQuaKiemTra(maKqkt,diem,thoiGianLamBai,lanThu,diemCaoNhat,baiKiemTra,tk)));
         //updateDiemCaoNhatChoBaiKiemTraCuaSinhVien
-        ketQuaKiemTra_DAO.updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
+//        ketQuaKiemTra_DAO.updateDiemCaoNhatChoBaiKiemTraCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra());
         
         //cập nhật lại kết quả học tập của sinh viên
-        Map<String, Float> map = ketQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getLopHoc().getMaLop());
-        List<String> key= map.entrySet().stream().map(x->x.getKey()).collect(Collectors.toList());
+//        Map<String, Float> map = ketQuaHocTap_DAO.getDiemHocTapCuaSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getLopHoc().getMaLop());
+//        List<String> key= map.entrySet().stream().map(x->x.getKey()).collect(Collectors.toList());
+//        
+//        float diemThuongKy=-1;
+//        float diemGiuaKy =-1;
+//        float diemCuoiKy=-1;
+//        if(key.contains("0.2")){
+//            diemThuongKy = map.get("0.2");
+//        }
+//        else if(key.contains("0.3")){
+//            diemGiuaKy = map.get("0.3");
+//        }
+//        else if(key.contains("0.5")){
+//            diemCuoiKy = map.get("0.5");
+//        }
+//        float diemTBMon=-1;
+//        if(!(diemThuongKy==-1||diemGiuaKy==-1||diemCuoiKy==-1)){
+//            diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
+//        }
+//        
+//        KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy,diemGiuaKy,diemCuoiKy,diemTBMon,tk,new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
+//        ketQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
         
-        float diemThuongKy=-1;
-        float diemGiuaKy =-1;
-        float diemCuoiKy=-1;
-        if(key.contains("0.2")){
-            diemThuongKy = map.get("0.2");
-        }
-        else if(key.contains("0.3")){
-            diemGiuaKy = map.get("0.3");
-        }
-        else if(key.contains("0.5")){
-            diemCuoiKy = map.get("0.5");
-        }
-        float diemTBMon=-1;
-        if(!(diemThuongKy==-1||diemGiuaKy==-1||diemCuoiKy==-1)){
-            diemTBMon = (float) (diemThuongKy * 0.2 + diemGiuaKy * 0.3 + diemCuoiKy * 0.5);
-        }
-        
-        KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy,diemGiuaKy,diemCuoiKy,diemTBMon,tk,new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
-        ketQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
         dispose();
     }//GEN-LAST:event_button1ActionPerformed
 

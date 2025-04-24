@@ -75,6 +75,11 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             button3.addActionListener(x->buttonGVXoa());
         } else {
             button2.addActionListener(x->buttonSVThamGia());
+            if(kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra()).size()<=0
+                    ||bkt.getThoiGianBatDau().isAfter(LocalDateTime.now())){
+                button3.setVisible(false);
+            }
+            button3.addActionListener(x->buttonSVXemLai());
         }
     }
 
@@ -114,6 +119,14 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                 }
             }
         }
+    }
+    public void buttonSVXemLai(){
+        ArrayList<KetQuaKiemTra> dsKQKT=kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra());
+        listKetQuaKiemTra1.updateList(dsKQKT,bkt);
+        System.out.println(dsKQKT.size());
+        DialogXemLai.pack();
+        DialogXemLai.setLocationRelativeTo(null);
+        DialogXemLai.setVisible(true);
     }
     public void initBaiKiemTra(){
         SV_KiemTra kiemTraGUI= new SV_KiemTra(bkt);
@@ -262,6 +275,9 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
         chart1 = new Components.chart.Chart(quantity);
         jDialog1 = new javax.swing.JDialog();
         listDeThi21 = new Components.ListDeThi2();
+        DialogXemLai = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        listKetQuaKiemTra1 = new Components.ListKetQuaKiemTra();
         roundedPanel1 = new Components.RoundedPanel();
         roundedPanel2 = new Components.RoundedPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -615,6 +631,40 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             .addComponent(listDeThi21, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
         );
 
+        DialogXemLai.setModal(true);
+        DialogXemLai.setResizable(false);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(listKetQuaKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(listKetQuaKiemTra1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1))
+        );
+
+        javax.swing.GroupLayout DialogXemLaiLayout = new javax.swing.GroupLayout(DialogXemLai.getContentPane());
+        DialogXemLai.getContentPane().setLayout(DialogXemLaiLayout);
+        DialogXemLaiLayout.setHorizontalGroup(
+            DialogXemLaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        DialogXemLaiLayout.setVerticalGroup(
+            DialogXemLaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogXemLaiLayout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+
         roundedPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         roundedPanel2.setBackground(new java.awt.Color(58, 138, 125));
@@ -826,6 +876,7 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog DialogThongKe;
+    private javax.swing.JDialog DialogXemLai;
     private javax.swing.JDialog XemBKT;
     private Components.Button button1;
     private Components.Button button2;
@@ -858,11 +909,13 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTable1;
     private Components.ListDeThi2 listDeThi21;
+    private Components.ListKetQuaKiemTra listKetQuaKiemTra1;
     private Components.MyPasswordField myPasswordField1;
     private Components.MyTextField myTextField1;
     private Components.MyTextField myTextField2;

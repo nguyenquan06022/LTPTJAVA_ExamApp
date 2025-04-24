@@ -14,7 +14,7 @@ import java.awt.*;
 public class RatioExam extends JRadioButton {
     private String circleText;     // text bên trong hình tròn (ví dụ: "A")
     private String answerText;     // nội dung bên phải hình tròn (ví dụ: "Đáp án 1")
-    
+    private String color="#3a8a7d";
     public RatioExam() {
         super();
         this.circleText = "A";
@@ -40,6 +40,15 @@ public class RatioExam extends JRadioButton {
         repaint();
         revalidate();
     }
+    public void isFalse(){
+        color="#F7374F";
+        repaint();
+    }
+    public void isCorrect(){
+        color="#3a8a7d";
+        repaint();
+        
+    }
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -62,7 +71,7 @@ public class RatioExam extends JRadioButton {
         
         
         // Màu nền cho số thứ tự
-        Color numberBgColor = isSelected()?Color.decode("#3a8a7d"):Color.WHITE; // hồng
+        Color numberBgColor = isSelected()?Color.decode(color):Color.WHITE; // hồng
         Color numberTextColor = isSelected()?Color.WHITE: Color.BLACK;
 
         // Vẽ hình chữ nhật bo góc
@@ -93,7 +102,7 @@ public class RatioExam extends JRadioButton {
         g2.drawRoundRect(answerX, answerY, answerWidth, answerHeight, 10, 10);
 
         
-        g2.setColor(isSelected()?Color.decode("#3a8a7d"):Color.WHITE); // xám sáng
+        g2.setColor(isSelected()?Color.decode(color):Color.WHITE); // xám sáng
         g2.fillRoundRect(answerX, answerY, answerWidth, answerHeight, 10, 10);
 
         // Vẽ answerText
@@ -106,7 +115,7 @@ public class RatioExam extends JRadioButton {
     }
 
     public String getCircleText() {
-        return this.circleText;
+        return this.answerText;
     }
 }
 

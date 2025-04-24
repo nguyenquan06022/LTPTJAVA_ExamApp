@@ -153,21 +153,39 @@ public class KetQuaKiemTra_DAO {
     }
     
     public boolean updateKetQuaKiemTra(KetQuaKiemTra ketQua) {
-        EntityTransaction tr = em.getTransaction();
-        boolean isSuccess = false;
-        try {
-            tr.begin();
-            em.merge(ketQua);
-            tr.commit();
-            isSuccess = true;
-        } catch (Exception e) {
-            if (tr.isActive()) {
-                tr.rollback();
-            }
-            throw new RuntimeException("Lỗi khi cập nhật kết quả kiểm tra", e);
+    EntityTransaction tr = em.getTransaction();
+    boolean isSuccess = false;
+
+    try {
+        tr.begin();
+
+        String sql = "UPDATE ketquakiemtras " +
+                     "SET diemso = ?, thoigianlambai = ?, diemcaonhat = ?, lanthu = ?, mabaikiemtra = ?, mataikhoan = ? " +
+                     "WHERE maketquakiemtra = ?";
+
+        em.createNativeQuery(sql)
+          .setParameter(1, ketQua.getDiemSo())
+          .setParameter(2, ketQua.getThoiGianLamBai())
+          .setParameter(3, ketQua.isDiemCaoNhat())
+          .setParameter(4, ketQua.getLanThu())
+          .setParameter(5, ketQua.getBaiKiemTra().getMaBaiKiemTra())
+          .setParameter(6, ketQua.getTaiKhoan().getMaTaiKhoan())
+          .setParameter(7, ketQua.getMaKetQuaKiemTra())
+          .executeUpdate();
+
+        tr.commit();
+        isSuccess = true;
+    } catch (Exception e) {
+        if (tr.isActive()) {
+            tr.rollback();
         }
-        return isSuccess;
+        e.printStackTrace();
+        throw new RuntimeException("Lỗi khi cập nhật kết quả kiểm tra", e);
     }
+
+    return isSuccess;
+}
+
 
     // thống kê điểm theo bài kiểm tra
     public ArrayList<Float> getDsDiemTheoBaiKiemTra(String maLop, String maBaiKiemTra) {
@@ -196,41 +214,47 @@ public class KetQuaKiemTra_DAO {
     }
 
     // tính điểm sinh viên cho bài kiểm tra theo mã sinh viên và mã bài kiểm tra
-    public float tinhDiemChoSinhVien(String maSinhVien,String maBaiKiemTra) {
+    public float tinhDiemChoSinhVien(String maSinhVien,String maBaiKiemTra, String maKetQuaKiemtra) {
         EntityTransaction tr = em.getTransaction();
         try {
-            String sql = "WITH CauTraLoiSinhVien AS (\n" +
-                    "    SELECT \n" +
-                    "        ROW_NUMBER() OVER (ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)) AS stt,\n" +
-                    "        SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)) AS dapAn\n" +
-                    "    FROM TaiKhoans tk \n" +
-                    "    JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan \n" +
-                    "    JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra \n" +
-                    "    JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra\n" +
-                    "    WHERE tk.maTaiKhoan = ? \n" +
-                    "      AND bkt.maBaiKiemTra = ?\n" +
-                    "),\n" +
-                    "DapAnDung AS (\n" +
-                    "    SELECT \n" +
-                    "        ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,\n" +
-                    "        LEFT(dslc.luaChon, 1) AS dapAnDung\n" +
-                    "    FROM BaiKiemTras bkt \n" +
-                    "    JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi \n" +
-                    "    JOIN CauHois ch ON ch.maDeThi = dt.maDeThi \n" +
-                    "    JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi\n" +
-                    "    WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1\n" +
-                    ")\n" +
-                    "\n" +
-                    "SELECT \n" +
-                    "    COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem\n" +
-                    "FROM CauTraLoiSinhVien sv\n" +
-                    "JOIN DapAnDung da ON sv.stt = da.stt\n" +
-                    "WHERE sv.dapAn = da.dapAnDung";
+            String sql = """
+                         WITH CauTraLoiSinhVien AS (
+                             SELECT 
+                                 ROW_NUMBER() OVER (
+                                     ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
+                                 ) AS stt,
+                                 LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
+                             FROM TaiKhoans tk 
+                             JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan 
+                             JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra 
+                             JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
+                             WHERE tk.maTaiKhoan = ?
+                               AND bkt.maBaiKiemTra = ?
+                               AND kqkt.maKetQuaKiemTra = ?
+                         ),
+                         DapAnDung AS (
+                             SELECT 
+                                 ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
+                                 LEFT(dslc.luaChon, 1) AS dapAnDung
+                             FROM BaiKiemTras bkt 
+                             JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi 
+                             JOIN CauHois ch ON ch.maDeThi = dt.maDeThi 
+                             JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
+                             WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
+                         )
+                         
+                         SELECT 
+                             COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
+                         FROM CauTraLoiSinhVien sv
+                         JOIN DapAnDung da ON sv.stt = da.stt
+                         WHERE sv.dapAn = da.dapAnDung;
+                         """;
 
             float result = ((Number) em.createNativeQuery(sql)
                     .setParameter(1, maSinhVien)
-                    .setParameter(2, maBaiKiemTra)
+                    .setParameter(2, maKetQuaKiemtra)
                     .setParameter(3, maBaiKiemTra)
+                    .setParameter(4, maBaiKiemTra)
                     .getSingleResult()).floatValue();
             return result;
 
