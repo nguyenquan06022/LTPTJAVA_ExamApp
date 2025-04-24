@@ -14,7 +14,7 @@ public interface IKetQuaKiemTra_DAO extends Remote, Serializable {
 
     KetQuaKiemTra getKetQuaKiemTra(String id) throws RemoteException;
 
-    float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra, String maKetQuaKiemTra) throws RemoteException;
+    float tinhDiemChoSinhVien(String maBaiKiemTra,String maKetQuaKiemTra) throws RemoteException;
 
     ArrayList<KetQuaKiemTra> getDanhSachKetQuaKiemTra(String maTaiKhoan, String maBaiKiemTra)
             throws RemoteException;

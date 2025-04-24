@@ -5,13 +5,20 @@
 package GUI;
 import Components.Avatar;
 import Components.Model_Card;
+import Dao.ITaiKhoan_DAO;
+import Dao.TaiKhoan_DAO;
 import Entity.TaiKhoan;
 import jakarta.persistence.EntityManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import service.RmiServiceLocator;
 
 /**
  *
@@ -22,7 +29,7 @@ public class Main_GUI extends javax.swing.JFrame {
 
     public static TaiKhoan tk = new TaiKhoan();
     public static EntityManager em;
-
+    private ITaiKhoan_DAO tk_dao= RmiServiceLocator.getTaiKhoanDao();
     public Main_GUI() throws RemoteException {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -57,6 +64,17 @@ public class Main_GUI extends javax.swing.JFrame {
             main_panel.add(new Admin_Subject());
             Avatar.updateTitle("Subject");
         }
+        
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    tk_dao.updateTrangThaiOnline(tk);
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Main_GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+        });
     }
 
     /**

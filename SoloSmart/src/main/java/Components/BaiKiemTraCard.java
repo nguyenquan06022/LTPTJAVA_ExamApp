@@ -26,6 +26,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -90,6 +92,20 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                     throw new RuntimeException(e);
                 }
             });
+            if(kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra()).size()<=0
+                    ||bkt.getThoiGianBatDau().isAfter(LocalDateTime.now())){
+                button3.setVisible(false);
+            }
+            button3.addActionListener(x->
+                    {
+                try {
+                    buttonSVXemLai();
+                } catch (RemoteException ex) {
+                    Logger.getLogger(BaiKiemTraCard.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            );
+            
         }
     }
 
@@ -128,9 +144,16 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
             }
         }
     }
-
+    public void buttonSVXemLai() throws RemoteException{
+        listKetQuaKiemTra1.updateList(kqkt_dao.getDanhSachKetQuaKiemTra(Main_GUI.tk.getMaTaiKhoan(), bkt.getMaBaiKiemTra()), bkt);
+        
+        DialogXemLai.pack();
+        DialogXemLai.setLocationRelativeTo(null);
+        DialogXemLai.setVisible(true);
+    }
     public void initBaiKiemTra() throws RemoteException {
         SV_KiemTra kiemTraGUI = new SV_KiemTra(bkt);
+        System.out.println(bkt);
         kiemTraGUI.setExtendedState(JFrame.MAXIMIZED_BOTH);
         kiemTraGUI.setVisible(true);
     }

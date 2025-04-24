@@ -630,4 +630,64 @@ public class TaiKhoan_DAO extends UnicastRemoteObject implements ITaiKhoan_DAO {
         }
         return danhSachTaiKhoan;
     }
+    
+    @Override
+    public TaiKhoan khoiPhucMatKhau(String tenTK, String email, String sdt) throws RemoteException{
+        TaiKhoan taiKhoan = null;
+        EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "SELECT maTaiKhoan, matKhau, tenTaiKhoan, trangThai, vaiTro, dangOnline, gioiTinh, ho, ten,soDienThoai,email FROM TaiKhoans WHERE "
+                    + " tenTaiKhoan = ? AND email=? and sodienthoai=? AND dangOnline = 'offline'";
+            Object[] result = (Object[]) em.createNativeQuery(sql)
+                    .setParameter(1, tenTK)
+                    .setParameter(2, email)
+                    .setParameter(3, sdt)
+                    .getSingleResult();
+            if (result != null) {
+                taiKhoan = new TaiKhoan();
+                taiKhoan.setMaTaiKhoan((String) result[0]);
+                taiKhoan.setMatKhau((String) result[1]);
+                taiKhoan.setTenTaiKhoan((String) result[2]);
+                taiKhoan.setTrangThai((String) result[3]);
+                taiKhoan.setVaiTro((String) result[4]);
+                taiKhoan.setDangOnline((String) result[5]);
+                taiKhoan.setGioiTinh((String) result[6]);
+                taiKhoan.setHo((String) result[7]);
+                taiKhoan.setTen((String) result[8]);
+                taiKhoan.setSoDienThoai((String) result[9]);
+                taiKhoan.setEmail((String) result[10]);
+            }
+            tr.commit();
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return taiKhoan;
+    }
+
+    @Override
+    public boolean doiMatKhau(String maTK, String newMK) throws RemoteException {
+    EntityTransaction tr = em.getTransaction();
+        try {
+            tr.begin();
+            String sql = "UPDATE TaiKhoans\n" +
+                    "SET matkhau = ? " +
+                    "WHERE maTaiKhoan = ?";
+            int updatedRows = em.createNativeQuery(sql)
+                    .setParameter(1, newMK)
+                    .setParameter(2, maTK)
+                    .executeUpdate();
+            tr.commit();
+            return updatedRows > 0;
+        } catch (Exception e) {
+            if (tr.isActive()) {
+                tr.rollback();
+            }
+            throw new RuntimeException(e);
+        }
+    }
 }

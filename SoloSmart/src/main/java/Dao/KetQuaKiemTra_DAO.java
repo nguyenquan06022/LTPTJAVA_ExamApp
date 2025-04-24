@@ -92,7 +92,7 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
             ketQua.setDiemSo((Float) row[2]);
             ketQua.setLanThu((Integer) row[3]);
             ketQua.setThoiGianLamBai((Integer) row[4]);
-            ketQua.setMaKetQuaKiemTra((String) row[5]);
+            ketQua.setBaiKiemTra(new BaiKiemTra((String) row[5]));
             ketQua.setTaiKhoan(new TaiKhoan((String) row[6]));
 
             return ketQua;
@@ -104,49 +104,46 @@ public class KetQuaKiemTra_DAO extends UnicastRemoteObject implements IKetQuaKie
     }
 
     @Override
-    public float tinhDiemChoSinhVien(String maSinhVien, String maBaiKiemTra, String maKetQuaKiemTra) throws RemoteException{
+    public float tinhDiemChoSinhVien(String maBaiKiemTra,String maKetQuaKiemTra) throws RemoteException{
         EntityTransaction tr = em.getTransaction();
         try {
-            String sql = """
-                    WITH CauTraLoiSinhVien AS (
-                        SELECT
-                            ROW_NUMBER() OVER (
-                                ORDER BY CAST(LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) - 1) AS INT)
-                            ) AS stt,
-                            LEFT(SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, LEN(dsctl.cauTraLoi)), 1) AS dapAn
-                        FROM TaiKhoans tk
-                        JOIN KetQuaKiemTras kqkt ON tk.maTaiKhoan = kqkt.maTaiKhoan
-                        JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra
-                        JOIN BaiKiemTras bkt ON bkt.maBaiKiemTra = kqkt.maBaiKiemTra
-                        WHERE tk.maTaiKhoan = ?
-                          AND bkt.maBaiKiemTra = ?
-                          AND kqkt.maKetQuaKiemTra = ?
-                    ),
-                    DapAnDung AS (
-                        SELECT
-                            ROW_NUMBER() OVER (ORDER BY ch.maCauHoi) AS stt,
-                            LEFT(dslc.luaChon, 1) AS dapAnDung
-                        FROM BaiKiemTras bkt
-                        JOIN DeThis dt ON bkt.maDeThi = dt.maDeThi
-                        JOIN CauHois ch ON ch.maDeThi = dt.maDeThi
-                        JOIN dsLuaChon dslc ON ch.maCauHoi = dslc.maCauHoi
-                        WHERE bkt.maBaiKiemTra = ? AND dslc.dapAnDung = 1
-                    )
+            String sql = "WITH \n" +
+                    "DapAnDung AS (\n" +
+                    "    SELECT \n" +
+                    "        ROW_NUMBER() OVER (ORDER BY dslc.maCauHoi ASC) AS CauHoi,\n" +
+                    "        LEFT(dslc.luaChon, CHARINDEX('.', dslc.luaChon) - 1) AS DapAn\n" +
+                    "    FROM DeThis dt\n" +
+                    "    JOIN CauHois ch ON ch.maDeThi = dt.maDeThi\n" +
+                    "    JOIN dsLuaChon dslc ON dslc.maCauHoi = ch.maCauHoi\n" +
+                    "    JOIN BaiKiemTras bkt ON bkt.maDeThi = dt.maDeThi\n" +
+                    "    WHERE bkt.maBaiKiemTra = ?\n" +
+                    "      AND dslc.dapAnDung = 1\n" +
+                    "),\n" +
+                    "CauTraLoiThiSinh AS (\n" +
+                    "    SELECT \n" +
+                    "        LEFT(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi + '.') - 1) AS CauHoi,\n" +
+                    "        SUBSTRING(dsctl.cauTraLoi, CHARINDEX('.', dsctl.cauTraLoi) + 1, 1) AS TraLoi\n" +
+                    "    FROM KetQuaKiemTras kqkt \n" +
+                    "    JOIN dsCauTraLoi dsctl ON dsctl.maKetQuaKiemTra = kqkt.maKetQuaKiemTra\n" +
+                    "    WHERE kqkt.maKetQuaKiemTra = ?\n" +
+                    "),\n" +
+                    "TongSoCau AS (\n" +
+                    "    SELECT COUNT(*) AS Total FROM DapAnDung\n" +
+                    ")\n" +
+                    "SELECT \n" +
+                    "    COUNT(CASE WHEN c.TraLoi = d.DapAn THEN 1 END) AS SoCauDung,\n" +
+                    "    COUNT(CASE WHEN c.TraLoi = d.DapAn THEN 1 END) * 10.0 / (SELECT Total FROM TongSoCau) AS DiemDatDuoc\n" +
+                    "FROM CauTraLoiThiSinh c\n" +
+                    "JOIN DapAnDung d ON c.CauHoi = d.CauHoi";
 
-                    SELECT
-                        COUNT(*) * 1.0 / (SELECT COUNT(*) FROM DapAnDung) * 10 AS diem
-                    FROM CauTraLoiSinhVien sv
-                    JOIN DapAnDung da ON sv.stt = da.stt
-                    WHERE sv.dapAn = da.dapAnDung;
-                    """;
-
-            float result = ((Number) em.createNativeQuery(sql)
-                    .setParameter(1, maSinhVien)
+            Object[] result = (Object[]) em.createNativeQuery(sql)
+                    .setParameter(1, maBaiKiemTra)
                     .setParameter(2, maKetQuaKiemTra)
-                    .setParameter(3, maBaiKiemTra)
-                    .setParameter(4, maBaiKiemTra)
-                    .getSingleResult()).floatValue();
-            return result;
+                    .getSingleResult();
+
+            // Chỉ lấy điểm (cột thứ 2 trong kết quả)
+            float diem = ((Number) result[1]).floatValue();
+            return diem;
 
         } catch (Exception e) {
             if (tr.isActive()) {

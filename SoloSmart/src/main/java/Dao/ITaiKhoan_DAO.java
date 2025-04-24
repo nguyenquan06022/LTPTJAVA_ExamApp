@@ -49,4 +49,8 @@ public interface ITaiKhoan_DAO extends Remote, Serializable {
     ArrayList<TaiKhoan> searchTaiKhoanTheoMaVaTheoTen(String maTaiKhoan, String ten) throws RemoteException;
 
     ArrayList<TaiKhoan> filterTaiKhoan(String gioiTinh, String vaiTro, String key) throws RemoteException;
+    
+    TaiKhoan khoiPhucMatKhau(String tenTK, String email, String sdt) throws RemoteException;
+    
+    boolean doiMatKhau(String maTK, String newMK) throws RemoteException;
 }

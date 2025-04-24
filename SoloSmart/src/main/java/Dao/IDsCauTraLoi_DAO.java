@@ -14,4 +14,7 @@ public interface IDsCauTraLoi_DAO extends Remote, Serializable {
     ArrayList<String> getDSCauTraLoi(String maKetQuaKiemTra) throws RemoteException;
 
     List<String> getDsCauTraLoiCuaSinhVien(String maTaiKhoan, String maBaiKiemTra) throws RemoteException;
-}
+
+    boolean themCauTraLoiCuaSinhVien(String maketquakiemtra, String cauTraLoi) throws RemoteException;
+
+    }

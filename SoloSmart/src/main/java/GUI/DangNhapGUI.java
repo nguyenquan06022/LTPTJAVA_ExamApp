@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -26,8 +28,9 @@ import javax.swing.SwingWorker;
 public class DangNhapGUI extends javax.swing.JFrame {
 
     static EntityManager em=CreateDB.createDB();
-
+    private ITaiKhoan_DAO taiKhoanDao = RmiServiceLocator.getTaiKhoanDao();
     private boolean eyeClick=false;
+    private ImageIcon eyeIcon;
     public DangNhapGUI() throws RemoteException{
         initComponents();
         setLocationRelativeTo(null);
@@ -35,7 +38,7 @@ public class DangNhapGUI extends javax.swing.JFrame {
         setIconImage(img.getImage());
         setTitle("SoloSmart - Multiple Choice App");
         
-        ImageIcon eyeIcon=new ImageIcon(getClass().getResource("/Image/eye_closed.png"));
+        eyeIcon=new ImageIcon(getClass().getResource("/Image/eye_closed.png"));
         jLabel5.setIcon(eyeIcon);
         jLabel5.addMouseListener(new MouseAdapter() {
             @Override
@@ -122,6 +125,7 @@ public class DangNhapGUI extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         jDialog1 = new javax.swing.JDialog();
         roundedPanel1 = new Components.RoundedPanel();
         myTextField2 = new Components.MyTextField();
@@ -172,8 +176,18 @@ public class DangNhapGUI extends javax.swing.JFrame {
         jLabel11.setToolTipText("");
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eye_closed.png"))); // NOI18N
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+        });
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/eye_closed.png"))); // NOI18N
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
@@ -325,6 +339,7 @@ public class DangNhapGUI extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jLabel6.setText("Quên mật khẩu?");
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel6MouseClicked(evt);
@@ -394,15 +409,72 @@ public class DangNhapGUI extends javax.swing.JFrame {
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         //mo dialog
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+        jDialog1.setIconImage(new ImageIcon(getClass().getResource("/Image/favicon_1.png")).getImage());
+        jDialog1.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_button1ActionPerformed
-
+    
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-      //doi mat khau
+        try {
+            TaiKhoan otherTK= taiKhoanDao.getTaiKhoanByName(myTextField2.getText());
+            
+            if(otherTK==null){
+                JOptionPane.showMessageDialog(null, "Không tìm thấy tài khoản");
+            }
+            else if(otherTK.getTrangThai().equalsIgnoreCase("online")){
+                JOptionPane.showMessageDialog(null, "Tài khoản này đang online, không thể đổi mật khẩu");
+            }
+            else if(taiKhoanDao.khoiPhucMatKhau(myTextField2.getText(), myTextField4.getText(), myTextField3.getText())==null){
+                JOptionPane.showMessageDialog(null, "Email hoặc số điện thoại không trùng khớp");
+            }
+            else{
+                String newMK= new String(myPasswordField2.getPassword());
+                String nhapLaiMK= new String(myPasswordField3.getPassword());
+                System.out.println(newMK+" "+nhapLaiMK);
+                if(!newMK.equalsIgnoreCase(nhapLaiMK)){
+                    JOptionPane.showMessageDialog(null, "Nhập lại mật khẩu không đúng");
+                }
+                else{
+                    taiKhoanDao.doiMatKhau(myTextField2.getText(), newMK);
+                    JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công");
+                    jDialog1.setVisible(false);
+                }
+            }
+        } catch (RemoteException ex) {
+            Logger.getLogger(DangNhapGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_button2ActionPerformed
+    private boolean eye1=false;
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        if(!eye1){
+            jLabel13.setIcon(new ImageIcon(getClass().getResource("/Image/eye_open.png")));
+            myPasswordField2.setEchoChar((char)0);
+            eye1=true;
+        }
+        else{
+            jLabel13.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
+            myPasswordField2.setEchoChar('●');
+            eye1=false;
+        }
+    }//GEN-LAST:event_jLabel13MouseClicked
+     private boolean eye2=true;
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
+        if(!eye2){
+            jLabel12.setIcon(new ImageIcon(getClass().getResource("/Image/eye_open.png")));
+            myPasswordField2.setEchoChar((char)0);
+            eye2=true;
+        }
+        else{
+            jLabel12.setIcon(new ImageIcon(getClass().getResource("/Image/eye_closed.png")));
+            myPasswordField2.setEchoChar('●');
+            eye2=false;
+        }
+    }//GEN-LAST:event_jLabel12MouseClicked
 
     /**
      * @param args the command line arguments
@@ -472,6 +544,5 @@ public class DangNhapGUI extends javax.swing.JFrame {
     private Components.MyTextField myTextField3;
     private Components.MyTextField myTextField4;
     private Components.RoundedPanel roundedPanel1;
-    private ITaiKhoan_DAO taiKhoanDao = RmiServiceLocator.getTaiKhoanDao();
     // End of variables declaration//GEN-END:variables
 }

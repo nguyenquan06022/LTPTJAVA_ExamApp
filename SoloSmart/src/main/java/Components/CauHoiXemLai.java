@@ -47,12 +47,12 @@ public class CauHoiXemLai extends javax.swing.JPanel {
                         ratioList.get(i).isFalse(); // Người dùng chọn sai
                     }
                 }
-            } else {
+            } 
                 // Nếu là đáp án đúng nhưng không phải lựa chọn người dùng -> tô xanh nếu đang xem đáp án
                 if (xemDapAn && dsLuaChon.get(i).isDapAnDung()) {
                     ratioList.get(i).isFalse();
                 }
-            }
+            
         }
 
         jTextArea2.setText(loigiai);

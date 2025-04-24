@@ -28,7 +28,7 @@ public class KetQuaKiemTra implements Serializable {
     @ElementCollection
     @CollectionTable(name = "dsCauTraLoi", joinColumns = @JoinColumn(name = "maKetQuaKiemTra"))
     @Column(name = "cauTraLoi", nullable = false, columnDefinition = "nvarchar(255)")
-    private Set<String> dsCauTraLoi;
+    private List<String> dsCauTraLoi;
     @NonNull
     private boolean diemCaoNhat;
 

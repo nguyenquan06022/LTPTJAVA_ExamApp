@@ -74,6 +74,7 @@ public class SV_KiemTra extends javax.swing.JFrame {
 
     public SV_KiemTra(BaiKiemTra bkt) throws RemoteException {
         this.baiKiemTra = bkt;
+        System.out.println(bkt);
         this.thoiGianConLai = bkt.getThoiGianLamBai() * 60;
         this.tk = Main_GUI.tk;
         initComponents();
@@ -204,33 +205,37 @@ public class SV_KiemTra extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button1ActionPerformed
-
+        System.out.println(this.baiKiemTra);
         LocalDateTime endTime = LocalDateTime.now(); // Thời gian kết thúc
         long durationInMinutes = Duration.between(startTime, endTime).toMinutes(); // Tính phút
 
         if (durationInMinutes == 0) {
-            durationInMinutes = 1; // Tối thiểu ghi nhận là 1 phút nếu quá nhanh
+            durationInMinutes = 1;
         }
         // tạo kết quả kiểm tra
         String maKqkt = IKetQuaKiemTra_DAO.generateMa();
         boolean diemCaoNhat = true;
         float diemSo = 0;
         int lanThu = 1;
-        // tạm cho là 10p
+
         int thoiGianLamBai = (int) durationInMinutes;
         List<Boolean> kq = new ArrayList<>();
-        boolean res1 = IKetQuaKiemTra_DAO.themKetQuaKiemTra(
-                new KetQuaKiemTra(maKqkt, diemSo, thoiGianLamBai, lanThu, diemCaoNhat, baiKiemTra, tk));
-        if (res1) {
-            List<String> dsCauTraLoi = listCauHoiKiemTra1.getDsLuaChonCuaSinhVien();
-            System.out.println("---" + dsCauTraLoi + "----");
+        
+        KetQuaKiemTra ketQuaKiemTra = new KetQuaKiemTra(maKqkt, diemSo, thoiGianLamBai, lanThu, diemCaoNhat, this.baiKiemTra, tk);
+        System.out.println(ketQuaKiemTra);
+        List<String> dsCauTraLoi = listCauHoiKiemTra1.getDsLuaChonCuaSinhVien();
+        
+        System.out.println(dsCauTraLoi);
+        ketQuaKiemTra.setDsCauTraLoi(dsCauTraLoi);
+        boolean res1 = IKetQuaKiemTra_DAO.themKetQuaKiemTra(ketQuaKiemTra);
+        System.out.println(ketQuaKiemTra);
+        if(res1) {
             for (String cauTraLoi : dsCauTraLoi) {
-                kq.add(IDsCauTraLoi_DAO.themCauTraLoi(maKqkt, cauTraLoi));
+                kq.add(IDsCauTraLoi_DAO.themCauTraLoiCuaSinhVien(maKqkt, cauTraLoi));
+                System.out.println(kq);
             }
-
-            if (!kq.contains(false)) {
                 // tinhDiemChoSinhVien
-                float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(tk.getMaTaiKhoan(), baiKiemTra.getMaBaiKiemTra(),maKqkt);
+                float diem = IKetQuaKiemTra_DAO.tinhDiemChoSinhVien(baiKiemTra.getMaBaiKiemTra(),maKqkt);
                 // update điểm
                 IKetQuaKiemTra_DAO.updateKetQuaKiemTra(
                         new KetQuaKiemTra(maKqkt, diem, thoiGianLamBai, lanThu, diemCaoNhat, baiKiemTra, tk));
@@ -260,10 +265,10 @@ public class SV_KiemTra extends javax.swing.JFrame {
 
                 KetQuaHocTap ketQuaHocTapNew = new KetQuaHocTap(diemThuongKy, diemGiuaKy, diemCuoiKy, diemTBMon, tk,
                         new LopHoc(baiKiemTra.getLopHoc().getMaLop()));
+
                 IKetQuaHocTap_DAO.capNhatKetQuaHocTap(ketQuaHocTapNew);
 
             }
-        }
         if (timer != null && timer.isRunning()) {
             timer.stop();
         }
