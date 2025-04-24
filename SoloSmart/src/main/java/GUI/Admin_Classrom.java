@@ -1262,7 +1262,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
         String value= myTextField9.getText();
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         if(value.trim().isEmpty()||!value.trim().equalsIgnoreCase("")){
-            TaiKhoan sv= tk_dao.getTaiKhoan(value);
+            TaiKhoan sv= tk_dao.getTaiKhoanByName(value);
             if(sv!=null&&!isExitTable(jTable2, sv.getMaTaiKhoan())){
                 model.addRow(new Object[]{
                     sv.getMaTaiKhoan(),
@@ -1462,7 +1462,7 @@ public class Admin_Classrom extends javax.swing.JPanel {
     private void button12ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {//GEN-FIRST:event_button12ActionPerformed
         String ma= myTextField12.getText().trim();
         DefaultTableModel model= (DefaultTableModel) jTable3.getModel();
-        TaiKhoan sv= tk_dao.getTaiKhoan(ma);
+        TaiKhoan sv= tk_dao.getTaiKhoanByName(ma);
         if(sv!=null&&!isExitTable(jTable3, ma)){
             model.addRow(new Object[]{
                 sv.getMaTaiKhoan(),

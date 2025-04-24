@@ -8,7 +8,7 @@ import javax.naming.InitialContext;
 public class RmiServiceLocator {
 
     private static String hostname = "LAPTOP-9P64CM8L";
-    private static final String RMI_URL = "rmi://" + hostname + ":5881/";
+    private static final String RMI_URL = "rmi://" + hostname + ":4951/";
     private static Context context;
 
     static {

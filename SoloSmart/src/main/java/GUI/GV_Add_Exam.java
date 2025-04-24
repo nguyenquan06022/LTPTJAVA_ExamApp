@@ -42,6 +42,8 @@ public class GV_Add_Exam extends javax.swing.JPanel {
         List<LuaChons> dsLuaChon = dsLuaChonDao.getDSLuaChonTheoDeThi(deThi.getMaDeThi());
         initComponents();
         loadListMonHoc();
+        sliderGradient1.setValue(deThi.getSoLuongCauHoi());
+        jLabel2.setText(deThi.getSoLuongCauHoi()+" câu hỏi");
         listcauHoiDeThi1.updateListcauHoiDeThi(deThi.getMaDeThi(), dsCauHoi, dsLuaChon);
         tfTenDeThi.setText(deThi.getTenDeThi());
         btnTaoDeThi.setVisible(false);

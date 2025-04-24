@@ -11,24 +11,24 @@ public class RMIServer {
         try {
             EntityManager em = DB.CreateDB.createDB();
             Context context = new InitialContext();
-            LocateRegistry.createRegistry(5881);
+            LocateRegistry.createRegistry(4951);
 
             InetAddress localHost = InetAddress.getLocalHost();
             String hostname = localHost.getHostName();
             System.setProperty("java.rmi.server.hostname", hostname);
 
             // Tạo đối tượng DAO và bind
-            context.rebind("rmi://" + hostname + ":5881/TaiKhoanDao", new TaiKhoan_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/BaiKiemTraDao", new BaiKiemTra_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/CauHoiDao", new CauHoi_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/DeThiDao", new DeThi_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/DsCauTraLoiDao", new DsCauTraLoi_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/DsLuaChonDao", new DsLuaChon_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/KetQuaHocTapDao", new KetQuaHocTap_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/KetQuaKiemTraDao", new KetQuaKiemTra_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/LopHocDao", new LopHoc_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/MonHocDao", new MonHoc_DAO(em));
-            context.rebind("rmi://" + hostname + ":5881/NganHangDeThiDao", new NganHangDeThi_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/TaiKhoanDao", new TaiKhoan_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/BaiKiemTraDao", new BaiKiemTra_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/CauHoiDao", new CauHoi_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/DeThiDao", new DeThi_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/DsCauTraLoiDao", new DsCauTraLoi_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/DsLuaChonDao", new DsLuaChon_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/KetQuaHocTapDao", new KetQuaHocTap_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/KetQuaKiemTraDao", new KetQuaKiemTra_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/LopHocDao", new LopHoc_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/MonHocDao", new MonHoc_DAO(em));
+            context.rebind("rmi://" + hostname + ":4951/NganHangDeThiDao", new NganHangDeThi_DAO(em));
 
             System.out.println(">>>>> RMI Server ready to run on host: " + hostname);
         } catch (Exception e) {

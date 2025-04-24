@@ -953,12 +953,10 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) throws RemoteException {// GEN-FIRST:event_button4ActionPerformed
-        if (bkt.getThoiGianBatDau().isBefore(LocalDateTime.now())) {
-            JOptionPane.showMessageDialog(null, "Thời gian bắt đầu dã qua, không thể cập nhât!");
-
-        } else if (customDateChooser1.getSelectedDateTime().isAfter(customDateChooser2.getSelectedDateTime())) {
+        if(deThiCard21.getDethi().getMaDeThi()!=dt_dao.getDeThi(bkt.getDeThi().getMaDeThi()).getMaDeThi()){
+             if(customDateChooser1.getSelectedDateTime().isAfter(customDateChooser2.getSelectedDateTime())) {
             JOptionPane.showMessageDialog(null, "Thời gian bắt đầu phải sau thời gian kết thúc!");
-        } else {
+        }else{
             BaiKiemTra bktUpdate = new BaiKiemTra(bkt.getMaBaiKiemTra(),
                     customDateChooser1.getSelectedDateTime(), customDateChooser2.getSelectedDateTime(),
                     jSlider1.getValue(), new String(myPasswordField1.getPassword()).trim(),
@@ -973,6 +971,30 @@ public class BaiKiemTraCard extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Cập nhật bài kiểm tra thất bại");
             }
         }
+            
+        }else{
+            if (bkt.getThoiGianBatDau().isBefore(LocalDateTime.now())) {
+                JOptionPane.showMessageDialog(null, "Thời gian bắt đầu dã qua, không thể cập nhât!");
+
+            } else if (customDateChooser1.getSelectedDateTime().isAfter(customDateChooser2.getSelectedDateTime())) {
+                JOptionPane.showMessageDialog(null, "Thời gian bắt đầu phải sau thời gian kết thúc!");
+            } else {
+                BaiKiemTra bktUpdate = new BaiKiemTra(bkt.getMaBaiKiemTra(),
+                        customDateChooser1.getSelectedDateTime(), customDateChooser2.getSelectedDateTime(),
+                        jSlider1.getValue(), new String(myPasswordField1.getPassword()).trim(),
+                        jCheckBoxCustom1.isSelected(), jCheckBoxCustom2.isSelected(), jCheckBoxCustom3.isSelected(),
+                        (Integer) jSpinner1.getValue(),
+                        10, Float.parseFloat(comboBoxSuggestion1.getSelectedItem().toString()),
+                        "enable", deThiCard21.getDethi(), GV_ClassRoom_Detail.lopHoc);
+                if (bkt_dao.updateBaiKiemTra(bktUpdate)) {
+                    JOptionPane.showMessageDialog(null, "Cập nhật bài kiểm tra thành công");
+                    GV_ClassRoom_Detail.loadBKT();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cập nhật bài kiểm tra thất bại");
+                }
+            }
+        }
+        
     }// GEN-LAST:event_button4ActionPerformed
 
     private boolean eye = false;
